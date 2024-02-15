@@ -1,3 +1,4 @@
+import 'package:date_madly_app/pages/chat/my_matches.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/utils/body_builder.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,8 @@ class _ChatState extends State<Chat> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26,vertical: 25),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 26, vertical: 25),
                 child: CommonTextField(
                   controller: value.searchController,
                   hintText: 'Search Massages',
@@ -64,18 +66,42 @@ class _ChatState extends State<Chat> {
               Row(
                 children: [
                   SizedBox(
-                    width: 26,
+                    width: 20,
                   ),
-                  Text('New Matches',style: TextStyle(
-                      color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
-                  )),
+                  Text('New Matches',
+                      style: TextStyle(
+                          color: ColorRes.darkGrey,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700)),
                   SizedBox(
                     width: 130,
                   ),
-                  Text('Show All',style: TextStyle(
-                    color: ColorRes.appColor, fontSize: 15, fontWeight: FontWeight.w600
-                  ),),
-                  Icon(Icons.arrow_forward,color: ColorRes.appColor,)
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyMatches(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Show All',
+                          style: TextStyle(
+                              color: ColorRes.appColor,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        SizedBox(width: 4,),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: ColorRes.appColor,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               SizedBox(
@@ -100,9 +126,11 @@ class _ChatState extends State<Chat> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(left: 26),
-                    child: Text('Messages',style: TextStyle(
-                        color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
-                    )),
+                    child: Text('Messages',
+                        style: TextStyle(
+                            color: ColorRes.darkGrey,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700)),
                   ),
                 ),
               ),
@@ -114,64 +142,76 @@ class _ChatState extends State<Chat> {
                 child: ListView.builder(
                   itemCount: value.image.length,
                   itemBuilder: (context, index) => GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen(),));
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChatScreen(),
+                      ));
                     },
                     child: Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                      padding: EdgeInsets.all(15),
-                      height: 80, width: MediaQuery.of(context).size.width,
-                      color: ColorRes.lgrey,
-                      child:Column(
-                        children: [
-                          Row(children: [
-                            Image.asset(value.image[index],scale: 3,),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Row(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Container(
+                          padding: EdgeInsets.all(15),
+                          height: 80,
+                          width: MediaQuery.of(context).size.width,
+                          color: ColorRes.lgrey,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    value.image[index],
+                                    scale: 3,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Text('Patrcia',style: TextStyle(
-                                          color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
-                                      )),
-                                      SizedBox(
-                                        width: 130,
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: Row(
+                                          children: [
+                                            Text('Patrcia',
+                                                style: TextStyle(
+                                                    color: ColorRes.darkGrey,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.w700)),
+                                            SizedBox(
+                                              width: 130,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 15),
+                                              child: Text('08:33 PM',
+                                                  style: TextStyle(
+                                                      color:
+                                                          Color(0xffACACAC))),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 15),
-                                        child: Text('08:33 PM',style: TextStyle(
-                                            color: Color(0xffACACAC
-                                        )
-                                                      )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: SizedBox(
-                                    width: 260,
-                                    child: Text(
-                                      overflow: TextOverflow.ellipsis,
-                                      'Omg, that was so much fun. Let\'s goto there',style: TextStyle(
-                                      color: Color(0xffACACAC
+                                        padding:
+                                            const EdgeInsets.only(left: 15),
+                                        child: SizedBox(
+                                          width: 260,
+                                          child: Text(
+                                            overflow: TextOverflow.ellipsis,
+                                            'Omg, that was so much fun. Let\'s goto there',
+                                            style: TextStyle(
+                                                color: Color(0xffACACAC)),
+                                          ),
+                                        ),
                                       )
-                                    ),),
-                                  ),
-                                )
-                    
-                              ],
-                            )
-                    
-                          ],),
-                    
-                        ],
-                      )
-                     /* Column(
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
+                          )
+                          /* Column(
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(0),
@@ -189,11 +229,11 @@ class _ChatState extends State<Chat> {
                           )
                         ],
                       )
-                      *//*    Column(
+                      */ /*    Column(
                             children: [
                               Row(
                                 children: [
-                    
+
                                   Text('Patrcia',style: TextStyle(
                                       color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
                                   )),
@@ -201,13 +241,14 @@ class _ChatState extends State<Chat> {
                                 ],
                               ),
                             ],
-                          ),*//*
+                          ),*/ /*
                          ,
                         ],
                       ),*/
+                          ),
                     ),
-                                    ),
-                  ),),
+                  ),
+                ),
               )
             ],
           ),
