@@ -19,7 +19,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeMainProvider>(
-      builder: (context, value, child) =>  Padding(
+      builder: (context, value, child) => Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -135,58 +135,58 @@ class _CustomDrawerState extends State<CustomDrawer> {
             SizedBox(
               height: 45,
               child: ListView.builder(
-
                   scrollDirection: Axis.horizontal,
                   itemCount: gender.length,
                   itemBuilder: (context, index) => GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        currentindex = index;
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Container(
-                        width: 120,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: index == currentindex
-                                    ?
-                                     ColorRes.appColor : ColorRes.grey
+                        onTap: () {
+                          setState(() {
+                            currentindex = index;
+                          });
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Container(
+                            width: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: index == currentindex
+                                      ? ColorRes.appColor
+                                      : ColorRes.grey),
                             ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  genderIcon[index],
+                                  scale: 3,
+                                  color: index == currentindex
+                                      ? ColorRes.appColor
+                                      : ColorRes.grey,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  gender[index],
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12.4,
+                                    color: index == currentindex
+                                        ? ColorRes.appColor
+                                        : ColorRes.grey,
+                                  ),
+                                ),
+                              ],
                             ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              genderIcon[index],
-                              scale: 3,
-                              color: index == currentindex
-                                  ? ColorRes.appColor
-                                  : ColorRes.grey,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              gender[index],
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12.4,
-                                color: index == currentindex
-                                    ? ColorRes.appColor
-                                    : ColorRes.grey,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ),
-                  )),
+                      )),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Container(
               height: MediaQuery.of(context).size.height / 15,
               width: MediaQuery.of(context).size.width / 1,
@@ -195,20 +195,21 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   border: Border.all(color: ColorRes.grey)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
-
                 children: [
-                  SizedBox(width: 20,),
+                  SizedBox(
+                    width: 20,
+                  ),
                   Image.asset(
                     'assets/icons/Location_Icon.png',
                     scale: 4,
                     color: ColorRes.appColor,
-                  ),SizedBox(
+                  ),
+                  SizedBox(
                     width: MediaQuery.of(context).size.width / 30,
                   ),
                   Text(
                     'Jakarta, Indonesia',
-                    style: TextStyle(
-                        color: ColorRes.grey, fontSize: 16),
+                    style: TextStyle(color: ColorRes.grey, fontSize: 16),
                   )
                 ],
               ),
@@ -240,9 +241,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                 ),
                 //SizedBox(width: 25,),
-                Text('50 KM',style:  TextStyle(
-                    fontSize: 12, color: ColorRes.grey
-                ),)
+                Text(
+                  '50 KM',
+                  style: TextStyle(fontSize: 12, color: ColorRes.grey),
+                )
               ],
             ),
             SizedBox(
@@ -272,49 +274,57 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   ),
                 ),
                 //SizedBox(width: 25,),
-                Text('20-30',style:  TextStyle(
-                    fontSize: 12, color: ColorRes.grey
-                ),)
+                Text(
+                  '20-30',
+                  style: TextStyle(fontSize: 12, color: ColorRes.grey),
+                )
               ],
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
+            Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.pop(context);
               },
               child: Container(
-                height: MediaQuery.of(context).size.height/ 11,
-                width: MediaQuery.of(context).size.width/1.5,
+                height: MediaQuery.of(context).size.height / 11,
+                width: MediaQuery.of(context).size.width / 1.5,
                 decoration: BoxDecoration(
-                    color: ColorRes.appColor
-                    ,borderRadius: BorderRadius.circular(8)
-                ),
-                child: Center(child: Text('Continue',style: TextStyle(
-                    fontSize: 16,
-                    color: ColorRes.white),)),
+                    color: ColorRes.appColor,
+                    borderRadius: BorderRadius.circular(8)),
+                child: Center(
+                    child: Text(
+                  'Continue',
+                  style: TextStyle(fontSize: 16, color: ColorRes.white),
+                )),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height / 30,
+            Expanded(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height / 30,
+              ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height/11,
-              width: MediaQuery.of(context).size.width/1.5,
+              height: MediaQuery.of(context).size.height / 11,
+              width: MediaQuery.of(context).size.width / 1.5,
               decoration: BoxDecoration(
-                  color: ColorRes.white
-                  ,borderRadius: BorderRadius.circular(8)
-              ),
-              child: Center(child: Text('Clear',style: TextStyle(
-                  fontSize: 16,
-                  color: ColorRes.grey),)),
+                  color: ColorRes.white,
+                  borderRadius: BorderRadius.circular(8)),
+              child: Center(
+                  child: Text(
+                'Clear',
+                style: TextStyle(fontSize: 16, color: ColorRes.grey),
+              )),
             )
           ],
         ),
       ),
     );
   }
+
   List gender = ['Male', 'Female'];
   List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
 }

@@ -24,10 +24,7 @@ class HomeMainProvider with ChangeNotifier {
     'assets/icons/n2.png'
   ];
 
-  List notificationName = [
-    'Clara, 22',
-    'Renna,23','Patricia,23'
-  ];
+  List notificationName = ['Clara, 22', 'Renna,23', 'Patricia,23'];
 
   void showNotificationContainer(BuildContext context) {
     showDialog(
@@ -66,8 +63,8 @@ class HomeMainProvider with ChangeNotifier {
                             children: [
                               Image.asset(
                                 'assets/icons/Notification.png',
-                                scale: 3,color: ColorRes.grey,
-
+                                scale: 3,
+                                color: ColorRes.grey,
                               ),
                               CircleAvatar(
                                 radius: 4,
@@ -111,8 +108,10 @@ class HomeMainProvider with ChangeNotifier {
                                       )
                                     ],
                                   ),
-                                  SizedBox(
-                                    width: 20,
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: 20,
+                                    ),
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
@@ -138,7 +137,8 @@ class HomeMainProvider with ChangeNotifier {
                                             'assets/icons/Location_Icon.png',
                                             scale: 5,
                                             color: ColorRes.appColor,
-                                          ),SizedBox(
+                                          ),
+                                          SizedBox(
                                             width: 5,
                                           ),
                                           Text('5 Km',
@@ -185,7 +185,8 @@ class HomeMainProvider with ChangeNotifier {
                                 color: ColorRes.darkGrey,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700),
-                          )), SizedBox(
+                          )),
+                      SizedBox(
                         height: 20,
                       ),
                       Row(
@@ -231,7 +232,6 @@ class HomeMainProvider with ChangeNotifier {
                                   ],
                                 ),
                               ),
-
                             ],
                           ),
                         ],
@@ -246,18 +246,26 @@ class HomeMainProvider with ChangeNotifier {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 110,left: 70),
+                          padding: const EdgeInsets.only(top: 110, left: 70),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.favorite_border,color: ColorRes.white,size: 25),
-                                  Image.asset('assets/icons/Comment.png',scale: 2.5,)
+                                  Icon(Icons.favorite_border,
+                                      color: ColorRes.white, size: 25),
+                                  Image.asset(
+                                    'assets/icons/Comment.png',
+                                    scale: 2.5,
+                                  )
                                 ],
                               ),
-                              Text('100 Like',style: TextStyle(color: ColorRes.white,fontSize: 16),)
+                              Text(
+                                '100 Like',
+                                style: TextStyle(
+                                    color: ColorRes.white, fontSize: 16),
+                              )
                             ],
                           ),
                         )
