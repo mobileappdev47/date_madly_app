@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
 import '../chat/call.dart';
+import 'edit_profile.dart';
 import 'main.dart';
 
 class MyPhotoScreen extends StatelessWidget {
@@ -11,9 +12,10 @@ class MyPhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: ColorRes.lgrey,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
+        preferredSize: Size.fromHeight(90.0),
         child: Container(
           padding: EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
@@ -28,6 +30,7 @@ class MyPhotoScreen extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 0),
               child: AppBar(
                 backgroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
                 elevation: 0,
                 // Remove the shadow
                 leading: IconButton(
@@ -48,7 +51,7 @@ class MyPhotoScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Material(
-                        elevation: 5,
+                        elevation: 2,
                         shape: CircleBorder(),
                         color: Colors.white,
                         child: Container(
@@ -72,63 +75,101 @@ class MyPhotoScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 100),
               child: GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //  childAspectRatio: 0.95,
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 0,
-                    mainAxisSpacing: 5
-                    // childAspectRatio: 2,
-                    // crossAxisSpacing: 40,
-                    // mainAxisSpacing: 20
-        
-                    ),
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 0,
+                  mainAxisSpacing: 3,
+                ),
                 itemCount: photoPic.length,
                 itemBuilder: (context, index) {
                   return Container(
-                      height: 60,
-                      child: Image.asset(
-                        profilePic[index],
-                      ));
+                    height: 60,
+                    child: Image.asset(
+                      photoPic[index],
+                    ),
+                  );
                 },
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 20, top: 120),
-              child: Align(
-                // alignment: Alignment(0.9, 0.1),
-                alignment: Alignment.bottomCenter,
-                child: Center(
-                  // heightFactor: 4,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MyPhotoScreen(),
-                          ));
-                    },
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: ColorRes.appColor,
-                      child: Image.asset(
-                        'assets/icons/Camera.png',
-                        scale: 3.5,
+          ),
+          Positioned(
+            left: 35,
+            right: 35,
+            bottom: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyPhotoScreen(),
                       ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: ColorRes.white,
+                    child: Image.asset(
+                      'assets/icons/Camera2.png',
+                      scale: 2.5,
+                      color: ColorRes.appColor,
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ),
+                SizedBox(width: 30),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MyPhotoScreen(),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundColor: ColorRes.appColor,
+                    child: Image.asset(
+                      'assets/icons/Upload_Icon.png',
+                      scale: 1.1,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 30),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfile(),
+                      ),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 30,
+                    backgroundColor: ColorRes.white,
+                    child: Image.asset(
+                      'assets/icons/Video Call.png',
+                      color: ColorRes.appColor,
+                      scale: 3.5,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -24,9 +24,11 @@ class ChatProvider with ChangeNotifier {
 
 List image = [
   'assets/icons/Add Image (1).png',
- // 'assets/icons/Add Image_04.png'
- // 'assets/icons/Add Image_03.png',
-  'assets/icons/Add Image_06.png'
+  'assets/icons/Add Image_04.png',
+  'assets/icons/Add Image_06.png',
+  'assets/icons/Add Image (1).png',
+  'assets/icons/Add Image_04.png',
+  'assets/icons/Add Image_06.png',
 ];
 
 
