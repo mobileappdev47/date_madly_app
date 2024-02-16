@@ -20,32 +20,34 @@ class EnterPersonalDataScreen extends StatefulWidget {
 
 class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
   @override
-  Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController locationController = TextEditingController();
-    TextEditingController jobController = TextEditingController();
-    TextEditingController companyController = TextEditingController();
-    TextEditingController collegeController = TextEditingController();
-    TextEditingController birthDateController = TextEditingController();
-    DateFormat dateFormat = DateFormat("dd/MM/yyyy");
-    bool isMale = true;
-    bool isFemale = false;
-    File? imageFile;
-    Future<void> pickImage({
-      required ImageSource source,
-    }) async {
-      final picker = ImagePicker();
-      final pickedFile = await picker.pickImage(source: source);
+  TextEditingController nameController = TextEditingController();
+  TextEditingController locationController = TextEditingController();
+  TextEditingController jobController = TextEditingController();
+  TextEditingController companyController = TextEditingController();
+  TextEditingController collegeController = TextEditingController();
+  TextEditingController birthDateController = TextEditingController();
+  DateFormat dateFormat = DateFormat("dd/MM/yyyy");
+  bool isMale = true;
+  bool isFemale = false;
+  File? imageFile;
+  var currentindex = -1;
+  List gender = ['Male', 'Female'];
+  List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
+  Future<void> pickImage({required ImageSource source}) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
 
-      if (pickedFile != null) {
-        setState(() {
-          imageFile = File(pickedFile.path);
-        });
-      } else {
-        print('No image selected.');
-      }
+    if (pickedFile != null) {
+      setState(() {
+        imageFile =
+            File(pickedFile.path); // Update imageFile with selected image
+      });
+    } else {
+      print('No image selected.');
     }
+  }
 
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -91,13 +93,15 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     width:
                                         MediaQuery.of(context).size.width / 1,
                                     child: CupertinoButton(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorRes.appColor,
-                                        child: Text('ADD FROM GALLERY'),
-                                        onPressed: () {
-                                          pickImage(
-                                              source: ImageSource.gallery);
-                                        }),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: ColorRes.appColor,
+                                      child: Text('ADD FROM GALLERY'),
+                                      onPressed: () {
+                                        pickImage(source: ImageSource.gallery);
+                                        Navigator.pop(
+                                            context); // Close bottom sheet after selecting image
+                                      },
+                                    ),
                                   ),
                                   SizedBox(
                                     height:
@@ -109,12 +113,15 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     width:
                                         MediaQuery.of(context).size.width / 1,
                                     child: CupertinoButton(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorRes.appColor,
-                                        child: Text('USE CAMERA'),
-                                        onPressed: () {
-                                          pickImage(source: ImageSource.camera);
-                                        }),
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: ColorRes.appColor,
+                                      child: Text('USE CAMERA'),
+                                      onPressed: () {
+                                        pickImage(source: ImageSource.camera);
+                                        Navigator.pop(
+                                            context); // Close bottom sheet after selecting image
+                                      },
+                                    ),
                                   )
                                 ],
                               ),
@@ -146,11 +153,16 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 ),
                               ),
                       ),
-                      Image.asset(
-                        "assets/icons/Camera.png",
-                        height: 25,
-                        width: 29,
-                      ),
+                      // Conditionally display the camera icon only if imageFile is null
+                      if (imageFile == null)
+                        Center(
+                          heightFactor: 9,
+                          child: Image.asset(
+                            "assets/icons/Camera.png",
+                            height: 25,
+                            width: 29,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -164,7 +176,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
+                NewTextField(
                   controller: nameController,
                   hintText: 'Enter name',
                   suffix: 'assets/icons/Human_Icon.png',
@@ -219,7 +231,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                       controller: birthDateController,
                       enabled: false,
                       decoration: InputDecoration(
-                          hintText: 'Enter date',
+                          hintText: 'DD/MM/YYYY',
                           border: InputBorder.none,
                           suffixIcon: Padding(
                             padding: const EdgeInsets.only(right: 13.0),
@@ -243,96 +255,59 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isFemale = false;
-                            isMale = true;
-                          });
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5,
+                Center(
+                  child: SizedBox(
+                    height: 55,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: gender.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              currentindex = index;
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Container(
+                              width: 175,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(
+                                    color: index == currentindex
+                                        ? ColorRes.appColor
+                                        : ColorRes.grey),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    genderIcon[index],
+                                    scale: 3,
+                                    color: index == currentindex
+                                        ? ColorRes.appColor
+                                        : ColorRes.grey,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    gender[index],
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12.4,
+                                      color: index == currentindex
+                                          ? ColorRes.appColor
+                                          : ColorRes.grey,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            border: Border.all(
-                                color: isMale == true
-                                    ? ColorRes.appColor
-                                    : ColorRes.grey,
-                                width: 1),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.male_sharp,
-                                color: isMale == true
-                                    ? ColorRes.appColor
-                                    : ColorRes.grey,
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                'Male',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: isMale == true
-                                      ? ColorRes.appColor
-                                      : ColorRes.grey,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isMale = false;
-                            isFemale = true;
-                          });
-                        },
-                        child: Container(
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ),
-                            border: Border.all(color: ColorRes.grey, width: 1),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.female,
-                                color: ColorRes.grey,
-                              ),
-                              SizedBox(
-                                width: 7,
-                              ),
-                              Text(
-                                'Female',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                    color: ColorRes.grey),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                        )),
+                  ),
                 ),
                 SizedBox(
                   height: 30,
@@ -344,7 +319,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
+                NewTextField(
                   controller: locationController,
                   hintText: 'Enter location',
                   suffix: 'assets/icons/Location_Icon.png',
@@ -359,7 +334,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
+                NewTextField(
                   controller: jobController,
                   hintText: 'Enter job',
                   suffix: 'assets/icons/Worrk_Icon.png',
@@ -374,7 +349,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
+                NewTextField(
                   controller: companyController,
                   hintText: 'Enter company',
                   suffix: 'assets/icons/Company_Icon.png',
@@ -389,7 +364,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CommonTextField(
+                NewTextField(
                   controller: collegeController,
                   hintText: 'Enter college',
                   suffix: 'assets/icons/Education_Icon.png',

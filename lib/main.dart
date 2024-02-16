@@ -149,7 +149,7 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
-            home: Home()
+            home: HomeMain()
             // home: ChangeNotifierProvider(
             //     create: (context) => PhoneAuthProvider(),
             //     child: const SplashScreen())

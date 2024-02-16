@@ -13,6 +13,7 @@ import '../../common/text_feild_common.dart';
 import '../../network/api.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../map/map_page_1.dart';
 import '../me/personal_info.dart';
 import '../new/enter_personal_data/enter_personal_data_screen.dart';
 import 'chat_message.dart';
@@ -37,7 +38,12 @@ class _ChatState extends State<Chat> {
             builder: (BuildContext context) {
               return IconButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => EnterPersonalDataScreen(),));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MapScreen1(),
+                    ),
+                  );
                 },
                 icon: Icon(
                   Icons.arrow_back_ios_rounded,
@@ -76,11 +82,13 @@ class _ChatState extends State<Chat> {
                   SizedBox(
                     width: 20,
                   ),
-                  Text('New Matches',
-                      style: TextStyle(
-                          color: ColorRes.darkGrey,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700),),
+                  Text(
+                    'New Matches',
+                    style: TextStyle(
+                        color: ColorRes.darkGrey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700),
+                  ),
                   SizedBox(
                     width: 160,
                   ),
