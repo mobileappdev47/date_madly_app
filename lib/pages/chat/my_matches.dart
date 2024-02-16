@@ -16,6 +16,7 @@ class MyMatches extends StatelessWidget {
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
+          toolbarHeight: 65,
           centerTitle: true,
           backgroundColor: ColorRes.white,
           leading: Builder(
@@ -56,86 +57,73 @@ class MyMatches extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(
             children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 26, vertical: 25),
-                child: CommonTextField(
-                  controller: value.searchController,
-                  hintText: 'Search Massages',
-                  isPrefixIcon: true,
-                  prefix: 'assets/icons/Search_Icon.png',
-                ),
+              NewTextField(
+                controller: value.searchController,
+                hintText: 'Search Massages',
+                prefix: 'assets/icons/Search_Icon.png',
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
-                child: SizedBox(
-                  height: 550,
-                  child: ListView.builder(
-                    itemCount: value.image.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: Row(
+              SizedBox(
+                height: 20,
+              ),
+              ListView.separated(
+                separatorBuilder: (context, index) {
+                  return SizedBox(
+                    height: 20,
+                  );
+                },
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: value.image.length,
+                itemBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        value.image[index],
+                        scale: 3,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset(
-                            value.image[index],
-                            scale: 3,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: Row(
-                                  children: [
-                                    Text('Patrcia',
-                                        style: TextStyle(
-                                            color: ColorRes.darkGrey,
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w700)),
-                                    SizedBox(
-                                      width: 130,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15),
-                                child: SizedBox(
-                                  width: 230,
-                                  child: Text(
-                                    overflow: TextOverflow.ellipsis,
-                                    'Fashion Designer',
-                                    style: TextStyle(
-                                      color: Color(0xffACACAC),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Spacer(),
-                          Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: ColorRes.appColor,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(7.0),
-                              child: Image.asset(
-                                "assets/icons/Chat.png",
-                                color: ColorRes.white,
-                                height: 14,
-                              ),
+                          Text('Patrcia',
+                              style: TextStyle(
+                                  color: ColorRes.darkGrey,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700)),
+                          Text(
+                            overflow: TextOverflow.ellipsis,
+                            'Fashion Designer',
+                            style: TextStyle(
+                              color: Color(0xffACACAC),
                             ),
                           ),
                         ],
                       ),
-                    ),
+                      Spacer(),
+                      Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: ColorRes.appColor,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(7.0),
+                          child: Image.asset(
+                            "assets/icons/Chat.png",
+                            color: ColorRes.white,
+                            height: 14,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               )

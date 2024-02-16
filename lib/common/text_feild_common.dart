@@ -125,7 +125,8 @@ class NewTextField extends StatelessWidget {
       ),
       padding: EdgeInsets.only(left: prefix != null ? 10 : 15),
       child: TextField(
-        maxLines: maxLines,
+        maxLines: 1,
+        obscureText: obscureText ?? false,
         controller: controller,
         readOnly: readOnly ?? false,
         style: TextStyle(

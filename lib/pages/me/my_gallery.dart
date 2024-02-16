@@ -26,6 +26,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
         leading: GestureDetector(

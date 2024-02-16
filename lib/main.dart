@@ -150,12 +150,10 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
-            home: ProfilePhotoScreen()
-            // home: ChangeNotifierProvider(
-            //     create: (context) => PhoneAuthProvider(),
-            //     child: const SplashScreen())
 
-            );
+            home: ChangeNotifierProvider(
+                create: (context) => PhoneAuthProvider(),
+                child: const SplashScreen()));
       });
     });
   }

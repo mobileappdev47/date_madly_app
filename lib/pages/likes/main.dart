@@ -66,141 +66,133 @@ class _LikesState extends State<Likes> {
           ],
         ),
         body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 20),
           child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 25),
-                    child: NewTextField(
-                      controller: value.searchController,
-                      hintText: 'Search Match Request',
-                      prefix: 'assets/icons/Search_Icon.png',
-                    ),
+            child: Column(
+              children: [
+                NewTextField(
+                  controller: value.searchController,
+                  hintText: 'Search Match Request',
+                  prefix: 'assets/icons/Search_Icon.png',
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.7,
+                    mainAxisSpacing: 10,
+                    //   crossAxisSpacing: 10
                   ),
-                  GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.7,
-                      // mainAxisSpacing: 10,
-                      //   crossAxisSpacing: 10
-                    ),
-                    itemCount: matches.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Stack(
-                          children: [
-                            Container(
-                              // height: 400,
-                              //  width: 60,
-                              //  decoration: BoxDecoration(color: ColorRes.appColor),
-                              child: Image.asset(
-                                matches[index].image,
-                                fit: BoxFit.fill,
+                  itemCount: matches.length,
+                  itemBuilder: (context, index) {
+                    return Stack(
+                      children: [
+                        Container(
+                          // height: 400,
+                          //  width: 60,
+                          //  decoration: BoxDecoration(color: ColorRes.appColor),
+                          child: Image.asset(
+                            matches[index].image,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 15),
+                          child: Column(
+                            children: [
+                              Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Text(
+                                    matches[index].text,
+                                    style: mulish14400.copyWith(
+                                      fontFamily: "MulishBold",
+                                      fontSize: 16.41,
+                                      color: ColorRes.white,
+                                    ),
+                                  )),
+                              SizedBox(
+                                height: 5,
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              child: Column(
+                              Row(
                                 children: [
-                                  Align(
-                                      alignment: Alignment.topLeft,
-                                      child: Text(
-                                        matches[index].text,
-                                        style: mulish14400.copyWith(
-                                          fontFamily: "MulishBold",
-                                          fontSize: 16.41,
-                                          color: ColorRes.white,
-                                        ),
-                                      )),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/icons/Location_Icon.png',
-                                        scale: 4.5,
-                                        color: ColorRes.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          matches[index].loaction,
-                                          style: mulish14400.copyWith(
-                                            fontFamily: "MulishBold",
-                                            fontSize: 11.72,
-                                            color: ColorRes.white,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                  Image.asset(
+                                    'assets/icons/Location_Icon.png',
+                                    scale: 4.5,
+                                    color: ColorRes.white,
                                   ),
                                   SizedBox(
-                                    height: 110,
+                                    width: 5,
                                   ),
                                   Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(90),
-                                              color: Colors.grey.shade50),
-                                          child: Icon(
-                                            Icons.close,
-                                            color: ColorRes.darkGrey,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (c) =>
-                                                        NewMatchScreen()));
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(90),
-                                                color: ColorRes.appColor),
-                                            child: Icon(
-                                              Icons.favorite_border,
-                                              color: ColorRes.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    child: Text(
+                                      matches[index].loaction,
+                                      style: mulish14400.copyWith(
+                                        fontFamily: "MulishBold",
+                                        fontSize: 11.72,
+                                        color: ColorRes.white,
+                                      ),
                                     ),
                                   )
                                 ],
                               ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
+                              SizedBox(
+                                height: 110,
+                              ),
+                              Expanded(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Container(
+                                      height: 50,
+                                      width: 50,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.grey.shade50),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: ColorRes.darkGrey,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 20,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (c) =>
+                                                    NewMatchScreen()));
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            color: ColorRes.appColor),
+                                        child: Icon(
+                                          Icons.favorite_border,
+                                          color: ColorRes.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  },
+                )
+              ],
             ),
           ),
         ),

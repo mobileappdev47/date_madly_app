@@ -32,6 +32,7 @@ class _ChatState extends State<Chat> {
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           centerTitle: true,
           backgroundColor: ColorRes.white,
           leading: Builder(
@@ -109,9 +110,7 @@ class _ChatState extends State<Chat> {
                         fontSize: 15,
                         fontWeight: FontWeight.w700),
                   ),
-                  SizedBox(
-                    width: 160,
-                  ),
+                  Spacer(),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
