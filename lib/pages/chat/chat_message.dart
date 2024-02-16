@@ -35,7 +35,6 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Container(
           padding: EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
-
             color: Colors.white, // AppBar background color
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
@@ -98,7 +97,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       scale: 3,
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => Call(),));
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Call(),
+                      ));
                     },
                   ),
                   IconButton(
@@ -108,7 +109,9 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     onPressed: () {},
                   ),
-                  SizedBox(width: 10,)
+                  SizedBox(
+                    width: 10,
+                  )
                 ],
               ),
             ),
@@ -117,34 +120,32 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       body: Column(
         children: [
-          SizedBox(
-            height: 400,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 150),
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomPaint(
-                    painter: ChatBubblePainter(),
-                    child: Container(
-                      padding: EdgeInsets.all(10.0),
-                      decoration: BoxDecoration(
-                        color: ColorRes.colorFF9BAD,
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      child: Text(
-                        'Hi Patricia, You look beautiful.',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+          Spacer(),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomPaint(
+                  painter: ChatBubblePainter(),
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      color: ColorRes.colorFF9BAD,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: Text(
+                      'Hi Patricia, You look beautiful.',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+              ],
             ),
           ),
           SizedBox(
@@ -235,6 +236,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               )
             ],
+          ),
+          SizedBox(
+            height: 15,
           ),
         ],
       ),

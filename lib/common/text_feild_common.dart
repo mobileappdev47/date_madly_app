@@ -93,7 +93,6 @@ class NewTextField extends StatelessWidget {
       required this.hintText,
       this.suffix,
       this.textInputType,
-      this.isPrefixIcon,
       this.prefix,
       this.color,
       this.obscureText})
@@ -102,7 +101,6 @@ class NewTextField extends StatelessWidget {
   final TextEditingController controller;
   final String? hintText;
 
-  final bool? isPrefixIcon;
   final String? prefix;
   final String? suffix;
 
@@ -134,9 +132,12 @@ class NewTextField extends StatelessWidget {
                   maxHeight: 20, maxWidth: 30, minHeight: 5, minWidth: 27)
               : const BoxConstraints(),
           prefixIcon: prefix != null
-              ? Image.asset(
-                  prefix!,
-                  scale: 3,
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Image.asset(
+                    prefix!,
+                    scale: 3,
+                  ),
                 )
               : SizedBox(),
           suffixIcon: suffix != null

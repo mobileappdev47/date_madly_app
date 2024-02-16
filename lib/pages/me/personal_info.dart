@@ -58,7 +58,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 height: 5,
               ),
               CommonTextField(
-           //     padding: 10,
+                //     padding: 10,
                 color: ColorRes.darkGrey,
                 readOnly: true,
                 controller: emailController,
@@ -80,7 +80,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 height: 5,
               ),
               CommonTextField(
-             //     padding: 10,
+                  //     padding: 10,
                   color: ColorRes.darkGrey,
                   readOnly: true,
                   controller: emailController,
@@ -177,20 +177,20 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 height: MediaQuery.of(context).size.height / 25,
               ),
               GestureDetector(
-
-                onTap: (){
+                onTap: () {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height/11,
-                  width: MediaQuery.of(context).size.width/1,
+                  height: MediaQuery.of(context).size.height / 11,
+                  width: MediaQuery.of(context).size.width / 1,
                   decoration: BoxDecoration(
-                      color: ColorRes.appColor
-                      ,borderRadius: BorderRadius.circular(8)
-                  ),
-                  child: Center(child: Text('Save',style: TextStyle(
-                      fontSize: 16,
-                      color: ColorRes.white),)),
+                      color: ColorRes.appColor,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Center(
+                      child: Text(
+                    'Save',
+                    style: TextStyle(fontSize: 16, color: ColorRes.white),
+                  )),
                 ),
               ),
             ],

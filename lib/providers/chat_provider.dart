@@ -18,19 +18,29 @@ import '../utils/enum/api_request_status.dart';
 import '../utils/functions.dart';
 
 class ChatProvider with ChangeNotifier {
-
-
   TextEditingController searchController = TextEditingController();
 
-List image = [
-  'assets/icons/Add Image (1).png',
-  'assets/icons/Add Image_04.png',
-  'assets/icons/Add Image_06.png',
-  'assets/icons/Add Image (1).png',
-  'assets/icons/Add Image_04.png',
-  'assets/icons/Add Image_06.png',
-];
+  List image = [
+    'assets/icons/Add Image (1).png',
+    'assets/icons/Add Image_04.png',
+    'assets/icons/Add Image_06.png',
+    'assets/icons/Add Image (1).png',
+    'assets/icons/Add Image_04.png',
+    'assets/icons/Add Image_06.png',
+  ];
 
+  List boolList = [false, false, false, false, false, false];
+
+  bool isImage = false;
+
+  onTapDelete(int index) {
+    isImage = false;
+
+    boolList[index] = false;
+    image.removeAt(index);
+  }
+
+  int deleteIndex = 0;
 
   ///---------------old--------------
   ChatProvider() {
