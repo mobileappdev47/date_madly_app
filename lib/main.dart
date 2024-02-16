@@ -149,12 +149,14 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
-            home: HomeMain()
+            home: Home()
             // home: ChangeNotifierProvider(
             //     create: (context) => PhoneAuthProvider(),
             //     child: const SplashScreen())
 
-            );
+            home: OtpVerificationSCreen(
+              phone: '12345',
+            ));
       });
     });
   }

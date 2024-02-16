@@ -30,249 +30,256 @@ class HomeMainProvider with ChangeNotifier {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 0, right: 0),
-            child: Container(
-                width: MediaQuery.of(context).size.width / 1.2,
-                height: MediaQuery.of(context).size.height,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        bottomLeft: Radius.circular(30))),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Text(
-                            'Notification',
-                            style: TextStyle(
-                                color: ColorRes.appColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700),
-                          ),
-                          SizedBox(
-                            width: 140,
-                          ),
-                          Stack(
-                            children: [
-                              Image.asset(
-                                'assets/icons/Notification.png',
-                                scale: 3,
-                                color: ColorRes.grey,
-                              ),
-                              CircleAvatar(
-                                radius: 4,
-                                backgroundColor: ColorRes.appColor,
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Today',
-                            style: TextStyle(
-                                color: ColorRes.darkGrey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        height: 200,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: notificationList.length,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Image.asset(
-                                        notificationList[index],
-                                        scale: 3,
-                                      )
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: SizedBox(
+        return Scaffold(
+          body: Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 0, right: 0),
+              child: Container(
+                  width: MediaQuery.of(context).size.width / 1.2,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          bottomLeft: Radius.circular(30))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              'Notification',
+                              style: TextStyle(
+                                  color: ColorRes.appColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            SizedBox(
+                              width: 140,
+                            ),
+                            Stack(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/Notification.png',
+                                  scale: 3,
+                                  color: ColorRes.grey,
+                                ),
+                                CircleAvatar(
+                                  radius: 4,
+                                  backgroundColor: ColorRes.appColor,
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Today',
+                              style: TextStyle(
+                                  color: ColorRes.darkGrey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: notificationList.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Image.asset(
+                                          notificationList[index],
+                                          scale: 3,
+                                        )
+                                      ],
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        width: 20,
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '2 MIN AGO',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: ColorRes.grey),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(notificationName[index],
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: ColorRes.darkGrey,
+                                                    fontWeight:
+                                                        FontWeight.w700)),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Image.asset(
+                                              'assets/icons/Location_Icon.png',
+                                              scale: 5,
+                                              color: ColorRes.appColor,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text('5 Km',
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: ColorRes.grey,
+                                                    fontWeight:
+                                                        FontWeight.w700))
+                                          ],
+                                        ),
+                                        Text('Invites you yo for a match !',
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                color: ColorRes.grey)),
+                                      ],
+                                    ),
+                                    SizedBox(
                                       width: 20,
                                     ),
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '2 MIN AGO',
-                                        style: TextStyle(
-                                            fontSize: 12, color: ColorRes.grey),
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: ColorRes.appColor),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: ColorRes.white,
                                       ),
-                                      Row(
-                                        children: [
-                                          Text(notificationName[index],
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: ColorRes.darkGrey,
-                                                  fontWeight: FontWeight.w700)),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Image.asset(
-                                            'assets/icons/Location_Icon.png',
-                                            scale: 5,
-                                            color: ColorRes.appColor,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text('5 Km',
-                                              style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: ColorRes.grey,
-                                                  fontWeight: FontWeight.w700))
-                                        ],
-                                      ),
-                                      Text('Invites you yo for a match !',
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Yesterday',
+                              style: TextStyle(
+                                  color: ColorRes.darkGrey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700),
+                            )),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Image.asset(
+                                  'assets/icons/n1.png',
+                                  scale: 3,
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '24 HOUR AGO',
+                                  style: TextStyle(
+                                      fontSize: 12, color: ColorRes.grey),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      color: Colors.black,
+                                    ),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: 'Patricia,23 ',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: ColorRes.darkGrey,
+                                              fontWeight: FontWeight.w700)),
+                                      TextSpan(
+                                          text: 'likes your photo.',
                                           style: TextStyle(
                                               fontSize: 12,
                                               color: ColorRes.grey)),
                                     ],
                                   ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: ColorRes.appColor),
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      color: ColorRes.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Stack(children: [
+                          Padding(
+                            padding: EdgeInsets.only(left: 50),
+                            child: Image.asset(
+                              'assets/icons/n3.png',
+                              scale: 2.2,
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'Yesterday',
-                            style: TextStyle(
-                                color: ColorRes.darkGrey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700),
-                          )),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/icons/n1.png',
-                                scale: 3,
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                '24 HOUR AGO',
-                                style: TextStyle(
-                                    fontSize: 12, color: ColorRes.grey),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    color: Colors.black,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                        text: 'Patricia,23 ',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: ColorRes.darkGrey,
-                                            fontWeight: FontWeight.w700)),
-                                    TextSpan(
-                                        text: 'likes your photo.',
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: ColorRes.grey)),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 110, left: 70),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(Icons.favorite_border,
+                                        color: ColorRes.white, size: 25),
+                                    Image.asset(
+                                      'assets/icons/Comment.png',
+                                      scale: 2.5,
+                                    )
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Stack(children: [
-                        Padding(
-                          padding: EdgeInsets.only(left: 50),
-                          child: Image.asset(
-                            'assets/icons/n3.png',
-                            scale: 2.2,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 110, left: 70),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Icon(Icons.favorite_border,
-                                      color: ColorRes.white, size: 25),
-                                  Image.asset(
-                                    'assets/icons/Comment.png',
-                                    scale: 2.5,
-                                  )
-                                ],
-                              ),
-                              Text(
-                                '100 Like',
-                                style: TextStyle(
-                                    color: ColorRes.white, fontSize: 16),
-                              )
-                            ],
-                          ),
-                        )
-                      ])
-                    ],
-                  ),
-                )),
+                                Text(
+                                  '100 Like',
+                                  style: TextStyle(
+                                      color: ColorRes.white, fontSize: 16),
+                                )
+                              ],
+                            ),
+                          )
+                        ])
+                      ],
+                    ),
+                  )),
+            ),
           ),
         );
       },
