@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../common/text_style.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
 import '../chat/call.dart';
@@ -46,7 +47,11 @@ class MyPhotoScreen extends StatelessWidget {
                   children: [
                     Text(
                       "My Photo",
-                      style: appbarTitle(),
+                      style: mulish14400.copyWith(
+                        fontFamily: "MulishBold",
+                        fontSize: 18.75,
+                        color: ColorRes.appColor,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 10),

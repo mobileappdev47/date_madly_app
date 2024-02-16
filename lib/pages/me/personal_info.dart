@@ -1,3 +1,4 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/text_feild_common.dart';
@@ -42,8 +43,13 @@ class _PersonalInfoState extends State<PersonalInfo> {
           padding: EdgeInsets.all(30),
           child: Column(
             children: [
-              Text(
-                  'Provide personal information for the security of your account, do not give personal information to anyone.'),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Provide personal information for the security of your account, do not give personal information to anyone.',
+                  style: mulish14400.copyWith(color: ColorRes.darkGrey),
+                ),
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -51,7 +57,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Email Address',
-                  style: lightGreyText(),
+                  style: mulish14400,
                 ),
               ),
               SizedBox(
@@ -71,7 +77,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Number Phone',
-                  style: lightGreyText(),
+                  style: mulish14400,
                 ),
               ),
               SizedBox(
@@ -96,7 +102,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Birthday',
-                  style: lightGreyText(),
+                  style: mulish14400,
                 ),
               ),
               SizedBox(
@@ -116,13 +122,13 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Gender',
-                    style: lightGreyText(),
+                    style: mulish14400,
                   )),
               SizedBox(
-                height: MediaQuery.of(context).size.height / 30,
+                height: 5,
               ),
               SizedBox(
-                height: 45,
+                height: 55,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: gender.length,
@@ -135,7 +141,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                           child: Padding(
                             padding: EdgeInsets.only(right: 20),
                             child: Container(
-                              width: 140,
+                              width: 165,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 border: Border.all(
@@ -159,8 +165,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                   ),
                                   Text(
                                     gender[index],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
+                                    style: mulish14400.copyWith(
+                                      fontFamily: "MulishBold",
                                       fontSize: 13,
                                       color: index == currentIndex
                                           ? ColorRes.appColor
@@ -184,13 +190,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   height: MediaQuery.of(context).size.height / 11,
                   width: MediaQuery.of(context).size.width / 1,
                   decoration: BoxDecoration(
-                      color: ColorRes.appColor,
-                      borderRadius: BorderRadius.circular(8)),
+                    color: ColorRes.appColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Center(
-                      child: Text(
-                    'Save',
-                    style: TextStyle(fontSize: 16, color: ColorRes.white),
-                  )),
+                    child: Text(
+                      'Save',
+                      style: mulish14400.copyWith(
+                          fontSize: 16,
+                          color: ColorRes.white,
+                          fontFamily: 'MulishBold'),
+                    ),
+                  ),
                 ),
               ),
             ],

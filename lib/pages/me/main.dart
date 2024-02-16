@@ -189,10 +189,9 @@ class _MeState extends State<Me> {
                   Text(
                     'Gallery',
                     style: mulish14400.copyWith(
-                      color: ColorRes.darkGrey,
-                      fontSize: 18,
-                      fontFamily: 'MulishBold'
-                    ),
+                        color: ColorRes.darkGrey,
+                        fontSize: 18,
+                        fontFamily: 'MulishBold'),
                   ),
                   Expanded(
                     child:
@@ -206,9 +205,12 @@ class _MeState extends State<Me> {
                     },
                     child: Text(
                       'Show All',
-                      style: mulish14400.copyWith(fontFamily: 'MulishBold', color: ColorRes.appColor,
+                      style: mulish14400.copyWith(
+                        fontFamily: 'MulishBold',
+                        color: ColorRes.appColor,
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,),
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   Icon(
@@ -276,10 +278,11 @@ class _MeState extends State<Me> {
                           children: [
                             Text(
                               'Settings',
-                              style: TextStyle(
-                                  color: ColorRes.appColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700),
+                              style: mulish14400.copyWith(
+                                fontFamily: 'MulishBold',
+                                color: ColorRes.appColor,
+                                fontSize: 18,
+                              ),
                             ),
                             SizedBox(
                               width: 20,
@@ -383,7 +386,6 @@ class _MeState extends State<Me> {
                             ),
                           ],
                         ),*/
-
                         Expanded(
                           child: ListView.builder(
                             itemCount: settingData.length,
@@ -423,12 +425,8 @@ class _MeState extends State<Me> {
                                                         const EdgeInsets.only(
                                                             left: 60),
                                                     child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceAround,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
+                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () {
@@ -446,7 +444,9 @@ class _MeState extends State<Me> {
                                                                 width: 150,
                                                                 child: Text(
                                                                   'Personal info',
-                                                                  style: TextStyle(
+                                                                  style: mulish14400.copyWith(
+                                                                      fontFamily:
+                                                                          "MulishBold",
                                                                       color: ColorRes
                                                                           .grey,
                                                                       fontSize:
@@ -480,12 +480,15 @@ class _MeState extends State<Me> {
                                                               SizedBox(
                                                                 width: 150,
                                                                 child: Text(
-                                                                    'Change Password',
-                                                                    style: TextStyle(
-                                                                        color: ColorRes
-                                                                            .grey,
-                                                                        fontSize:
-                                                                            13)),
+                                                                  'Change Password',
+                                                                  style: mulish14400.copyWith(
+                                                                      fontFamily:
+                                                                          'MulishBold',
+                                                                      color: ColorRes
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          13),
+                                                                ),
                                                               ),
                                                               Image.asset(
                                                                 'assets/icons/side.png',

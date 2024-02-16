@@ -1,3 +1,4 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -43,7 +44,10 @@ class _LikesState extends State<Likes> {
               )),
           title: Text(
             'Match Request',
-            style: appbarTitle(),
+            style: mulish14400.copyWith(
+                fontFamily: 'MulishBold',
+                fontSize: 18.75,
+                color: ColorRes.appColor),
           ),
           actions: [
             Builder(
@@ -70,10 +74,9 @@ class _LikesState extends State<Likes> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 25),
-                    child: CommonTextField(
+                    child: NewTextField(
                       controller: value.searchController,
                       hintText: 'Search Match Request',
-                      isPrefixIcon: true,
                       prefix: 'assets/icons/Search_Icon.png',
                     ),
                   ),
@@ -102,13 +105,23 @@ class _LikesState extends State<Likes> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 15),
                               child: Column(
                                 children: [
                                   Align(
                                       alignment: Alignment.topLeft,
-                                      child: Text(matches[index].text,style: TextStyle(color: ColorRes.white,fontSize: 15,fontWeight: FontWeight.w700),)),
-                                  SizedBox(height: 5  ,),
+                                      child: Text(
+                                        matches[index].text,
+                                        style: mulish14400.copyWith(
+                                          fontFamily: "MulishBold",
+                                          fontSize: 16.41,
+                                          color: ColorRes.white,
+                                        ),
+                                      )),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
                                   Row(
                                     children: [
                                       Image.asset(
@@ -116,8 +129,19 @@ class _LikesState extends State<Likes> {
                                         scale: 4.5,
                                         color: ColorRes.white,
                                       ),
-                                      SizedBox(width: 5,),
-                                      Expanded(child: Text(matches[index].loaction,style: TextStyle(color: ColorRes.white,fontSize: 13,fontWeight: FontWeight.w500)))
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          matches[index].loaction,
+                                          style: mulish14400.copyWith(
+                                            fontFamily: "MulishBold",
+                                            fontSize: 11.72,
+                                            color: ColorRes.white,
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                   SizedBox(
@@ -125,13 +149,15 @@ class _LikesState extends State<Likes> {
                                   ),
                                   Expanded(
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Container(
                                           height: 50,
                                           width: 50,
                                           decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(90),
+                                              borderRadius:
+                                                  BorderRadius.circular(90),
                                               color: Colors.grey.shade50),
                                           child: Icon(
                                             Icons.close,
@@ -143,16 +169,23 @@ class _LikesState extends State<Likes> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(builder: (c) => NewMatchScreen()));
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (c) =>
+                                                        NewMatchScreen()));
                                           },
                                           child: Container(
                                             height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(90),
+                                                borderRadius:
+                                                    BorderRadius.circular(90),
                                                 color: ColorRes.appColor),
-                                            child: Icon(Icons.favorite_border,color: ColorRes.white,),
+                                            child: Icon(
+                                              Icons.favorite_border,
+                                              color: ColorRes.white,
+                                            ),
                                           ),
                                         ),
                                       ],

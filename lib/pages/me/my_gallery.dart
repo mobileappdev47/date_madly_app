@@ -1,3 +1,4 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/me/my_photo.dart';
 import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:date_madly_app/pages/me/widgets/profile_view_bottomsheet.dart';
@@ -37,7 +38,11 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
             )),
         title: Text(
           'My Gallery',
-          style: appbarTitle(),
+          style: mulish14400.copyWith(
+            fontFamily: "MulishBold",
+            fontSize: 20,
+            color: ColorRes.appColor,
+          ),
         ),
       ),
       body: Stack(
@@ -84,19 +89,25 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                     height: 20,
                   ),
                   // Text(getEmail().toString()),
-                  Text('Brian Immanuel, 24',
-                      style: greyText().copyWith(
-                          fontSize: 20,
-                          color: ColorRes.darkGrey,
-                          fontWeight: FontWeight.w700)),
-                  SizedBox(
-                    height: 20,
+                  Text(
+                    'Brian Immanuel, 24',
+                    style: mulish14400.copyWith(
+                      fontFamily: "MulishBold",
+                      fontSize: 23.44,
+                      color: ColorRes.darkGrey,
+                    ),
                   ),
-                  Text('Graphic Designer',
-                      style: greyText().copyWith(
-                          fontSize: 15,
-                          color: ColorRes.grey,
-                          fontWeight: FontWeight.w700)),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Graphic Designer',
+                    style: mulish14400.copyWith(
+                      fontFamily: "MulishBold",
+                      fontSize: 18.75,
+                      color: ColorRes.grey,
+                    ),
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -108,17 +119,19 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                         children: [
                           Text(
                             '30',
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                                color: ColorRes.darkGrey),
+                            style: mulish14400.copyWith(
+                              fontFamily: "MulishBold",
+                              fontSize: 32.81,
+                              color: ColorRes.darkGrey,
+                            ),
                           ),
                           Text(
                             'Photo',
-                            style: TextStyle(
-                                color: ColorRes.grey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                            style: mulish14400.copyWith(
+                              fontFamily: "MulishBold",
+                              fontSize: 14.06,
+                              color: ColorRes.grey,
+                            ),
                           )
                         ],
                       ),
@@ -126,17 +139,19 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                         children: [
                           Text(
                             '10',
-                            style: TextStyle(
-                                fontSize: 30,
-                                fontWeight: FontWeight.w700,
-                                color: ColorRes.darkGrey),
+                            style: mulish14400.copyWith(
+                              fontFamily: "MulishBold",
+                              fontSize: 32.81,
+                              color: ColorRes.darkGrey,
+                            ),
                           ),
                           Text(
                             'Video',
-                            style: TextStyle(
-                                color: ColorRes.grey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                            style: mulish14400.copyWith(
+                              fontFamily: "MulishBold",
+                              fontSize: 14.06,
+                              color: ColorRes.grey,
+                            ),
                           )
                         ],
                       )
@@ -223,7 +238,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 390),
+            padding: const EdgeInsets.only(top: 480),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Center(

@@ -1,3 +1,4 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               )),
           title: Text(
             'Change Password',
-            style: appbarTitle(),
+            style: mulish14400.copyWith(fontFamily: 'MulishBold',fontSize: 20,color: ColorRes.appColor),
           ),
         ),
         body: Padding(
@@ -53,7 +54,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Current Password',
-                  style: TextStyle(color: ColorRes.grey),
+                  style: mulish14400.copyWith(
+                    fontFamily: 'MulishRegular',
+                    color: ColorRes.grey,
+                  ),
                 ),
               ),
               SizedBox(
@@ -72,7 +76,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'New Password',
-                  style: TextStyle(color: ColorRes.grey),
+                  style: mulish14400.copyWith(
+                    fontFamily: 'MulishRegular',
+                    color: ColorRes.grey,
+                  ),
                 ),
               ),
               SizedBox(
@@ -91,7 +98,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'Confirm New Password',
-                  style: TextStyle(color: ColorRes.grey),
+                  style: mulish14400.copyWith(
+                    fontFamily: 'MulishRegular',
+                    color: ColorRes.grey,
+                  ),
                 ),
               ),
               SizedBox(
@@ -121,7 +131,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Center(
                   child: Text(
                 'Save',
-                style: TextStyle(fontSize: 16, color: ColorRes.white),
+                    style: mulish14400.copyWith(
+                      fontFamily: 'MulishBold',
+                      fontSize: 16,
+                      color: ColorRes.white,
+                    ),
               )),
             ),
           ),
