@@ -57,13 +57,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                //     padding: 10,
-                color: ColorRes.darkGrey,
-                readOnly: true,
+              NewTextField(
                 controller: emailController,
                 hintText: 'Brian03@gmail.com',
-                isSuffixIcon: true,
+                color: ColorRes.darkGrey,
+                readOnly: true,
                 suffix: 'assets/icons/Email.png',
               ),
               SizedBox(
@@ -79,14 +77,18 @@ class _PersonalInfoState extends State<PersonalInfo> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                  //     padding: 10,
-                  color: ColorRes.darkGrey,
-                  readOnly: true,
-                  controller: emailController,
-                  hintText: '+62 812 0101 0101',
-                  isSuffixIcon: true,
-                  suffix: 'assets/icons/Phone.png'),
+              NewTextField(
+                controller: emailController,
+                hintText: '+62 812 0101 0101',
+                color: ColorRes.darkGrey,
+                suffix: 'assets/icons/Phone.png',
+              ),
+              // NewTextField(
+              //   hintText:
+              //
+              //   readOnly: true,
+              //
+              // ),
               SizedBox(
                 height: 30,
               ),
@@ -100,13 +102,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                //padding: 10,
-                color: ColorRes.darkGrey,
-                readOnly: true,
+              NewTextField(
                 controller: emailController,
                 hintText: 'January 5, 1996',
-                isSuffixIcon: true,
+                color: ColorRes.darkGrey,
+                readOnly: true,
                 suffix: 'assets/icons/Date_Icon.png',
               ),
               SizedBox(

@@ -59,12 +59,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                padding: 10,
-                color: ColorRes.darkGrey,
-                obscureText: true,
+              NewTextField(
                 controller: confirmController,
                 hintText: 'Current Password',
+                color: ColorRes.darkGrey,
+                obscureText: true,
               ),
               SizedBox(
                 height: 30,
@@ -79,12 +78,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                padding: 10,
-                color: ColorRes.darkGrey,
-                obscureText: true,
+              NewTextField(
                 controller: confirmController,
                 hintText: 'New Password',
+                color: ColorRes.darkGrey,
+                obscureText: true,
               ),
               SizedBox(
                 height: 30,
@@ -99,12 +97,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               SizedBox(
                 height: 5,
               ),
-              CommonTextField(
-                padding: 10,
-                color: ColorRes.darkGrey,
-                obscureText: true,
+              NewTextField(
                 controller: confirmController,
                 hintText: 'Confirm New Password',
+                color: ColorRes.darkGrey,
+                obscureText: true,
               ),
             ],
           ),

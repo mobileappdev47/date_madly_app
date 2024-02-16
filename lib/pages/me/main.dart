@@ -1,3 +1,4 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
@@ -49,7 +50,11 @@ class _MeState extends State<Me> {
             )),
         title: Text(
           'Profile',
-          style: appbarTitle(),
+          style: mulish14400.copyWith(
+            fontFamily: 'MulishBold',
+            color: ColorRes.appColor,
+            fontSize: 18.75,
+          ),
         ),
         actions: [
           Padding(
@@ -81,11 +86,14 @@ class _MeState extends State<Me> {
                 height: 20,
               ),
               // Text(getEmail().toString()),
-              Text('Brian Immanuel, 24',
-                  style: greyText().copyWith(
-                      fontSize: 20,
-                      color: ColorRes.darkGrey,
-                      fontWeight: FontWeight.w700)),
+              Text(
+                'Brian Immanuel, 24',
+                style: mulish14400.copyWith(
+                    fontSize: 20,
+                    fontFamily: "MulishBold",
+                    color: ColorRes.darkGrey,
+                    fontWeight: FontWeight.w700),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -108,7 +116,11 @@ class _MeState extends State<Me> {
                       ),
                       Text(
                         '10 K',
-                        style: TextStyle(color: ColorRes.appColor),
+                        style: mulish14400.copyWith(
+                          fontFamily: 'MulishBold',
+                          fontSize: 14.06,
+                          color: ColorRes.appColor,
+                        ),
                       )
                     ],
                   ),
@@ -157,7 +169,7 @@ class _MeState extends State<Me> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text('About Me',
-                    style: greyText().copyWith(
+                    style: mulish14400.copyWith(
                         fontSize: 18,
                         color: ColorRes.darkGrey,
                         fontWeight: FontWeight.w700)),
@@ -176,14 +188,15 @@ class _MeState extends State<Me> {
                 children: [
                   Text(
                     'Gallery',
-                    style: TextStyle(
+                    style: mulish14400.copyWith(
                       color: ColorRes.darkGrey,
                       fontSize: 18,
-                      fontWeight: FontWeight.w700,
+                      fontFamily: 'MulishBold'
                     ),
                   ),
                   Expanded(
-                    child: SizedBox(), // Add an Expanded widget to fill available space
+                    child:
+                        SizedBox(), // Add an Expanded widget to fill available space
                   ),
                   GestureDetector(
                     onTap: () {
@@ -193,11 +206,9 @@ class _MeState extends State<Me> {
                     },
                     child: Text(
                       'Show All',
-                      style: TextStyle(
-                        color: ColorRes.appColor,
+                      style: mulish14400.copyWith(fontFamily: 'MulishBold', color: ColorRes.appColor,
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
+                        fontWeight: FontWeight.w600,),
                     ),
                   ),
                   Icon(
@@ -384,20 +395,23 @@ class _MeState extends State<Me> {
                                       MainAxisAlignment.spaceAround,
                                   children: [
                                     Container(
-                                        height: selectedIndex == index ? 90 : 40,
+                                        height:
+                                            selectedIndex == index ? 90 : 40,
                                         width: 220,
                                         child: Column(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(left: 30),
+                                              padding: const EdgeInsets.only(
+                                                  left: 30),
                                               child: Align(
                                                 alignment: Alignment.centerLeft,
                                                 child: Text(
-                                                    settingData[index],
-                                                    style: TextStyle(
-                                                        fontWeight: FontWeight.w700,
-                                                        color: ColorRes.darkGrey)),
-
+                                                  settingData[index],
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    color: ColorRes.darkGrey,
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             SizedBox(
@@ -405,8 +419,10 @@ class _MeState extends State<Me> {
                                             ),
                                             selectedIndex == index
                                                 ? Padding(
-                                                  padding: const EdgeInsets.only(left: 60),
-                                                  child: Column(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 60),
+                                                    child: Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .spaceAround,
@@ -415,20 +431,32 @@ class _MeState extends State<Me> {
                                                               .start,
                                                       children: [
                                                         GestureDetector(
-                                                          onTap: (){
-                                                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PersonalInfo(),));
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                                    MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  PersonalInfo(),
+                                                            ));
                                                           },
                                                           child: Row(
                                                             children: [
                                                               SizedBox(
                                                                 width: 150,
-                                                                child: Text('Personal info',style: TextStyle(
-                                                                  color: ColorRes.grey,fontSize: 13
-                                                                ),),
+                                                                child: Text(
+                                                                  'Personal info',
+                                                                  style: TextStyle(
+                                                                      color: ColorRes
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          13),
+                                                                ),
                                                               ),
-
                                                               Image.asset(
-                                                                'assets/icons/side.png',color: ColorRes.grey,
+                                                                'assets/icons/side.png',
+                                                                color: ColorRes
+                                                                    .grey,
                                                                 scale: 4,
                                                               )
                                                             ],
@@ -438,21 +466,31 @@ class _MeState extends State<Me> {
                                                           height: 10,
                                                         ),
                                                         GestureDetector(
-                                                          onTap: (){
-                                                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChangePassword(),));
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                                    MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  ChangePassword(),
+                                                            ));
                                                           },
                                                           child: Row(
                                                             children: [
                                                               SizedBox(
                                                                 width: 150,
                                                                 child: Text(
-                                                                    'Change Password',style: TextStyle(
-                                                                    color: ColorRes.grey,fontSize: 13
-                                                                )),
+                                                                    'Change Password',
+                                                                    style: TextStyle(
+                                                                        color: ColorRes
+                                                                            .grey,
+                                                                        fontSize:
+                                                                            13)),
                                                               ),
-                                                          
                                                               Image.asset(
-                                                                'assets/icons/side.png',color: ColorRes.grey,
+                                                                'assets/icons/side.png',
+                                                                color: ColorRes
+                                                                    .grey,
                                                                 scale: 4,
                                                               )
                                                             ],
@@ -460,18 +498,22 @@ class _MeState extends State<Me> {
                                                         )
                                                       ],
                                                     ),
-                                                )
+                                                  )
                                                 : SizedBox(),
                                           ],
                                         )),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: selectedIndex == index ? 60 : 20),
+                                          bottom:
+                                              selectedIndex == index ? 60 : 20),
                                       child: GestureDetector(
                                         onTap: () {
                                           setState(() {
-                                            selectedIndex = selectedIndex == index ? -1 : index;
-                                           /* currentIndex == 0
+                                            selectedIndex =
+                                                selectedIndex == index
+                                                    ? -1
+                                                    : index;
+                                            /* currentIndex == 0
                                                 ? isclick = !isclick
                                                 : null; */
                                           });
@@ -556,6 +598,7 @@ List photoPic = [
   'assets/icons/p5.png',
   'assets/icons/p6.png',
 ];
+
 class profileDetail {
   final String image;
   final String text;

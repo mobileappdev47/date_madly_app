@@ -136,6 +136,24 @@ flutter:
      - family: poppinsBold
        fonts:
          - asset: assets/fonts/poppies/Poppins-Bold.ttf
+     - family: MulishBold
+       fonts:
+         - asset: assets/fonts/Mulish-Bold.ttf
+     - family: MulishExtraLight
+       fonts:
+         - asset: assets/fonts/Mulish-ExtraLight.ttf
+     - family: MulishSemiBold
+       fonts:
+         - asset: assets/fonts/Mulish-SemiBold.ttf
+     - family: MulishRegular
+       fonts:
+         - asset: assets/fonts/Mulish-Regular.ttf
+     - family: MulishMediumItalic
+       fonts:
+         - asset: assets/fonts/Mulish-MediumItalic.ttf
+     - family: MulishBlack
+       fonts:
+         - asset: assets/fonts/Mulish-Black.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
