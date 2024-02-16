@@ -7,3 +7,9 @@ TextStyle mulish14400 = const TextStyle(
   fontFamily: 'mulishRegular',
   fontWeight: FontWeight.w400,
 );
+
+TextStyle poppins = TextStyle(
+    color: ColorRes.darkGrey,
+    fontWeight: FontWeight.w600,
+    fontSize: 21,
+    fontFamily: 'Poppins');

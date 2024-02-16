@@ -100,11 +100,6 @@ Future<void> main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
-  // await initializeService();
-  // FlutterBackgroundService().invoke("setAsBackground");
-  // mqttFunctions.startMQTT();
-  // var data = channel.stream;
-  // print(data);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
@@ -144,19 +139,11 @@ class MyApp extends StatelessWidget {
                     : appProvider.theme == ThemeConfig.lightTheme
                         ? ThemeMode.light
                         : ThemeMode.dark,
-            // home: phone! && profileCompleted!
-            //     ? const HomeMain()
-            //     : phone!
-            //         ? const Gender()
-            //         : const PhoneOTP());
-            home: Home()
-            // home: ChangeNotifierProvider(
-            //     create: (context) => PhoneAuthProvider(),
-            //     child: const SplashScreen())
-
-            home: OtpVerificationSCreen(
-              phone: '12345',
-            ));
+            home: ChangeNotifierProvider(
+                create: (context) => PhoneAuthProvider(),
+                child: const SplashScreen())
+            // home: MyGalleryScreen()
+            );
       });
     });
   }

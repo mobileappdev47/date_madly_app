@@ -1,5 +1,5 @@
-
 import 'dart:io';
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,8 +52,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
-        selectedindex =
-            index;
+        selectedindex = index;
       });
     } else {
       print('No image selected.');
@@ -67,6 +66,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height / 15,
@@ -74,16 +74,17 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.arrow_back))),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Icon(Icons.arrow_back),
+                )),
             SizedBox(
               height: MediaQuery.of(context).size.height / 25,
             ),
             Text(
               'Upload a profile Photo',
-              style: title(),
+              style: poppins.copyWith(fontWeight: FontWeight.w900),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
@@ -116,13 +117,13 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                             child: Center(
                               child: Padding(
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 40),
+                                    const EdgeInsets.symmetric(horizontal: 40),
                                 child: Column(
                                   children: [
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height /
-                                          15,
+                                          MediaQuery.of(context).size.height /
+                                              15,
                                     ),
                                     Text(
                                       'Add Photos',
@@ -130,19 +131,19 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height /
-                                          40,
+                                          MediaQuery.of(context).size.height /
+                                              40,
                                     ),
                                     Container(
                                       padding: EdgeInsets.zero,
                                       height:
-                                      MediaQuery.of(context).size.height /
-                                          13,
+                                          MediaQuery.of(context).size.height /
+                                              13,
                                       width:
-                                      MediaQuery.of(context).size.width / 1,
+                                          MediaQuery.of(context).size.width / 1,
                                       child: CupertinoButton(
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                           color: ColorRes.appColor,
                                           child: Text('ADD FROM GALLERY'),
                                           onPressed: () {
@@ -153,18 +154,18 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                     ),
                                     SizedBox(
                                       height:
-                                      MediaQuery.of(context).size.height /
-                                          40,
+                                          MediaQuery.of(context).size.height /
+                                              40,
                                     ),
                                     Container(
                                       height:
-                                      MediaQuery.of(context).size.height /
-                                          13,
+                                          MediaQuery.of(context).size.height /
+                                              13,
                                       width:
-                                      MediaQuery.of(context).size.width / 1,
+                                          MediaQuery.of(context).size.width / 1,
                                       child: CupertinoButton(
                                           borderRadius:
-                                          BorderRadius.circular(20),
+                                              BorderRadius.circular(20),
                                           color: ColorRes.appColor,
                                           child: Text('USE CAMERA'),
                                           onPressed: () {
@@ -193,17 +194,17 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                       ),
                       child: index == selectedindex && imageFile != null
                           ? ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: Image.file(
-                          imageFile!,
-                          fit: BoxFit.fill,
-                        ),
-                      )
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.file(
+                                imageFile!,
+                                fit: BoxFit.fill,
+                              ),
+                            )
                           : Image.asset(
-                        'assets/icons/gallary.png',
-                        scale: 2.0,
-                        //,
-                      ),
+                              'assets/icons/gallary.png',
+                              scale: 2.0,
+                              //,
+                            ),
                     ),
                   );
                 }),
@@ -211,15 +212,15 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
             ),
             imageError != ''
                 ? Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Text(
-                  imageError,
-                  style: errorText(),
-                ),
-              ),
-            )
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 3),
+                      child: Text(
+                        imageError,
+                        style: errorText(),
+                      ),
+                    ),
+                  )
                 : SizedBox(),
             SizedBox(
               height: MediaQuery.of(context).size.height / 25,

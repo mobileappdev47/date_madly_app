@@ -89,7 +89,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 5),
+                                horizontal: 70, vertical: 5),
                             child: Container(
                               padding: EdgeInsets.symmetric(),
                               height: MediaQuery.of(context).size.height / 15,
@@ -107,7 +107,9 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                 child: Text(
                                   array[index],
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w300,
+                                      fontWeight: di == index
+                                          ? FontWeight.w600
+                                          : FontWeight.w300,
                                       fontSize: 14,
                                       color: di == index
                                           ? ColorRes.white
@@ -175,8 +177,14 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                 ),
                 SizedBox(
                   height: 100,
-                  child: Card(
-                    color: ColorRes.lightPink,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: ColorRes.lightPink,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25),
+                        topLeft: Radius.circular(25),
+                      ),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -215,10 +223,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                             ],
                           ),
                         ),
-                        // FilledButton.tonalIcon(
-                        //     onPressed: () {},
-                        //     icon: const Icon(Icons.arrow_forward),
-                        //     label: const Text("Next"))
                       ],
                     ),
                   ),
