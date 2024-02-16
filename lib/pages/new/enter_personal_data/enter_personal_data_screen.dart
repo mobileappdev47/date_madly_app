@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:date_madly_app/common/text_feild_common.dart';
 import 'package:date_madly_app/utils/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../common/text_style.dart';
+import '../../../utils/text_style.dart';
 
 class EnterPersonalDataScreen extends StatefulWidget {
   const EnterPersonalDataScreen({Key? key}) : super(key: key);
@@ -25,6 +30,21 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     DateFormat dateFormat = DateFormat("dd/MM/yyyy");
     bool isMale = true;
     bool isFemale = false;
+    File? imageFile;
+    Future<void> pickImage({
+      required ImageSource source,
+    }) async {
+      final picker = ImagePicker();
+      final pickedFile = await picker.pickImage(source: source);
+
+      if (pickedFile != null) {
+        setState(() {
+          imageFile = File(pickedFile.path);
+        });
+      } else {
+        print('No image selected.');
+      }
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,6 +55,108 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          height: MediaQuery.of(context).size.height / 3,
+                          child: Center(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 40),
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 15,
+                                  ),
+                                  Text(
+                                    'Add Photos',
+                                    style: title(),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 40,
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.zero,
+                                    height:
+                                        MediaQuery.of(context).size.height / 13,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1,
+                                    child: CupertinoButton(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: ColorRes.appColor,
+                                        child: Text('ADD FROM GALLERY'),
+                                        onPressed: () {
+                                          pickImage(
+                                              source: ImageSource.gallery);
+                                        }),
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 40,
+                                  ),
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height / 13,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1,
+                                    child: CupertinoButton(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: ColorRes.appColor,
+                                        child: Text('USE CAMERA'),
+                                        onPressed: () {
+                                          pickImage(source: ImageSource.camera);
+                                        }),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: 225,
+                        width: 375,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: ColorRes.lightGrey,
+                        ),
+                        child: imageFile == null
+                            ? Image.asset(
+                                'assets/icons/gallary.png',
+                                scale: 2.0,
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: Image.file(
+                                  imageFile!,
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                      ),
+                      Image.asset(
+                        "assets/icons/Camera.png",
+                        height: 25,
+                        width: 29,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 42,
+                ),
                 Text(
                   'Name',
                   style: mulish14400,

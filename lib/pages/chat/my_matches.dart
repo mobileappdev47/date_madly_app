@@ -68,119 +68,74 @@ class MyMatches extends StatelessWidget {
                   prefix: 'assets/icons/Search_Icon.png',
                 ),
               ),
-              SizedBox(
-                height: 550,
-                child: ListView.builder(
-                  itemCount: value.image.length,
-                  itemBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Container(
-                        padding: EdgeInsets.all(15),
-                        height: 80,
-                        width: MediaQuery.of(context).size.width,
-                        color: ColorRes.white,
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset(
-                                  value.image[index],
-                                  scale: 3,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 26),
+                child: SizedBox(
+                  height: 550,
+                  child: ListView.builder(
+                    itemCount: value.image.length,
+                    itemBuilder: (context, index) => Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            value.image[index],
+                            scale: 3,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Row(
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15),
-                                      child: Row(
-                                        children: [
-                                          Text('Patrcia',
-                                              style: TextStyle(
-                                                  color: ColorRes.darkGrey,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w700)),
-                                          SizedBox(
-                                            width: 130,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 15),
-                                      child: SizedBox(
-                                        width: 230,
-                                        child: Text(
-                                          overflow: TextOverflow.ellipsis,
-                                          'Fashion Designer',
-                                          style: TextStyle(
-                                            color: Color(0xffACACAC),
-                                          ),
-                                        ),
-                                      ),
+                                    Text('Patrcia',
+                                        style: TextStyle(
+                                            color: ColorRes.darkGrey,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700)),
+                                    SizedBox(
+                                      width: 130,
                                     ),
                                   ],
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 5, vertical: 5),
-                                  child: Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      // image: DecorationImage(image: AssetImage("assets/icons/Chat.png"),scale: 2),
-                                      color: ColorRes.appColor,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: Image.asset(
-                                        "assets/icons/Chat.png",
-                                        color: ColorRes.white,
-                                        height: 16,
-                                      ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: SizedBox(
+                                  width: 230,
+                                  child: Text(
+                                    overflow: TextOverflow.ellipsis,
+                                    'Fashion Designer',
+                                    style: TextStyle(
+                                      color: Color(0xffACACAC),
                                     ),
                                   ),
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: ColorRes.appColor,
                             ),
-                          ],
-                        )
-                        /* Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(0),
-                          child: Image.asset('assets/icons/Add Image (1).png',scale: 3,),
-                        ),
-                    Row(
-                      children: [
-                        Column(
-                          children: [
-                            Text('Patrcia',style: TextStyle(
-                                color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
-                            )),
-                            Text('08:33 PM')
-                          ],
-                        )
-                      ],
-                    )
-                    */ /*    Column(
-                          children: [
-                            Row(
-                              children: [
-
-                                Text('Patrcia',style: TextStyle(
-                                    color: ColorRes.darkGrey, fontSize: 15,fontWeight: FontWeight.w700
-                                )),
-                                Text('08:33 PM')
-                              ],
+                            child: Padding(
+                              padding: const EdgeInsets.all(7.0),
+                              child: Image.asset(
+                                "assets/icons/Chat.png",
+                                color: ColorRes.white,
+                                height: 14,
+                              ),
                             ),
-                          ],
-                        ),*/ /*
-                       ,
-                      ],
-                    ),*/
-                        ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               )

@@ -1,4 +1,5 @@
 import 'package:date_madly_app/pages/chat/my_matches.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/utils/body_builder.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import '../../common/text_feild_common.dart';
 import '../../network/api.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../me/personal_info.dart';
+import '../new/enter_personal_data/enter_personal_data_screen.dart';
 import 'chat_message.dart';
 
 class Chat extends StatefulWidget {
@@ -32,9 +35,14 @@ class _ChatState extends State<Chat> {
           backgroundColor: ColorRes.white,
           leading: Builder(
             builder: (BuildContext context) {
-              return Icon(
-                Icons.arrow_back_ios_rounded,
-                color: ColorRes.appColor,
+              return IconButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EnterPersonalDataScreen(),));
+                },
+                icon: Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: ColorRes.appColor,
+                ),
               );
               Image.asset(
                 'assets/icons/drawer.png',
@@ -72,9 +80,9 @@ class _ChatState extends State<Chat> {
                       style: TextStyle(
                           color: ColorRes.darkGrey,
                           fontSize: 15,
-                          fontWeight: FontWeight.w700)),
+                          fontWeight: FontWeight.w700),),
                   SizedBox(
-                    width: 130,
+                    width: 160,
                   ),
                   TextButton(
                     onPressed: () {
@@ -94,7 +102,9 @@ class _ChatState extends State<Chat> {
                               fontSize: 15,
                               fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(width: 4,),
+                        SizedBox(
+                          width: 4,
+                        ),
                         Icon(
                           Icons.arrow_forward,
                           color: ColorRes.appColor,

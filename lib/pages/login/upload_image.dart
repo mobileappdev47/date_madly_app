@@ -17,10 +17,10 @@ import '../../utils/constants.dart';
 
 class UploadImage extends StatefulWidget {
   const UploadImage(
-      {super.key, required this.newLogin, required this.profileModel});
+      {super.key, required this.newLogin,this.profileModel});
 
   final bool newLogin;
-  final ProfileModel profileModel;
+  final ProfileModel? profileModel;
 
   @override
   State<UploadImage> createState() => _UploadImageState();
