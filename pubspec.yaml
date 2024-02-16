@@ -136,6 +136,9 @@ flutter:
      - family: poppinsBold
        fonts:
          - asset: assets/fonts/poppies/Poppins-Bold.ttf
+     - family: poppinsSemiBold
+       fonts:
+         - asset: assets/fonts/poppies/Poppins-SemiBold.ttf
      - family: MulishBold
        fonts:
          - asset: assets/fonts/Mulish-Bold.ttf

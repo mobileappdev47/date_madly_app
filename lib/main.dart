@@ -10,6 +10,7 @@ import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/login/relationship_status.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
 import 'package:date_madly_app/pages/login/tall.dart';
@@ -100,6 +101,11 @@ Future<void> main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
+  // await initializeService();
+  // FlutterBackgroundService().invoke("setAsBackground");
+  // mqttFunctions.startMQTT();
+  // var data = channel.stream;
+  // print(data);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
@@ -139,10 +145,16 @@ class MyApp extends StatelessWidget {
                     : appProvider.theme == ThemeConfig.lightTheme
                         ? ThemeMode.light
                         : ThemeMode.dark,
-            home: ChangeNotifierProvider(
-                create: (context) => PhoneAuthProvider(),
-                child: const SplashScreen())
-            // home: MyGalleryScreen()
+            // home: phone! && profileCompleted!
+            //     ? const HomeMain()
+            //     : phone!
+            //         ? const Gender()
+            //         : const PhoneOTP());
+            home: ProfilePhotoScreen()
+            // home: ChangeNotifierProvider(
+            //     create: (context) => PhoneAuthProvider(),
+            //     child: const SplashScreen())
+
             );
       });
     });

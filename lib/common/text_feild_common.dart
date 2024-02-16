@@ -87,19 +87,18 @@ class CommonTextField extends StatelessWidget {
 }
 
 class NewTextField extends StatelessWidget {
-  NewTextField(
-      {Key? key,
-      required this.controller,
-      required this.hintText,
-      this.suffix,
-      this.textInputType,
-      this.readOnly,
-      this.prefix,
-      this.color,
-      this.obscureText,
-        this.maxLines,
-      })
-      : super(key: key);
+  NewTextField({
+    Key? key,
+    required this.controller,
+    required this.hintText,
+    this.suffix,
+    this.textInputType,
+    this.readOnly,
+    this.prefix,
+    this.color,
+    this.obscureText,
+    this.maxLines,
+  }) : super(key: key);
 
   final TextEditingController controller;
   final String? hintText;
@@ -107,7 +106,7 @@ class NewTextField extends StatelessWidget {
   final String? prefix;
   final String? suffix;
   bool? readOnly;
-  int?maxLines;
+  int? maxLines;
   final Color? color;
   bool? obscureText;
 
@@ -129,10 +128,15 @@ class NewTextField extends StatelessWidget {
         maxLines: maxLines,
         controller: controller,
         readOnly: readOnly ?? false,
+        style: TextStyle(
+          fontWeight: FontWeight.w600,
+          color: ColorRes.darkGrey,
+        ),
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText ?? '',
-          hintStyle: TextStyle(color: ColorRes.grey, fontSize: 15),
+          hintStyle: TextStyle(
+              color: ColorRes.grey, fontSize: 15, fontWeight: FontWeight.w500),
           prefixIconConstraints: prefix != null
               ? const BoxConstraints(
                   maxHeight: 20, maxWidth: 30, minHeight: 5, minWidth: 27)

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/pages/home/image_scroll.dart';
 import 'package:date_madly_app/pages/home/lady_bottomsheet.dart';
+import 'package:date_madly_app/pages/home/likes_you_screen.dart';
 import 'package:date_madly_app/pages/home/widget/drawer.dart';
 import 'package:date_madly_app/pages/new_match/new_match_screen.dart';
 import 'package:date_madly_app/utils/enum/api_request_status.dart';
@@ -26,9 +27,9 @@ class _HomeState extends State<Home> {
   String? selectGender;
 
   List swipeList = [
-    'assets/icons/Add Image.png',
-    'assets/icons/Add Image.png',
-    'assets/icons/Add Image.png'
+    'assets/images/lady.png',
+    'assets/images/lady.png',
+    'assets/images/lady.png'
   ];
 
   @override
@@ -120,6 +121,7 @@ class _HomeState extends State<Home> {
                                     child: Image.asset(
                                       swipeList[index],
                                       fit: BoxFit.cover,
+                                      width: width * 0.8,
                                     ),
                                   ),
                                 ),
@@ -189,23 +191,33 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 2,
-                            offset: Offset(0, 3), // changes position of shadow
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey.shade50),
-                    child: Icon(
-                      Icons.close,
-                      color: ColorRes.darkGrey,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LikesYouScreen(),
+                          ));
+                    },
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 2,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey.shade50),
+                      child: Icon(
+                        Icons.close,
+                        color: ColorRes.darkGrey,
+                      ),
                     ),
                   ),
                   SizedBox(
