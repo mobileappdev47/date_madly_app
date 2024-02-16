@@ -1,9 +1,12 @@
+import 'package:date_madly_app/common/text_feild_common.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/material.dart';
 
 class MyUpload_Photo extends StatelessWidget {
-  const MyUpload_Photo({super.key});
+  MyUpload_Photo({super.key});
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -11,37 +14,50 @@ class MyUpload_Photo extends StatelessWidget {
       backgroundColor: ColorRes.white,
       body: Stack(
         children: [
+          SizedBox(
+            height: 375,
+            width: double.maxFinite,
+            child: Image(
+              image: AssetImage("assets/icons/Add Image_01.png"),
+              fit: BoxFit.fill,
+            ),
+          ),
           SingleChildScrollView(
             child: Column(
               children: [
-                Image(
-                  image: AssetImage("assets/icons/Add Image_01.png"),
+                SizedBox(
+                  height: 375,
                 ),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Write a caption ...",
-                        style: greyText(),
-                      ),
-                    ),
-                    height: 115,
-                    width: 320,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 2, color: ColorRes.lightGrey),
-                    ),
-                  ),
+                  child: NewTextField(
+                      controller: controller,
+                      hintText: "Write a caption ...",
+                      maxLines: 5),
+                  // child: Container(
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.all(8.0),
+                  //     child: Text(
+                  //       "Write a caption ...",
+                  //       style: greyText(),
+                  //     ),
+                  //   ),
+                  //   height: 115,
+                  //   width: 320,
+                  //   decoration: BoxDecoration(
+                  //     borderRadius: BorderRadius.circular(5),
+                  //     border: Border.all(width: 2, color: ColorRes.lightGrey),
+                  //   ),
+                  // ),
                 ),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(top: 20, left: 30, right: 30,bottom: 30),
+                    padding: EdgeInsets.only(
+                        top: 20, left: 30, right: 30, bottom: 30),
                     child: Container(
                       height: MediaQuery.of(context).size.height / 11,
                       width: MediaQuery.of(context).size.width / 1,

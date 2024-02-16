@@ -93,9 +93,12 @@ class NewTextField extends StatelessWidget {
       required this.hintText,
       this.suffix,
       this.textInputType,
+      this.readOnly,
       this.prefix,
       this.color,
-      this.obscureText})
+      this.obscureText,
+        this.maxLines,
+      })
       : super(key: key);
 
   final TextEditingController controller;
@@ -103,7 +106,8 @@ class NewTextField extends StatelessWidget {
 
   final String? prefix;
   final String? suffix;
-
+  bool? readOnly;
+  int?maxLines;
   final Color? color;
   bool? obscureText;
 
@@ -122,7 +126,9 @@ class NewTextField extends StatelessWidget {
       ),
       padding: EdgeInsets.only(left: prefix != null ? 10 : 15),
       child: TextField(
+        maxLines: maxLines,
         controller: controller,
+        readOnly: readOnly ?? false,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText ?? '',

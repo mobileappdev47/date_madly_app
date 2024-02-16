@@ -4,6 +4,6 @@ import 'package:flutter/material.dart';
 TextStyle mulish14400 = const TextStyle(
   color: ColorRes.grey,
   fontSize: 12,
-  fontFamily: 'mulishRegular',
+  fontFamily: 'MulishRegular',
   fontWeight: FontWeight.w400,
 );
