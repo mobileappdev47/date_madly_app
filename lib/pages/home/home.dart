@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/pages/home/image_scroll.dart';
+import 'package:date_madly_app/pages/home/lady_bottomsheet.dart';
 import 'package:date_madly_app/pages/home/widget/drawer.dart';
 import 'package:date_madly_app/pages/new_match/new_match_screen.dart';
 import 'package:date_madly_app/utils/enum/api_request_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 import '../../providers/home_main_provider.dart';
 import '../../utils/body_builder.dart';
@@ -20,12 +23,21 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   String? selectGender;
+
+  List swipeList = [
+    'assets/icons/Add Image.png',
+    'assets/icons/Add Image.png',
+    'assets/icons/Add Image.png'
+  ];
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Consumer<HomeMainProvider>(
-      builder: (context, value, child) =>  Scaffold(
+      builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
           centerTitle: true,
@@ -48,138 +60,181 @@ class _HomeState extends State<Home> {
             style: appbarTitle(),
           ),
           actions: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: IconButton(
-                  onPressed: (){
-                    value.showNotificationContainer(context);
-                  },
-                  icon: Image.asset(
-                    'assets/icons/Notification.png',
-                    scale: 2.5,
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: IconButton(
+                onPressed: () {
+                  value.showNotificationContainer(context);
+                },
+                icon: Image.asset(
+                  'assets/icons/Notification.png',
+                  scale: 2.5,
                 ),
               ),
-
+            ),
           ],
         ),
-        drawer: Drawer(
-          backgroundColor: ColorRes.white,
-          child: CustomDrawer()
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Image.asset(
-                    'assets/icons/Add Image.png',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 450),
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 10,
-                        width: MediaQuery.of(context).size.width,
-                        color: ColorRes.white,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 30),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Jennifer, 22',
-                                    style: greyText().copyWith(
-                                        fontSize: 20,
-                                        color: ColorRes.darkGrey,
-                                        fontWeight: FontWeight.normal,
-                                        fontFamily: 'Mulish'),
-                                  ),
-                                  //SizedBox(height: 10,),
-                                  Text(
-                                    'Model Fashion',
-                                    style: greyText()
-                                        .copyWith(fontWeight: FontWeight.w500),
-                                  ),
-                                ],
+        drawer: Drawer(backgroundColor: ColorRes.white, child: CustomDrawer()),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Align(
+                alignment: Alignment.center,
+                child: CardSwiper(
+                  isDisabled: false,
+                  backCardOffset: const Offset(10, 0),
+                  initialIndex: 0,
+                  padding: EdgeInsets.zero,
+                  cardsCount: swipeList.length,
+                  cardBuilder: (context, index, horizontalOffsetPercentage,
+                      verticalOffsetPercentage) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          child: Container(
+                            height: height * 0.68,
+                            width: width * 0.8,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(40),
+                                bottomRight: Radius.circular(
+                                  40,
+                                ),
+                                topRight: Radius.circular(40),
+                                topLeft: Radius.circular(
+                                  40,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              width: 60,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(40),
+                                        topRight: Radius.circular(40)),
+                                    child: Image.asset(
+                                      swipeList[index],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          'Jennifer, 22',
+                                          style: greyText().copyWith(
+                                              fontSize: 20,
+                                              color: ColorRes.darkGrey,
+                                              fontWeight: FontWeight.normal,
+                                              fontFamily: 'Mulish'),
+                                        ),
+                                        //SizedBox(height: 10,),
+                                        Text(
+                                          'Model Fashion',
+                                          style: greyText().copyWith(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      width: 60,
+                                    ),
+                                    Image.asset(
+                                        'assets/icons/Location_Icon.png',
+                                        scale: 4.5,
+                                        color: ColorRes.appColor),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Text(
+                                      '5 km',
+                                      style: greyText().copyWith(
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             ),
-                            Image.asset('assets/icons/Location_Icon.png',
-                                scale: 4.5, color: ColorRes.appColor),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text(
-                              '5 km',
-                              style: greyText()
-                                  .copyWith(fontWeight: FontWeight.w500),
-                            )
-                          ],
+                          ),
+                          onTap: () {
+                            ladyBottomSheetUI(context);
+                          },
                         ),
-                      ),
-                    ),
-                  )
-                ],
+                      ],
+                    );
+                  },
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Container(
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 2,
+                            offset: Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey.shade50),
+                    child: Icon(
+                      Icons.close,
+                      color: ColorRes.darkGrey,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (c) => NewMatchScreen()));
+                    },
+                    child: Container(
                       height: 50,
                       width: 50,
                       decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 2,
-                              offset: Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
                           borderRadius: BorderRadius.circular(50),
-                          color: Colors.grey.shade50),
+                          color: ColorRes.appColor),
                       child: Icon(
-                        Icons.close,
-                        color: ColorRes.darkGrey,
+                        Icons.favorite_border,
+                        color: ColorRes.white,
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (c) => NewMatchScreen()));
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: ColorRes.appColor),
-                        child: Icon(Icons.favorite_border,color: ColorRes.white,),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 20,
-              ),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 60,
+            )
+          ],
         ),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:date_madly_app/models/profile_model.dart';
+import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +11,7 @@ import '../../utils/utils.dart';
 class AdditionalDetails extends StatefulWidget {
   AdditionalDetails({super.key, required this.pageNo, required this.value});
 
-  late final int pageNo;
+  int pageNo;
   final String value;
 
   @override
@@ -183,15 +185,26 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               backgroundColor:
                                   MaterialStateProperty.all(ColorRes.appColor)),
                           onPressed: () {
-                            if (load) {
-                              Navigator.pop(context, 'done');
+                            if (widget.pageNo == 10) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PhoneOTP(),
+                                  ));
                             } else {
-                              Navigator.pop(context);
+                              widget.pageNo++;
+                              setState(() {
+                                getVars();
+                              });
                             }
                           },
                           child: Row(
                             children: [
-                              Icon(Icons.arrow_back, color: ColorRes.white, size: 20,),
+                              Icon(
+                                Icons.arrow_back,
+                                color: ColorRes.white,
+                                size: 20,
+                              ),
                               SizedBox(width: 5),
                               Text("Close",
                                   style: TextStyle(

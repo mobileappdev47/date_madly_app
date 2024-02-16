@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:country_codes/country_codes.dart';
+import 'package:date_madly_app/pages/home/home.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/dob.dart';
 import 'package:date_madly_app/pages/login/gender.dart';
@@ -14,6 +15,7 @@ import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
 import 'package:date_madly_app/pages/login/tall.dart';
 import 'package:date_madly_app/pages/login/work.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
+import 'package:date_madly_app/pages/me/my_gallery.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
@@ -55,7 +57,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PrefService.init();
- // await Firebase.initializeApp();
+  // await Firebase.initializeApp();
 
   if (Platform.isIOS) {
     await Firebase.initializeApp(
@@ -132,8 +134,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             navigatorKey: appProvider.navigatorKey,
             title: 'DateMadly App',
-            theme: themeData(
-                appProvider.theme, appProvider.lightColorScheme,
+            theme: themeData(appProvider.theme, appProvider.lightColorScheme,
                 appProvider.lightCustomColors),
             darkTheme: themeData(ThemeConfig.darkTheme,
                 appProvider.darkColorScheme, appProvider.darkCustomColors),
@@ -148,12 +149,12 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
+            home: Home()
+            // home: ChangeNotifierProvider(
+            //     create: (context) => PhoneAuthProvider(),
+            //     child: const SplashScreen())
 
-          //  home: EnterPersonalDataScreen());
-
-        home: ChangeNotifierProvider(
-            create: (context) => PhoneAuthProvider() ,
-            child: const SplashScreen()));
+            );
       });
     });
   }
@@ -204,24 +205,29 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   late SharedPreferences sharedPreferences;
   bool? login = false;
- bool? profileCompleted = false;
+  bool? profileCompleted = false;
 
   @override
   void initState() {
     super.initState();
-   initSharedPreference();
+    initSharedPreference();
   }
 
   initSharedPreference() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    await getLoginData();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AdditionalDetails(pageNo: 1, value: ''),
+        ));
+    // await getLoginData();
   }
 
   getLoginData() {
-   login = sharedPreferences.getBool('login') ?? false;
-   profileCompleted = sharedPreferences.getBool('profileCompleted') ?? false;
+    login = sharedPreferences.getBool('login') ?? false;
+    profileCompleted = sharedPreferences.getBool('profileCompleted') ?? false;
     Timer(const Duration(milliseconds: 2000), () {
-     /* if(PrefService.getBool(PrefKeys.login) == true){
+      /* if(PrefService.getBool(PrefKeys.login) == true){
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (c) => const HomeMain()));
       }
@@ -235,13 +241,16 @@ class _SplashScreenState extends State<SplashScreen> {
             context, MaterialPageRoute(builder: (c) => const HomeMain()));
       } else if (login!) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => AdditionalDetails(pageNo: 1, value: '')));
+            context,
+            MaterialPageRoute(
+                builder: (c) => AdditionalDetails(pageNo: 1, value: '')));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => HomeMain()
-            // Work(show: true, company: 'company', income:'10000', id: '123456789')
+            context,
+            MaterialPageRoute(builder: (c) => HomeMain()
+                // Work(show: true, company: 'company', income:'10000', id: '123456789')
 
-        ));
+                ));
       }
     });
   }
@@ -251,13 +260,12 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
         backgroundColor: ColorRes.white,
         body: Center(
-
           child: Container(
             height: MediaQuery.of(context).size.height,
-             width: MediaQuery.of(context).size.width,
-             alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            alignment: Alignment.center,
             child: Column(
-             // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
@@ -278,7 +286,10 @@ class _SplashScreenState extends State<SplashScreen> {
                 const CircularProgressIndicator(
                   color: ColorRes.appColor,
                 ),
-                const Text("Made with ❤️",style: TextStyle(color: ColorRes.grey),),
+                const Text(
+                  "Made with ❤️",
+                  style: TextStyle(color: ColorRes.grey),
+                ),
               ],
             ),
           ),

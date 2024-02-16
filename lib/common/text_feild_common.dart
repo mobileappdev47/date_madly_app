@@ -4,18 +4,18 @@ import 'package:flutter/material.dart';
 class CommonTextField extends StatelessWidget {
   CommonTextField(
       {Key? key,
-        required this.controller,
-        required this.hintText,
-        this.suffix,
-        this.textInputType,
-        this.isSuffixIcon,
-        this.isPrefixIcon,
-        this.prefix,
-        this.labelText,
-        this.readOnly,
-        this.color,
-        this.padding,
-        this.obscureText})
+      required this.controller,
+      required this.hintText,
+      this.suffix,
+      this.textInputType,
+      this.isSuffixIcon,
+      this.isPrefixIcon,
+      this.prefix,
+      this.labelText,
+      this.readOnly,
+      this.color,
+      this.padding,
+      this.obscureText})
       : super(key: key);
 
   final TextEditingController controller;
@@ -56,27 +56,27 @@ class CommonTextField extends StatelessWidget {
             border: InputBorder.none,
             suffixIcon: isSuffixIcon != null
                 ? suffix != null
-                ? Padding(
-              padding: const EdgeInsets.only(right: 13.0),
-              child: Image.asset(
-                suffix ?? "",
-                color: ColorRes.grey,
-                scale: 3,
-              ),
-            )
-                : SizedBox()
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 13.0),
+                        child: Image.asset(
+                          suffix ?? "",
+                          color: ColorRes.grey,
+                          scale: 3,
+                        ),
+                      )
+                    : SizedBox()
                 : null,
             prefixIcon: isPrefixIcon != null
                 ? prefix != null
-                ? Padding(
-              padding: const EdgeInsets.only(right: 13.0),
-              child: Image.asset(
-                prefix ?? "",
-                color: ColorRes.grey,
-                scale: 3,
-              ),
-            )
-                : SizedBox()
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 13.0),
+                        child: Image.asset(
+                          prefix ?? "",
+                          color: ColorRes.grey,
+                          scale: 3,
+                        ),
+                      )
+                    : SizedBox()
                 : null),
 
         // onTap: () {},
@@ -86,3 +86,67 @@ class CommonTextField extends StatelessWidget {
   }
 }
 
+class NewTextField extends StatelessWidget {
+  NewTextField(
+      {Key? key,
+      required this.controller,
+      required this.hintText,
+      this.suffix,
+      this.textInputType,
+      this.isPrefixIcon,
+      this.prefix,
+      this.color,
+      this.obscureText})
+      : super(key: key);
+
+  final TextEditingController controller;
+  final String? hintText;
+
+  final bool? isPrefixIcon;
+  final String? prefix;
+  final String? suffix;
+
+  final Color? color;
+  bool? obscureText;
+
+  final TextInputType? textInputType;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: ColorRes.grey,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      padding: EdgeInsets.only(left: prefix != null ? 10 : 15),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText ?? '',
+          hintStyle: TextStyle(color: ColorRes.grey, fontSize: 15),
+          prefixIconConstraints: prefix != null
+              ? const BoxConstraints(
+                  maxHeight: 20, maxWidth: 30, minHeight: 5, minWidth: 27)
+              : const BoxConstraints(),
+          prefixIcon: prefix != null
+              ? Image.asset(
+                  prefix!,
+                  scale: 3,
+                )
+              : SizedBox(),
+          suffixIcon: suffix != null
+              ? Image.asset(
+                  suffix!,
+                  scale: 3,
+                )
+              : SizedBox(),
+        ),
+      ),
+    );
+  }
+}
