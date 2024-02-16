@@ -3,7 +3,9 @@ import 'dart:io';
 
 import 'package:country_codes/country_codes.dart';
 import 'package:date_madly_app/pages/home/home.dart';
+import 'package:date_madly_app/pages/home/likes_you_screen.dart';
 import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/pages/likes/main.dart';
 import 'package:date_madly_app/pages/login/dob.dart';
 import 'package:date_madly_app/pages/login/gender.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
@@ -149,7 +151,7 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
-            home: Home()
+            home: LikesYouScreen()
             // home: ChangeNotifierProvider(
             //     create: (context) => PhoneAuthProvider(),
             //     child: const SplashScreen())
