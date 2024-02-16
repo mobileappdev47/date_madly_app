@@ -1,4 +1,5 @@
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/pages/home/like_matches.dart';
 import 'package:date_madly_app/pages/me/my_gallery.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -85,67 +86,76 @@ ladyBottomSheetUI(BuildContext context) {
                         Row(
                           children: [
                             Expanded(
-                              child: Container(
-                                height: 100,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: ColorRes.colorF4f4f4,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          color: Colors.grey.shade50),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: ColorRes.darkGrey,
-                                        size: 14,
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: ColorRes.colorF4f4f4,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 30,
+                                        width: 30,
+                                        decoration: BoxDecoration(
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 2,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(50),
+                                            color: Colors.grey.shade50),
+                                        child: Icon(
+                                          Icons.close,
+                                          color: ColorRes.darkGrey,
+                                          size: 14,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Moderate',
-                                          style: mulish14400.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            color: ColorRes.darkGrey,
+                                      SizedBox(
+                                        width: 7,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'Moderate',
+                                            style: mulish14400.copyWith(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w300,
+                                              color: ColorRes.darkGrey,
+                                            ),
                                           ),
-                                        ),
-                                        Text(
-                                          'Moderate',
-                                          style: mulish14400.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: ColorRes.darkGrey,
+                                          Text(
+                                            'Moderate',
+                                            style: mulish14400.copyWith(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: ColorRes.darkGrey,
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => LikeMatches(),
+                                      ));
+                                },
                               ),
                             ),
                             SizedBox(

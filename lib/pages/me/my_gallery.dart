@@ -1,5 +1,6 @@
 import 'package:date_madly_app/pages/me/my_photo.dart';
 import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
+import 'package:date_madly_app/pages/me/widgets/profile_view_bottomsheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -206,10 +207,15 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                           mainAxisSpacing: 5),
                       itemCount: photoPic.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          height: 60,
-                          child: Image.asset(
-                            photoPic[index],
+                        return GestureDetector(
+                          onTap: () {
+                            profileViewBottomSheet(context);
+                          },
+                          child: Container(
+                            height: 60,
+                            child: Image.asset(
+                              photoPic[index],
+                            ),
                           ),
                         );
                       },
