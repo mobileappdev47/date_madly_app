@@ -236,7 +236,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   Strings.distance,
-                  style: mulish14400.copyWith(color: ColorRes.darkGrey,fontSize: 16.41,fontFamily: Fonts.mulishBold),
+                  style: mulish14400.copyWith(
+                      color: ColorRes.darkGrey,
+                      fontSize: 16.41,
+                      fontFamily: Fonts.mulishBold),
                 )),
             Row(
               children: [
@@ -257,9 +260,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 //SizedBox(width: 25,),
                 Text(
-                  '50 KM',
-                  style: TextStyle(fontSize: 12, color: ColorRes.grey),
-                )
+                  Strings.distancerange,
+                  style: mulish14400.copyWith(color: ColorRes.grey),
+                ),
               ],
             ),
             SizedBox(
@@ -269,7 +272,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   Strings.age,
-                  style: mulish14400.copyWith(color: ColorRes.darkGrey,fontSize: 16.41,fontFamily: Fonts.mulishBold),
+                  style: mulish14400.copyWith(
+                      color: ColorRes.darkGrey,
+                      fontSize: 16.41,
+                      fontFamily: Fonts.mulishBold),
                 )),
             Row(
               children: [
@@ -290,9 +296,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 ),
                 //SizedBox(width: 25,),
                 Text(
-                  '20-30',
-                  style: TextStyle(fontSize: 12, color: ColorRes.grey),
-                )
+                  Strings.agerange,
+                  style: mulish14400.copyWith(color: ColorRes.grey),
+                ),
               ],
             ),
             Expanded(
@@ -312,8 +318,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     borderRadius: BorderRadius.circular(8)),
                 child: Center(
                     child: Text(
-                  'Continue',
-                  style: TextStyle(fontSize: 16, color: ColorRes.white),
+                  Strings.COntinue,
+                  style: poppins.copyWith(fontSize: 16,color: Colors.white),
                 )),
               ),
             ),
@@ -330,8 +336,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   borderRadius: BorderRadius.circular(8)),
               child: Center(
                   child: Text(
-                'Clear',
-                style: TextStyle(fontSize: 16, color: ColorRes.grey),
+                Strings.clear,
+                style: poppins.copyWith(fontSize: 16),
               )),
             )
           ],

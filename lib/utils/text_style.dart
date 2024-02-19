@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'colors.dart';
+import 'font_family.dart';
 
 TextStyle greyText() {
   return TextStyle(
@@ -26,12 +27,12 @@ TextStyle errorText() {
   );
 }
 
-TextStyle title() {
+TextStyle popinsbold() {
   return TextStyle(
       color: ColorRes.darkGrey,
       fontWeight: FontWeight.w600,
       fontSize: 21,
-      fontFamily: 'Poppins'
+      fontFamily: Fonts.poppinsBold
   );
 }
 
@@ -40,6 +41,6 @@ TextStyle appbarTitle() {
       color: ColorRes.appColor,
       fontWeight: FontWeight.w900,
       fontSize: 18,
-      fontFamily: 'Poppins'
+      fontFamily: Fonts.poppins
   );
 }

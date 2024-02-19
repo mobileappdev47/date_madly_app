@@ -1,9 +1,11 @@
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/text_feild_common.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({super.key});
@@ -18,6 +20,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
   TextEditingController numberController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
   var currentIndex = -1;
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorRes.white,
@@ -34,8 +37,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
               color: ColorRes.appColor,
             )),
         title: Text(
-          'Personal Info',
-          style: appbarTitle(),
+          Strings.personal_info,
+          style: mulishbold.copyWith(
+            fontSize: 18.75,
+            color: ColorRes.appColor,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -46,9 +52,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  'Provide personal information for the security of your account, do not give personal information to anyone.',
+                  Strings.provide,
                   textAlign: TextAlign.center,
-                  style: mulish14400.copyWith(color: ColorRes.darkGrey),
+                  style: mulish14400.copyWith(
+                    color: ColorRes.darkGrey,
+                  ),
                 ),
               ),
               SizedBox(
@@ -57,8 +65,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Email Address',
-                  style: mulish14400,
+                  Strings.email_address,
+                  style: mulish14400.copyWith(fontSize: 14.06),
                 ),
               ),
               SizedBox(
@@ -66,9 +74,9 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
               NewTextField(
                 controller: emailController,
-                hintText: 'Brian03@gmail.com',
+                hintText: Strings.email,
                 color: ColorRes.darkGrey,
-                suffix: 'assets/icons/Email.png',
+                suffix: AssertRe.Email,
               ),
               SizedBox(
                 height: 30,
@@ -76,8 +84,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Number Phone',
-                  style: mulish14400,
+                  Strings.number_phone,
+                  style: mulish14400.copyWith(fontSize: 14.06),
                 ),
               ),
               SizedBox(
@@ -104,13 +112,13 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: '+62 812 0101 0101',
+                    hintText: Strings.number,
                     hintStyle: TextStyle(
                         color: ColorRes.grey,
                         fontSize: 15,
                         fontWeight: FontWeight.w500),
                     suffixIcon: Image.asset(
-                      'assets/icons/new_phone.png',
+                      AssertRe.new_phone,
                       scale: 2,
                     ),
                   ),
@@ -122,8 +130,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Birthday',
-                  style: mulish14400,
+                  Strings.birthday,
+                  style: mulish14400.copyWith(fontSize: 14.06),
                 ),
               ),
               SizedBox(
@@ -131,10 +139,10 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
               NewTextField(
                 controller: emailController,
-                hintText: 'January 5, 1996',
+                hintText: Strings.January5,
                 color: ColorRes.darkGrey,
                 readOnly: true,
-                suffix: 'assets/icons/Date_Icon.png',
+                suffix: AssertRe.Date_Icon,
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 30,
@@ -142,8 +150,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
               Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Gender',
-                    style: mulish14400,
+                    Strings.gender,
+                    style: mulish14400.copyWith(fontSize: 14.06),
                   )),
               SizedBox(
                 height: 5,
@@ -175,7 +183,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Image.asset(
-                                    genderIcon[index],
+                                    AssertRe.genderIcon[index],
                                     scale: 3,
                                     color: index == currentIndex
                                         ? ColorRes.appColor
@@ -186,8 +194,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                                   ),
                                   Text(
                                     gender[index],
-                                    style: mulish14400.copyWith(
-                                      fontFamily: "MulishBold",
+                                    style: mulishbold.copyWith(
                                       fontSize: 13,
                                       color: index == currentIndex
                                           ? ColorRes.appColor
@@ -216,11 +223,11 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   ),
                   child: Center(
                     child: Text(
-                      'Save',
-                      style: mulish14400.copyWith(
-                          fontSize: 16,
-                          color: ColorRes.white,
-                          fontFamily: 'MulishBold'),
+                      Strings.save,
+                      style: mulishbold.copyWith(
+                        fontSize: 16,
+                        color: ColorRes.white,
+                      ),
                     ),
                   ),
                 ),
@@ -233,5 +240,4 @@ class _PersonalInfoState extends State<PersonalInfo> {
   }
 
   List gender = ['Male', 'Female'];
-  List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
 }

@@ -1,6 +1,8 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/chat/my_matches.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/body_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -13,6 +15,7 @@ import '../../common/text_feild_common.dart';
 import '../../network/api.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import '../map/map_page_1.dart';
 import '../me/personal_info.dart';
 import '../new/enter_personal_data/enter_personal_data_screen.dart';
@@ -54,15 +57,18 @@ class _ChatState extends State<Chat> {
             },
           ),
           title: Text(
-            'Chat',
-            style: appbarTitle(),
+            Strings.chat,
+            style: mulishbold.copyWith(
+              fontSize: 18.75,
+              color: ColorRes.appColor,
+            ),
           ),
           actions: [
             value.isImage == true
                 ? Row(
                     children: [
                       Image.asset(
-                        'assets/icons/Archive_Icon.png',
+                        AssertRe.Archive_Icon,
                         scale: 3,
                       ),
                       SizedBox(
@@ -74,7 +80,7 @@ class _ChatState extends State<Chat> {
                           setState(() {});
                         },
                         child: Image.asset(
-                          'assets/icons/Dump_Icon.png',
+                          AssertRe.Dump_Icon,
                           scale: 3,
                         ),
                       ),
@@ -94,8 +100,8 @@ class _ChatState extends State<Chat> {
                     const EdgeInsets.symmetric(horizontal: 26, vertical: 25),
                 child: NewTextField(
                   controller: value.searchController,
-                  hintText: 'Search Massages',
-                  prefix: 'assets/icons/Search_Icon.png',
+                  hintText: Strings.search_massages,
+                  prefix: AssertRe.Search_Icon,
                 ),
               ),
               Row(
@@ -104,11 +110,11 @@ class _ChatState extends State<Chat> {
                     width: 20,
                   ),
                   Text(
-                    'New Matches',
-                    style: TextStyle(
-                        color: ColorRes.darkGrey,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700),
+                    Strings.new_matches,
+                    style: mulishbold.copyWith(
+                      fontSize: 15,
+                      color: ColorRes.darkGrey,
+                    ),
                   ),
                   Spacer(),
                   TextButton(
@@ -123,11 +129,11 @@ class _ChatState extends State<Chat> {
                     child: Row(
                       children: [
                         Text(
-                          'Show All',
-                          style: TextStyle(
-                              color: ColorRes.appColor,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600),
+                          Strings.show_all,
+                          style: mulishbold.copyWith(
+                            fontSize: 15,
+                            color: ColorRes.appColor,
+                          ),
                         ),
                         SizedBox(
                           width: 4,
@@ -163,11 +169,13 @@ class _ChatState extends State<Chat> {
                   alignment: Alignment.centerLeft,
                   child: Padding(
                     padding: EdgeInsets.only(left: 26),
-                    child: Text('Messages',
-                        style: TextStyle(
-                            color: ColorRes.darkGrey,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700)),
+                    child: Text(
+                      Strings.messages,
+                      style: mulishbold.copyWith(
+                        fontSize: 14,
+                        color: ColorRes.darkGrey,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -194,69 +202,72 @@ class _ChatState extends State<Chat> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 5),
                       child: Container(
-                          padding: EdgeInsets.all(15),
-                          height: 80,
-                          width: MediaQuery.of(context).size.width,
-                          color: value.boolList[index]
-                              ? ColorRes.appColor.withOpacity(0.2)
-                              : ColorRes.lgrey,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Image.asset(
-                                    value.image[index],
-                                    scale: 3,
-                                  ),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: Row(
-                                          children: [
-                                            Text('Patrcia',
-                                                style: TextStyle(
-                                                    color: ColorRes.darkGrey,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.w700)),
-                                            SizedBox(
-                                              width: 130,
+                        padding: EdgeInsets.all(15),
+                        height: 80,
+                        width: MediaQuery.of(context).size.width,
+                        color: value.boolList[index]
+                            ? ColorRes.appColor.withOpacity(0.2)
+                            : ColorRes.lgrey,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset(
+                                  value.image[index],
+                                  scale: 3,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            Strings.patrcia,
+                                            style: mulishbold.copyWith(
+                                              fontSize: 14,
+                                              color: ColorRes.darkGrey,
                                             ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 15),
-                                              child: Text('08:33 PM',
-                                                  style: TextStyle(
-                                                      color:
-                                                          Color(0xffACACAC))),
+                                          ),
+                                          SizedBox(
+                                            width: 130,
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 15),
+                                            child: Text(
+                                              Strings.pm,
+                                              style: mulishbold.copyWith(
+                                                fontSize: 14,
+                                                color: ColorRes.grey,
+                                              ),
                                             ),
-                                          ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 15),
+                                      child: SizedBox(
+                                        width: 260,
+                                        child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          Strings.Omg,
+                                          style: mulishbold.copyWith(
+                                              fontSize: 12,
+                                              color: ColorRes.grey),
                                         ),
                                       ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 15),
-                                        child: SizedBox(
-                                          width: 260,
-                                          child: Text(
-                                            overflow: TextOverflow.ellipsis,
-                                            'Omg, that was so much fun. Let\'s goto there',
-                                            style: TextStyle(
-                                                color: Color(0xffACACAC)),
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          )),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),

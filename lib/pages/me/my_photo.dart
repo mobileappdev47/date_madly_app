@@ -1,9 +1,11 @@
 import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/text_style.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import '../chat/call.dart';
 import 'edit_profile.dart';
 import 'main.dart';
@@ -53,9 +55,8 @@ class MyPhotoScreen extends StatelessWidget {
                 title: Row(
                   children: [
                     Text(
-                      "My Photo",
-                      style: mulish14400.copyWith(
-                        fontFamily: "MulishBold",
+                      Strings.myPhoto,
+                      style: mulishbold.copyWith(
                         fontSize: 18.75,
                         color: ColorRes.appColor,
                       ),
@@ -133,7 +134,7 @@ class MyPhotoScreen extends StatelessWidget {
                     radius: 30,
                     backgroundColor: ColorRes.white,
                     child: Image.asset(
-                      'assets/icons/Camera2.png',
+                      AssertRe.Camera2,
                       scale: 2.5,
                       color: ColorRes.appColor,
                     ),
@@ -153,7 +154,7 @@ class MyPhotoScreen extends StatelessWidget {
                     radius: 40,
                     backgroundColor: ColorRes.appColor,
                     child: Image.asset(
-                      'assets/icons/Upload_Icon.png',
+                      AssertRe.Upload_Icon,
                       scale: 1.1,
                     ),
                   ),
@@ -172,7 +173,7 @@ class MyPhotoScreen extends StatelessWidget {
                     radius: 30,
                     backgroundColor: ColorRes.white,
                     child: Image.asset(
-                      'assets/icons/Video Call.png',
+                      AssertRe.Video_Call,
                       color: ColorRes.appColor,
                       scale: 3.5,
                     ),

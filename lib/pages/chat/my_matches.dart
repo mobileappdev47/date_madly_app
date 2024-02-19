@@ -1,10 +1,13 @@
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/text_feild_common.dart';
+import '../../common/text_style.dart';
 import '../../providers/chat_provider.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import 'chat_message.dart';
 
 class MyMatches extends StatelessWidget {
@@ -37,15 +40,18 @@ class MyMatches extends StatelessWidget {
             },
           ),
           title: Text(
-            'Matches',
-            style: appbarTitle(),
+            Strings.matches,
+            style: mulishbold.copyWith(
+              fontSize: 18.75,
+              color: ColorRes.appColor,
+            ),
           ),
           actions: [
             Builder(
               builder: (BuildContext context) {
                 return IconButton(
                   icon: Image.asset(
-                    'assets/icons/Filter Icon.png',
+                    AssertRe.Filter_Icon,
                     scale: 1.2,
                   ),
                   onPressed: () {
@@ -62,8 +68,8 @@ class MyMatches extends StatelessWidget {
             children: [
               NewTextField(
                 controller: value.searchController,
-                hintText: 'Search Massages',
-                prefix: 'assets/icons/Search_Icon.png',
+                hintText:Strings.search_massages,
+                prefix: AssertRe.Search_Icon,
               ),
               SizedBox(
                 height: 20,
@@ -92,16 +98,18 @@ class MyMatches extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Patrcia',
-                              style: TextStyle(
-                                  color: ColorRes.darkGrey,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w700)),
+                          Text(Strings.patrcia,
+                              style: mulishbold.copyWith(
+                                fontSize: 15,
+                                color: ColorRes.darkGrey,
+                              ),),
                           Text(
                             overflow: TextOverflow.ellipsis,
-                            'Fashion Designer',
-                            style: TextStyle(
-                              color: Color(0xffACACAC),
+                            Strings.fashion_designer,
+                            style: mulish14400.copyWith(
+                              fontSize: 14,
+                              color: ColorRes.grey,
+
                             ),
                           ),
                         ],
@@ -117,7 +125,7 @@ class MyMatches extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(7.0),
                           child: Image.asset(
-                            "assets/icons/Chat.png",
+                            AssertRe.chat,
                             color: ColorRes.white,
                             height: 14,
                           ),

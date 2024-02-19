@@ -1,7 +1,12 @@
 import 'package:date_madly_app/common/text_feild_common.dart';
+import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/font_family.dart';
+import '../../utils/texts.dart';
 
 class MyUpload_Photo extends StatelessWidget {
   MyUpload_Photo({super.key});
@@ -18,7 +23,9 @@ class MyUpload_Photo extends StatelessWidget {
             height: 375,
             width: double.maxFinite,
             child: Image(
-              image: AssetImage("assets/icons/Add Image_01.png"),
+              image: AssetImage(
+                AssertRe.Add_Image_01,
+              ),
               fit: BoxFit.fill,
             ),
           ),
@@ -33,7 +40,7 @@ class MyUpload_Photo extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                   child: NewTextField(
                       controller: controller,
-                      hintText: "Write a caption ...",
+                      hintText: Strings.caption,
                       maxLines: 5),
                 ),
                 GestureDetector(
@@ -51,8 +58,12 @@ class MyUpload_Photo extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
                         child: Text(
-                          'Save',
-                          style: TextStyle(fontSize: 16, color: ColorRes.white),
+                          Strings.upload,
+                          style: mulishbold.copyWith(
+                            fontSize: 16,
+                            color: ColorRes.white,
+                            fontFamily: Fonts.poppinsBold,
+                          ),
                         ),
                       ),
                     ),

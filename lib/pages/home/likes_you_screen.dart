@@ -1,8 +1,12 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../utils/texts.dart';
 
 class LikesYouScreen extends StatefulWidget {
   const LikesYouScreen({Key? key}) : super(key: key);
@@ -24,7 +28,7 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
             builder: (BuildContext context) {
               return IconButton(
                 icon: Image.asset(
-                  'assets/icons/drawer.png',
+                  AssertRe.drawer,
                   scale: 3,
                 ),
                 onPressed: () {
@@ -34,8 +38,11 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
             },
           ),
           title: Text(
-            'Likes You',
-            style: appbarTitle(),
+            Strings.likeyou,
+            style: poppins.copyWith(
+              color: ColorRes.appColor,
+              fontSize: 18,
+            ),
           ),
           actions: [
             Padding(
@@ -45,7 +52,7 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
                   value.showNotificationContainer(context);
                 },
                 icon: Image.asset(
-                  'assets/icons/Notification.png',
+                  AssertRe.notification,
                   scale: 2.5,
                 ),
               ),
@@ -60,7 +67,7 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Image.asset(
-                'assets/images/likesYou.png',
+                AssertRe.likesYou,
                 scale: 3,
               ),
             ),
@@ -70,13 +77,12 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 26),
               child: Text(
-                'No one has like you. Try uploading images to get likes',
+                Strings.noone,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14,
-                    fontFamily: 'poppinsBold',
-                    color: ColorRes.darkGrey),
+                style: mulishbold.copyWith(
+                  color: ColorRes.darkGrey,
+                  fontSize: 14,
+                ),
               ),
             ),
           ],

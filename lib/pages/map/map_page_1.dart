@@ -1,8 +1,11 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/map/search_find_date_map.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/texts.dart';
 
 class MapScreen1 extends StatelessWidget {
   const MapScreen1({super.key});
@@ -28,14 +31,14 @@ class MapScreen1 extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hi,',
+                            Strings.hi,
                             style: mulish14400.copyWith(fontSize: 14),
                           ),
                           SizedBox(
                             height: 21,
                           ),
                           Text(
-                            'Brian Immanuel,',
+                            Strings.brian_immanuel,
                             style: mulish14400.copyWith(
                               fontSize: 35,
                               color: ColorRes.appColor,
@@ -56,7 +59,7 @@ class MapScreen1 extends StatelessWidget {
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: AssetImage(
-                                    "assets/icons/Add Image_01.png",
+                                  AssertRe.Add_Image_01,
                                   ),
                                 ),
                                 color: ColorRes.black,
@@ -84,14 +87,14 @@ class MapScreen1 extends StatelessWidget {
                           height: 170,
                         ),
                         Text(
-                          "Let's find your ",
+                          Strings.Let_find_your,
                           style: mulish14400.copyWith(
                               fontSize: 28, color: ColorRes.appColor),
                         ),
                         Row(
                           children: [
                             Text(
-                              "DATE",
+                              Strings.date,
                               style: mulish14400.copyWith(
                                 fontSize: 28,
                                 color: ColorRes.appColor,
@@ -102,7 +105,7 @@ class MapScreen1 extends StatelessWidget {
                               width: 14,
                             ),
                             Text(
-                              "now !",
+                              Strings.now,
                               style: mulish14400.copyWith(
                                   fontSize: 28, color: ColorRes.appColor),
                             ),
@@ -116,7 +119,7 @@ class MapScreen1 extends StatelessWidget {
                           width: MediaQuery.of(context).size.width / 1,
                           child: CupertinoButton(
                             color: ColorRes.appColor,
-                            child: Text('Sign Up'),
+                            child: Text(Strings.sign_up),
                             onPressed: () {
                               Navigator.push(
                                 context,

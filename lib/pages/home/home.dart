@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/pages/home/image_scroll.dart';
 import 'package:date_madly_app/pages/home/lady_bottomsheet.dart';
 import 'package:date_madly_app/pages/home/likes_you_screen.dart';
 import 'package:date_madly_app/pages/home/widget/drawer.dart';
 import 'package:date_madly_app/pages/new_match/new_match_screen.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/enum/api_request_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -15,6 +17,8 @@ import '../../providers/home_main_provider.dart';
 import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
+import '../likes/main.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -27,9 +31,9 @@ class _HomeState extends State<Home> {
   String? selectGender;
 
   List swipeList = [
-    'assets/images/lady.png',
-    'assets/images/lady.png',
-    'assets/images/lady.png'
+    AssertRe.homelady,
+    AssertRe.homelady,
+    AssertRe.homelady,
   ];
 
   @override
@@ -47,7 +51,7 @@ class _HomeState extends State<Home> {
             builder: (BuildContext context) {
               return IconButton(
                 icon: Image.asset(
-                  'assets/icons/drawer.png',
+                  AssertRe.drawer,
                   scale: 3,
                 ),
                 onPressed: () {
@@ -57,8 +61,11 @@ class _HomeState extends State<Home> {
             },
           ),
           title: Text(
-            'Home',
-            style: appbarTitle(),
+            Strings.home,
+            style: mulishbold.copyWith(
+              fontSize: 18.75,
+              color: ColorRes.appColor,
+            ),
           ),
           actions: [
             Padding(
@@ -68,7 +75,7 @@ class _HomeState extends State<Home> {
                   value.showNotificationContainer(context);
                 },
                 icon: Image.asset(
-                  'assets/icons/Notification.png',
+                  AssertRe.notification,
                   scale: 2.5,
                 ),
               ),
@@ -138,18 +145,19 @@ class _HomeState extends State<Home> {
                                           height: 10,
                                         ),
                                         Text(
-                                          'Jennifer, 22',
-                                          style: greyText().copyWith(
-                                              fontSize: 20,
-                                              color: ColorRes.darkGrey,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamily: 'Mulish'),
+                                          Strings.jennifer,
+                                          style: mulishbold.copyWith(
+                                            color: ColorRes.darkGrey,
+                                            fontSize: 20,
+                                          ),
                                         ),
                                         //SizedBox(height: 10,),
                                         Text(
-                                          'Model Fashion',
-                                          style: greyText().copyWith(
-                                              fontWeight: FontWeight.w500),
+                                          Strings.modelfashion,
+                                          style: mulish14400.copyWith(
+                                            fontSize: 12,
+                                            color: ColorRes.grey,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -157,16 +165,18 @@ class _HomeState extends State<Home> {
                                       width: 60,
                                     ),
                                     Image.asset(
-                                        'assets/icons/Location_Icon.png',
-                                        scale: 4.5,
-                                        color: ColorRes.appColor),
+                                      AssertRe.Location_Icon,
+                                      scale: 4.5,
+                                      color: ColorRes.appColor,
+                                    ),
                                     SizedBox(
                                       width: 10,
                                     ),
                                     Text(
-                                      '5 km',
-                                      style: greyText().copyWith(
-                                          fontWeight: FontWeight.w500),
+                                      Strings.homeKM,
+                                      style: mulish14400.copyWith(
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -226,7 +236,7 @@ class _HomeState extends State<Home> {
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (c) => NewMatchScreen()));
+                          MaterialPageRoute(builder: (c) => Likes()));
                     },
                     child: Container(
                       height: 50,

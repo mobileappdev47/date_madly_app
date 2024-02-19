@@ -2,11 +2,13 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/me/my_photo.dart';
 import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:date_madly_app/pages/me/widgets/profile_view_bottomsheet.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import 'main.dart';
 
 class MyGalleryScreen extends StatefulWidget {
@@ -38,9 +40,8 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
               color: ColorRes.appColor,
             )),
         title: Text(
-          'My Gallery',
-          style: mulish14400.copyWith(
-            fontFamily: "MulishBold",
+          Strings.mygallery,
+          style: mulishbold.copyWith(
             fontSize: 20,
             color: ColorRes.appColor,
           ),
@@ -58,7 +59,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                       alignment: Alignment.bottomRight,
                       children: [
                         Image.asset(
-                          'assets/icons/Add Image_Profile.png',
+                          AssertRe.addimageprofile,
                           scale: 3,
                         ),
                         GestureDetector(
@@ -78,7 +79,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                               color: ColorRes.white,
                             ),
                             child: Image.asset(
-                              "assets/icons/Edit_Icon.png",
+                              AssertRe.Edit_Icon,
                               scale: 1,
                             ),
                           ),
@@ -91,9 +92,8 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                   ),
                   // Text(getEmail().toString()),
                   Text(
-                    'Brian Immanuel, 24',
-                    style: mulish14400.copyWith(
-                      fontFamily: "MulishBold",
+                    Strings.brianimmanuel,
+                    style: mulishbold.copyWith(
                       fontSize: 23.44,
                       color: ColorRes.darkGrey,
                     ),
@@ -102,9 +102,8 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                     height: 10,
                   ),
                   Text(
-                    'Graphic Designer',
-                    style: mulish14400.copyWith(
-                      fontFamily: "MulishBold",
+                    Strings.graphicdesigner,
+                    style: mulishbold.copyWith(
                       fontSize: 18.75,
                       color: ColorRes.grey,
                     ),
@@ -119,17 +118,15 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                       Column(
                         children: [
                           Text(
-                            '30',
-                            style: mulish14400.copyWith(
-                              fontFamily: "MulishBold",
+                            Strings.size,
+                            style: mulishbold.copyWith(
                               fontSize: 32.81,
                               color: ColorRes.darkGrey,
                             ),
                           ),
                           Text(
-                            'Photo',
-                            style: mulish14400.copyWith(
-                              fontFamily: "MulishBold",
+                            Strings.photo,
+                            style: mulishbold.copyWith(
                               fontSize: 14.06,
                               color: ColorRes.grey,
                             ),
@@ -139,17 +136,15 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                       Column(
                         children: [
                           Text(
-                            '10',
-                            style: mulish14400.copyWith(
-                              fontFamily: "MulishBold",
+                            Strings.size2,
+                            style: mulishbold.copyWith(
                               fontSize: 32.81,
                               color: ColorRes.darkGrey,
                             ),
                           ),
                           Text(
-                            'Video',
-                            style: mulish14400.copyWith(
-                              fontFamily: "MulishBold",
+                            Strings.video,
+                            style: mulishbold.copyWith(
                               fontSize: 14.06,
                               color: ColorRes.grey,
                             ),
@@ -215,9 +210,10 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 5),
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 0,
+                        mainAxisSpacing: 5,
+                      ),
                       itemCount: photoPic.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
@@ -256,7 +252,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                     radius: 40,
                     backgroundColor: ColorRes.appColor,
                     child: Image.asset(
-                      'assets/icons/Camera.png',
+                      AssertRe.Camera,
                       scale: 3.5,
                     ),
                   ),
@@ -270,7 +266,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
   }
 
   List year = [
-    'assets/icons/Feed.png',
-    'assets/icons/Movie.png',
+    AssertRe.Feed,
+    AssertRe.Movie,
   ];
 }

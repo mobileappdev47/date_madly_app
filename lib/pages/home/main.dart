@@ -32,7 +32,7 @@ class _HomeMainState extends State<HomeMain> {
     Home(),
     Chat(),
     Likes(),
-    Me()
+    Profile()
   ];
 
   @override

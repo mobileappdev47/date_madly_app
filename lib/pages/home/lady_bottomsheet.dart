@@ -1,8 +1,11 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/like_matches.dart';
 import 'package:date_madly_app/pages/me/my_gallery.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/texts.dart';
 
 ladyBottomSheetUI(BuildContext context) {
   double width = MediaQuery.of(context).size.width;
@@ -28,7 +31,7 @@ ladyBottomSheetUI(BuildContext context) {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
-                              'assets/icons/Add Image.png',
+                              AssertRe.addimages,
                             ),
                             fit: BoxFit.cover),
                       ),
@@ -65,7 +68,7 @@ ladyBottomSheetUI(BuildContext context) {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Jennifer, 22',
+                          Strings.jennifer,
                           style: mulish14400.copyWith(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
@@ -73,7 +76,7 @@ ladyBottomSheetUI(BuildContext context) {
                           ),
                         ),
                         Text(
-                          'Jakarta, Indonesia',
+                          Strings.Jakarta,
                           style: mulish14400.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -129,7 +132,7 @@ ladyBottomSheetUI(BuildContext context) {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            'Moderate',
+                                            Strings.moderate,
                                             style: mulish14400.copyWith(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w300,
@@ -137,7 +140,7 @@ ladyBottomSheetUI(BuildContext context) {
                                             ),
                                           ),
                                           Text(
-                                            'Moderate',
+                                            Strings.moderate,
                                             style: mulish14400.copyWith(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w600,
@@ -204,7 +207,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
@@ -212,7 +215,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           ),
                                         ),
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -275,7 +278,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
@@ -283,7 +286,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           ),
                                         ),
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -342,7 +345,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
@@ -350,7 +353,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           ),
                                         ),
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -413,7 +416,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
@@ -421,7 +424,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           ),
                                         ),
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -480,7 +483,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w300,
@@ -488,7 +491,7 @@ ladyBottomSheetUI(BuildContext context) {
                                           ),
                                         ),
                                         Text(
-                                          'Moderate',
+                                          Strings.moderate,
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -509,7 +512,7 @@ ladyBottomSheetUI(BuildContext context) {
                         Row(
                           children: [
                             Text(
-                              'Gallery',
+                              Strings.gallery,
                               style: mulish14400.copyWith(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w300,
@@ -519,7 +522,7 @@ ladyBottomSheetUI(BuildContext context) {
                             Spacer(),
                             GestureDetector(
                               child: Text(
-                                'See All',
+                                Strings.seeall,
                                 style: mulish14400.copyWith(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w300,
@@ -549,7 +552,7 @@ ladyBottomSheetUI(BuildContext context) {
                             Expanded(
                                 child: ClipRRect(
                               child: Image.asset(
-                                'assets/icons/Add Image.png',
+                                AssertRe.addimages,
                                 height: 200,
                                 fit: BoxFit.cover,
                               ),
@@ -561,7 +564,7 @@ ladyBottomSheetUI(BuildContext context) {
                             Expanded(
                                 child: ClipRRect(
                               child: Image.asset(
-                                'assets/icons/Add Image.png',
+                                AssertRe.addimages,
                                 height: 200,
                                 fit: BoxFit.cover,
                               ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../common/text_feild_common.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -39,11 +40,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                 color: ColorRes.appColor,
               )),
           title: Text(
-            'Change Password',
-            style: mulish14400.copyWith(
-                fontFamily: 'MulishBold',
-                fontSize: 20,
-                color: ColorRes.appColor),
+            Strings.change_password,
+            style: mulishbold.copyWith(
+              fontSize: 20,
+              color: ColorRes.appColor,
+            ),
           ),
         ),
         body: Padding(
@@ -56,10 +57,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Current Password',
+                  Strings.current_password,
                   style: mulish14400.copyWith(
-                    fontFamily: 'MulishRegular',
-                    color: ColorRes.grey,
+                    color: ColorRes.grey,fontSize: 14.06
                   ),
                 ),
               ),
@@ -68,7 +68,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               NewTextField(
                 controller: confirmController,
-                hintText: 'Current Password',
+                hintText: Strings.current_password,
                 color: ColorRes.darkGrey,
                 obscureText: true,
               ),
@@ -78,10 +78,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'New Password',
+                  Strings.new_password,
                   style: mulish14400.copyWith(
-                    fontFamily: 'MulishRegular',
-                    color: ColorRes.grey,
+                    color: ColorRes.grey,fontSize: 14.06
                   ),
                 ),
               ),
@@ -90,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               NewTextField(
                 controller: newController,
-                hintText: 'New Password',
+                hintText: Strings.new_password,
                 color: ColorRes.darkGrey,
                 obscureText: true,
               ),
@@ -100,10 +99,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Confirm New Password',
+                  Strings.confirm_new_password,
                   style: mulish14400.copyWith(
-                    fontFamily: 'MulishRegular',
-                    color: ColorRes.grey,
+                    color: ColorRes.grey,fontSize: 14.06
                   ),
                 ),
               ),
@@ -112,7 +110,7 @@ class _ChangePasswordState extends State<ChangePassword> {
               ),
               NewTextField(
                 controller: confirmNewController,
-                hintText: 'Confirm New Password',
+                hintText: Strings.confirm_new_password,
                 color: ColorRes.darkGrey,
                 obscureText: true,
               ),
@@ -133,9 +131,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                   borderRadius: BorderRadius.circular(8)),
               child: Center(
                   child: Text(
-                'Save',
-                style: mulish14400.copyWith(
-                  fontFamily: 'MulishBold',
+                Strings.save,
+                style: mulishbold.copyWith(
                   fontSize: 16,
                   color: ColorRes.white,
                 ),

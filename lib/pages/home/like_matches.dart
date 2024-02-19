@@ -1,4 +1,5 @@
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,19 +7,21 @@ import 'package:provider/provider.dart';
 import '../../common/text_feild_common.dart';
 import '../../providers/chat_provider.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 
 class LikeMatches extends StatelessWidget {
   LikeMatches({super.key});
 
   @override
   List image = [
-    'assets/icons/Add Image (1).png',
-    'assets/icons/Add Image_04.png',
-    'assets/icons/Add Image_06.png',
-    'assets/icons/Add Image (1).png',
-    'assets/icons/Add Image_04.png',
-    'assets/icons/Add Image_06.png',
+    AssertRe.Add_Image,
+    AssertRe.Add_Image_04,
+    AssertRe.Add_Image_06,
+    AssertRe.Add_Image,
+    AssertRe.Add_Image_04,
+    AssertRe.Add_Image_06,
   ];
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorRes.white,
@@ -39,7 +42,7 @@ class LikeMatches extends StatelessWidget {
           },
         ),
         title: Text(
-          ' Jeniffer Matches',
+          Strings.jeniffer_matches,
           style: mulish14400.copyWith(
               color: ColorRes.appColor,
               fontSize: 15,
@@ -50,7 +53,7 @@ class LikeMatches extends StatelessWidget {
             builder: (BuildContext context) {
               return IconButton(
                 icon: Image.asset(
-                  'assets/icons/Filter Icon.png',
+                  AssertRe.Filter_Icon,
                   scale: 1.3,
                 ),
                 onPressed: () {
@@ -67,8 +70,8 @@ class LikeMatches extends StatelessWidget {
           children: [
             NewTextField(
               controller: TextEditingController(),
-              hintText: 'Search a Message',
-              prefix: 'assets/icons/Search_Icon.png',
+              hintText: Strings.Search_a_Message,
+              prefix: AssertRe.Search_Icon,
             ),
             SizedBox(
               height: 20,
@@ -99,17 +102,19 @@ class LikeMatches extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            Text('Patrcia',
-                                style: TextStyle(
-                                    color: ColorRes.darkGrey,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w700)),
+                            Text(
+                              Strings.patrcia,
+                              style: mulishbold.copyWith(
+                                fontSize: 16.41,
+                                color: ColorRes.darkGrey,
+                              ),
+                            ),
                           ],
                         ),
                         Text(
                           overflow: TextOverflow.ellipsis,
-                          'Fashion Designer',
-                          style: TextStyle(color: Color(0xffACACAC)),
+                          Strings.Fashion_Designer,
+                          style: mulish14400.copyWith(fontSize: 14),
                         ),
                       ],
                     ),

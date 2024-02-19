@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable
 
 import 'package:date_madly_app/network/api.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
@@ -10,9 +11,11 @@ import 'package:provider/provider.dart';
 
 // import 'package:timeago/timeago.dart' as timeago;
 import '../../common/text_feild_common.dart';
+import '../../common/text_style.dart';
 import '../../providers/chat_provider.dart';
 import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
+import '../../utils/texts.dart';
 import 'call.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -60,7 +63,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 title: Row(
                   children: [
                     Image.asset(
-                      'assets/icons/Add Image (1).png',
+                      AssertRe.Add_Image,
                       scale: 3,
                       fit: BoxFit.fill,
                     ),
@@ -72,20 +75,22 @@ class _ChatScreenState extends State<ChatScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Patricia',
-                          style: TextStyle(
-                              color: ColorRes.darkGrey,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700),
+                          Strings.Patricia,
+                          style: mulishbold.copyWith(
+                            fontSize: 20,
+                            color: ColorRes.darkGrey,
+                          ),
                         ),
                         SizedBox(
                           height: 5,
                         ),
-                        Text('Online',
-                            style: TextStyle(
-                                color: ColorRes.darkGrey,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w400))
+                        Text(
+                          Strings.online,
+                          style: mulishbold.copyWith(
+                            fontSize: 15,
+                            color: ColorRes.darkGrey,
+                          ),
+                        )
                       ],
                     )
                   ],
@@ -93,7 +98,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 actions: [
                   IconButton(
                     icon: Image.asset(
-                      'assets/icons/Call.png',
+                      AssertRe.Call,
                       scale: 3,
                     ),
                     onPressed: () {
@@ -104,7 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   IconButton(
                     icon: Image.asset(
-                      'assets/icons/Video Call.png',
+                      AssertRe.Video_Call,
                       scale: 3,
                     ),
                     onPressed: () {},
@@ -135,9 +140,10 @@ class _ChatScreenState extends State<ChatScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Text(
-                      'Hi Patricia, You look beautiful.',
-                      style: TextStyle(
-                        color: Colors.white,
+                      Strings.hipatricia,
+                      style: mulish14400.copyWith(
+                        fontSize: 12,
+                        color: ColorRes.darkGrey,
                       ),
                     ),
                   ),
@@ -169,9 +175,10 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     child: SizedBox(
                       child: Text(
-                        'Almost all music genres I like, \n but what I like best is rock and roll music.',
-                        style: TextStyle(
-                          color: Colors.grey,
+                        Strings.almost_all,
+                        style: mulishbold.copyWith(
+                          fontSize: 12,
+                          color: ColorRes.grey,
                         ),
                       ),
                     ),
@@ -203,12 +210,12 @@ class _ChatScreenState extends State<ChatScreen> {
                       borderRadius: BorderRadius.circular(15),
                       borderSide: BorderSide(color: Colors.transparent),
                     ),
-                    hintText: 'Write a message',
+                    hintText: Strings.write_a_message,
                     border: InputBorder.none,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.only(right: 13.0),
                       child: Image.asset(
-                        'assets/icons/Emoticon.png',
+                        AssertRe.Emoticon,
                         color: ColorRes.grey,
                         scale: 3,
                       ),
@@ -216,7 +223,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     suffixIcon: Padding(
                       padding: const EdgeInsets.only(right: 13.0),
                       child: Image.asset(
-                        'assets/icons/Camera2.png',
+                        AssertRe.Camera2,
                         color: ColorRes.grey,
                         scale: 3,
                       ),
@@ -231,7 +238,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 radius: 25,
                 backgroundColor: ColorRes.appColor,
                 child: Image.asset(
-                  'assets/icons/Send.png',
+                  AssertRe.Send,
                   scale: 4,
                 ),
               )

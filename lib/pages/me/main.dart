@@ -2,6 +2,7 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +13,18 @@ import '../../providers/app_provider.dart';
 import '../../theme/theme_config.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import 'change_password.dart';
 import 'my_gallery.dart';
 
-class Me extends StatefulWidget {
-  const Me({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<Me> createState() => _MeState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _MeState extends State<Me> {
+class _ProfileState extends State<Profile> {
   Future<String?> getEmail() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('email');
@@ -50,9 +52,8 @@ class _MeState extends State<Me> {
               color: ColorRes.appColor,
             )),
         title: Text(
-          'Profile',
-          style: mulish14400.copyWith(
-            fontFamily: 'MulishBold',
+          Strings.profile,
+          style: mulishbold.copyWith(
             color: ColorRes.appColor,
             fontSize: 18.75,
           ),
@@ -65,7 +66,7 @@ class _MeState extends State<Me> {
                 showNotificationContainer(context);
               },
               child: Image.asset(
-                'assets/icons/Setting.png',
+                AssertRe.Setting,
                 scale: 3,
               ),
             ),
@@ -79,7 +80,7 @@ class _MeState extends State<Me> {
             children: [
               Center(
                 child: Image.asset(
-                  'assets/icons/Add Image_Profile.png',
+                  AssertRe.Add_Image_Profile,
                   scale: 3,
                 ),
               ),
@@ -88,10 +89,9 @@ class _MeState extends State<Me> {
               ),
               // Text(getEmail().toString()),
               Text(
-                'Brian Immanuel, 24',
-                style: mulish14400.copyWith(
+                Strings.Brian_Immanuel,
+                style: mulishbold.copyWith(
                     fontSize: 20,
-                    fontFamily: "MulishBold",
                     color: ColorRes.darkGrey,
                     fontWeight: FontWeight.w700),
               ),
@@ -116,9 +116,8 @@ class _MeState extends State<Me> {
                         width: 5,
                       ),
                       Text(
-                        '10 K',
-                        style: mulish14400.copyWith(
-                          fontFamily: 'MulishBold',
+                        Strings.profilesize,
+                        style: mulishbold.copyWith(
                           fontSize: 14.06,
                           color: ColorRes.appColor,
                         ),
@@ -169,7 +168,7 @@ class _MeState extends State<Me> {
               // Text(getEmail().toString()),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text('About Me',
+                child: Text(Strings.about_me,
                     style: mulish14400.copyWith(
                         fontSize: 18,
                         color: ColorRes.darkGrey,
@@ -178,21 +177,19 @@ class _MeState extends State<Me> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                "I\'m here when you need a sunny day,something good.We can sing together on the beach and burn bonfires at night with the moonlight. See you under the night sky !",
-                style: TextStyle(color: ColorRes.grey),
-              ),
+              Text(Strings.about,
+                  style: mulish14400.copyWith(color: ColorRes.grey)),
               SizedBox(
                 height: 20,
               ),
               Row(
                 children: [
                   Text(
-                    'Gallery',
-                    style: mulish14400.copyWith(
-                        color: ColorRes.darkGrey,
-                        fontSize: 16,
-                        fontFamily: 'MulishBold'),
+                    Strings.gallery,
+                    style: mulishbold.copyWith(
+                      color: ColorRes.darkGrey,
+                      fontSize: 16,
+                    ),
                   ),
                   Spacer(),
                   GestureDetector(
@@ -202,9 +199,8 @@ class _MeState extends State<Me> {
                       ));
                     },
                     child: Text(
-                      'Show All',
-                      style: mulish14400.copyWith(
-                        fontFamily: 'MulishBold',
+                      Strings.show_all,
+                      style: mulishbold.copyWith(
                         color: ColorRes.appColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -275,16 +271,15 @@ class _MeState extends State<Me> {
                         Row(
                           children: [
                             Text(
-                              'Settings',
-                              style: mulish14400.copyWith(
-                                fontFamily: 'MulishBold',
+                              Strings.notification,
+                              style: mulishbold.copyWith(
                                 color: ColorRes.appColor,
                                 fontSize: 18,
                               ),
                             ),
                             Spacer(),
                             Image.asset(
-                              'assets/icons/Setting.png',
+                              AssertRe.Setting,
                               scale: 3,
                             )
                           ],
@@ -318,12 +313,10 @@ class _MeState extends State<Me> {
                                                       Alignment.centerLeft,
                                                   child: Text(
                                                     settingData[index],
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color:
-                                                            ColorRes.darkGrey,
-                                                        fontSize: 14),
+                                                    style: mulishbold.copyWith(
+                                                      color: ColorRes.darkGrey,
+                                                      fontSize: 16.41,
+                                                    ),
                                                   ),
                                                 ),
                                                 SizedBox(
@@ -358,18 +351,20 @@ class _MeState extends State<Me> {
                                                                   SizedBox(
                                                                     width: 150,
                                                                     child: Text(
-                                                                      'Personal info',
-                                                                      style: mulish14400.copyWith(
-                                                                          fontFamily:
-                                                                              "MulishBold",
-                                                                          color: ColorRes
-                                                                              .grey,
-                                                                          fontSize:
-                                                                              13),
+                                                                      Strings
+                                                                          .personal_info,
+                                                                      style: mulishbold
+                                                                          .copyWith(
+                                                                        color: ColorRes
+                                                                            .grey,
+                                                                        fontSize:
+                                                                            13,
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                   Image.asset(
-                                                                    'assets/icons/side.png',
+                                                                    AssertRe
+                                                                        .side,
                                                                     color:
                                                                         ColorRes
                                                                             .grey,
@@ -397,10 +392,9 @@ class _MeState extends State<Me> {
                                                                   SizedBox(
                                                                     width: 150,
                                                                     child: Text(
-                                                                      'Change Password',
-                                                                      style: mulish14400.copyWith(
-                                                                          fontFamily:
-                                                                              'MulishBold',
+                                                                      Strings
+                                                                          .change_password,
+                                                                      style: mulishbold.copyWith(
                                                                           color: ColorRes
                                                                               .grey,
                                                                           fontSize:
@@ -408,7 +402,8 @@ class _MeState extends State<Me> {
                                                                     ),
                                                                   ),
                                                                   Image.asset(
-                                                                    'assets/icons/side.png',
+                                                                    AssertRe
+                                                                        .side,
                                                                     color:
                                                                         ColorRes
                                                                             .grey,
@@ -442,12 +437,12 @@ class _MeState extends State<Me> {
                                             },
                                             child: Image.asset(
                                               selectedIndex == index
-                                                  ? 'assets/icons/down.png'
-                                                  : 'assets/icons/side.png',
+                                                  ? AssertRe.down
+                                                  : AssertRe.side,
                                               scale: 4,
                                             ),
                                           ),
-                                        )
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -456,20 +451,23 @@ class _MeState extends State<Me> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              'Log Out',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: ColorRes.darkGrey),
-                            ),
-                            Image.asset(
-                              'assets/icons/logout.png',
-                              scale: 3,
-                            )
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(Strings.log_out,
+                                  style: mulishbold.copyWith(
+                                      color: ColorRes.darkGrey,
+                                      fontSize: 16.41)),
+                              Spacer(),
+                              Image.asset(
+                                AssertRe.logout,
+                                scale: 3,
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),

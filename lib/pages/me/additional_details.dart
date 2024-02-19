@@ -1,11 +1,15 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/profile_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../network/api.dart';
+import '../../utils/font_family.dart';
+import '../../utils/texts.dart';
 import '../../utils/utils.dart';
 
 class AdditionalDetails extends StatefulWidget {
@@ -50,30 +54,34 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
               // mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 10),
-                const Text("Additional Details",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                        color: ColorRes.darkGrey,
-                        fontFamily: 'Poppins')),
+                Text(
+                  Strings.additional_details,
+                  style: mulish14400.copyWith(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 16,
+                      color: ColorRes.darkGrey,
+                      fontFamily: Fonts.poppins),
+                ),
                 const SizedBox(height: 5),
-                Text("question ${widget.pageNo} of 10",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 14,
-                        color: ColorRes.darkGrey,
-                        fontFamily: 'Poppins')),
+                Text(
+                  "question ${widget.pageNo} of 10",
+                  style: mulish14400.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                      color: ColorRes.darkGrey,
+                      fontFamily: Fonts.poppins),
+                ),
                 const SizedBox(height: 20),
                 Image.asset(
-                  "assets/icons/logo.png",
+                  AssertRe.logo,
                   scale: 2.5,
                 ),
                 const SizedBox(height: 10),
                 Text(question,
-                    style: const TextStyle(
+                    style: mulish14400.copyWith(
                       fontWeight: FontWeight.w800,
                       fontSize: 16,
-                      fontFamily: 'Poppins',
+                      fontFamily: Fonts.poppins,
                       color: ColorRes.darkGrey,
                     )),
                 const SizedBox(height: 10),
@@ -106,7 +114,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               child: Center(
                                 child: Text(
                                   array[index],
-                                  style: TextStyle(
+                                  style: mulish14400.copyWith(
                                       fontWeight: di == index
                                           ? FontWeight.w600
                                           : FontWeight.w300,
@@ -114,7 +122,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                       color: di == index
                                           ? ColorRes.white
                                           : ColorRes.darkGrey,
-                                      fontFamily: 'Poppins'),
+                                      fontFamily: Fonts.poppins),
                                 ),
                               ),
 
@@ -214,12 +222,14 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                 size: 20,
                               ),
                               SizedBox(width: 5),
-                              Text("Close",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16,
-                                      color: ColorRes.white,
-                                      fontFamily: 'Poppins'))
+                              Text(
+                                Strings.close,
+                                style: mulish14400.copyWith(
+                                  fontSize: 16,
+                                  color: ColorRes.white,
+                                  fontFamily: Fonts.poppins,
+                                ),
+                              )
                             ],
                           ),
                         ),

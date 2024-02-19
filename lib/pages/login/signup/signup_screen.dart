@@ -1,5 +1,7 @@
 import 'package:date_madly_app/common/common_field.dart';
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -7,7 +9,9 @@ import 'package:provider/provider.dart';
 
 import '../../../common/text_feild_common.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/font_family.dart';
 import '../../../utils/text_style.dart';
+import '../../../utils/texts.dart';
 import '../Login_with_phone.dart';
 import '../profile_photo/profile_photo_screen.dart';
 
@@ -40,15 +44,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Sign Up',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                            color: ColorRes.darkBlue,
-                            fontSize: 18),
+                        Strings.sign_up,
+                        style: mulish14400.copyWith(
+                          fontFamily: Fonts.poppins,
+                          fontWeight: FontWeight.w700,
+                          color: ColorRes.darkBlue,
+                          fontSize: 18,
+                        ),
                       ),
                       Text(
-                        'Cancel',
+                        Strings.cancle,
                         style: TextStyle(color: ColorRes.appColor),
                       )
                     ],
@@ -58,27 +63,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   RichText(
                       text: TextSpan(
-                          text: 'By click the sign up button, you’re agree to ',
-                          style: greyText(),
+                          text: Strings.by_click,
+                          style: mulish14400,
                           children: [
                         TextSpan(
-                            text: 'Parken’s Terms and Service ',
+                            text: Strings.parken,
                             style: greyText().copyWith(
                               fontWeight: FontWeight.w700,
                             )),
                         TextSpan(
-                          text: 'and acknlowledge the ',
+                          text: Strings.acknlowledge,
                           style: greyText(),
                         ),
                         TextSpan(
-                            text: 'Privacy and Policy',
-                            style: greyText().copyWith(
+                            text: Strings.Privacy,
+                            style: mulish14400.copyWith(
                               fontWeight: FontWeight.w700,
                             )),
                       ])),
                   SizedBox(height: 40),
                   CommonField(
-                    label: 'Email',
+                    label: Strings.emails,
                     controller: value.emailController,
                   ),
                   value.emailError != ""
@@ -95,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       : SizedBox(),
                   SizedBox(height: 20),
                   CommonField(
-                    label: 'Name',
+                    label: Strings.name,
                     controller: value.nameController,
                   ),
                   value.nameError != ""
@@ -119,8 +124,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     onTap: () => value.selectDate(context),
                     decoration: InputDecoration(
-                      labelText: 'Date of Birth',
-                      labelStyle: greyText(),
+                      labelText: Strings.date_of_birth,
+                      labelStyle: mulish14400.copyWith(
+                          fontSize: 14, fontFamily: Fonts.poppins),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                           color: ColorRes.colorE5E5E5,
@@ -175,8 +181,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorRes.colorE5E5E5,
                         ),
                       ),
-                      labelText: 'Password',
-                      labelStyle: greyText(),
+                      labelText: Strings.password,
+                      labelStyle: mulish14400.copyWith(
+                          fontSize: 14, fontFamily: Fonts.poppins),
                       suffixIcon: IconButton(
                         icon: Icon(
                           !value.obscureText
@@ -228,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           color: ColorRes.colorE5E5E5,
                         ),
                       ),
-                      labelText: 'Confirm Password',
+                      labelText: Strings.conform_passwod,
                       labelStyle: greyText(),
                       suffixIcon: IconButton(
                         icon: Icon(
@@ -265,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Row(
                     children: [
                       Image.asset(
-                        'assets/icons/check (1).png',
+                        AssertRe.check,
                         scale: 3,
                       ),
                       SizedBox(
@@ -273,7 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       Expanded(
                           child: Text(
-                        'Password must be at least 8 character uppercase,lowercase, and unique code like #%!',
+                        Strings.password_must,
                         style: TextStyle(fontSize: 12, color: ColorRes.black),
                       )),
                     ],
@@ -286,14 +293,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: MediaQuery.of(context).size.width / 1,
                     child: CupertinoButton(
                         color: ColorRes.appColor,
-                        child: Text('Sign Up'),
+                        child: Text(
+                          Strings.sign_up,
+                          style: mulish14400.copyWith(fontSize: 14,color: ColorRes.white,fontFamily: Fonts.poppinsBold),
+                        ),
                         onPressed: () {
                           FocusScope.of(context).unfocus();
                           if (value.validation()) {
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (c) => ProfilePhotoScreen()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (c) => ProfilePhotoScreen(),
+                              ),
+                            );
                           }
                         }),
                   ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,7 @@ import '../network/api.dart';
 import '../utils/colors.dart';
 import '../utils/enum/api_request_status.dart';
 import '../utils/functions.dart';
+import '../utils/texts.dart';
 
 class HomeMainProvider with ChangeNotifier {
   bool male = false;
@@ -50,20 +53,16 @@ class HomeMainProvider with ChangeNotifier {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text(
-                              'Notification',
-                              style: TextStyle(
-                                  color: ColorRes.appColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700),
-                            ),
+                            Text(Strings.notification,
+                                style: mulishbold.copyWith(
+                                    fontSize: 18, color: ColorRes.appColor)),
                             SizedBox(
                               width: 140,
                             ),
                             Stack(
                               children: [
                                 Image.asset(
-                                  'assets/icons/Notification.png',
+                                  AssertRe.notification,
                                   scale: 3,
                                   color: ColorRes.grey,
                                 ),
@@ -81,11 +80,11 @@ class HomeMainProvider with ChangeNotifier {
                         Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Today',
-                              style: TextStyle(
-                                  color: ColorRes.darkGrey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
+                              Strings.today,
+                              style: mulishbold.copyWith(
+                                color: ColorRes.darkGrey,
+                                fontSize: 16,
+                              ),
                             )),
                         SizedBox(
                           height: 20,
@@ -121,42 +120,38 @@ class HomeMainProvider with ChangeNotifier {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          '2 MIN AGO',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: ColorRes.grey),
+                                          Strings.minago,
+                                          style: mulish14400,
                                         ),
                                         Row(
                                           children: [
-                                            Text(notificationName[index],
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: ColorRes.darkGrey,
-                                                    fontWeight:
-                                                        FontWeight.w700)),
+                                            Text(
+                                              notificationName[index],
+                                              style: mulishbold.copyWith(
+                                                color: ColorRes.darkGrey,
+                                              ),
+                                            ),
                                             SizedBox(
                                               width: 5,
                                             ),
                                             Image.asset(
-                                              'assets/icons/Location_Icon.png',
+                                              AssertRe.notification,
                                               scale: 5,
                                               color: ColorRes.appColor,
                                             ),
                                             SizedBox(
                                               width: 5,
                                             ),
-                                            Text('5 Km',
-                                                style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: ColorRes.grey,
-                                                    fontWeight:
-                                                        FontWeight.w700))
+                                            Text(
+                                              Strings.homeKM,
+                                              style: mulish14400,
+                                            ),
                                           ],
                                         ),
-                                        Text('Invites you yo for a match !',
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                color: ColorRes.grey)),
+                                        Text(
+                                          Strings.Invites,
+                                          style: mulish14400,
+                                        ),
                                       ],
                                     ),
                                     SizedBox(
@@ -184,14 +179,15 @@ class HomeMainProvider with ChangeNotifier {
                           height: 20,
                         ),
                         Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Yesterday',
-                              style: TextStyle(
-                                  color: ColorRes.darkGrey,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700),
-                            )),
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            Strings.yesterday,
+                            style: mulishbold.copyWith(
+                              fontSize: 16,
+                              color: ColorRes.darkGrey,
+                            ),
+                          ),
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -200,7 +196,7 @@ class HomeMainProvider with ChangeNotifier {
                             Column(
                               children: [
                                 Image.asset(
-                                  'assets/icons/n1.png',
+                                  AssertRe.notifiimage1,
                                   scale: 3,
                                 )
                               ],
@@ -213,8 +209,8 @@ class HomeMainProvider with ChangeNotifier {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '24 HOUR AGO',
-                                  style: TextStyle(
+                                  Strings.hourago,
+                                  style: mulishbold.copyWith(
                                       fontSize: 12, color: ColorRes.grey),
                                 ),
                                 RichText(
@@ -225,16 +221,15 @@ class HomeMainProvider with ChangeNotifier {
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
-                                          text: 'Patricia,23 ',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: ColorRes.darkGrey,
-                                              fontWeight: FontWeight.w700)),
+                                        text: Strings.patricia,
+                                        style: mulishbold.copyWith(
+                                          fontSize: 12,
+                                          color: ColorRes.darkGrey,
+                                        ),
+                                      ),
                                       TextSpan(
-                                          text: 'likes your photo.',
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: ColorRes.grey)),
+                                          text: Strings.likesyourphoto,
+                                          style: mulish14400),
                                     ],
                                   ),
                                 ),
@@ -247,7 +242,7 @@ class HomeMainProvider with ChangeNotifier {
                           Padding(
                             padding: EdgeInsets.only(left: 50),
                             child: Image.asset(
-                              'assets/icons/n3.png',
+                              AssertRe.notifiimage3,
                               scale: 2.2,
                             ),
                           ),
@@ -262,15 +257,16 @@ class HomeMainProvider with ChangeNotifier {
                                     Icon(Icons.favorite_border,
                                         color: ColorRes.white, size: 25),
                                     Image.asset(
-                                      'assets/icons/Comment.png',
+                                      AssertRe.comment,
                                       scale: 2.5,
                                     )
                                   ],
                                 ),
                                 Text(
-                                  '100 Like',
-                                  style: TextStyle(
-                                      color: ColorRes.white, fontSize: 16),
+                                  Strings.like,
+                                  style: mulish14400.copyWith(
+                                    color: Colors.white,
+                                  ),
                                 )
                               ],
                             ),

@@ -1,5 +1,6 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
@@ -11,6 +12,7 @@ import '../../providers/likes_provider.dart';
 import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
+import '../../utils/texts.dart';
 import '../me/main.dart';
 import '../new_match/new_match_screen.dart';
 
@@ -34,7 +36,7 @@ class _LikesState extends State<Likes> {
               onTap: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                   builder: (context) {
-                    return Me();
+                    return Profile();
                   },
                 ));
               },
@@ -43,9 +45,8 @@ class _LikesState extends State<Likes> {
                 color: ColorRes.appColor,
               )),
           title: Text(
-            'Match Request',
-            style: mulish14400.copyWith(
-                fontFamily: 'MulishBold',
+            Strings.Match_Request,
+            style: mulishbold.copyWith(
                 fontSize: 18.75,
                 color: ColorRes.appColor),
           ),
@@ -54,7 +55,7 @@ class _LikesState extends State<Likes> {
               builder: (BuildContext context) {
                 return IconButton(
                   icon: Image.asset(
-                    'assets/icons/right_drawer.png',
+                    AssertRe.right_drawer,
                     scale: 3,
                   ),
                   onPressed: () {
@@ -72,8 +73,8 @@ class _LikesState extends State<Likes> {
               children: [
                 NewTextField(
                   controller: value.searchController,
-                  hintText: 'Search Match Request',
-                  prefix: 'assets/icons/Search_Icon.png',
+                  hintText: Strings.Search_Match_Request,
+                  prefix: AssertRe.Search_Icon,
                 ),
                 SizedBox(
                   height: 20,
@@ -109,8 +110,7 @@ class _LikesState extends State<Likes> {
                                   alignment: Alignment.topLeft,
                                   child: Text(
                                     matches[index].text,
-                                    style: mulish14400.copyWith(
-                                      fontFamily: "MulishBold",
+                                    style: mulishbold.copyWith(
                                       fontSize: 16.41,
                                       color: ColorRes.white,
                                     ),
@@ -121,7 +121,7 @@ class _LikesState extends State<Likes> {
                               Row(
                                 children: [
                                   Image.asset(
-                                    'assets/icons/Location_Icon.png',
+                                    AssertRe.Location_Icon,
                                     scale: 4.5,
                                     color: ColorRes.white,
                                   ),
@@ -131,8 +131,7 @@ class _LikesState extends State<Likes> {
                                   Expanded(
                                     child: Text(
                                       matches[index].loaction,
-                                      style: mulish14400.copyWith(
-                                        fontFamily: "MulishBold",
+                                      style: mulishbold.copyWith(
                                         fontSize: 11.72,
                                         color: ColorRes.white,
                                       ),

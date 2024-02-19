@@ -1,9 +1,12 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/map/map_page_1.dart';
 import 'package:date_madly_app/pages/map/map_screen_3.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/texts.dart';
 
 class FindDateMap extends StatelessWidget {
   const FindDateMap({super.key});
@@ -18,7 +21,7 @@ class FindDateMap extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-              "assets/icons/map_screen_1.png",
+              AssertRe.map_screen_1,
             ),
             fit: BoxFit.fill,
           ),
@@ -41,12 +44,12 @@ class FindDateMap extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 20,
                         ),
                         Text(
-                          'To continue Blind Date asks you',
+                          Strings.To_continue,
                           style: mulish14400.copyWith(
                               fontSize: 16.41, color: ColorRes.darkGrey),
                         ),
                         Text(
-                          'to activate GPS.',
+                          Strings.to_activate,
                           style: mulish14400.copyWith(
                               fontSize: 16.41, color: ColorRes.darkGrey),
                         ),
@@ -65,7 +68,7 @@ class FindDateMap extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(5),
                                 color: ColorRes.appColor,
                                 child: Text(
-                                  'Oke',
+                                  Strings.oke,
                                   style: mulish14400.copyWith(
                                     color: ColorRes.white,
                                     fontSize: 20,
@@ -93,7 +96,7 @@ class FindDateMap extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(5),
                                   color: ColorRes.white,
                                   child: Text(
-                                    'No',
+                                    Strings.no,
                                     style: mulish14400.copyWith(
                                       color: ColorRes.lightGrey,
                                       fontSize: 20,

@@ -5,4 +5,7 @@ class Fonts{
   static const mulishRegular='MulishRegular';
   static const mulishMediumItalic='MulishMediumItalic';
   static const mlishBlack='MulishBlack';
+  static const poppinsBold='poppinsBold';
+  static const poppins='Poppins';
+  static const poppinsSemiBold='poppinsSemiBold';
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:date_madly_app/common/text_feild_common.dart';
 import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:intl/intl.dart';
 
 import '../../../common/text_style.dart';
 import '../../../utils/text_style.dart';
+import '../../../utils/texts.dart';
 
 class EnterPersonalDataScreen extends StatefulWidget {
   const EnterPersonalDataScreen({Key? key}) : super(key: key);
@@ -74,7 +76,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                             ),
                             Text(
                               'Add Photos',
-                              style: title(),
+                              style: popinsbold(),
                             ),
                             SizedBox(
                               height: MediaQuery.of(context).size.height / 40,
@@ -141,7 +143,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   Center(
                     heightFactor: 9,
                     child: Image.asset(
-                      "assets/icons/Camera.png",
+                      AssertRe.camera,
                       height: 25,
                       width: 29,
                     ),
@@ -159,7 +161,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                     height: 42,
                   ),
                   Text(
-                    'Name',
+                    Strings.name,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -167,14 +169,14 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   ),
                   NewTextField(
                     controller: nameController,
-                    hintText: 'Enter name',
-                    suffix: 'assets/icons/Human_Icon.png',
+                    hintText: Strings.enter_name,
+                    suffix: AssertRe.human_Icon,
                   ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    'Birthday',
+                    Strings.birthday,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -223,12 +225,12 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                           color: ColorRes.darkGrey,
                         ),
                         decoration: InputDecoration(
-                            hintText: 'DD/MM/YYYY',
+                            hintText: Strings.dats,
                             border: InputBorder.none,
                             suffixIcon: Padding(
                               padding: const EdgeInsets.only(right: 13.0),
                               child: Image.asset(
-                                'assets/icons/Date_Icon.png',
+                                AssertRe.Date_Icon,
                                 color: ColorRes.grey,
                                 scale: 3,
                               ),
@@ -241,7 +243,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                     height: 30,
                   ),
                   Text(
-                    'Gender',
+                    Strings.gender,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -307,7 +309,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                     height: 30,
                   ),
                   Text(
-                    'Location',
+                    Strings.Location,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -315,14 +317,14 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   ),
                   NewTextField(
                     controller: locationController,
-                    hintText: 'Enter location',
-                    suffix: 'assets/icons/Location_Icon.png',
+                    hintText: Strings.ELocation,
+                    suffix: AssertRe.Location_Icon,
                   ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    'Job',
+                    Strings.job,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -330,8 +332,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   ),
                   NewTextField(
                     controller: jobController,
-                    hintText: 'Enter job',
-                    suffix: 'assets/icons/Worrk_Icon.png',
+                    hintText: Strings.enter_job,
+                    suffix: AssertRe.Worrk_Icon,
                   ),
                   SizedBox(
                     height: 30,
@@ -345,14 +347,14 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   ),
                   NewTextField(
                     controller: companyController,
-                    hintText: 'Enter company',
-                    suffix: 'assets/icons/Company_Icon.png',
+                    hintText: Strings.enter_company,
+                    suffix: AssertRe.Company_Icon,
                   ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    'College',
+                    Strings.college,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -360,14 +362,14 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                   ),
                   NewTextField(
                     controller: collegeController,
-                    hintText: 'Enter college',
-                    suffix: 'assets/icons/Education_Icon.png',
+                    hintText: Strings.enter_college,
+                    suffix: AssertRe.Education_Icon,
                   ),
                   SizedBox(
                     height: 30,
                   ),
                   Text(
-                    'About Me',
+                    Strings.about_me,
                     style: mulish14400,
                   ),
                   SizedBox(
@@ -385,8 +387,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        "I'm here when you need a sunny day, something good We can sing together on the beach and burn bonfires at night with the moonlight.",
+                      child: Text(Strings.when_you,
                         style: mulish14400.copyWith(
                             color: ColorRes.darkGrey, fontSize: 12),
                       ),
@@ -410,7 +411,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                         ),
                         color: ColorRes.appColor,
                       ),
-                      child: Text('Continue',
+                      child: Text(Strings.Continue,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700)),

@@ -1,7 +1,9 @@
-import 'package:date_madly_app/db/chat.dart';
+import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
+import '../../utils/texts.dart';
 
 class NewMatchScreen extends StatefulWidget {
   const NewMatchScreen({super.key});
@@ -22,26 +24,37 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
           ),
           Align(
             alignment: Alignment.center,
-            child: Text('Cheers!', style: TextStyle(
-              color: ColorRes.appColor, fontWeight: FontWeight.w600,fontSize: 22
-            ),),
+            child: Text(
+              Strings.cheers,
+              style: mulishbold.copyWith(
+                fontSize: 22,
+                color: ColorRes.appColor,
+              ),
+            ),
           ),
           SizedBox(
             height: 20,
           ),
-          Text('It’s a match', style: TextStyle(
-              color: ColorRes.darkGrey, fontWeight: FontWeight.w600,fontSize: 22
-          ),),SizedBox(
+          Text(
+            Strings.Itsamatch,
+            style: mulishbold.copyWith(
+              fontSize: 22,
+              color: ColorRes.darkGrey,
+            ),
+          ),
+          SizedBox(
             height: 90,
           ),
-          Image.asset('assets/icons/User.png',scale: 3.5,),
+          Image.asset(
+            AssertRe.user,
+            scale: 3.5,
+          ),
           SizedBox(
             height: 90,
           ),
           GestureDetector(
-
-            onTap: (){
-             /* Navigator.push(
+            onTap: () {
+              /* Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (c) =>   Chat(),));*/
@@ -49,19 +62,27 @@ class _NewMatchScreenState extends State<NewMatchScreen> {
             child: CircleAvatar(
               radius: 30,
               backgroundColor: ColorRes.appColor,
-              child: Image.asset('assets/icons/Chat.png',height: 25,color: ColorRes.white,),
+              child: Image.asset(
+                AssertRe.chat,
+                height: 25,
+                color: ColorRes.white,
+              ),
             ),
           ),
           SizedBox(
             height: 30,
           ),
           GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
-            child: Text('Skip',style: TextStyle(
-                color: ColorRes.lightGrey, fontWeight: FontWeight.w600,fontSize: 14
-            )),
+            child: Text(
+              Strings.skip,
+              style: mulishbold.copyWith(
+                color: ColorRes.lightGrey,
+                fontSize: 14,
+              ),
+            ),
           )
         ],
       ),

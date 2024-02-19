@@ -2,11 +2,14 @@ import 'dart:io';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/font_family.dart';
+import '../../../utils/texts.dart';
 
 class ProfilePhotoScreen extends StatefulWidget {
   const ProfilePhotoScreen({Key? key}) : super(key: key);
@@ -62,6 +65,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
   }
 
   List<File> imageList = List.generate(9, (index) => File(''));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,15 +90,18 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
               height: MediaQuery.of(context).size.height / 25,
             ),
             Text(
-              'Upload a profile Photo',
-              style: poppins.copyWith(fontFamily: 'poppinsSemiBold'),
+              Strings.upload_profile,
+              style: mulish14400.copyWith(
+                  fontFamily: Fonts.poppinsBold,
+                  color: ColorRes.darkGrey,
+                  fontSize: 21),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
             Text(
-              'Please upload at least one real photo of yourself to start liking profiles.',
-              style: greyText(),
+              Strings.Please_upload,
+              style: mulish14400.copyWith(fontFamily: Fonts.poppins),
             ),
             SizedBox(
               height: 13,
@@ -125,9 +132,12 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                               15,
                                     ),
                                     Text(
-                                      'Add Photos',
-                                      style: poppins.copyWith(
-                                          fontFamily: 'poppinsSemiBold'),
+                                      Strings.add_photos,
+                                      style: mulish14400.copyWith(
+                                        fontSize: 24,
+                                        fontFamily: Fonts.poppinsSemiBold,
+                                        color: ColorRes.darkGrey,
+                                      ),
                                     ),
                                     SizedBox(
                                       height:
@@ -155,9 +165,9 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                             MediaQuery.of(context).size.width /
                                                 1,
                                         child: Text(
-                                          'ADD FROM GALLERY',
-                                          style: poppins.copyWith(
-                                            fontFamily: 'poppinsSemiBold',
+                                          Strings.add_from_galary,
+                                          style: mulish14400.copyWith(
+                                            fontFamily: Fonts.poppins,
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
@@ -191,9 +201,9 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                             MediaQuery.of(context).size.width /
                                                 1,
                                         child: Text(
-                                          'USE CAMERA',
-                                          style: poppins.copyWith(
-                                            fontFamily: 'poppinsSemiBold',
+                                          Strings.use_camera,
+                                          style: mulish14400.copyWith(
+                                            fontFamily: Fonts.poppins,
                                             color: Colors.white,
                                             fontSize: 15,
                                           ),
@@ -221,7 +231,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                       ),
                       child: imageList[index].path.isEmpty
                           ? Image.asset(
-                              'assets/icons/gallary.png',
+                              AssertRe.gallary,
                               scale: 3,
                               //,
                             )
@@ -264,7 +274,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
               width: MediaQuery.of(context).size.width / 1,
               child: CupertinoButton(
                   color: ColorRes.appColor,
-                  child: Text('Done'),
+                  child: Text(Strings.done),
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     if (validation()) {
