@@ -13,16 +13,16 @@ class PersonalInfo extends StatefulWidget {
 }
 
 class _PersonalInfoState extends State<PersonalInfo> {
+  @override
   TextEditingController emailController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
   var currentIndex = -1;
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
         leading: GestureDetector(
@@ -40,13 +40,14 @@ class _PersonalInfoState extends State<PersonalInfo> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(30),
+          padding: EdgeInsets.all(20),
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
                   'Provide personal information for the security of your account, do not give personal information to anyone.',
+                  textAlign: TextAlign.center,
                   style: mulish14400.copyWith(color: ColorRes.darkGrey),
                 ),
               ),
@@ -67,7 +68,6 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 controller: emailController,
                 hintText: 'Brian03@gmail.com',
                 color: ColorRes.darkGrey,
-                readOnly: true,
                 suffix: 'assets/icons/Email.png',
               ),
               SizedBox(
@@ -83,18 +83,39 @@ class _PersonalInfoState extends State<PersonalInfo> {
               SizedBox(
                 height: 5,
               ),
-              NewTextField(
-                controller: emailController,
-                hintText: '+62 812 0101 0101',
-                color: ColorRes.darkGrey,
-                suffix: 'assets/icons/Phone.png',
+              Container(
+                height: 50,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: ColorRes.grey,
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: EdgeInsets.only(left: 15),
+                child: TextField(
+                  maxLines: 1,
+                  controller: numberController,
+                  keyboardType: TextInputType.phone,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: ColorRes.darkGrey,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: '+62 812 0101 0101',
+                    hintStyle: TextStyle(
+                        color: ColorRes.grey,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                    suffixIcon: Image.asset(
+                      'assets/icons/new_phone.png',
+                      scale: 2,
+                    ),
+                  ),
+                ),
               ),
-              // NewTextField(
-              //   hintText:
-              //
-              //   readOnly: true,
-              //
-              // ),
               SizedBox(
                 height: 30,
               ),
@@ -128,7 +149,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 height: 5,
               ),
               SizedBox(
-                height: 55,
+                height: 50,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: gender.length,
@@ -187,7 +208,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 11,
+                  height: 50,
                   width: MediaQuery.of(context).size.width / 1,
                   decoration: BoxDecoration(
                     color: ColorRes.appColor,

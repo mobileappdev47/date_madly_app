@@ -23,6 +23,7 @@ class LikeMatches extends StatelessWidget {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        toolbarHeight: 80,
         centerTitle: true,
         backgroundColor: ColorRes.white,
         leading: Builder(
@@ -75,7 +76,7 @@ class LikeMatches extends StatelessWidget {
             ListView.separated(
               separatorBuilder: (context, index) {
                 return SizedBox(
-                  height: 10,
+                  height: 15,
                 );
               },
               shrinkWrap: true,

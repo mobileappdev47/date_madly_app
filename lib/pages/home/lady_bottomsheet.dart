@@ -88,7 +88,7 @@ ladyBottomSheetUI(BuildContext context) {
                             Expanded(
                               child: GestureDetector(
                                 child: Container(
-                                  height: 100,
+                                  height: 80,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     color: ColorRes.colorF4f4f4,
@@ -163,7 +163,7 @@ ladyBottomSheetUI(BuildContext context) {
                             ),
                             Expanded(
                               child: Container(
-                                height: 100,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: ColorRes.colorF4f4f4,
@@ -234,7 +234,7 @@ ladyBottomSheetUI(BuildContext context) {
                           children: [
                             Expanded(
                               child: Container(
-                                height: 100,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: ColorRes.colorF4f4f4,
@@ -301,7 +301,7 @@ ladyBottomSheetUI(BuildContext context) {
                             ),
                             Expanded(
                               child: Container(
-                                height: 100,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: ColorRes.colorF4f4f4,
@@ -372,7 +372,7 @@ ladyBottomSheetUI(BuildContext context) {
                           children: [
                             Expanded(
                               child: Container(
-                                height: 100,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: ColorRes.colorF4f4f4,
@@ -439,7 +439,7 @@ ladyBottomSheetUI(BuildContext context) {
                             ),
                             Expanded(
                               child: Container(
-                                height: 100,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   color: ColorRes.colorF4f4f4,

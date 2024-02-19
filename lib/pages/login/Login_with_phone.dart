@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
@@ -284,561 +285,195 @@ class _PhoneOTPState extends State<PhoneOTP> {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       resizeToAvoidBottomInset: true,
-      // body: SingleChildScrollView(
-      // reverse: true,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Column(
+
+      body: Column(
+        children: [
+          const SizedBox(height: 40),
+          Row(
             children: [
-              Column(
-                children: [
-                  const SizedBox(height: 40),
-                  Row(
-                    children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Image.asset(
-                        "assets/logos/logoSplashFill.png",
-                        scale: 3,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "LovecircO",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  // const SizedBox(height: 40),
-                  /* Expanded(
-                child: Stack(
-                  alignment: Alignment.topCenter,
-                  children: [
-                    Lottie.network(
-                        'https://assets6.lottiefiles.com/packages/lf20_XRMbLmFEl3.json'),
-                    ConfettiWidget(
-                      confettiController: _centerController,
-                      createParticlePath: drawStar,
-                      colors: const [
-                        Colors.green,
-                        Colors.blue,
-                        Colors.pink,
-                        Colors.orange,
-                        Colors.purple,
-                        Colors.red,
-                        Colors.lightGreen
-                      ],
-                      blastDirectionality: BlastDirectionality.explosive,
-                      blastDirection: pi / 2,
-                      maxBlastForce: 2,
-                      minBlastForce: 1,
-                      emissionFrequency: 0.03,
-                      shouldLoop: true,
-                      // 10 paticles will pop-up at a time
-                      numberOfParticles: 5,
-                      // particles will pop-up
-                      gravity: 0,
-                    ),
-                  ],
-                ),
-              ),*/
-                  const SizedBox(height: 20),
-                  Image.asset(
-                    "assets/images/loginIntro.png",
-                    scale: 4,
-                  ),
-                ],
+              const SizedBox(
+                width: 20,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
+              Image.asset(
+                "assets/logos/logoSplashFill.png",
+                scale: 3,
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width / 1.25,
-                width: MediaQuery.of(context).size.width,
-                child: Card(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      /* const Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Text('Login / SignUp',
-                              style: TextStyle(fontSize: 22))),
-                      const SizedBox(height: 10),*/
-                      //  Container(width: 240, child: LinearProgressIndicator()),
-                      Visibility(
-                        visible: phoneSignIn == false,
-                        child: SignInButton(Buttons.GoogleDark,
-                            text: "Continue with Google", onPressed: () {
-                          signInWithGoogle();
-                        }),
-                      ),
-                      // const SizedBox(height: 2),
-                      // SignInButton(
-                      //   Buttons.Email,
-                      //   text: "Continue with Email",
-                      //   onPressed: () {},
-                      // ),
-                      /* Visibility(
-                          visible: phoneSignIn == false,
-                          child: const SizedBox(height: 2)),
-                      Visibility(
-                        visible: phoneSignIn == false,
-                        child: SignInButton(Buttons.FacebookNew,
-                            text: "Continue with Facebook",
-                            onPressed: () => signInWithFacebook(context)),
-                      ),
-                      const SizedBox(height: 10),*/
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height / 20,
-                        width: MediaQuery.of(context).size.width / 1.6,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: Offset(2, 2)),
-                          ],
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Image.asset(
-                              'assets/icons/facebook.png',
-                              scale: 4,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Continue With Facebook',
-                                style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 13,
-                                    color: ColorRes.appColor,
-                                    fontWeight: FontWeight.w900)),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 25,),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have account ?",
-                            style: TextStyle(
-                              color: ColorRes.grey,
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(context,
-                                  MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUpScreen();
-                                },
-                                // builder: (c) => SignUpScreen()
-                              ));
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: ColorRes.appColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      /* Visibility(
-                          visible: phoneSignIn == false,
-                          child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  phoneSignIn = true;
-                                });
-                              },
-                              child: const Text("Continue with Phone Number",
-                                  style: TextStyle(
-                                      color: Colors.transparent,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(0, -5),
-                                            color: Colors.blue)
-                                      ],
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.blue,
-                                      decorationThickness: 5,
-                                      decorationStyle:
-                                          TextDecorationStyle.wavy)))),*/
-
-                      // const Spacer(),
-
-                      Visibility(
-                        visible: phoneSignIn == true,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 22.0),
-                                  child: TextField(
-                                    controller: codeController,
-                                    // keyboardType: TextInputType.phone,
-                                    decoration: Constants.deco("", ""),
-                                    onTap: () {
-                                      selectCountry();
-                                    },
-                                    readOnly: true,
-                                    onChanged: ((value) => {print(value)}),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: UserTextField(
-                                  titleLabel: 'Enter your number',
-                                  maxLength: 10,
-                                  icon: Icons.smartphone,
-                                  controller: controller,
-                                  inputType: TextInputType.phone),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // const Spacer(),
-                      Visibility(
-                        visible: phoneSignIn == true,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (controller.text.length < 10) {
-                                showSnackBar("Invalid Phone Number", context);
-                              } else {
-                                verifyPhone(context);
-                              }
-                            },
-                            style: Constants.tonalButton(context),
-                            child: Text('Send OTP'.toUpperCase())),
-                      ),
-                      const SizedBox(height: 10),
-                      Visibility(
-                          visible: phoneSignIn == true,
-                          child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  phoneSignIn = false;
-                                });
-                              },
-                              child: const Text("Back",
-                                  style: TextStyle(
-                                      color: Colors.transparent,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(0, -5),
-                                            color: Colors.blue)
-                                      ],
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: Colors.blue,
-                                      decorationThickness: 5,
-                                      decorationStyle:
-                                          TextDecorationStyle.wavy)))),
-                      const SizedBox(height: 30)
-                    ],
-                  ),
-                ),
+              const SizedBox(
+                width: 10,
               ),
-              Expanded(
-                child: Container(
-                  //  height: MediaQuery.of(context).size.height/2.5,
-                  //  width: MediaQuery.of(context).size.width/1,
-                  color: ColorRes.lightPink,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Visibility(
-                      //   visible: phoneSignIn == false,
-                      //   child: SignInButton(
-                      //
-                      //       Buttons.FacebookNew,
-                      //
-                      //       text: "Continue with Google",
-                      //       onPressed: () => _signInGoogle(context)),
-                      // ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.1,
-                      ),
-                      /*GestureDetector(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) =>PhoneAuthScreen(),));
-                        },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height/13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ),
-                            color: ColorRes.appColor,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                onTap: (){
-                                  signInWithGoogle;
-                                },
-                                child: Container(
-                                  height: 30, width: 30,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    color: ColorRes.white
-
-                                  ),
-                                  child: Image.asset(
-                                    'assets/icons/google.png',
-                                    scale: 3.5,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text('Continue With Google',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w700)),
-                              SizedBox(
-                                width: 20,
-                              ),
-                            ],
-                          ),
-                          width: MediaQuery.of(context).size.width * 0.7,
-                        ),
-                      ),*/
-                      // const SizedBox(height: 2),
-                      // SignInButton(
-                      //   Buttons.Email,
-                      //   text: "Continue with Email",
-                      //   onPressed: () {},
-                      // ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Visibility(
-                          visible: phoneSignIn == false,
-                          child: const SizedBox(height: 2)),
-                      /* Container(
-                        height: MediaQuery.of(context).size.height/13,
-                        decoration: BoxDecoration(
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(2, 2)
-
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(
-                            5,
-                          ),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            SizedBox(width: 10,),
-                            Image.asset(
-                              'assets/icons/facebook.png',
-                              scale: 4,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Continue With Facebook',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                    fontSize: 13,
-                                    color: ColorRes.appColor,
-                                    fontWeight: FontWeight.w900)),
-                            SizedBox(width: 20,)
-                          ],
-                        ),
-                        width: MediaQuery.of(context).size.width * 0.7,
-                      ),*/
-
-                      // Visibility(
-                      //   visible: phoneSignIn == false,
-                      //   child: SignInButton(Buttons.FacebookNew,
-                      //       text: "Continue with Facebook",
-                      //       onPressed: () => signInWithFacebook(context)),
-                      // ),
-                      const SizedBox(height: 10),
-                      // Visibility(
-                      //     visible: phoneSignIn == false,
-                      //     child: GestureDetector(
-                      //         onTap: () {
-                      //           setState(() {
-                      //             phoneSignIn = true;
-                      //           });
-                      //         },
-                      //         child: const Text("Continue with Phone Number",
-                      //             style: TextStyle(
-                      //                 color: Colors.transparent,
-                      //                 shadows: [
-                      //                   Shadow(
-                      //                       offset: Offset(0, -5),
-                      //                       color: ColorRes.appColor)
-                      //                 ],
-                      //                 decoration: TextDecoration.underline,
-                      //                 decorationColor: ColorRes.appColor,
-                      //                 decorationThickness: 5,
-                      //                 decorationStyle: TextDecorationStyle.wavy)))),
-
-                      // const Spacer(),
-
-                      /*   Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Don't have account ?",style: TextStyle(
-                            color: ColorRes.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 12,
-                          ),),
-                          SizedBox(width: 5,),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.pushReplacement(
-                                  context, MaterialPageRoute(
-                                builder: (context) {
-                                  return SignUpScreen();
-                                },
-                                 // builder: (c) => SignUpScreen()
-                              ));
-                            },
-                            child: Text("Sign Up",style: TextStyle(
-                              color: ColorRes.appColor,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-
-                            ),),
-                          ),
-                        ],
-                      ),*/
-
-                      // Visibility(
-                      //   // visible: phoneSignIn == true,
-                      //   visible: true,
-                      //   child: Row(
-                      //     children: [
-                      //       Expanded(
-                      //         flex: 2,
-                      //         child: Padding(
-                      //           padding: const EdgeInsets.all(8.0),
-                      //           child: Padding(
-                      //             padding: const EdgeInsets.only(bottom: 22.0),
-                      //             child: TextField(
-                      //               controller: codeController,
-                      //               // keyboardType: TextInputType.phone,
-                      //               decoration: Constants.deco("", ""),
-                      //               onTap: () {
-                      //                 selectCountry();
-                      //               },
-                      //               readOnly: true,
-                      //               onChanged: ((value) => {print(value)}),
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //       Expanded(
-                      //         flex: 5,
-                      //         child: UserTextField(
-                      //             titleLabel: 'Enter your number',
-                      //             maxLength: 10,
-                      //             icon: Icons.smartphone,
-                      //             controller: controller,
-                      //             inputType: TextInputType.phone),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // const Spacer(),
-                      Visibility(
-                        visible: phoneSignIn == true,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              if (controller.text.length < 10) {
-                                showSnackBar("Invalid Phone Number", context);
-                              } else {
-                                verifyPhone(context);
-                              }
-                            },
-                            style: Constants.tonalButton(context),
-                            child: Text('Send OTP'.toUpperCase())),
-                      ),
-                      const SizedBox(height: 10),
-                      Visibility(
-                          visible: phoneSignIn == true,
-                          child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  phoneSignIn = false;
-                                });
-                              },
-                              child: const Text("Back",
-                                  style: TextStyle(
-                                      color: Colors.transparent,
-                                      shadows: [
-                                        Shadow(
-                                            offset: Offset(0, -5),
-                                            color: ColorRes.appColor)
-                                      ],
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: ColorRes.appColor,
-                                      decorationThickness: 5,
-                                      decorationStyle:
-                                          TextDecorationStyle.wavy)))),
-                      const SizedBox(height: 30)
-                    ],
-                  ),
+              Text(
+                "LovecircO",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
                 ),
               ),
             ],
           ),
-        ),
+          const SizedBox(height: 20),
+          Image.asset(
+            "assets/images/loginIntro.png",
+            scale: 4,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
+          Expanded(
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Color(0xffFDEDF0),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => OtpVerificationSCreen(
+                              phone: '',
+                            ),
+                          ));
+                    },
+                    child: Container(
+                      height: 47,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.2),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(2, 2)),
+                        ],
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        color: ColorRes.appColor,
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          GestureDetector(
+                            child: Container(
+                              height: 30,
+                              width: 30,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Image.asset(
+                                'assets/icons/google.png',
+                                scale: 4,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text('Continue With google',
+                              style: TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  color: ColorRes.white,
+                                  fontWeight: FontWeight.w900)),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 47,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(2, 2)),
+                      ],
+                      borderRadius: BorderRadius.circular(
+                        5,
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Image.asset(
+                          'assets/icons/facebook.png',
+                          scale: 4,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text('Continue With Facebook',
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                                color: ColorRes.appColor,
+                                fontWeight: FontWeight.w900)),
+                        SizedBox(
+                          width: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ));
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don't have account ?",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: ColorRes.darkGrey,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          ' Sign Up',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: ColorRes.appColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: 'mulishBold',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
       // ),
     );

@@ -26,6 +26,7 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
         leading: GestureDetector(
@@ -52,18 +53,15 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
-                  Stack(
-                    children: [
-                      Center(
-                        child: Image.asset(
+                  Center(
+                    child: Stack(
+                      alignment: Alignment.bottomRight,
+                      children: [
+                        Image.asset(
                           'assets/icons/Add Image_Profile.png',
                           scale: 3,
                         ),
-                      ),
-                      Positioned(
-                        top: 75,
-                        left: 180,
-                        child: GestureDetector(
+                        GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
@@ -85,8 +83,8 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                             ),
                           ),
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 20,

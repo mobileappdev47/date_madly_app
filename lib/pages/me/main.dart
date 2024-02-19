@@ -36,6 +36,7 @@ class _MeState extends State<Me> {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
         leading: GestureDetector(
@@ -190,13 +191,10 @@ class _MeState extends State<Me> {
                     'Gallery',
                     style: mulish14400.copyWith(
                         color: ColorRes.darkGrey,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontFamily: 'MulishBold'),
                   ),
-                  Expanded(
-                    child:
-                        SizedBox(), // Add an Expanded widget to fill available space
-                  ),
+                  Spacer(),
                   GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -208,7 +206,7 @@ class _MeState extends State<Me> {
                       style: mulish14400.copyWith(
                         fontFamily: 'MulishBold',
                         color: ColorRes.appColor,
-                        fontSize: 15,
+                        fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -216,6 +214,7 @@ class _MeState extends State<Me> {
                   Icon(
                     Icons.arrow_forward,
                     color: ColorRes.appColor,
+                    size: 16,
                   )
                 ],
               ),
@@ -269,12 +268,11 @@ class _MeState extends State<Me> {
                           topLeft: Radius.circular(30),
                           bottomLeft: Radius.circular(30))),
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0, vertical: 20),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30, vertical: 20),
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Text(
                               'Settings',
@@ -284,9 +282,7 @@ class _MeState extends State<Me> {
                                 fontSize: 18,
                               ),
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
+                            Spacer(),
                             Image.asset(
                               'assets/icons/Setting.png',
                               scale: 3,
@@ -296,239 +292,164 @@ class _MeState extends State<Me> {
                         SizedBox(
                           height: 40,
                         ),
-                        /*   IconButton(
-                            onPressed: () {
-                              setState(() {
-                                isclick = !isclick;
-                              });
-                            },
-                            icon: isclick
-                                ? Icon(Icons.arrow_drop_up_outlined)
-                                : Icon(Icons.arrow_drop_down)),
-
-                        Stack(
-                          children: [
-                            Column(
-                              children: [
-                                isclick == true
-                                    ? SizedBox(
-                                  height: 20,
-                                )
-                                    : SizedBox(
-                                  height: 20,
-                                ),
-                                Text('1'),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Text('2'),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Container(
-                                  width: 90,
-                                  height: 70,
-                                ),
-                              ],
-                            ),
-                            isclick == true
-                                ? SizedBox(
-                              height: 200,
-                              child: ListView.builder(
-                                padding: EdgeInsets.only(top: 5),
-                                itemCount: 3,
-                                itemBuilder: (context, index) => GestureDetector(
-                                  // onTap: () {
-                                  //   print(index);
-                                  //   newIncomeController.category =
-                                  //       _category[index].title;
-                                  //   newIncomeController.isclick = false;
-                                  //   setState(() {
-                                  //     newIncomeController.selectedIndex =
-                                  //         index;
-                                  //   });
-                                  // },
-                                  child: Container(
-                                    height: 20,
-                                    width: 60,
-                                  ),
-                                ),
-                              ),
-                            )
-                                : SizedBox()
-                          ],
-                        ),*/
-                        /*  Row(
-                          children: [
-                            Text('My Account'),
-                            GestureDetector(
-                              onTap: toggleContainerVisibility,
-                              child: Icon(
-                                isClick
-                                    ? Icons.arrow_forward_ios_rounded
-                                    : Icons.arrow_upward_sharp,
-                                size: 15,
-                                color: ColorRes.appColor,
-                                weight: 26,
-                              ),
-                            ),
-                            AnimatedContainer(
-                              duration: Duration(milliseconds: 300),
-                              height: isContainerOpen ? 200 : 0,
-                              width: 200,
-                              color: Colors.blue,
-                              child: Center(
-                                child: Text(
-                                  'Container Content',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),*/
                         Expanded(
                           child: ListView.builder(
+                            padding: EdgeInsets.zero,
                             itemCount: settingData.length,
-                            itemBuilder: (context, index) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            itemBuilder: (context, index) => Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                        height:
-                                            selectedIndex == index ? 90 : 40,
-                                        width: 220,
-                                        child: Column(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 30),
-                                              child: Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  settingData[index],
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w700,
-                                                    color: ColorRes.darkGrey,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Container(
+                                            height: selectedIndex == index
+                                                ? 90
+                                                : 40,
+                                            width: 220,
+                                            child: Column(
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    settingData[index],
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color:
+                                                            ColorRes.darkGrey,
+                                                        fontSize: 14),
                                                   ),
                                                 ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            selectedIndex == index
-                                                ? Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 60),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                                    MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  PersonalInfo(),
-                                                            ));
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              SizedBox(
-                                                                width: 150,
-                                                                child: Text(
-                                                                  'Personal info',
-                                                                  style: mulish14400.copyWith(
-                                                                      fontFamily:
-                                                                          "MulishBold",
-                                                                      color: ColorRes
-                                                                          .grey,
-                                                                      fontSize:
-                                                                          13),
-                                                                ),
-                                                              ),
-                                                              Image.asset(
-                                                                'assets/icons/side.png',
-                                                                color: ColorRes
-                                                                    .grey,
-                                                                scale: 4,
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          height: 10,
-                                                        ),
-                                                        GestureDetector(
-                                                          onTap: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .push(
-                                                                    MaterialPageRoute(
-                                                              builder: (context) =>
-                                                                  ChangePassword(),
-                                                            ));
-                                                          },
-                                                          child: Row(
-                                                            children: [
-                                                              SizedBox(
-                                                                width: 150,
-                                                                child: Text(
-                                                                  'Change Password',
-                                                                  style: mulish14400.copyWith(
-                                                                      fontFamily:
-                                                                          'MulishBold',
-                                                                      color: ColorRes
-                                                                          .grey,
-                                                                      fontSize:
-                                                                          13),
-                                                                ),
-                                                              ),
-                                                              Image.asset(
-                                                                'assets/icons/side.png',
-                                                                color: ColorRes
-                                                                    .grey,
-                                                                scale: 4,
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                                : SizedBox(),
-                                          ],
-                                        )),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom:
-                                              selectedIndex == index ? 60 : 20),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedIndex =
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
                                                 selectedIndex == index
-                                                    ? -1
-                                                    : index;
-                                            /* currentIndex == 0
-                                                ? isclick = !isclick
-                                                : null; */
-                                          });
-                                        },
-                                        child: Image.asset(
-                                          selectedIndex == index
-                                              ? 'assets/icons/down.png'
-                                              : 'assets/icons/side.png',
-                                          scale: 4,
-                                        ),
-                                      ),
-                                    )
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 60),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceAround,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                        MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          PersonalInfo(),
+                                                                ));
+                                                              },
+                                                              child: Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 150,
+                                                                    child: Text(
+                                                                      'Personal info',
+                                                                      style: mulish14400.copyWith(
+                                                                          fontFamily:
+                                                                              "MulishBold",
+                                                                          color: ColorRes
+                                                                              .grey,
+                                                                          fontSize:
+                                                                              13),
+                                                                    ),
+                                                                  ),
+                                                                  Image.asset(
+                                                                    'assets/icons/side.png',
+                                                                    color:
+                                                                        ColorRes
+                                                                            .grey,
+                                                                    scale: 4,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 10,
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .push(
+                                                                        MaterialPageRoute(
+                                                                  builder:
+                                                                      (context) =>
+                                                                          ChangePassword(),
+                                                                ));
+                                                              },
+                                                              child: Row(
+                                                                children: [
+                                                                  SizedBox(
+                                                                    width: 150,
+                                                                    child: Text(
+                                                                      'Change Password',
+                                                                      style: mulish14400.copyWith(
+                                                                          fontFamily:
+                                                                              'MulishBold',
+                                                                          color: ColorRes
+                                                                              .grey,
+                                                                          fontSize:
+                                                                              13),
+                                                                    ),
+                                                                  ),
+                                                                  Image.asset(
+                                                                    'assets/icons/side.png',
+                                                                    color:
+                                                                        ColorRes
+                                                                            .grey,
+                                                                    scale: 4,
+                                                                  )
+                                                                ],
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : SizedBox(),
+                                              ],
+                                            )),
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: selectedIndex == index
+                                                  ? 60
+                                                  : 20),
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                selectedIndex =
+                                                    selectedIndex == index
+                                                        ? -1
+                                                        : index;
+                                                /* currentIndex == 0
+                                                    ? isclick = !isclick
+                                                    : null; */
+                                              });
+                                            },
+                                            child: Image.asset(
+                                              selectedIndex == index
+                                                  ? 'assets/icons/down.png'
+                                                  : 'assets/icons/side.png',
+                                              scale: 4,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ],

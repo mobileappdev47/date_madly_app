@@ -13,3 +13,9 @@ TextStyle mulishbold = const TextStyle(
   fontFamily: ,
   fontWeight: FontWeight.w400,
 );
+
+TextStyle poppins = TextStyle(
+    color: ColorRes.darkGrey,
+    fontWeight: FontWeight.w600,
+    fontSize: 21,
+    fontFamily: 'Poppins');

@@ -10,6 +10,7 @@ import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/login/relationship_status.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
 import 'package:date_madly_app/pages/login/tall.dart';
@@ -149,15 +150,10 @@ class MyApp extends StatelessWidget {
             //     : phone!
             //         ? const Gender()
             //         : const PhoneOTP());
-            home: HomeMain()
-            // home: ChangeNotifierProvider(
-            //     create: (context) => PhoneAuthProvider(),
-            //     child: const SplashScreen())
 
-            //   home: OtpVerificationSCreen(
-            //   phone: '12345',
-            // ),
-            );
+            home: ChangeNotifierProvider(
+                create: (context) => PhoneAuthProvider(),
+                child: const SplashScreen()));
       });
     });
   }

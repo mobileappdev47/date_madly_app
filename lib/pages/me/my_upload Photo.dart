@@ -35,21 +35,6 @@ class MyUpload_Photo extends StatelessWidget {
                       controller: controller,
                       hintText: "Write a caption ...",
                       maxLines: 5),
-                  // child: Container(
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(8.0),
-                  //     child: Text(
-                  //       "Write a caption ...",
-                  //       style: greyText(),
-                  //     ),
-                  //   ),
-                  //   height: 115,
-                  //   width: 320,
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(5),
-                  //     border: Border.all(width: 2, color: ColorRes.lightGrey),
-                  //   ),
-                  // ),
                 ),
                 GestureDetector(
                   onTap: () {
@@ -59,16 +44,17 @@ class MyUpload_Photo extends StatelessWidget {
                     padding: EdgeInsets.only(
                         top: 20, left: 30, right: 30, bottom: 30),
                     child: Container(
-                      height: MediaQuery.of(context).size.height / 11,
+                      height: 50,
                       width: MediaQuery.of(context).size.width / 1,
                       decoration: BoxDecoration(
                           color: ColorRes.appColor,
                           borderRadius: BorderRadius.circular(8)),
                       child: Center(
-                          child: Text(
-                        'Save',
-                        style: TextStyle(fontSize: 16, color: ColorRes.white),
-                      )),
+                        child: Text(
+                          'Save',
+                          style: TextStyle(fontSize: 16, color: ColorRes.white),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -76,8 +62,8 @@ class MyUpload_Photo extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 65,
-            left: 29,
+            top: 40,
+            left: 20,
             child: GestureDetector(
               onTap: () {
                 Navigator.pop(context);

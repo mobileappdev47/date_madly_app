@@ -1,3 +1,4 @@
+import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/text_style.dart';
@@ -18,9 +19,15 @@ class MyPhotoScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(90.0),
         child: Container(
+          margin: EdgeInsets.only(
+            bottom: 10,
+          ),
           padding: EdgeInsets.only(top: 20),
           decoration: BoxDecoration(
-            color: Colors.white, // AppBar background color
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: ColorRes.grey, blurRadius: 10, spreadRadius: -2)
+            ], // AppBar background color
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
@@ -138,7 +145,7 @@ class MyPhotoScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => MyPhotoScreen(),
+                        builder: (context) => MyUpload_Photo(),
                       ),
                     );
                   },

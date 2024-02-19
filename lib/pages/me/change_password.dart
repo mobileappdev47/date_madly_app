@@ -40,7 +40,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               )),
           title: Text(
             'Change Password',
-            style: mulish14400.copyWith(fontFamily: 'MulishBold',fontSize: 20,color: ColorRes.appColor),
+            style: mulish14400.copyWith(
+                fontFamily: 'MulishBold',
+                fontSize: 20,
+                color: ColorRes.appColor),
           ),
         ),
         body: Padding(
@@ -86,7 +89,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: 5,
               ),
               NewTextField(
-                controller: confirmController,
+                controller: newController,
                 hintText: 'New Password',
                 color: ColorRes.darkGrey,
                 obscureText: true,
@@ -108,7 +111,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: 5,
               ),
               NewTextField(
-                controller: confirmController,
+                controller: confirmNewController,
                 hintText: 'Confirm New Password',
                 color: ColorRes.darkGrey,
                 obscureText: true,
@@ -131,11 +134,11 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Center(
                   child: Text(
                 'Save',
-                    style: mulish14400.copyWith(
-                      fontFamily: 'MulishBold',
-                      fontSize: 16,
-                      color: ColorRes.white,
-                    ),
+                style: mulish14400.copyWith(
+                  fontFamily: 'MulishBold',
+                  fontSize: 16,
+                  color: ColorRes.white,
+                ),
               )),
             ),
           ),

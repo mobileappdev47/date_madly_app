@@ -9,7 +9,8 @@ class CommonField extends StatelessWidget {
   final VoidCallback? ontap;
   final String? label;
 
-  const CommonField({super.key, required this.controller, this.label, this.ontap});
+  const CommonField(
+      {super.key, required this.controller, this.label, this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +18,28 @@ class CommonField extends StatelessWidget {
       cursorColor: ColorRes.appColor,
       onTap: ontap,
       controller: controller,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+      ),
       decoration: InputDecoration(
         labelText: label,
         labelStyle: greyText(),
-        hintStyle: TextStyle(color: Colors.black)
+        hintStyle: TextStyle(color: Colors.black),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ColorRes.colorE5E5E5,
+          ),
+        ),
+        disabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ColorRes.colorE5E5E5,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: ColorRes.colorE5E5E5,
+          ),
+        ),
       ),
     );
   }
@@ -34,6 +53,7 @@ class PasswordField extends StatelessWidget {
   final Widget? sufix;
   final bool issufix;
   final bool? isclick;
+
   const PasswordField(
       {Key? key,
       required this.con,
