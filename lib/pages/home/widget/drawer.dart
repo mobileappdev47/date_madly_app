@@ -1,9 +1,14 @@
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 
+import '../../../utils/assert_re.dart';
 import '../../../utils/colors.dart';
+import '../../../utils/font_family.dart';
+import '../../../utils/texts.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({super.key});
@@ -16,6 +21,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   double _currentSliderValue = 0;
   double ageValue = 0;
   var currentindex = -1;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeMainProvider>(
@@ -30,12 +36,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Image.asset(
-                  'assets/icons/drawer.png',
+                  AssertRe.drawer,
                   scale: 3,
                 ),
                 Text(
-                  'Filter',
-                  style: TextStyle(color: ColorRes.appColor, fontSize: 16),
+                  Strings.filter,
+                  style: mulish14400.copyWith(
+                      color: ColorRes.appColor,
+                      fontSize: 16,
+                      fontFamily: Fonts.mulishBold),
                 )
               ],
             ),
@@ -45,8 +54,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Gender',
-                  style: TextStyle(color: ColorRes.darkGrey, fontSize: 16),
+                  Strings.gender,
+                  style: mulish14400.copyWith(
+                      color: ColorRes.darkGrey,
+                      fontSize: 16,
+                      fontFamily: Fonts.mulishBold),
                 )),
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
@@ -131,12 +143,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 )
               ],
             ),*/
-
             SizedBox(
               height: 45,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: gender.length,
+                  itemCount: Strings.genders.length,
                   itemBuilder: (context, index) => GestureDetector(
                         onTap: () {
                           setState(() {
@@ -159,7 +170,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  genderIcon[index],
+                                  AssertRe.genderIcon[index],
                                   scale: 3,
                                   color: index == currentindex
                                       ? ColorRes.appColor
@@ -169,9 +180,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                                   width: 10,
                                 ),
                                 Text(
-                                  gender[index],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                  Strings.genders[index],
+                                  style: mulish14400.copyWith(
+                                    fontFamily: Fonts.mulishBold,
                                     fontSize: 12.4,
                                     color: index == currentindex
                                         ? ColorRes.appColor
@@ -200,7 +211,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     width: 20,
                   ),
                   Image.asset(
-                    'assets/icons/Location_Icon.png',
+                    AssertRe.Location_Icon,
                     scale: 4,
                     color: ColorRes.appColor,
                   ),
@@ -208,8 +219,12 @@ class _CustomDrawerState extends State<CustomDrawer> {
                     width: MediaQuery.of(context).size.width / 30,
                   ),
                   Text(
-                    'Jakarta, Indonesia',
-                    style: TextStyle(color: ColorRes.grey, fontSize: 16),
+                    Strings.Jakarta,
+                    style: mulish14400.copyWith(
+                      color: ColorRes.grey,
+                      fontSize: 14.06,
+                      fontFamily: Fonts.mulishRegular,
+                    ),
                   )
                 ],
               ),
@@ -220,8 +235,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Distance',
-                  style: TextStyle(color: ColorRes.darkGrey, fontSize: 16),
+                  Strings.distance,
+                  style: mulish14400.copyWith(color: ColorRes.darkGrey,fontSize: 16.41,fontFamily: Fonts.mulishBold),
                 )),
             Row(
               children: [
@@ -253,8 +268,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  'Age',
-                  style: TextStyle(color: ColorRes.darkGrey, fontSize: 16),
+                  Strings.age,
+                  style: mulish14400.copyWith(color: ColorRes.darkGrey,fontSize: 16.41,fontFamily: Fonts.mulishBold),
                 )),
             Row(
               children: [
@@ -324,7 +339,4 @@ class _CustomDrawerState extends State<CustomDrawer> {
       ),
     );
   }
-
-  List gender = ['Male', 'Female'];
-  List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
 }

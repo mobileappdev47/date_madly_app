@@ -7,3 +7,9 @@ TextStyle mulish14400 = const TextStyle(
   fontFamily: 'MulishRegular',
   fontWeight: FontWeight.w400,
 );
+TextStyle mulishbold = const TextStyle(
+  color: ColorRes.grey,
+  fontSize: 12,
+  fontFamily: ,
+  fontWeight: FontWeight.w400,
+);
