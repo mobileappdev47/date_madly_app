@@ -34,7 +34,6 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
   bool isFemale = false;
   File? imageFile;
   var currentindex = 0;
-  List gender = ['Male', 'Female'];
   List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
   Future<void> pickImage({required ImageSource source}) async {
     final picker = ImagePicker();
@@ -254,7 +253,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                       height: 50,
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: gender.length,
+                          itemCount: Strings.gender.length,
                           itemBuilder: (context, index) => GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -289,7 +288,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                           width: 10,
                                         ),
                                         Text(
-                                          gender[index],
+                                          Strings.gender[index],
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 13,
