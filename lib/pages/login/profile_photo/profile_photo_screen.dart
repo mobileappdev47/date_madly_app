@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/utils/assert_re.dart';

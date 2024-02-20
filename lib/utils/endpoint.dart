@@ -1,7 +1,6 @@
-///---------------------------------------------- Base url ----------------------------------------------
 class EndPoints {
   static const baseUrl = 'http://13.53.134.38:3000/';
-
-  ///---------------------------------------------- End points ----------------------------------------------
+  static const signUpApi = '${baseUrl}api/createUser';
   static const Update = baseUrl + "api/updateUserFields";
+
 }
