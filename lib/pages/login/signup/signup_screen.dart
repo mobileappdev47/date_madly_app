@@ -31,14 +31,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool loader = false;
   SignUpModel signUpModel = SignUpModel();
 
-  signUpApiCall() async {
+  signUpApiCall(body) async {
     try {
       loader = true;
       setState(() {});
-      signUpModel = await SignUpApi.signUpApi(body: body);
+      signUpModel = await SignUpApi.signUpApi(body: body, context: context);
       loader = false;
       setState(() {});
     } catch (e) {
+      loader = false;
+      setState(() {});
       print(e.toString());
     }
   }
@@ -322,40 +324,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
-                              body = {
-                                "name": value.nameController.text,
-                                "email": value.emailController.text,
-                                "password": value.passwordController.text,
-                                "device_tokens": [],
-                                "images": [],
-                                "profileScore": 0,
-                                "gender": "",
-                                "dob": value.dobController.text,
-                                "height": 0,
-                                "live": "",
-                                "belongTo": "",
-                                "relationStatus": "",
-                                "degree": "",
-                                "institute": "",
-                                "designation": "",
-                                "company": "",
-                                "income": "",
-                                "describe": [],
-                                "visibility": 1,
-                                "bio": "",
-                                "spark": 1,
-                                "isOnline": 1,
-                                "basic_Info": "",
-                                "type": "email"
-                              };
+
                               if (value.validation()) {
-                                await signUpApiCall();
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (c) => ProfilePhotoScreen(),
-                                //   ),
-                                // );
+                                body = {
+                                  "name": value.nameController.text,
+                                  "email": value.emailController.text,
+                                  "password": value.passwordController.text,
+                                  "device_tokens": [],
+                                  "images": [],
+                                  "profileScore": 0,
+                                  "gender": "",
+                                  "dob": value.dobController.text,
+                                  "height": 0,
+                                  "live": "",
+                                  "belongTo": "",
+                                  "relationStatus": "",
+                                  "degree": "",
+                                  "institute": "",
+                                  "designation": "",
+                                  "company": "",
+                                  "income": "",
+                                  "describe": [],
+                                  "visibility": 1,
+                                  "bio": "",
+                                  "spark": 1,
+                                  "isOnline": 1,
+                                  "basic_Info": "",
+                                  "type": "email"
+                                };
+                                await signUpApiCall(body);
                               }
                             }),
                       ),
