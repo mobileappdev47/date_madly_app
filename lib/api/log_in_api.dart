@@ -9,7 +9,7 @@ import '../utils/endpoint.dart';
 class LoginApi {
   static login({Map<String, dynamic>? body}) async {
     try {
-      String url = EndPoints.Update;
+      String url = EndPoints.login;
       http.Response? response = await HttpService.postApi(url: url, body: body);
       print(response!.statusCode);
       if (response != null && response?.statusCode == 200) {

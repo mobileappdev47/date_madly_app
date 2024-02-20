@@ -56,7 +56,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     try {
       loader = true;
       setState(() {});
-      updateUsers = await UpdateUserApi.updateUsers(body: body, context: context);
+      updateUsers = await UpdateUserApi.updateUsers(body, context);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -310,11 +310,13 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                               child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
                                 itemCount: gender.length,
-                                itemBuilder: (context, index) => GestureDetector(
+                                itemBuilder: (context, index) =>
+                                    GestureDetector(
                                   onTap: () {
                                     setState(() {
                                       currentindex = index;
-                                      value.gender = gender[index]; // Update gender value
+                                      value.gender =
+                                          gender[index]; // Update gender value
                                     });
                                   },
                                   child: Padding(
@@ -330,8 +332,10 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                         ),
                                       ),
                                       child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Image.asset(
                                             genderIcon[index],
@@ -361,17 +365,16 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                           ),
                           value.genderError != ""
                               ? Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                value.genderError,
-                                style: errorText(),
-                              ),
-                            ),
-                          )
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 3),
+                                    child: Text(
+                                      value.genderError,
+                                      style: errorText(),
+                                    ),
+                                  ),
+                                )
                               : SizedBox(),
-
                           SizedBox(height: 30),
                           Text(Strings.Location, style: mulish14400),
                           SizedBox(height: 10),
@@ -482,7 +485,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 "_id": "65d2f99081b3e287c2a642c9",
                                 "name": value.nameController.text,
                                 "dob": value.dobController.text,
-                                "gender": "",
+                                "gender": value.gender,
                                 "location": value.locationController.text,
                                 "job": value.jobController.text,
                                 "company": value.companyController.text,

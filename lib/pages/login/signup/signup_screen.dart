@@ -354,7 +354,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (c) => EnterPersonalDataScreen(),
+                                    builder: (c) => ProfilePhotoScreen(),
                                   ),
                                 );
                               }

@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       loader = true;
       setState(() {});
-      signUpModel = await LoginApi.login(body: body);
+      signUpModel = await LoginApi.login(body: body,);
       loader = false;
       setState(() {});
     } catch (e) {
