@@ -122,7 +122,6 @@ class SignUpProvider  extends ChangeNotifier {
     passwordValidation();
     confirmPasswordValidation();
   }
-
   validation() {
     val();
     if (emailError == '' && nameError == '' && dobError == '' && passwordError == '' && confirmPasswordError == '') {

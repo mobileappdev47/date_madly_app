@@ -14,6 +14,7 @@ import '../../../utils/colors.dart';
 import '../../../utils/font_family.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
+import '../../new/enter_personal_data/enter_personal_data_screen.dart';
 import '../Login_with_phone.dart';
 import '../profile_photo/profile_photo_screen.dart';
 
@@ -74,7 +75,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Text(
                             Strings.cancle,
                             style: TextStyle(color: ColorRes.appColor),
-                          )
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -350,12 +351,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               };
                               if (value.validation()) {
                                 await signUpApiCall();
-                                // Navigator.pushReplacement(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (c) => ProfilePhotoScreen(),
-                                //   ),
-                                // );
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (c) => EnterPersonalDataScreen(),
+                                  ),
+                                );
                               }
                             }),
                       ),

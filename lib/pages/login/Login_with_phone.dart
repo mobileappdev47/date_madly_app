@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
@@ -442,7 +443,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
+                            builder: (context) => SignUpScreen(),//LoginScreen()//
                           ));
                     },
                     child: Row(

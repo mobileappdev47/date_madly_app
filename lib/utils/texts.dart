@@ -125,6 +125,7 @@ class Strings {
   static const date = "DATE";
   static const now = "now !";
   static const sign_up = "Sign Up";
+  static const log_in = "LogIn";
   static const To_continue = "To continue Blind Date asks you";
   static const to_activate = "to activate GPS.";
   static const oke = "Oke";
@@ -170,6 +171,7 @@ class Strings {
   static const enter_job = "Enter job";
   static const enter_company = "Enter company";
   static const college = "College";
+  static const company = "Company";
   static const enter_college = "Enter college";
   static const Continue = "Continue";
   static const when_you =
@@ -195,5 +197,8 @@ class Strings {
   static const hipatricia = "Hi Patricia, You look beautiful.";
   static const write_a_message = "Write a message";
   static const almost_all = "Almost all music genres I like, \n but what I like best is rock and roll music.";
+
+///---------------------------------------- PhoneOTP ----------------------------------------///
+
 
 }
