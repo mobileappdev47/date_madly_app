@@ -18,6 +18,7 @@ import 'package:date_madly_app/pages/login/work.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/pages/me/my_gallery.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
+import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/providers/city_provider.dart';
@@ -117,7 +118,9 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => ChatProvider()),
     ChangeNotifierProvider(create: (_) => LikesProvider()),
     ChangeNotifierProvider(create: (_) => EditProfileProvider()),
-    ChangeNotifierProvider(create: (_) => UploadImageProvider())
+    ChangeNotifierProvider(create: (_) => UploadImageProvider()),
+    ChangeNotifierProvider(create: (_) => UploadImageProvider()),
+    ChangeNotifierProvider(create: (_) => Updateprovider()),
   ], child: const MyApp()));
 }
 

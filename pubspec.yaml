@@ -73,6 +73,8 @@ dependencies:
   pinput: ^3.0.1
   pin_input_text_field: ^4.5.1
   pin_code_fields:
+  http:
+  toast:
   flutter_card_swiper: ^6.0.0
 
 

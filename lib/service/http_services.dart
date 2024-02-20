@@ -36,12 +36,15 @@ class HttpService {
       return http.post(
         Uri.parse(url),
         headers: header,
-        body: jsonEncode(body),
+        body: body,
       );
     } catch (e) {
+      // showToast(e.toString());
       return null;
     }
   }
+
+
 
   static Future<http.Response?> putApi({
     required String url,
