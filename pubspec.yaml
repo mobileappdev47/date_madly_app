@@ -40,6 +40,7 @@ dependencies:
   firebase_messaging: ^14.6.9
   firebase_auth: ^4.2.2
   country_picker: ^2.0.19
+  firebase_storage: ^11.6.6
   # datetime_picker_formfield:
   intl:
   flutter_spinkit:
@@ -76,6 +77,7 @@ dependencies:
   http:
   toast:
   flutter_card_swiper: ^6.0.0
+  cloud_firestore: ^4.15.5
 
 
 

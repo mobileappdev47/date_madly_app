@@ -1,7 +1,12 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/network/api.dart';
+import 'package:date_madly_app/pages/chat/new_provider.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
@@ -19,7 +24,14 @@ import '../../utils/texts.dart';
 import 'call.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String? email;
+  final String? roomId;
+  final String? otherEmail;
+  final String? userEmail;
+
+  ChatScreen(
+      {Key? key, this.email, this.userEmail, this.otherEmail, this.roomId})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -29,226 +41,518 @@ class _ChatScreenState extends State<ChatScreen> {
   TextEditingController searchController = TextEditingController();
 
   @override
+  String userEmail = PrefService.getString(PrefKeys.email).toString();
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: ColorRes.lgrey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(100.0),
-        child: Container(
-          padding: EdgeInsets.only(top: 20),
-          decoration: BoxDecoration(
-            color: Colors.white, // AppBar background color
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: Radius.circular(30.0),
-            ),
-          ),
-          child: Center(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: 0),
-              child: AppBar(
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                // Remove the shadow
-                leading: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: ColorRes.grey,
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+    return Consumer<NewChatProvider>(
+      builder: (context, value, child) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          backgroundColor: ColorRes.lgrey,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(100.0),
+            child: Container(
+              padding: EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                color: Colors.white, // AppBar background color
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30.0),
+                  bottomRight: Radius.circular(30.0),
                 ),
-                title: Row(
-                  children: [
-                    Image.asset(
-                      AssertRe.Add_Image,
-                      scale: 3,
-                      fit: BoxFit.fill,
+              ),
+              child: Center(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 0),
+                  child: AppBar(
+                    backgroundColor: Colors.transparent,
+                    elevation: 0,
+                    // Remove the shadow
+                    leading: IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: ColorRes.grey,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    title: Row(
                       children: [
-                        Text(
-                          Strings.Patricia,
-                          style: mulishbold.copyWith(
-                            fontSize: 20,
-                            color: ColorRes.darkGrey,
-                          ),
+                        Image.asset(
+                          AssertRe.Add_Image,
+                          scale: 3,
+                          fit: BoxFit.fill,
                         ),
                         SizedBox(
-                          height: 5,
+                          width: 20,
                         ),
-                        Text(
-                          Strings.online,
-                          style: mulishbold.copyWith(
-                            fontSize: 15,
-                            color: ColorRes.darkGrey,
-                          ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              Strings.Patricia,
+                              style: mulishbold.copyWith(
+                                fontSize: 20,
+                                color: ColorRes.darkGrey,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              Strings.online,
+                              style: mulishbold.copyWith(
+                                fontSize: 15,
+                                color: ColorRes.darkGrey,
+                              ),
+                            )
+                          ],
                         )
                       ],
-                    )
-                  ],
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Image.asset(
+                          AssertRe.Call,
+                          scale: 3,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Call(),
+                          ));
+                        },
+                      ),
+                      IconButton(
+                        icon: Image.asset(
+                          AssertRe.Video_Call,
+                          scale: 3,
+                        ),
+                        onPressed: () {},
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
                 ),
-                actions: [
-                  IconButton(
-                    icon: Image.asset(
-                      AssertRe.Call,
-                      scale: 3,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => Call(),
-                      ));
-                    },
-                  ),
-                  IconButton(
-                    icon: Image.asset(
-                      AssertRe.Video_Call,
-                      scale: 3,
-                    ),
-                    onPressed: () {},
-                  ),
+              ),
+            ),
+          ),
+          body: Column(
+            children: [
+              // Spacer(),
+              // Container(
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       CustomPaint(
+              //         painter: ChatBubblePainter(),
+              //         child: Container(
+              //           padding: EdgeInsets.all(10.0),
+              //           decoration: BoxDecoration(
+              //             color: ColorRes.colorFF9BAD,
+              //             borderRadius: BorderRadius.circular(10.0),
+              //           ),
+              //           child: Text(
+              //             Strings.hipatricia,
+              //             style: mulish14400.copyWith(
+              //               fontSize: 12,
+              //               color: ColorRes.darkGrey,
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       SizedBox(
+              //         width: 15,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 12,
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(right: 0, left: 20),
+              //   child: Container(
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.start,
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         Container(
+              //           padding: EdgeInsets.all(10.0),
+              //           decoration: BoxDecoration(
+              //             color: ColorRes.white,
+              //             borderRadius: BorderRadius.only(
+              //                 topRight: Radius.circular(20),
+              //                 bottomLeft: Radius.circular(20),
+              //                 bottomRight: Radius.circular(20)),
+              //           ),
+              //           child: SizedBox(
+              //             child: Text(
+              //               Strings.almost_all,
+              //               style: mulishbold.copyWith(
+              //                 fontSize: 12,
+              //                 color: ColorRes.grey,
+              //               ),
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              Expanded(
+                child: StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("chats")
+                      .doc(widget.roomId)
+                      .collection(widget.roomId!)
+                      .orderBy("time", descending: true)
+                      .limit(1000)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    }
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const SizedBox();
+                      default:
+                        List<DocumentSnapshot> documents = snapshot.data!.docs;
+                        return ListView.builder(
+                          controller: value.listScrollController,
+                          reverse: true,
+                          itemCount: documents.length,
+                          itemBuilder: (context, index) {
+                            // Check for the end of the list to load more
+                            if (index >= documents.length - 1) {
+                              // Load more items
+                            }
+                            Map<String, dynamic>? data = documents[index].data()
+                                as Map<String, dynamic>?;
+                            if (data == null) {
+                              return const SizedBox();
+                            } else {
+                              if (data['read'] != true &&
+                                  data['senderUid'].toString() !=
+                                      widget.email) {
+                                value.setReadTrue(
+                                  documents[index].id,
+                                );
+                                // setState(() {});
+                              }
+
+                              return documents[index]["senderUid"] != userEmail
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const SizedBox(width: 10),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              documents[index]["type"] ==
+                                                      "image"
+                                                  ? Container(
+                                                      height: 150,
+                                                      width: 150,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      child: CachedNetworkImage(
+                                                          imageUrl:
+                                                              documents[index]
+                                                                  ["content"],
+                                                          fit: BoxFit.fill,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              Image.asset(
+                                                                  'assets/images/image_placeholder.png'),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Image.asset(
+                                                                  'assets/images/image_placeholder.png')),
+                                                    )
+                                                  : Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 0,
+                                                              left: 20),
+                                                      child: Container(
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: ColorRes
+                                                                    .white,
+                                                                borderRadius: BorderRadius.only(
+                                                                    topRight: Radius
+                                                                        .circular(
+                                                                            20),
+                                                                    bottomLeft:
+                                                                        Radius.circular(
+                                                                            20),
+                                                                    bottomRight:
+                                                                        Radius.circular(
+                                                                            20)),
+                                                              ),
+                                                              child: SizedBox(
+                                                                child: Text(
+                                                                  documents[
+                                                                          index]
+                                                                      [
+                                                                      "content"],
+                                                                  style: mulishbold
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color:
+                                                                        ColorRes
+                                                                            .grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                              const SizedBox(
+                                                height: 3,
+                                              ),
+                                              // Text(
+                                              //   DateFormat("hh:mm aa").format(
+                                              //       DateTime
+                                              //           .fromMillisecondsSinceEpoch(
+                                              //               documents[index]
+                                              //                   ["time"])),
+                                              //   style: const TextStyle(
+                                              //       color: ColorRes.black,
+                                              //       fontSize: 8),
+                                              // ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              documents[index]["type"] ==
+                                                      "image"
+                                                  ? Container(
+                                                      height: 150,
+                                                      width: 150,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      clipBehavior:
+                                                          Clip.hardEdge,
+                                                      child: CachedNetworkImage(
+                                                          imageUrl:
+                                                              documents[index]
+                                                                  ["content"],
+                                                          fit: BoxFit.fill,
+                                                          placeholder: (context,
+                                                                  url) =>
+                                                              Image.asset(
+                                                                  'assets/images/image_placeholder.png'),
+                                                          errorWidget: (context,
+                                                                  url, error) =>
+                                                              Image.asset(
+                                                                  'assets/images/image_placeholder.png')),
+                                                    )
+                                                  : Container(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          CustomPaint(
+                                                            painter:
+                                                                ChatBubblePainter(),
+                                                            child: Container(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(
+                                                                          10.0),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: ColorRes
+                                                                    .colorFF9BAD,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                              ),
+                                                              child: Text(
+                                                                documents[index]
+                                                                    ["content"],
+                                                                style: mulish14400
+                                                                    .copyWith(
+                                                                  fontSize: 12,
+                                                                  color: ColorRes
+                                                                      .darkGrey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            width: 15,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+
+                                              const SizedBox(
+                                                height: 3,
+                                              ),
+                                              // Align(
+                                              //   alignment:
+                                              //       Alignment.centerRight,
+                                              //   child: Text(
+                                              //     DateFormat("hh:mm aa").format(
+                                              //         DateTime
+                                              //             .fromMillisecondsSinceEpoch(
+                                              //                 documents[index]
+                                              //                     ["time"])),
+                                              //     style: const TextStyle(
+                                              //         color: ColorRes.black,
+                                              //         fontSize: 8),
+                                              //   ),
+                                              // ),
+                                            ],
+                                          ),
+                                          const SizedBox(width: 10),
+                                          /*      Container(
+                                              height: Get.height * 0.05,
+                                              width: Get.height * 0.05,
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white,
+                                                  shape: BoxShape.circle),
+                                              clipBehavior: Clip.hardEdge,
+                                              child: SizedBox(
+                                                  height: 35,
+                                                  width: 35,
+                                                  child: CachedNetworkImage(
+                                                      imageUrl: myName ?? "", fit: BoxFit.cover,
+                                                      placeholder: (context, url) => Image.asset(AssetRes.user),
+                                                      errorWidget: (context, url, error) => Image.asset(AssetRes.user))),
+                                            ),*/
+                                        ],
+                                      ),
+                                    );
+                            }
+                          },
+                        );
+                    }
+                  },
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
                   SizedBox(
-                    width: 10,
+                    height: 50,
+                    width: 300,
+                    child: TextField(
+                      controller: searchController,
+                      // keyboardType: TextInputType.phone,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: ColorRes.white,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        hintText: Strings.write_a_message,
+                        border: InputBorder.none,
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.only(right: 13.0),
+                          child: Image.asset(
+                            AssertRe.Emoticon,
+                            color: ColorRes.grey,
+                            scale: 3,
+                          ),
+                        ),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            value.pickImage(context, value.roomId);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 13.0),
+                            child: Image.asset(
+                              AssertRe.Camera2,
+                              color: ColorRes.grey,
+                              scale: 3,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      onTap: () {},
+                      onChanged: ((value) => {print(value)}),
+                    ),
+                  ),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor: ColorRes.appColor,
+                    child: Image.asset(
+                      AssertRe.Send,
+                      scale: 4,
+                    ),
                   )
                 ],
               ),
-            ),
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          Spacer(),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomPaint(
-                  painter: ChatBubblePainter(),
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: ColorRes.colorFF9BAD,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Text(
-                      Strings.hipatricia,
-                      style: mulish14400.copyWith(
-                        fontSize: 12,
-                        color: ColorRes.darkGrey,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 0, left: 20),
-            child: Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(
-                      color: ColorRes.white,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20)),
-                    ),
-                    child: SizedBox(
-                      child: Text(
-                        Strings.almost_all,
-                        style: mulishbold.copyWith(
-                          fontSize: 12,
-                          color: ColorRes.grey,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
               SizedBox(
-                height: 50,
-                width: 300,
-                child: TextField(
-                  controller: searchController,
-                  // keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: ColorRes.white,
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    hintText: Strings.write_a_message,
-                    border: InputBorder.none,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 13.0),
-                      child: Image.asset(
-                        AssertRe.Emoticon,
-                        color: ColorRes.grey,
-                        scale: 3,
-                      ),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.only(right: 13.0),
-                      child: Image.asset(
-                        AssertRe.Camera2,
-                        color: ColorRes.grey,
-                        scale: 3,
-                      ),
-                    ),
-                  ),
-
-                  onTap: () {},
-                  onChanged: ((value) => {print(value)}),
-                ),
+                height: 15,
               ),
-              CircleAvatar(
-                radius: 25,
-                backgroundColor: ColorRes.appColor,
-                child: Image.asset(
-                  AssertRe.Send,
-                  scale: 4,
-                ),
-              )
             ],
           ),
-          SizedBox(
-            height: 15,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

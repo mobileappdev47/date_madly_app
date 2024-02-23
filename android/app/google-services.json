@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "638859477068",
-    "project_id": "lovecirco-b4c35",
-    "storage_bucket": "lovecirco-b4c35.appspot.com"
+    "project_number": "914912403564",
+    "project_id": "love-circo",
+    "storage_bucket": "love-circo.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:638859477068:android:8d05cfdde50bb8246ef4e9",
+        "mobilesdk_app_id": "1:914912403564:android:180fc7869cad551620f849",
         "android_client_info": {
-          "package_name": "com.loveCircle.app"
+          "package_name": "com.lovecirco.app"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDekd-sCwC3vHX00gkb50Jful9UyncI1fg"
+          "current_key": "AIzaSyAzFaniMZ-QFA4MUxL6DpurHyvxhsuGxXo"
         }
       ],
       "services": {

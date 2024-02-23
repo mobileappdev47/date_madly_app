@@ -88,29 +88,29 @@ class _PhoneOTPState extends State<PhoneOTP> {
     );
   }
 
-  verifyPhone(BuildContext context) {
-    try {
-      Provider.of<AuthProvider>(context, listen: false)
-          .verifyPhone(selectedCountryCode,
-              selectedCountryCode + controller.text.toString())
-          .then((value) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => VerifyOTP(
-                    selectedCountryCode + controller.text.toString())));
-      }).catchError((e) {
-        String errorMsg = 'Cant Authenticate you, Try Again Later';
-        if (e.toString().contains(
-            'We have blocked all requests from this device due to unusual activity. Try again later.')) {
-          errorMsg = 'Please wait as you have used limited number request';
-        }
-        _showErrorDialog(context, errorMsg);
-      });
-    } catch (e) {
-      _showErrorDialog(context, e.toString());
-    }
-  }
+  // verifyPhone(BuildContext context) {
+  //   try {
+  //     Provider.of<AuthProvider>(context, listen: false)
+  //         .verifyPhone(selectedCountryCode,
+  //             selectedCountryCode + controller.text.toString())
+  //         .then((value) {
+  //       Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => VerifyOTP(
+  //                   selectedCountryCode + controller.text.toString())));
+  //     }).catchError((e) {
+  //       String errorMsg = 'Cant Authenticate you, Try Again Later';
+  //       if (e.toString().contains(
+  //           'We have blocked all requests from this device due to unusual activity. Try again later.')) {
+  //         errorMsg = 'Please wait as you have used limited number request';
+  //       }
+  //       _showErrorDialog(context, errorMsg);
+  //     });
+  //   } catch (e) {
+  //     _showErrorDialog(context, e.toString());
+  //   }
+  // }
 
   void selectCountry() {
     showCountryPicker(
@@ -443,7 +443,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),//LoginScreen()//
+                            builder: (context) =>
+                                SignUpScreen(), //LoginScreen()//
                           ));
                     },
                     child: Row(

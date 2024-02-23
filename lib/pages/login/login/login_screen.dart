@@ -140,7 +140,9 @@ import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -224,21 +226,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               text: Strings.by_click,
                               style: mulish14400,
                               children: [
-                                TextSpan(
-                                    text: Strings.parken,
-                                    style: greyText().copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    )),
-                                TextSpan(
-                                  text: Strings.acknlowledge,
-                                  style: greyText(),
-                                ),
-                                TextSpan(
-                                    text: Strings.Privacy,
-                                    style: mulish14400.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                    )),
-                              ])),
+                            TextSpan(
+                                text: Strings.parken,
+                                style: greyText().copyWith(
+                                  fontWeight: FontWeight.w700,
+                                )),
+                            TextSpan(
+                              text: Strings.acknlowledge,
+                              style: greyText(),
+                            ),
+                            TextSpan(
+                                text: Strings.Privacy,
+                                style: mulish14400.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ])),
                       SizedBox(height: 40),
                       CommonField(
                         label: Strings.emails,
@@ -246,15 +248,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       value.emailError != ""
                           ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            value.emailError,
-                            style: errorText(),
-                          ),
-                        ),
-                      )
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 3),
+                                child: Text(
+                                  value.emailError,
+                                  style: errorText(),
+                                ),
+                              ),
+                            )
                           : SizedBox(),
                       SizedBox(height: 20),
                       TextField(
@@ -300,18 +302,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       value.passwordError != ""
                           ? Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 3),
-                          child: Text(
-                            value.passwordError,
-                            style: errorText(),
-                          ),
-                        ),
-                      )
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 3),
+                                child: Text(
+                                  value.passwordError,
+                                  style: errorText(),
+                                ),
+                              ),
+                            )
                           : SizedBox(),
                       SizedBox(height: 20),
-
                       SizedBox(
                         height: 7,
                       ),
@@ -326,10 +327,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Expanded(
                               child: Text(
-                                Strings.password_must,
-                                style:
+                            Strings.password_must,
+                            style:
                                 TextStyle(fontSize: 12, color: ColorRes.black),
-                              )),
+                          )),
                         ],
                       ),
                       SizedBox(
@@ -349,11 +350,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
-                              body = {
-
-                              };
+                              body = {};
                               if (value.validation()) {
                                 await loginapi();
+                                await PrefService.setValue(
+                                    PrefKeys.email, value.emailController.text);
+
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
