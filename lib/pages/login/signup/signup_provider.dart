@@ -8,6 +8,7 @@ class SignUpProvider  extends ChangeNotifier {
   TextEditingController dobController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController typeController = TextEditingController();
 
   bool obscureText = true;
 
@@ -18,12 +19,14 @@ class SignUpProvider  extends ChangeNotifier {
   String dob = '';
   String password = '';
   String confirmPassword = '';
+  String type = '';
 
   String emailError = '';
   String nameError = '';
   String dobError = '';
   String passwordError = '';
   String confirmPasswordError = '';
+  String typeError = '';
 
   emailValidation() {
     if (emailController.text.trim() == "") {

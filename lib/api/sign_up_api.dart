@@ -13,10 +13,12 @@ class SignUpApi {
       print('Status Code===========${response!.statusCode}');
 
       if (response != null && response.statusCode == 200) {
-        return signUpModelFromJson(response.body);
+        return signupFromJson(response.body);
       } else {
         print('Something went wrong');
       }
-    } catch (e) {}
+    } catch (e) {
+      return null;
+    }
   }
 }

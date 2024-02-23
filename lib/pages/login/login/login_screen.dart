@@ -168,13 +168,13 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, dynamic> body = {};
   bool loader = false;
   //loginmodel
-  SignUpModel signUpModel = SignUpModel();
+  Signup signup = Signup();
 
   loginapi() async {
     try {
       loader = true;
       setState(() {});
-      signUpModel = await LoginApi.login(body: body,);
+      signup = await LoginApi.login(body: body,);
       loader = false;
       setState(() {});
     } catch (e) {

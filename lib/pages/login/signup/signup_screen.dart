@@ -30,13 +30,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String textConfirm = '';
   Map<String, dynamic> body = {};
   bool loader = false;
-  SignUpModel signUpModel = SignUpModel();
+  Signup signup = Signup();
 
   signUpApiCall() async {
     try {
       loader = true;
       setState(() {});
-      signUpModel = await SignUpApi.signUpApi(body: body);
+      signup = await SignUpApi.signUpApi(body: body);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -327,26 +327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "name": value.nameController.text,
                                 "email": value.emailController.text,
                                 "password": value.passwordController.text,
-                                "device_tokens": [],
-                                "images": [],
-                                "profileScore": 0,
-                                "gender": "",
                                 "dob": value.dobController.text,
-                                "height": 0,
-                                "live": "",
-                                "belongTo": "",
-                                "relationStatus": "",
-                                "degree": "",
-                                "institute": "",
-                                "designation": "",
-                                "company": "",
-                                "income": "",
-                                "describe": [],
-                                "visibility": 1,
-                                "bio": "",
-                                "spark": 1,
-                                "isOnline": 1,
-                                "basic_Info": "",
                                 "type": "email"
                               };
                               if (value.validation()) {

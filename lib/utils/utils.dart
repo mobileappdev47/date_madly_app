@@ -1,3 +1,7 @@
+import 'package:flutter/cupertino.dart';
+
+import '../api/additinal_details_api.dart';
+
 class Utils {
   static var gender = [
     "Man",
@@ -59,6 +63,20 @@ class Utils {
     "Accountant"
   ];
   static var income = ["<10", "10-20", "20-50", "50+", "Private"];
+  static var sunSign = [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces"
+  ];
   static var cusine = [
     "Italian",
     "Indian",
@@ -74,20 +92,6 @@ class Utils {
     "Moroccan",
     "All things Food"
   ];
-  static var sunSign = [
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces"
-  ];
   static var political = [
     "Moderate",
     "Liberal",
@@ -96,9 +100,7 @@ class Utils {
     "Not Political",
     "Others"
   ];
-
   static var lookingFor = ["Relationship", "Casual", "Both", "Don't know"];
-
   static var personality = ["Introvert", "Extrovert", "Ambivert"];
   static var firstDate = [
     "Coffee Date",

@@ -16,6 +16,7 @@ class UpdateUserApi {
       http.Response? response = await HttpService.postApi(url: url, body: body);
       print('Status Code===========${response!.statusCode}');
       if (response != null && response?.statusCode == 200) {
+        print('Status Code===========${response!.statusCode}');
         Navigator.push(
             context,
             MaterialPageRoute(
