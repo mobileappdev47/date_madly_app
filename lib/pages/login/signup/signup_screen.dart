@@ -3,7 +3,9 @@ import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +18,7 @@ import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
 import '../Login_with_phone.dart';
 import '../profile_photo/profile_photo_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -31,6 +34,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool loader = false;
   SignUpModel signUpModel = SignUpModel();
 
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
   signUpApiCall(body) async {
     try {
       loader = true;
@@ -43,6 +48,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {});
       print(e.toString());
     }
+  }
+
+  addDataInFirebase(
+      {required String email, required Map<String, dynamic> map}) async {
+    await fireStore.collection("Auth").doc(email).set(map);
+    await PrefService.setValue(PrefKeys.email, email);
   }
 
   @override
@@ -352,7 +363,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   "basic_Info": "",
                                   "type": "email"
                                 };
+                                Map<String, dynamic> map2 = {
+                                  // 'uid': value.emailController.text,
+                                  "Email": value.emailController.text,
+                                };
                                 await signUpApiCall(body);
+                                addDataInFirebase(
+                                    email: value.emailController.text,
+                                    map: map2);
                               }
                             }),
                       ),

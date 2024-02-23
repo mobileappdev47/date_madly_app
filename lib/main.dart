@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:country_codes/country_codes.dart';
+
+import 'package:date_madly_app/pages/chat/new_provider.dart';
+import 'package:date_madly_app/pages/chat/main.dart';
 import 'package:date_madly_app/pages/home/home.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/dob.dart';
@@ -13,6 +16,7 @@ import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/login/relationship_status.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/pages/login/tall.dart';
 import 'package:date_madly_app/pages/login/work.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
@@ -73,10 +77,11 @@ Future<void> main() async {
   } else {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyDekd-sCwC3vHX00gkb50Jful9UyncI1fg",
-        appId: "1:638859477068:android:8d05cfdde50bb8246ef4e9",
-        messagingSenderId: "638859477068",
-        projectId: "lovecirco-b4c35",
+        apiKey: "AIzaSyAzFaniMZ-QFA4MUxL6DpurHyvxhsuGxXo",
+        appId: "1:914912403564:android:180fc7869cad551620f849",
+        messagingSenderId: "914912403564",
+        projectId: "love-circo",
+        storageBucket: 'love-circo.appspot.com',
       ),
     );
   }
@@ -121,6 +126,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => UploadImageProvider()),
     ChangeNotifierProvider(create: (_) => UploadImageProvider()),
     ChangeNotifierProvider(create: (_) => Updateprovider()),
+    ChangeNotifierProvider(create: (_) => NewChatProvider()),
   ], child: const MyApp()));
 }
 
@@ -162,6 +168,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ChangeNotifierProvider(create: (_) => PhoneAuthProvider()),
 class PreSplashScreen extends StatefulWidget {
   const PreSplashScreen({Key? key}) : super(key: key);
 
