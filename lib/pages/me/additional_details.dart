@@ -22,6 +22,7 @@ class AdditionalDetails extends StatefulWidget {
 }
 
 class _AdditionalDetailsState extends State<AdditionalDetails> {
+  var _gender;
   Api api = Api();
 
   // late String selectedItem;
@@ -34,7 +35,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   int di = -1;
   late String question;
   late List<String> array;
-  int? _selectedIndex;
+  int? _selectedIndex; // Variable to store the selected index
   var selectedSunSign = '';
   var selectedCuisine = '';
   var selectedPastime = '';
@@ -45,16 +46,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   var selectedPersonality = '';
   var selectedLookingFor = '';
   var selectedPoliticalViews = '';
-  List<String> sunSignData = [];
-  List<String> cuisineData = [];
-  List<String> pastimeData = [];
-  List<String> Religion = [];
-  List<String> SmokingStatus = [];
-  List<String> DrinkingStatus = [];
-  List<String> FirstDate = [];
-  List<String> Personality = [];
-  List<String> LookingFor = [];
-  List<String> PoliticalViews = [];
   var selectedItem;
   AdditinalDetail additinalDetail = AdditinalDetail();
 
@@ -72,8 +63,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
       body: SafeArea(
         child: Center(
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisSize: MainAxisSize.max,
+              // crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisSize: MainAxisSize.max,
               children: [
                 const SizedBox(height: 10),
                 Text(
@@ -112,50 +103,40 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       itemCount: array.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: (){
-                            setState(() async{
+                          onTap: () {
+                            setState(() async {
                               di = index;
 
                               if (widget.pageNo == 1) {
                                 selectedSunSign = array[index];
-                                await additionalApiCall(selectedSunSign: selectedSunSign);
-                                sunSignData = array;
+                                await additionalApiCall(selectedSunSign: selectedSunSign!);
                               } else if (widget.pageNo == 2) {
                                 selectedCuisine = array[index];
-                                await additionalApiCall(selectedCuisine: selectedCuisine);
-                                cuisineData= array;
+                                await additionalApiCall(selectedCuisine: selectedCuisine!);
                               } else if (widget.pageNo == 3) {
                                 selectedPoliticalViews = array[index];
-                                await additionalApiCall(selectedPastime: selectedPastime);
-                                pastimeData= array;
+                                await additionalApiCall(selectedPastime: selectedPastime!);
                               } else if (widget.pageNo == 4) {
                                 selectedLookingFor = array[index];
-                                await additionalApiCall(selectedReligion: selectedReligion);
-                                Religion= array;
+                                await additionalApiCall(selectedReligion: selectedReligion!);
                               } else if (widget.pageNo == 5) {
                                 selectedPersonality = array[index];
-                                await additionalApiCall(selectedSmokingStatus: selectedSmokingStatus);
-                                SmokingStatus= array;
+                                await additionalApiCall(selectedSmokingStatus: selectedSmokingStatus!);
                               } else if (widget.pageNo == 6) {
                                 selectedFirstDate = array[index];
-                                await additionalApiCall(selectedDrinkingStatus: selectedDrinkingStatus);
-                                DrinkingStatus= array;
+                                await additionalApiCall(selectedDrinkingStatus: selectedDrinkingStatus!);
                               } else if (widget.pageNo == 7) {
                                 selectedDrinkingStatus = array[index];
-                                await additionalApiCall(selectedFirstDate: selectedFirstDate);
-                                FirstDate= array;
+                                await additionalApiCall(selectedFirstDate: selectedFirstDate!);
                               } else if (widget.pageNo == 8) {
                                 selectedSmokingStatus = array[index];
-                                await additionalApiCall(selectedPersonality: selectedPersonality);
-                                Personality= array;
+                                await additionalApiCall(selectedPersonality: selectedPersonality!);
                               } else if (widget.pageNo == 9) {
                                 selectedReligion = array[index];
-                                await additionalApiCall(selectedLookingFor: selectedLookingFor);
-                                LookingFor= array;
+                                await additionalApiCall(selectedLookingFor: selectedLookingFor!);
                               } else if (widget.pageNo == 10) {
                                 selectedPastime = array[index];
-                                await additionalApiCall(selectedPoliticalViews: selectedPoliticalViews);
-                                PoliticalViews= array;
+                                await additionalApiCall(selectedPoliticalViews: selectedPoliticalViews!);
 
                               }
                             });
@@ -212,7 +193,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                         ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
-                              MaterialStateProperty.all(ColorRes.appColor)),
+                                  MaterialStateProperty.all(ColorRes.appColor)),
                           onPressed: () async {
                             if (widget.pageNo == 10) {
                               callApi();
@@ -323,25 +304,25 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
 
   void callApi() {
     if (widget.pageNo == 1) {
-      additionalApiCall(selectedSunSign: selectedSunSign);
+      additionalApiCall(selectedSunSign: selectedSunSign!);
     } else if (widget.pageNo == 2) {
-      additionalApiCall(selectedCuisine: selectedCuisine);
+      additionalApiCall(selectedCuisine: selectedCuisine!);
     } else if (widget.pageNo == 3) {
-      additionalApiCall(selectedPastime: selectedPastime);
+      additionalApiCall(selectedPastime: selectedPastime!);
     } else if (widget.pageNo == 4) {
-      additionalApiCall(selectedReligion: selectedReligion);
+      additionalApiCall(selectedReligion: selectedReligion!);
     } else if (widget.pageNo == 5) {
-      additionalApiCall(selectedSmokingStatus: selectedSmokingStatus);
+      additionalApiCall(selectedSmokingStatus: selectedSmokingStatus!);
     } else if (widget.pageNo == 6) {
-      additionalApiCall(selectedDrinkingStatus: selectedDrinkingStatus);
+      additionalApiCall(selectedDrinkingStatus: selectedDrinkingStatus!);
     } else if (widget.pageNo == 7) {
-      additionalApiCall(selectedFirstDate: selectedFirstDate);
+      additionalApiCall(selectedFirstDate: selectedFirstDate!);
     } else if (widget.pageNo == 8) {
-      additionalApiCall(selectedPersonality: selectedPersonality);
+      additionalApiCall(selectedPersonality: selectedPersonality!);
     } else if (widget.pageNo == 9) {
-      additionalApiCall(selectedLookingFor: selectedLookingFor);
+      additionalApiCall(selectedLookingFor: selectedLookingFor!);
     } else if (widget.pageNo == 10) {
-      additionalApiCall(selectedPoliticalViews: selectedPoliticalViews);
+      additionalApiCall(selectedPoliticalViews: selectedPoliticalViews!);
     }
   }
 
@@ -358,7 +339,9 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
     String selectedPoliticalViews = '',
   }) async {
     try {
-
+      setState(() {
+        loading = true;
+      });
       var response = await AdditinalDetail.additinalApi(
         selectedSunSign: selectedSunSign,
         selectedCuisine: selectedCuisine,
@@ -371,13 +354,17 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
         selectedLookingFor: selectedLookingFor,
         selectedPoliticalViews: selectedPoliticalViews,
       );
-
+      setState(() {
+        loading = false;
+      });
       if (response != null) {
       } else {
         print('Something went wrong');
       }
     } catch (e) {
-
+      setState(() {
+        loading = false;
+      });
       print('Exception: $e');
     }
   }

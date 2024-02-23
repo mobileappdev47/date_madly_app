@@ -15,6 +15,7 @@ import '../../../utils/assert_re.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
+import '../../home/main.dart';
 
 class EnterPersonalDataScreen extends StatefulWidget {
   const EnterPersonalDataScreen({Key? key}) : super(key: key);
@@ -494,7 +495,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     "Passionate about coding and technology",
                               };
                               if (value.validation()) {
-                                await updateApiCall(context);
+                                // await updateApiCall(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeMain(),));
                               } // Call the API method
                             },
                             child: Container(
