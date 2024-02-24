@@ -10,6 +10,7 @@ import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/dob.dart';
 import 'package:date_madly_app/pages/login/gender.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
+import 'package:date_madly_app/pages/login/login/login_provider.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
@@ -126,6 +127,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => UploadImageProvider()),
     ChangeNotifierProvider(create: (_) => UploadImageProvider()),
     ChangeNotifierProvider(create: (_) => Updateprovider()),
+    ChangeNotifierProvider(create: (_) => LoginProvider()),
     ChangeNotifierProvider(create: (_) => NewChatProvider()),
   ], child: const MyApp()));
 }
@@ -140,29 +142,31 @@ class MyApp extends StatelessWidget {
       return DynamicColorBuilder(builder: (lightDynamic, darkDynamic) {
         appProvider.setDynamicColor(lightDynamic, darkDynamic, context);
         return MaterialApp(
-            key: appProvider.key,
-            debugShowCheckedModeBanner: false,
-            navigatorKey: appProvider.navigatorKey,
-            title: 'DateMadly App',
-            theme: themeData(appProvider.theme, appProvider.lightColorScheme,
-                appProvider.lightCustomColors),
-            darkTheme: themeData(ThemeConfig.darkTheme,
-                appProvider.darkColorScheme, appProvider.darkCustomColors),
-            themeMode:
-                MediaQuery.of(context).platformBrightness == Brightness.dark
-                    ? ThemeMode.dark
-                    : appProvider.theme == ThemeConfig.lightTheme
-                        ? ThemeMode.light
-                        : ThemeMode.dark,
-            // home: phone! && profileCompleted!
-            //     ? const HomeMain()
-            //     : phone!
-            //         ? const Gender()
-            //         : const PhoneOTP());
+          key: appProvider.key,
+          debugShowCheckedModeBanner: false,
+          navigatorKey: appProvider.navigatorKey,
+          title: 'DateMadly App',
+          theme: themeData(appProvider.theme, appProvider.lightColorScheme,
+              appProvider.lightCustomColors),
+          darkTheme: themeData(ThemeConfig.darkTheme,
+              appProvider.darkColorScheme, appProvider.darkCustomColors),
+          themeMode:
+              MediaQuery.of(context).platformBrightness == Brightness.dark
+                  ? ThemeMode.dark
+                  : appProvider.theme == ThemeConfig.lightTheme
+                      ? ThemeMode.light
+                      : ThemeMode.dark,
+          // home: phone! && profileCompleted!
+          //     ? const HomeMain()
+          //     : phone!
+          //         ? const Gender()
+          //         : const PhoneOTP());
 
-            home: ChangeNotifierProvider(
-                create: (context) => PhoneAuthProvider(),
-                child: const SplashScreen()));
+          home: ChangeNotifierProvider(
+            create: (context) => PhoneAuthProvider(),
+            child: EnterPersonalDataScreen(),
+          ),
+        );
       });
     });
   }
@@ -183,10 +187,11 @@ class _PreSplashScreenState extends State<PreSplashScreen> {
       Duration(milliseconds: 200),
       () {
         Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SplashScreen(),
-            ));
+          context,
+          MaterialPageRoute(
+            builder: (context) => SplashScreen(),
+          ),
+        );
       },
     );
     super.initState();
@@ -227,41 +232,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => AdditionalDetails(pageNo: 1, value: ''),
+          builder: (context) => PhoneOTP(),
         ));
-    // await getLoginData();
-  }
-
-  getLoginData() {
-    login = sharedPreferences.getBool('login') ?? false;
-    profileCompleted = sharedPreferences.getBool('profileCompleted') ?? false;
-    Timer(const Duration(milliseconds: 2000), () {
-      /* if(PrefService.getBool(PrefKeys.login) == true){
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => const HomeMain()));
-      }
-      else
-        {
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (c) => AdditionalDetails(pageNo: 1, value: '')));
-        }*/
-      if (login! && profileCompleted!) {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (c) => const HomeMain()));
-      } else if (login!) {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (c) => AdditionalDetails(pageNo: 1, value: '')));
-      } else {
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (c) => HomeMain()
-                // Work(show: true, company: 'company', income:'10000', id: '123456789')
-
-                ));
-      }
-    });
   }
 
   @override

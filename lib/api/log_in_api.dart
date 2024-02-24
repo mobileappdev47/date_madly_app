@@ -1,24 +1,37 @@
 import 'dart:convert';
-
-import 'package:date_madly_app/service/http_services.dart';
-
-import '../models/update_user.dart';
+import 'package:date_madly_app/models/login_model.dart';
+import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../utils/endpoint.dart';
 
 class LoginApi {
-  static login({Map<String, dynamic>? body}) async {
+  static login(Map<String, dynamic> body, context) async {
     try {
-      String url = EndPoints.login;
-      http.Response? response = await HttpService.postApi(url: url, body: body);
-      print(response!.statusCode);
-      if (response != null && response?.statusCode == 200) {
-        return updateUsersFromJson(response!.body);
+      var headers = {'Content-Type': 'application/json'};
+      var request = http.Request('POST', Uri.parse(EndPoints.login));
+      request.body = json.encode(body);
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var data = await response.stream.bytesToString();
+        PrefService.setValue(
+            PrefKeys.userId, loginModelFromJson(data).user?.id ?? '');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeMain(),
+            ));
+        return loginModelFromJson(data);
       } else {
-        print('Something went wrong');
+        print(response.reasonPhrase);
       }
     } catch (e) {
-      return null;
+      print(e.toString());
     }
   }
 }

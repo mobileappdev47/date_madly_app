@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/network/api.dart';
@@ -42,6 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   String userEmail = PrefService.getString(PrefKeys.email).toString();
   Widget build(BuildContext context) {
+    print(userEmail);
     return Consumer<NewChatProvider>(
       builder: (context, value, child) {
         return Scaffold(
@@ -82,30 +82,33 @@ class _ChatScreenState extends State<ChatScreen> {
                           fit: BoxFit.fill,
                         ),
                         SizedBox(
-                          width: 20,
+                          width: 10,
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              Strings.Patricia,
-                              style: mulishbold.copyWith(
-                                fontSize: 20,
-                                color: ColorRes.darkGrey,
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.otherEmail.toString().split('@').first ??
+                                    '',
+                                style: mulishbold.copyWith(
+                                    fontSize: 20,
+                                    color: ColorRes.darkGrey,
+                                    overflow: TextOverflow.ellipsis),
                               ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              Strings.online,
-                              style: mulishbold.copyWith(
-                                fontSize: 15,
-                                color: ColorRes.darkGrey,
+                              SizedBox(
+                                height: 5,
                               ),
-                            )
-                          ],
+                              Text(
+                                Strings.online,
+                                style: mulishbold.copyWith(
+                                  fontSize: 15,
+                                  color: ColorRes.darkGrey,
+                                ),
+                              )
+                            ],
+                          ),
                         )
                       ],
                     ),
@@ -493,7 +496,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     height: 50,
                     width: 300,
                     child: TextField(
-                      controller: searchController,
+                      controller: value.msController,
                       // keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         filled: true,
@@ -535,12 +538,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       onChanged: ((value) => {print(value)}),
                     ),
                   ),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: ColorRes.appColor,
-                    child: Image.asset(
-                      AssertRe.Send,
-                      scale: 4,
+                  GestureDetector(
+                    onTap: () {
+                      if (value.msController.text.isNotEmpty) {
+                        value.sendMessage(
+                          widget.roomId.toString(),
+                          widget.otherEmail,
+                        );
+                        FocusScope.of(context).unfocus();
+                      }
+                      setState(() {});
+                    },
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: ColorRes.appColor,
+                      child: Image.asset(
+                        AssertRe.Send,
+                        scale: 4,
+                      ),
                     ),
                   )
                 ],

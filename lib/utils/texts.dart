@@ -161,6 +161,7 @@ class Strings {
   static const add_from_galary = "ADD FROM GALLERY";
   static const use_camera = "USE CAMERA";
   static const done = "Done";
+
   ///---------------------------------------- Personal Data ----------------------------------------///
 
   static const enter_name = "Enter name";
@@ -177,28 +178,26 @@ class Strings {
   static const when_you =
       "I'm here when you need a sunny day, something good We can sing together on the beach and burn bonfires at night with the moonlight.";
 
-///---------------------------------------- Chat ----------------------------------------///
+  ///---------------------------------------- Chat ----------------------------------------///
 
   static const chat = "Chat";
   static const search_massages = "Search Massages";
   static const new_matches = "New Matches";
   static const messages = "Messages";
   static const pm = "08:33 PM";
-  static const Omg = "Omg, that was so much fun. Let\'s goto there";
+  static const Omg = "Omg, that was so much fun.";
 
-///---------------------------------------- MyMatches ----------------------------------------///
+  ///---------------------------------------- MyMatches ----------------------------------------///
 
   static const matches = "Matches";
   static const fashion_designer = "Fashion Designer";
-
 
   static const Patricia = "Patricia";
   static const online = "Online";
   static const hipatricia = "Hi Patricia, You look beautiful.";
   static const write_a_message = "Write a message";
-  static const almost_all = "Almost all music genres I like, \n but what I like best is rock and roll music.";
+  static const almost_all =
+      "Almost all music genres I like, \n but what I like best is rock and roll music.";
 
-///---------------------------------------- PhoneOTP ----------------------------------------///
-
-
+  ///---------------------------------------- PhoneOTP ----------------------------------------///
 }

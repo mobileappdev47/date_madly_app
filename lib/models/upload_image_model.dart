@@ -1,35 +1,42 @@
 // To parse this JSON data, do
 //
-//     final loginModel = loginModelFromJson(jsonString);
+//     final uploadImageModel = uploadImageModelFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) =>
-    LoginModel.fromJson(json.decode(str));
+UploadImageModel uploadImageModelFromJson(String str) =>
+    UploadImageModel.fromJson(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String uploadImageModelToJson(UploadImageModel data) =>
+    json.encode(data.toJson());
 
-class LoginModel {
-  User? user;
-  String? jwtToken;
+class UploadImageModel {
+  String? message;
+  String? imageUrl;
+  Profile? profile;
 
-  LoginModel({
-    this.user,
-    this.jwtToken,
+  UploadImageModel({
+    this.message,
+    this.imageUrl,
+    this.profile,
   });
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
-        jwtToken: json["jwtToken"],
+  factory UploadImageModel.fromJson(Map<String, dynamic> json) =>
+      UploadImageModel(
+        message: json["message"],
+        imageUrl: json["imageUrl"],
+        profile:
+            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "user": user?.toJson(),
-        "jwtToken": jwtToken,
+        "message": message,
+        "imageUrl": imageUrl,
+        "profile": profile?.toJson(),
       };
 }
 
-class User {
+class Profile {
   String? id;
   String? name;
   String? email;
@@ -47,7 +54,7 @@ class User {
   int? v;
   String? basicInfo;
 
-  User({
+  Profile({
     this.id,
     this.name,
     this.email,
@@ -66,7 +73,7 @@ class User {
     this.basicInfo,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["_id"],
         name: json["name"],
         email: json["email"],

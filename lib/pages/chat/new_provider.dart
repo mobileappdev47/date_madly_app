@@ -120,7 +120,6 @@ class NewChatProvider extends ChangeNotifier {
     if (isToday(lastMsg) == false) {
       await sendAlertMsg();
     }
-
     await setMessage(roomId, msg, userEmail);
     setLastMsgInDoc(msg);
     notifyListeners();

@@ -139,7 +139,7 @@ import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
-import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/pages/login/login/login_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -169,24 +169,24 @@ class _LoginScreenState extends State<LoginScreen> {
   String textConfirm = '';
   Map<String, dynamic> body = {};
   bool loader = false;
-  //loginmodel
-  Signup signup = Signup();
 
   loginapi() async {
     try {
       loader = true;
       setState(() {});
-      signup = await LoginApi.login(body: body,);
+      await LoginApi.login(body, context);
       loader = false;
       setState(() {});
     } catch (e) {
+      loader = false;
+      setState(() {});
       print(e.toString());
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SignUpProvider>(
+    return Consumer<LoginProvider>(
       builder: (context, value, child) {
         return Scaffold(
           backgroundColor: ColorRes.white,
@@ -350,18 +350,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
-                              body = {};
+                              body = {
+                                "email": value.emailController.text,
+                                "password": value.passwordController.text
+                              };
                               if (value.validation()) {
                                 await loginapi();
                                 await PrefService.setValue(
                                     PrefKeys.email, value.emailController.text);
-
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (c) => EnterPersonalDataScreen(),
-                                  ),
-                                );
                               }
                             }),
                       ),

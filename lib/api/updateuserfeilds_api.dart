@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class UpdateUserApi {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => HomeMain(),
             ));
 
         return updateUsersFromJson(response!.body);
