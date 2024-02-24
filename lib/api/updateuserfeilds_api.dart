@@ -18,11 +18,11 @@ class UpdateUserApi {
       if (response != null && response?.statusCode == 200) {
         print('Status Code===========${response!.statusCode}');
         Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Home(),
-            ));
-
+          context,
+          MaterialPageRoute(
+            builder: (context) => Home(),
+          ),
+        );
         return updateUsersFromJson(response!.body);
       } else {
         print('Something went wrong');

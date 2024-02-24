@@ -90,26 +90,26 @@ class _VerifyOTPState extends State<VerifyOTP> {
         print('********************${FirebaseMessaging.instance.getToken()}');
         var params = {"phoneNo": widget.phone, "device_tokens": fcmToken, "type":"phone"};
 
-        UserModel profile = await api.user(Api.userExistsURL, params, "");
+       // UserModel profile = await api.user(Api.userExistsURL, params, "");
 
         sharedPreferences.setBool('login', true);
         sharedPreferences.setString("phoneNo", widget.phone);
 
-        if (profile.user!.name! == 'User Exists') {
-          sharedPreferences.setBool("profileCompleted", true);
-          sharedPreferences.setString("id", profile.user!.sId!);
-          sharedPreferences.setString("gender", profile.user!.gender!);
-          sharedPreferences.setString("jwtToken", profile.user!.jwtToken!);
-          print("Token ${profile.user!.jwtToken}");
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (c) => const HomeMain()));
-          // print(profile.user!);
-        } else {
-          // ignore: use_build_context_synchronously
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => const Gender()));
-        }
+        // if (profile.user!.name! == 'User Exists') {
+        //   sharedPreferences.setBool("profileCompleted", true);
+        //   sharedPreferences.setString("id", profile.user!.sId!);
+        //   sharedPreferences.setString("gender", profile.user!.gender!);
+        //   sharedPreferences.setString("jwtToken", profile.user!.jwtToken!);
+        //   print("Token ${profile.user!.jwtToken}");
+        //   // ignore: use_build_context_synchronously
+        //   Navigator.pushReplacement(
+        //       context, MaterialPageRoute(builder: (c) => const HomeMain()));
+        //   // print(profile.user!);
+        // } else {
+        //   // ignore: use_build_context_synchronously
+        //   Navigator.pushReplacement(
+        //       context, MaterialPageRoute(builder: (context) => const Gender()));
+        // }
       }).catchError((e) {
         print("error $e");
         String errorMsg = 'Cant authentiate you Right now, Try again later!';

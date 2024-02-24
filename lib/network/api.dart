@@ -69,23 +69,23 @@ class Api {
     return signup;
   }
 
-  Future<UserModel> user(String url, params, token) async {
-    Response response = await dio.post(url, data: jsonEncode(params));
-
-    UserModel signup;
-    if (response.statusCode == 401) {
-      print("401 error");
-      throw const HttpException('401');
-    }
-    if (response.statusCode == 200) {
-      print(response.toString());
-      var json = jsonDecode(response.toString());
-      signup = UserModel.fromJson(json);
-    } else {
-      throw ('Error ${response.statusCode}');
-    }
-    return signup;
-  }
+  // Future<UserModel> user(String url, params, token) async {
+  //   Response response = await dio.post(url, data: jsonEncode(params));
+  //
+  //   UserModel signup;
+  //   if (response.statusCode == 401) {
+  //     print("401 error");
+  //     throw const HttpException('401');
+  //   }
+  //   if (response.statusCode == 200) {
+  //     print(response.toString());
+  //     var json = jsonDecode(response.toString());
+  //     signup = UserModel.fromJson(json);
+  //   } else {
+  //     throw ('Error ${response.statusCode}');
+  //   }
+  //   return signup;
+  // }
 
   Future<ProfileModel> profile(String url, params, token) async {
     Response response = await dio.post(url,
@@ -208,7 +208,7 @@ class Api {
     return signup;
   }
 
-  Future<LikeDislikeProfile> likedDislikeProfile(
+  Future<LikedDislikeProfile> likedDislikeProfile(
       String url, params, token) async {
     Response response = await dio.post(url,
         options: Options(headers: {
@@ -216,7 +216,7 @@ class Api {
           HttpHeaders.authorizationHeader: 'Bearer $token'
         }),
         data: jsonEncode(params));
-    LikeDislikeProfile signup;
+    LikedDislikeProfile signup;
     if (response.statusCode == 401) {
       print("401 error");
       throw const HttpException('401');
@@ -224,7 +224,7 @@ class Api {
     if (response.statusCode == 200) {
       // print(response.toString());
       var json = jsonDecode(response.toString());
-      signup = LikeDislikeProfile.fromJson(json);
+      signup = LikedDislikeProfile.fromJson(json);
     } else {
       throw ('Error ${response.statusCode}');
     }

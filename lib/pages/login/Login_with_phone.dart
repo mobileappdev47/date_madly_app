@@ -251,27 +251,27 @@ class _PhoneOTPState extends State<PhoneOTP> {
   Future<void> sendToServer(context, params, name, email) async {
     sharedPreferences = await SharedPreferences.getInstance();
 
-    UserModel profile = await api.user(Api.userExistsURL, params, "");
+    //UserModel profile = await api.user(Api.userExistsURL, params, "");
 
     sharedPreferences.setBool('login', true);
 
     sharedPreferences.setString("email", email);
 
-    if (profile.user!.name! == 'User Exists') {
-      sharedPreferences.setBool("profileCompleted", true);
-      sharedPreferences.setString("id", profile.user!.sId!);
-      sharedPreferences.setString("gender", profile.user!.gender!);
-      sharedPreferences.setString("jwtToken", profile.user!.jwtToken!);
-      // print("Token ${profile.user!.jwtToken}");
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (c) => const HomeMain()));
-      // print(profile.user!);
-    } else {
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const Gender()));
-    }
+    // if (profile.user!.name! == 'User Exists') {
+    //   sharedPreferences.setBool("profileCompleted", true);
+    //   sharedPreferences.setString("id", profile.user!.sId!);
+    //   sharedPreferences.setString("gender", profile.user!.gender!);
+    //   sharedPreferences.setString("jwtToken", profile.user!.jwtToken!);
+    //   // print("Token ${profile.user!.jwtToken}");
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (c) => const HomeMain()));
+    //   // print(profile.user!);
+    // } else {
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (context) => const Gender()));
+    // }
   }
 
   @override

@@ -1,172 +1,102 @@
 import 'package:date_madly_app/models/profile_model.dart';
 
-class LikeDislikeProfile {
-  List<LikedDislikeProfile>? likedDislikeProfile;
-  LikeDislikeProfile({this.likedDislikeProfile});
+// To parse this JSON data, do
+//
+//     final likedDislikeProfile = likedDislikeProfileFromJson(jsonString);
 
-  LikeDislikeProfile.fromJson(Map<String, dynamic> json) {
-    if (json['likedDislikeProfile'] != null) {
-      likedDislikeProfile = <LikedDislikeProfile>[];
-      json['likedDislikeProfile'].forEach((v) {
-        likedDislikeProfile!.add(LikedDislikeProfile.fromJson(v));
-      });
-    }
-  }
+import 'dart:convert';
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (likedDislikeProfile != null) {
-      data['likedDislikeProfile'] =
-          likedDislikeProfile!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
+LikedDislikeProfile likedDislikeProfileFromJson(String str) =>
+    LikedDislikeProfile.fromJson(json.decode(str));
+
+String likedDislikeProfileToJson(LikedDislikeProfile data) =>
+    json.encode(data.toJson());
 
 class LikedDislikeProfile {
-  String? sId;
-  String? userID;
-  LikedID? likedID;
-  int? status;
-  int? iV;
+  List<LikedDislikeProfileElement>? likedDislikeProfile;
 
-  LikedDislikeProfile(
-      {this.sId, this.userID, this.likedID, this.status, this.iV});
+  LikedDislikeProfile({
+    this.likedDislikeProfile,
+  });
 
-  LikedDislikeProfile.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    userID = json['userID'];
-    likedID =
-        json['likedID'] != null ? LikedID.fromJson(json['likedID']) : null;
-    status = json['status'];
-    iV = json['__v'];
-  }
+  factory LikedDislikeProfile.fromJson(Map<String, dynamic> json) =>
+      LikedDislikeProfile(
+        likedDislikeProfile: json["likedDislikeProfile"] == null
+            ? []
+            : List<LikedDislikeProfileElement>.from(json["likedDislikeProfile"]!
+                .map((x) => LikedDislikeProfileElement.fromJson(x))),
+      );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['userID'] = userID;
-    if (likedID != null) {
-      data['likedID'] = likedID!.toJson();
-    }
-    data['status'] = status;
-    data['__v'] = iV;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "likedDislikeProfile": likedDislikeProfile == null
+            ? []
+            : List<dynamic>.from(likedDislikeProfile!.map((x) => x.toJson())),
+      };
 }
 
-class LikedID {
-  String? sId;
+class LikedDislikeProfileElement {
+  String? id;
+  String? userId;
+  LikedId? likedId;
+  int? status;
+  int? v;
+
+  LikedDislikeProfileElement({
+    this.id,
+    this.userId,
+    this.likedId,
+    this.status,
+    this.v,
+  });
+
+  factory LikedDislikeProfileElement.fromJson(Map<String, dynamic> json) =>
+      LikedDislikeProfileElement(
+        id: json["_id"],
+        userId: json["userID"],
+        likedId:
+            json["likedID"] == null ? null : LikedId.fromJson(json["likedID"]),
+        status: json["status"],
+        v: json["__v"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "userID": userId,
+        "likedID": likedId?.toJson(),
+        "status": status,
+        "__v": v,
+      };
+}
+
+class LikedId {
+  String? id;
   String? name;
-  List<String>? deviceTokens;
-  List<String>? images;
-  int? profileScore;
-  int? phoneNo;
-  String? gender;
-  String? dob;
-  int? height;
-  String? live;
-  String? relationStatus;
-  String? degree;
-  String? designation;
-  String? company;
-  String? income;
-  List<String>? describe;
-  int? visibility;
-  int? spark;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-  BasicInfo? basicInfo;
-  int? isOnline;
+  List<dynamic>? images;
+  DateTime? dob;
 
-  LikedID(
-      {this.sId,
-      this.name,
-      this.deviceTokens,
-      this.images,
-      this.profileScore,
-      this.phoneNo,
-      this.gender,
-      this.dob,
-      this.height,
-      this.live,
-      this.relationStatus,
-      this.degree,
-      this.designation,
-      this.company,
-      this.income,
-      this.describe,
-      this.visibility,
-      this.spark,
-      this.createdAt,
-      this.updatedAt,
-      this.iV,
-      this.basicInfo,
-      this.isOnline});
+  LikedId({
+    this.id,
+    this.name,
+    this.images,
+    this.dob,
+  });
 
-  LikedID.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    if (json['device_tokens'] != null) {
-      deviceTokens = json['device_tokens'].cast<String?>();
-    }
-    images = json['images'].cast<String>();
-    profileScore = json['profileScore'];
-    phoneNo = json['phoneNo'];
-    gender = json['gender'];
-    dob = json['dob'];
-    height = json['height'];
-    live = json['live'];
-    relationStatus = json['relationStatus'];
-    degree = json['degree'];
-    designation = json['designation'];
-    company = json['company'];
-    income = json['income'];
-    if (json['describe'] != null) {
-      describe = json['describe'].cast<String>();
-    }
+  factory LikedId.fromJson(Map<String, dynamic> json) => LikedId(
+        id: json["_id"],
+        name: json["name"],
+        images: json["images"] == null
+            ? []
+            : List<dynamic>.from(json["images"]!.map((x) => x)),
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+      );
 
-    visibility = json['visibility'];
-    spark = json['spark'];
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-    basicInfo = json['basic_Info'] != null
-        ? BasicInfo.fromJson(json['basic_Info'])
-        : null;
-    isOnline = json['isOnline'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['_id'] = sId;
-    data['name'] = name;
-    data['device_tokens'] = deviceTokens;
-    data['images'] = images;
-    data['profileScore'] = profileScore;
-    data['phoneNo'] = phoneNo;
-    data['gender'] = gender;
-    data['dob'] = dob;
-    data['height'] = height;
-    data['live'] = live;
-    data['relationStatus'] = relationStatus;
-    data['degree'] = degree;
-    data['designation'] = designation;
-    data['company'] = company;
-    data['income'] = income;
-    data['describe'] = describe;
-    data['visibility'] = visibility;
-    data['spark'] = spark;
-    data['createdAt'] = createdAt;
-    data['updatedAt'] = updatedAt;
-    data['__v'] = iV;
-    if (basicInfo != null) {
-      data['basic_Info'] = basicInfo!.toJson();
-    }
-    data['isOnline'] = isOnline;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "name": name,
+        "images":
+            images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+        "dob": dob?.toIso8601String(),
+      };
 }
 
 // class BasicInfo {

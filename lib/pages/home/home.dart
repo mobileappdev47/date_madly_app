@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/getLikedDislikeProfile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/pages/home/image_scroll.dart';
@@ -13,6 +15,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
+import '../../api/get_All_api.dart';
+import '../../models/user_model.dart';
 import '../../providers/home_main_provider.dart';
 import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
@@ -29,12 +33,48 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   String? selectGender;
+  Map<String, dynamic> body = {};
 
   List swipeList = [
     AssertRe.homelady,
     AssertRe.homelady,
     AssertRe.homelady,
   ];
+  bool loder = false;
+  GetAllUser getAll = GetAllUser();
+  LikedDislikeProfileApi likedDislikeProfileApi = LikedDislikeProfileApi();
+
+  getallapicall() async {
+    try {
+      loder = true;
+      setState(() {});
+      getAll = await GetAllApi.getallApi();
+      loder = false;
+      setState(() {});
+    } catch (e) {
+      print('==============>${e.toString()}');
+    }
+  }
+
+  LikeDislikeapicall() async {
+    try {
+      loder = true;
+      setState(() {});
+      likedDislikeProfileApi =
+          await LikedDislikeProfileApi.likedDislikeProfileapi();
+      loder = false;
+      setState(() {});
+    } catch (e) {
+      print('==============>${e.toString()}');
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getallapicall();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,115 +127,138 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                child: CardSwiper(
-                  isDisabled: false,
-                  backCardOffset: const Offset(10, 0),
-                  initialIndex: 0,
-                  padding: EdgeInsets.zero,
-                  cardsCount: swipeList.length,
-                  cardBuilder: (context, index, horizontalOffsetPercentage,
-                      verticalOffsetPercentage) {
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          child: Container(
-                            height: height * 0.68,
-                            width: width * 0.8,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(40),
-                                bottomRight: Radius.circular(
-                                  40,
-                                ),
-                                topRight: Radius.circular(40),
-                                topLeft: Radius.circular(
-                                  40,
-                                ),
-                              ),
-                            ),
-                            child: Column(
-                              children: [
-                                Expanded(
-                                  child: ClipRRect(
+            getAll.users != null && getAll.users!.length > 2
+                ? Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: CardSwiper(
+                        isDisabled: false,
+                        backCardOffset: const Offset(10, 0),
+                        initialIndex: 0,
+                        padding: EdgeInsets.zero,
+                        cardsCount: getAll.users?.length ?? 0,
+                        cardBuilder: (context,
+                            index,
+                            horizontalOffsetPercentage,
+                            verticalOffsetPercentage) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                child: Container(
+                                  height: height * 0.68,
+                                  width: width * 0.8,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
                                     borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(40),
-                                        topRight: Radius.circular(40)),
-                                    child: Image.asset(
-                                      swipeList[index],
-                                      fit: BoxFit.cover,
-                                      width: width * 0.8,
-                                    ),
-                                  ),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          Strings.jennifer,
-                                          style: mulishbold.copyWith(
-                                            color: ColorRes.darkGrey,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                        //SizedBox(height: 10,),
-                                        Text(
-                                          Strings.modelfashion,
-                                          style: mulish14400.copyWith(
-                                            fontSize: 12,
-                                            color: ColorRes.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 60,
-                                    ),
-                                    Image.asset(
-                                      AssertRe.Location_Icon,
-                                      scale: 4.5,
-                                      color: ColorRes.appColor,
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text(
-                                      Strings.homeKM,
-                                      style: mulish14400.copyWith(
-                                        fontSize: 12,
+                                      bottomLeft: Radius.circular(40),
+                                      bottomRight: Radius.circular(
+                                        40,
+                                      ),
+                                      topRight: Radius.circular(40),
+                                      topLeft: Radius.circular(
+                                        40,
                                       ),
                                     ),
-                                  ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.only(
+                                              topLeft: Radius.circular(10),
+                                              topRight: Radius.circular(10)),
+                                          child: CachedNetworkImage(
+                                            imageUrl: (getAll.users != null &&
+                                                    getAll.users!.isNotEmpty &&
+                                                    getAll.users![index]
+                                                            .images !=
+                                                        null &&
+                                                    getAll.users![index].images!
+                                                        .isNotEmpty)
+                                                ? getAll
+                                                    .users![index].images![0]
+                                                : '',
+                                            fit: BoxFit.fill,
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                                    'assets/images/image_placeholder.png',   height: height * 0.68,
+                                                  width: width * 0.8, fit: BoxFit.fill,),
+                                            errorWidget: (context, url,
+                                                    error) =>
+                                                Image.asset(
+                                                    'assets/images/image_placeholder.png',   height: height * 0.68,
+                                                  width: width * 0.8, fit: BoxFit.fill,),
+                                          ),
+                                        ),
+                                      ),
+                                      //getAll.users![index].images![1],
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                Strings.jennifer,
+                                                style: mulishbold.copyWith(
+                                                  color: ColorRes.darkGrey,
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                              //SizedBox(height: 10,),
+                                              Text(
+                                                Strings.modelfashion,
+                                                style: mulish14400.copyWith(
+                                                  fontSize: 12,
+                                                  color: ColorRes.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            width: 60,
+                                          ),
+                                          Image.asset(
+                                            AssertRe.Location_Icon,
+                                            scale: 4.5,
+                                            color: ColorRes.appColor,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            Strings.homeKM,
+                                            style: mulish14400.copyWith(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            ladyBottomSheetUI(context);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
+                                onTap: () {
+                                  ladyBottomSheetUI(context);
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
+                  )
+                : SizedBox(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Row(
@@ -235,8 +298,8 @@ class _HomeState extends State<Home> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (c) => Likes()));
+                      // Navigator.push(
+                      //     context, MaterialPageRoute(builder: (c) => Likes()));
                     },
                     child: Container(
                       height: 50,

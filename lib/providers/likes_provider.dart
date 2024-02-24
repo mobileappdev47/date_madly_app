@@ -18,7 +18,7 @@ class LikesProvider with ChangeNotifier {
     getID();
   }
   APIRequestStatus apiRequestStatus = APIRequestStatus.loading;
-  LikeDislikeProfile likeDislikeProfile = LikeDislikeProfile();
+  LikedDislikeProfile likeDislikeProfile = LikedDislikeProfile();
   Api api = Api();
   var id;
   late SharedPreferences sharedPreferences;
@@ -31,7 +31,7 @@ class LikesProvider with ChangeNotifier {
       try {
         print("params************* $params");
 
-        LikeDislikeProfile profile = await api.likedDislikeProfile(
+        LikedDislikeProfile profile = await api.likedDislikeProfile(
 
             Api.getLikedDislikeProfileURL, params, token());
         PrefService.getString('idToken');

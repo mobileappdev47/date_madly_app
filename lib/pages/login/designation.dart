@@ -105,19 +105,19 @@ class _DesignationState extends State<Designation> {
 
   updateDesignation() async {
     var params = {"designation": _selectedDesignation, "_id": widget.id};
-    UserModel profile = await api.user(Api.updateFieldsURL, params, "");
-    if (profile.user?.designation == _selectedDesignation) {
-      setDesignation();
-      // ignore: use_build_context_synchronously
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (c) => Work(
-                  show: widget.show,
-                  company: widget.company,
-                  income: widget.income,
-                  id: widget.id)));
-    }
+    // UserModel profile = await api.user(Api.updateFieldsURL, params, "");
+    // if (profile.user?.designation == _selectedDesignation) {
+    //   setDesignation();
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (c) => Work(
+    //               show: widget.show,
+    //               company: widget.company,
+    //               income: widget.income,
+    //               id: widget.id)));
+    // }
   }
 
   setDesignationMoveOn() {

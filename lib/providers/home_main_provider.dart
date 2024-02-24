@@ -509,13 +509,13 @@ class HomeMainProvider with ChangeNotifier {
     } else {
       if (e.response.statusCode == 401) {
         var params = {"_id": id};
-        UserModel profile = await api.user(Api.refreshTokenURL, params, "");
-        if (profile.jwtToken != null) {
-          sharedPreferences = await SharedPreferences.getInstance();
-          sharedPreferences.setString("jwtToken", profile.jwtToken!);
-          print("refresh token${profile.jwtToken}");
-          getDataFromNetwork();
-        }
+        // GetAll profile = await api.user(Api.refreshTokenURL, params, "");
+        // if (profile.jwtToken != null) {
+        //   sharedPreferences = await SharedPreferences.getInstance();
+        //   sharedPreferences.setString("jwtToken", profile.jwtToken!);
+        //   print("refresh token${profile.jwtToken}");
+        //   getDataFromNetwork();
+        // }
       } else {
         setApiRequestStatus(APIRequestStatus.error);
       }

@@ -174,14 +174,14 @@ class _DegreeState extends State<Degree> {
   updateDegree() async {
     var degree = _selectedDegree + " in " + _selectedSubDegree;
     var params = {"degree": degree, "_id": widget.id};
-    UserModel profile = await api.user(Api.updateFieldsURL, params, "");
-    if (profile.user?.degree == degree) {
-      // int count = 0;
-      // ignore: use_build_context_synchronously
-      // Navigator.of(context).popUntil((_) => count++ >= 1);
-      // ignore: use_build_context_synchronously
-      Navigator.pop(context, "done");
-    }
+    // UserModel profile = await api.user(Api.updateFieldsURL, params, "");
+    // if (profile.user?.degree == degree) {
+    //   // int count = 0;
+    //   // ignore: use_build_context_synchronously
+    //   // Navigator.of(context).popUntil((_) => count++ >= 1);
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pop(context, "done");
+    // }
   }
 
   setDegreeMoveOn() {

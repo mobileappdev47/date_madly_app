@@ -479,9 +479,10 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 horizontal: 20, vertical: 10),
                           ),
                           SizedBox(height: 20),
-                          GestureDetector(
-                            onTap: () async {
+                          CupertinoButton(
+                            onPressed: () async {
                               FocusScope.of(context).unfocus();
+
                               body = {
                                 "_id": "65d2f99081b3e287c2a642c9",
                                 "name": value.nameController.text,
@@ -494,9 +495,17 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 "about":
                                     "Passionate about coding and technology",
                               };
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeMain()));
                               if (value.validation()) {
-                                // await updateApiCall(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => HomeMain(),));
+                                await updateApiCall(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeMain(),
+                                    ));
                               } // Call the API method
                             },
                             child: Container(

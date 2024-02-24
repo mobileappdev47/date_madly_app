@@ -172,18 +172,18 @@ class _WorkState extends State<Work> {
       "income": _selectedincome ?? widget.income,
       "_id": widget.id
     };
-    UserModel profile = await api.user(Api.updateFieldsURL, params, "");
+    // UserModel profile = await api.user(Api.updateFieldsURL, params, "");
 
-    if (profile.user?.income == _selectedincome) {
-      int count = 0;
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).popUntil((_) => count++ >= 2);
-    } else {
-      int count = 0;
-      print("done");
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).popUntil((_) => count++ >= 2);
-    }
+    // if (profile.user?.income == _selectedincome) {
+    //   int count = 0;
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.of(context).popUntil((_) => count++ >= 2);
+    // } else {
+    //   int count = 0;
+    //   print("done");
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.of(context).popUntil((_) => count++ >= 2);
+    // }
   }
 
   Future<void> sendData() async {
@@ -227,32 +227,32 @@ class _WorkState extends State<Work> {
       "type": type
     };
     print(params);
-    UserModel profile = await api.user(Api.registrationURL, params, "");
-    if (profile.user!.name! != 'User Exists') {
-      sharedPreferences.setBool("profileCompleted", true);
-      sharedPreferences.setString("id", profile.user!.sId!);
-      sharedPreferences.setString("gender", gender!);
-      sharedPreferences.setString("jwtToken", profile.jwtToken!);
-      print("Token ${profile.jwtToken}");
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (c) =>
-                  UploadImage(newLogin: true, profileModel: ProfileModel())));
-      // print(profile.user!);
-    } else {
-      sharedPreferences.setBool("profileCompleted", true);
-      sharedPreferences.setString("id", profile.user!.sId!);
-      sharedPreferences.setString("jwtToken", profile.jwtToken!);
-      print("Token ${profile.jwtToken}");
-      // ignore: use_build_context_synchronously
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (c) =>
-                  UploadImage(newLogin: true, profileModel: ProfileModel())));
-      print("User Exists done");
-    }
+    // UserModel profile = await api.user(Api.registrationURL, params, "");
+    // if (profile.user!.name! != 'User Exists') {
+    //   sharedPreferences.setBool("profileCompleted", true);
+    //   sharedPreferences.setString("id", profile.user!.sId!);
+    //   sharedPreferences.setString("gender", gender!);
+    //   sharedPreferences.setString("jwtToken", profile.jwtToken!);
+    //   print("Token ${profile.jwtToken}");
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (c) =>
+    //               UploadImage(newLogin: true, profileModel: ProfileModel())));
+    //   // print(profile.user!);
+    // } else {
+    //   sharedPreferences.setBool("profileCompleted", true);
+    //   sharedPreferences.setString("id", profile.user!.sId!);
+    //   sharedPreferences.setString("jwtToken", profile.jwtToken!);
+    //   print("Token ${profile.jwtToken}");
+    //   // ignore: use_build_context_synchronously
+    //   Navigator.pushReplacement(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (c) =>
+    //               UploadImage(newLogin: true, profileModel: ProfileModel())));
+    //   print("User Exists done");
+    // }
   }
 }

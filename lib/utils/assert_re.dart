@@ -14,7 +14,7 @@ class AssertRe {
   static const notifiimage1 = icons + 'n1.png';
   static const notifiimage3 = icons + 'n3.png';
   static const comment = icons + 'Comment.png';
-  static const likesYou = icons + 'likesYou.png';
+  static const likesYou = image + 'likesYou.png';
 
   ///---------------------------------------- Cheers! ----------------------------------------
 
