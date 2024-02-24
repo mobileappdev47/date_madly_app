@@ -2,8 +2,12 @@ import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
+import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/pages/me/additional_details.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -30,16 +34,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String textConfirm = '';
   Map<String, dynamic> body = {};
   bool loader = false;
-  Signup signup = Signup();
+  SignUpModel signup = SignUpModel();
 
   signUpApiCall() async {
     try {
       loader = true;
       setState(() {});
-      signup = await SignUpApi.signUpApi(body: body);
+      signup = await SignUpApi.signUpApi(body: body, context: context);
       loader = false;
       setState(() {});
     } catch (e) {
+      loader = false;
+      setState(() {});
       print(e.toString());
     }
   }
@@ -332,14 +338,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               };
                               if (value.validation()) {
                                 await signUpApiCall();
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (c) => ProfilePhotoScreen(),
-                                  ),
-                                );
+                                await PrefService.setValue(
+                                    PrefKeys.email, value.emailController.text);
                               }
                             }),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ));
+                        },
+                        child: Container(
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            "Already have an account?",
+                            style: TextStyle(
+                              color: ColorRes.appColor,
+                            ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 11,

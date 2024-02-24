@@ -301,6 +301,9 @@ class _ChatState extends State<Chat> {
                                                             const EdgeInsets
                                                                 .only(left: 15),
                                                         child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
                                                           children: [
                                                             Text(
                                                               snapshot.data!
@@ -308,32 +311,13 @@ class _ChatState extends State<Chat> {
                                                                   .data()[
                                                                       'Email']
                                                                   .toString()
-                                                                  .split('.')
+                                                                  .split('@')
                                                                   .first,
                                                               style: mulishbold
                                                                   .copyWith(
                                                                 fontSize: 14,
                                                                 color: ColorRes
                                                                     .darkGrey,
-                                                              ),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 130,
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 15),
-                                                              child: Text(
-                                                                Strings.pm,
-                                                                style: mulishbold
-                                                                    .copyWith(
-                                                                  fontSize: 14,
-                                                                  color:
-                                                                      ColorRes
-                                                                          .grey,
-                                                                ),
                                                               ),
                                                             ),
                                                           ],
@@ -344,7 +328,6 @@ class _ChatState extends State<Chat> {
                                                             const EdgeInsets
                                                                 .only(left: 15),
                                                         child: SizedBox(
-                                                          width: 260,
                                                           child: Text(
                                                             overflow:
                                                                 TextOverflow
@@ -360,7 +343,21 @@ class _ChatState extends State<Chat> {
                                                         ),
                                                       ),
                                                     ],
-                                                  )
+                                                  ),
+                                                  Spacer(),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 15),
+                                                    child: Text(
+                                                      Strings.pm,
+                                                      style:
+                                                          mulishbold.copyWith(
+                                                        fontSize: 14,
+                                                        color: ColorRes.grey,
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                             ],
@@ -371,7 +368,6 @@ class _ChatState extends State<Chat> {
                                   }
                                 }),
                           );
-
                     ListView.builder(
                       padding: EdgeInsets.all(0),
                       itemCount: snapshot.data!.docs.length,

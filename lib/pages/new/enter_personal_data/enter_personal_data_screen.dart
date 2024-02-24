@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:date_madly_app/api/get_single_profile_api.dart';
+import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,8 +69,31 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     }
   }
 
+  GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
+  getSingleProfileApi() async {
+    try {
+      loader = true;
+      setState(() {});
+      getSingleProfileModel =
+          await GetSingleProfileApi.getSingleProfileApi(context);
+
+      loader = false;
+      setState(() {});
+    } catch (e) {
+      loader = false;
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    // getSingleProfileApi();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(getSingleProfileModel);
     return Consumer<Updateprovider>(
       builder: (context, value, child) {
         return Scaffold(
@@ -479,10 +504,9 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 horizontal: 20, vertical: 10),
                           ),
                           SizedBox(height: 20),
-                          CupertinoButton(
-                            onPressed: () async {
+                          GestureDetector(
+                            onTap: () async {
                               FocusScope.of(context).unfocus();
-
                               body = {
                                 "_id": "65d2f99081b3e287c2a642c9",
                                 "name": value.nameController.text,
@@ -495,12 +519,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 "about":
                                     "Passionate about coding and technology",
                               };
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomeMain()));
                               if (value.validation()) {
-                                await updateApiCall(context);
+                                // await updateApiCall(context);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(

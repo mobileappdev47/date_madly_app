@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,11 @@ class UpdateUserApi {
       if (response != null && response?.statusCode == 200) {
         print('Status Code===========${response!.statusCode}');
         Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Home(),
-          ),
-        );
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeMain(),
+            ));
+
         return updateUsersFromJson(response!.body);
       } else {
         print('Something went wrong');

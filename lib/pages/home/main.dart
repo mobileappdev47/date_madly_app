@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
-import 'package:date_madly_app/api/get_All_api.dart';
+import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
@@ -33,9 +34,8 @@ class _HomeMainState extends State<HomeMain> {
     Home(),
     Chat(),
     Likes(),
-    Profile(),
+    Profile()
   ];
-
 
   @override
   void initState() {

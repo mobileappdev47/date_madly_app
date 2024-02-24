@@ -309,8 +309,7 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
               onTap: () async {
                 final result = await Navigator.push(context, MaterialPageRoute(
                   builder: (BuildContext context) {
-                    return AdditionalDetails(
-                        pageNo: 1, value: sunSign ?? "___");
+                    return AdditionalDetails(pageNo: 1);
                   },
                 ));
                 if (result != null) {
@@ -325,8 +324,7 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
             onTap: () async {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return AdditionalDetails(
-                      pageNo: 2, value: favCuisine ?? "___");
+                  return AdditionalDetails(pageNo: 2);
                 },
               ));
               if (result != null) {
@@ -342,8 +340,7 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
             onTap: () async {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return AdditionalDetails(
-                      pageNo: 3, value: political ?? "___");
+                  return AdditionalDetails(pageNo: 3);
                 },
               ));
               if (result != null) {
@@ -360,7 +357,8 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return AdditionalDetails(
-                      pageNo: 4, value: lookingFor ?? "___");
+                    pageNo: 4,
+                  );
                 },
               ));
               if (result != null) {
@@ -377,7 +375,8 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return AdditionalDetails(
-                      pageNo: 5, value: personality ?? "___");
+                    pageNo: 5,
+                  );
                 },
               ));
               if (result != null) {
@@ -394,7 +393,8 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return AdditionalDetails(
-                      pageNo: 6, value: firstDate ?? "___");
+                    pageNo: 6,
+                  );
                 },
               ));
               if (result != null) {
@@ -410,7 +410,7 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
             onTap: () async {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return AdditionalDetails(pageNo: 7, value: drink ?? "___");
+                  return AdditionalDetails(pageNo: 7);
                 },
               ));
               if (result != null) {
@@ -426,7 +426,9 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
             onTap: () async {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return AdditionalDetails(pageNo: 8, value: smoke ?? "___");
+                  return AdditionalDetails(
+                    pageNo: 8,
+                  );
                 },
               ));
               if (result != null) {
@@ -442,7 +444,9 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
             onTap: () async {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return AdditionalDetails(pageNo: 9, value: religion ?? "___");
+                  return AdditionalDetails(
+                    pageNo: 9,
+                  );
                 },
               ));
               if (result != null) {
@@ -459,7 +463,8 @@ _buildBodyList(EditProfileProvider editProfileProvider, context) {
               final result = await Navigator.push(context, MaterialPageRoute(
                 builder: (BuildContext context) {
                   return AdditionalDetails(
-                      pageNo: 10, value: favPastime ?? "___");
+                    pageNo: 10,
+                  );
                 },
               ));
               if (result != null) {
@@ -529,11 +534,6 @@ class SelectCard extends StatelessWidget {
           child: Row(
             children: [
               Icon(icon, color: value == '___' ? Colors.white : null),
-              // Icon(name == 'Sun Sign'
-              //     ? Icons.sunny
-              //     : name == 'Favourite Cuisine'
-              //         ? Icons.dinner_dining
-              //         : Icons.abc),
               const SizedBox(width: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -4,6 +4,9 @@ class EndPoints {
   static const Update = baseUrl + "api/updateUserFields";
   static const login = baseUrl + "api/loginUse";
   static const Alluser = baseUrl + "api/getAllUsers";
+  static const login = baseUrl + "api/loginUser";
   static const adddetail = baseUrl + "api/updateAdditionalDetails";
   static const getLikedDislikeProfile = baseUrl + "api/getLikedDislikeProfile";
+  static const uploadImage = baseUrl + 'api/uploadImage';
+  static const getSingleProfile = baseUrl + 'api/getSingleProfile';
 }
