@@ -41,7 +41,12 @@ class Strings {
 
   ///#---------------------------------------- ladyBottomSheetUI ----------------------------------------#///
 
-  static const moderate = "Moderate";
+  static const profileScore = "ProfileScore";
+  static const RelationStatus = "RelationStatus";
+  static const genderss = "Gender";
+  static const degree = "Degree";
+  static const designation = "Designation";
+  static const companys = "Company";
   static const gallery = "Gallery";
   static const seeall = "See All";
 
