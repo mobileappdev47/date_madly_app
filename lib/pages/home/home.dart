@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
 
   List<User> remainingUsers = [];
 
-  AdditinalDetail additinalDetail=AdditinalDetail();
+  AdditinalDetail additinalDetail = AdditinalDetail();
 
   @override
   void initState() {
@@ -137,7 +137,9 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            remainingUsers.isNotEmpty
+            remainingUsers.isNotEmpty &&
+                    getAll.users != null &&
+                    getAll.users!.length > 2
                 ? Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 35),
@@ -160,10 +162,12 @@ class _HomeState extends State<Home> {
                                 await LikeDislikeapicall(user.id);
                                 remainingUsers.removeAt(index);
                                 setState(() {});
-                              } else if (details.delta.dx < 0) {
+                              } else if (details.delta.dx < 1) {
                                 // Swiped left
                                 log('false=============${user.id}');
-                                await LikeDislikeapicall(user.id,);
+                                await LikeDislikeapicall(
+                                  user.id,
+                                );
                                 remainingUsers.removeAt(index);
                                 setState(() {});
                               }
@@ -186,34 +190,38 @@ class _HomeState extends State<Home> {
                               ),
                               child: Column(
                                 children: [
-                                  Expanded(
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)),
-                                      child: CachedNetworkImage(
-                                        imageUrl: (user.images != null &&
-                                                user.images!.isNotEmpty)
-                                            ? user.images![0]
-                                            : '',
-                                        fit: BoxFit.fill,
-                                        placeholder: (context, url) =>
-                                            Image.asset(
-                                          'assets/images/image_placeholder.png',
-                                          height: height * 0.68,
-                                          width: width * 0.8,
-                                          fit: BoxFit.fill,
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                          'assets/images/image_placeholder.png',
-                                          height: height * 0.68,
-                                          width: width * 0.8,
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  getAll.users != null &&
+                                          getAll.users![index].images != null
+                                      ? Expanded(
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(10),
+                                                topRight: Radius.circular(10)),
+                                            child: CachedNetworkImage(
+                                              imageUrl: (user.images != null &&
+                                                      user.images!.isNotEmpty)
+                                                  ? user.images![0]
+                                                  : '',
+                                              fit: BoxFit.fill,
+                                              placeholder: (context, url) =>
+                                                  Image.asset(
+                                                'assets/images/image_placeholder.png',
+                                                height: height * 0.58,
+                                                width: width * 0.7,
+                                                fit: BoxFit.fill,
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Image.asset(
+                                                'assets/images/image_placeholder.png',
+                                                height: height * 0.58,
+                                                width: width * 0.7,
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      : SizedBox(),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -223,17 +231,22 @@ class _HomeState extends State<Home> {
                                             height: 10,
                                           ),
                                           Text(
-                                            (user.name != null &&
-                                                    user.name!.isNotEmpty)
+                                            getAll.users != null &&
+                                                    getAll.users![index].name !=
+                                                        null
                                                 ? user.name!
-                                                : '',
+                                                : 'No Name',
                                             style: mulishbold.copyWith(
                                               color: ColorRes.darkGrey,
                                               fontSize: 20,
                                             ),
                                           ),
                                           Text(
-                                            Strings.modelfashion,
+                                            getAll.users != null &&
+                                                    getAll.users![index].name !=
+                                                        null
+                                                ? user.name!
+                                                : Strings.modelfashion,
                                             style: mulish14400.copyWith(
                                               fontSize: 12,
                                               color: ColorRes.grey,
@@ -262,12 +275,12 @@ class _HomeState extends State<Home> {
                                   ),
                                   SizedBox(
                                     height: 10,
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
                             onTap: () {
-                              ladyBottomSheetUI(context,getAll,index);
+                              ladyBottomSheetUI(context, getAll, index);
                             },
                           );
                         },
