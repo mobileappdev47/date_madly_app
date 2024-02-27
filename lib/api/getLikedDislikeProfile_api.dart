@@ -18,14 +18,12 @@ class LikedDislikeProfileApi {
     try {
       var data = {
         "userID": PrefService.getString(PrefKeys.userId),
-        "likedID": likeid,
-        "status": status,
+        "likedID": likeid.toString(),
+        "status": status.toString(),
       };
-      String url = EndPoints.getLikedDislikeProfile;
-      http.Response? response = await HttpService.postApi(
-        body: data,
-        url: url,
-      );
+
+      String url = EndPoints.addLikedDislikeProfile;
+      http.Response? response = await HttpService.postApi(body: data, url: url);
 
       print('Status Code===========${response!.statusCode}');
       if (response != null && response.statusCode == 200) {

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -108,95 +109,104 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            height: MediaQuery.of(context).size.height / 3,
-                            child: Center(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 40),
-                                child: Column(
-                                  children: [
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              15,
-                                    ),
-                                    Text(
-                                      'Add Photos',
-                                      style: popinsbold(),
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              40,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        pickImage(source: ImageSource.gallery);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: ColorRes.appColor,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        padding: EdgeInsets.zero,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                13,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1,
-                                        child: Text('ADD FROM GALLERY',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                        alignment: Alignment.center,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              40,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        pickImage(source: ImageSource.camera);
-                                        Navigator.pop(context);
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: ColorRes.appColor,
-                                            borderRadius:
-                                                BorderRadius.circular(20)),
-                                        padding: EdgeInsets.zero,
-                                        height:
-                                            MediaQuery.of(context).size.height /
-                                                13,
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                1,
-                                        child: Text('USE CAMERA',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            )),
-                                        alignment: Alignment.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      );
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfilePhotoScreen(
+                                from: 'enter',
+                                networkImageListApi:
+                                    getSingleProfileModel.profile?[0].images ??
+                                        []),
+                          ));
+                      // showModalBottomSheet(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return Container(
+                      //       decoration: BoxDecoration(
+                      //         color: Colors.white,
+                      //         borderRadius: BorderRadius.circular(20),
+                      //       ),
+                      //       height: MediaQuery.of(context).size.height / 3,
+                      //       child: Center(
+                      //         child: Padding(
+                      //           padding:
+                      //               const EdgeInsets.symmetric(horizontal: 40),
+                      //           child: Column(
+                      //             children: [
+                      //               SizedBox(
+                      //                 height:
+                      //                     MediaQuery.of(context).size.height /
+                      //                         15,
+                      //               ),
+                      //               Text(
+                      //                 'Add Photos',
+                      //                 style: popinsbold(),
+                      //               ),
+                      //               SizedBox(
+                      //                 height:
+                      //                     MediaQuery.of(context).size.height /
+                      //                         40,
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {
+                      //                   pickImage(source: ImageSource.gallery);
+                      //                   Navigator.pop(context);
+                      //                 },
+                      //                 child: Container(
+                      //                   decoration: BoxDecoration(
+                      //                       color: ColorRes.appColor,
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(20)),
+                      //                   padding: EdgeInsets.zero,
+                      //                   height:
+                      //                       MediaQuery.of(context).size.height /
+                      //                           13,
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width /
+                      //                           1,
+                      //                   child: Text('ADD FROM GALLERY',
+                      //                       style: TextStyle(
+                      //                         color: Colors.white,
+                      //                       )),
+                      //                   alignment: Alignment.center,
+                      //                 ),
+                      //               ),
+                      //               SizedBox(
+                      //                 height:
+                      //                     MediaQuery.of(context).size.height /
+                      //                         40,
+                      //               ),
+                      //               GestureDetector(
+                      //                 onTap: () {
+                      //                   pickImage(source: ImageSource.camera);
+                      //                   Navigator.pop(context);
+                      //                 },
+                      //                 child: Container(
+                      //                   decoration: BoxDecoration(
+                      //                       color: ColorRes.appColor,
+                      //                       borderRadius:
+                      //                           BorderRadius.circular(20)),
+                      //                   padding: EdgeInsets.zero,
+                      //                   height:
+                      //                       MediaQuery.of(context).size.height /
+                      //                           13,
+                      //                   width:
+                      //                       MediaQuery.of(context).size.width /
+                      //                           1,
+                      //                   child: Text('USE CAMERA',
+                      //                       style: TextStyle(
+                      //                         color: Colors.white,
+                      //                       )),
+                      //                   alignment: Alignment.center,
+                      //                 ),
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     );
+                      //   },
+                      // );
                     },
                     child: Stack(
                       children: [

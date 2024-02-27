@@ -156,6 +156,7 @@ class MyApp extends StatelessWidget {
                   : appProvider.theme == ThemeConfig.lightTheme
                       ? ThemeMode.light
                       : ThemeMode.dark,
+
           // home: phone! && profileCompleted!
           //     ? const HomeMain()
           //     : phone!
@@ -164,7 +165,7 @@ class MyApp extends StatelessWidget {
 
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: SplashScreen(),
+            child: HomeMain(),
           ),
         );
       });
