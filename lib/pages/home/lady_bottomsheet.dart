@@ -160,7 +160,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                           ),
                                         ),
                                         Text(
-                                          '${getAll.users![index].gender}',
+                                          '${getAll.users![index].gender}'??'',
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -232,7 +232,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].relationStatus}',
+                                        '${getAll.users![index].relationStatus??''}'??'',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -300,7 +300,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].degree}',
+                                        '${getAll.users![index].degree??''}'??'',
                                         style: mulish14400.copyWith(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
@@ -364,7 +364,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].designation}',
+                                        '${getAll.users![index].designation??''}'??'',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -432,7 +432,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].company}',
+                                        '${getAll.users![index].company??''}'??'',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -496,7 +496,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].profileScore}',
+                                        '${getAll.users![index].profileScore}'??'',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -558,29 +558,25 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5,
-                            childAspectRatio: 0.9,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.7,
                           ),
                           itemCount: getAll.users![index].images!.length,
                           scrollDirection: Axis.vertical,
                           itemBuilder: (context, i) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1),
-                              ),
-                              height: 230,
-                              width: 155,
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
                               child: CachedNetworkImage(
                                 imageUrl: (getAll.users![index].images !=
                                             null &&
                                         getAll.users![index].images!.isNotEmpty)
                                     ? getAll.users![index].images![i]
-                                    : '',
+                                    : '',fit: BoxFit.cover,
                                 placeholder: (context, url) => Image.asset(
                                     height: 230,
                                     width: 155,
-                                    'assets/images/image_placeholder.png'),
+                                    'assets/images/image_placeholder.png',fit: BoxFit.cover),
                               ),
                             );
                           },
