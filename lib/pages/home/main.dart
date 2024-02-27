@@ -36,7 +36,6 @@ class _HomeMainState extends State<HomeMain> {
     Likes(),
     Profile()
   ];
-
   @override
   void initState() {
     super.initState();

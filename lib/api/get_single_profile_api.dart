@@ -16,7 +16,11 @@ class GetSingleProfileApi {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST', Uri.parse(EndPoints.getSingleProfile));
-      request.body = json.encode({"_id": '65ccafe81963b9d676f54d7e'});
+      request.body = json.encode({
+        "_id": PrefService.getString(
+          PrefKeys.userId,
+        ),
+      });
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();

@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
+import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,7 +54,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     }
   }
 
-  Map<String, dynamic> body = {};
+  Map<String, String> body = {};
   bool loader = false;
   UpdateUsers updateUsers = UpdateUsers();
 
@@ -59,7 +62,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     try {
       loader = true;
       setState(() {});
-      updateUsers = await UpdateUserApi.updateUsers(body, context);
+      updateUsers = await UpdateUserApi.updateUsers(body, context, imageFile);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -70,6 +73,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
   }
 
   GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
+
   getSingleProfileApi() async {
     try {
       loader = true;
@@ -87,7 +91,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
 
   @override
   void initState() {
-    // getSingleProfileApi();
+    getSingleProfileApi();
     super.initState();
   }
 
@@ -133,22 +137,28 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                           MediaQuery.of(context).size.height /
                                               40,
                                     ),
-                                    Container(
-                                      padding: EdgeInsets.zero,
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              13,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1,
-                                      child: CupertinoButton(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorRes.appColor,
-                                        child: Text('ADD FROM GALLERY'),
-                                        onPressed: () {
-                                          pickImage(
-                                              source: ImageSource.gallery);
-                                          Navigator.pop(context);
-                                        },
+                                    GestureDetector(
+                                      onTap: () {
+                                        pickImage(source: ImageSource.gallery);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: ColorRes.appColor,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        padding: EdgeInsets.zero,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                13,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1,
+                                        child: Text('ADD FROM GALLERY',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            )),
+                                        alignment: Alignment.center,
                                       ),
                                     ),
                                     SizedBox(
@@ -156,22 +166,30 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                           MediaQuery.of(context).size.height /
                                               40,
                                     ),
-                                    Container(
-                                      height:
-                                          MediaQuery.of(context).size.height /
-                                              13,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1,
-                                      child: CupertinoButton(
-                                        borderRadius: BorderRadius.circular(20),
-                                        color: ColorRes.appColor,
-                                        child: Text('USE CAMERA'),
-                                        onPressed: () {
-                                          pickImage(source: ImageSource.camera);
-                                          Navigator.pop(context);
-                                        },
+                                    GestureDetector(
+                                      onTap: () {
+                                        pickImage(source: ImageSource.camera);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: ColorRes.appColor,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        padding: EdgeInsets.zero,
+                                        height:
+                                            MediaQuery.of(context).size.height /
+                                                13,
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                1,
+                                        child: Text('USE CAMERA',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            )),
+                                        alignment: Alignment.center,
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
@@ -184,12 +202,32 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                       children: [
                         Container(
                           height: 225,
-                          width: 375,
+                          width: MediaQuery.of(context).size.width,
                           decoration: BoxDecoration(
                             color: ColorRes.lightGrey,
                           ),
                           child: imageFile == null
-                              ? SizedBox()
+                              ? CachedNetworkImage(
+                                  imageUrl: getSingleProfileModel
+                                          .profile?[0].images?[0] ??
+                                      '',
+                                  fit: BoxFit.fill,
+                                  height: 225,
+                                  width: MediaQuery.of(context).size.width,
+                                  placeholder: (context, url) => Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    fit: BoxFit.fill,
+                                    height: 225,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    fit: BoxFit.fill,
+                                    height: 225,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
+                                )
                               : ClipRRect(
                                   child: Image.file(
                                     imageFile!,
@@ -197,15 +235,14 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                   ),
                                 ),
                         ),
-                        if (imageFile == null)
-                          Center(
-                            heightFactor: 9,
-                            child: Image.asset(
-                              AssertRe.camera,
-                              height: 25,
-                              width: 29,
-                            ),
+                        Center(
+                          heightFactor: 9,
+                          child: Image.asset(
+                            AssertRe.camera,
+                            height: 25,
+                            width: 29,
                           ),
+                        ),
                       ],
                     ),
                   ),
@@ -490,25 +527,22 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                   Border.all(color: ColorRes.grey, width: 1),
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                Strings.when_you,
-                                style: mulish14400.copyWith(
-                                  color: ColorRes.darkGrey,
-                                  fontSize: 12,
-                                ),
+                            child: TextField(
+                              controller: value.aboutController,
+                              maxLines: 2,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
                               ),
                             ),
                             padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 10),
+                                horizontal: 20, vertical: 0),
                           ),
                           SizedBox(height: 20),
                           GestureDetector(
                             onTap: () async {
                               FocusScope.of(context).unfocus();
                               body = {
-                                "_id": "65d2f99081b3e287c2a642c9",
+                                "_id": PrefService.getString(PrefKeys.userId),
                                 "name": value.nameController.text,
                                 "dob": value.dobController.text,
                                 "gender": value.gender,
@@ -516,16 +550,10 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 "job": value.jobController.text,
                                 "company": value.companyController.text,
                                 "college": value.collegeController.text,
-                                "about":
-                                    "Passionate about coding and technology",
+                                "about": value.aboutController.text,
                               };
                               if (value.validation()) {
-                                // await updateApiCall(context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => HomeMain(),
-                                    ));
+                                await updateApiCall(context);
                               } // Call the API method
                             },
                             child: Container(

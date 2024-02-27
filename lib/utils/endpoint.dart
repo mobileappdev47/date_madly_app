@@ -8,4 +8,5 @@ class EndPoints {
   static const uploadImage = baseUrl + 'api/uploadImage';
   static const getSingleProfile = baseUrl + 'api/getSingleProfile';
   static const getProfile = baseUrl + 'api/getProfile';
+  static const login = baseUrl + 'api/loginUser';
 }

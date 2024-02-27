@@ -9,6 +9,7 @@ class Updateprovider extends ChangeNotifier {
   TextEditingController companyController = TextEditingController();
   TextEditingController collegeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController aboutController = TextEditingController();
 
   String name = '';
   String dob = '';

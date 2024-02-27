@@ -32,17 +32,17 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   int di = -1;
   late String question;
   late List<String> array;
-  static String selectedSunSign = '';
-  static String selectedCuisine = '';
-  static String selectedPastime = '';
-  static String selectedReligion = '';
-  static String selectedSmokingStatus = '';
-  static String selectedDrinkingStatus = '';
-  static String selectedFirstDate = '';
-  static String selectedPersonality = '';
-  static String selectedLookingFor = '';
-  static String selectedPoliticalViews = '';
-  static String selectedItem = '';
+  String selectedSunSign = '';
+  String selectedCuisine = '';
+  String selectedPastime = '';
+  String selectedReligion = '';
+  String selectedSmokingStatus = '';
+  String selectedDrinkingStatus = '';
+  String selectedFirstDate = '';
+  String selectedPersonality = '';
+  String selectedLookingFor = '';
+  String selectedPoliticalViews = '';
+  String selectedItem = '';
   AdditinalDetail additinalDetail = AdditinalDetail();
   String userId = PrefService.getString(PrefKeys.userId);
 
@@ -263,61 +263,61 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   Future<void> callApi() async {
     if (widget.pageNo == 1) {
       Map<String, dynamic> body = {'_id': userId, 'sun_sign': selectedSunSign};
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 2) {
       Map<String, dynamic> body = {'_id': userId, 'cuisine': selectedCuisine};
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 3) {
       Map<String, dynamic> body = {
         '_id': userId,
         'fav_pastime': selectedPastime
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 4) {
       Map<String, dynamic> body = {'_id': userId, 'religion': selectedReligion};
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 5) {
       Map<String, dynamic> body = {
         '_id': userId,
         'smoke': selectedSmokingStatus
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 6) {
       Map<String, dynamic> body = {
         '_id': userId,
         'drink': selectedDrinkingStatus
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 7) {
       Map<String, dynamic> body = {
         '_id': userId,
         'first_date': selectedFirstDate
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 8) {
       Map<String, dynamic> body = {
         '_id': userId,
         'personality': selectedPersonality
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 9) {
       Map<String, dynamic> body = {
         '_id': userId,
         'looking_for': selectedLookingFor
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, false);
     } else if (widget.pageNo == 10) {
       Map<String, dynamic> body = {
         '_id': userId,
         'political_views': selectedPoliticalViews
       };
-      await detailApiCalling(body);
+      await detailApiCalling(body, true);
     }
   }
 
-  static Future<void> detailApiCalling(Map<String, dynamic> body) async {
+  Future<void> detailApiCalling(Map<String, dynamic> body, bool isLastQ) async {
     try {
-      await AdditinalDetail.additinalApi(body: body);
+      await AdditinalDetail.additinalApi(body: body, isLastQuestion: isLastQ);
     } catch (e) {}
   }
 }

@@ -73,7 +73,7 @@ class _HomeState extends State<Home> {
     }
   }
 
-  LikeDislikeapicall(String? id) async {
+  LikeDislikeapicall(String? id, int status) async {
     try {
       loder = true;
       setState(() {});
@@ -149,29 +149,40 @@ class _HomeState extends State<Home> {
                         initialIndex: 0,
                         padding: EdgeInsets.zero,
                         cardsCount: remainingUsers.length,
+                        onSwipe:
+                            (previousIndex, currentIndex, direction) async {
+                          if (direction == CardSwiperDirection.left) {
+                            await LikeDislikeapicall(
+                                remainingUsers[currentIndex!].id, 1);
+                            remainingUsers.removeAt(currentIndex);
+                            setState(() {});
+                          } else if (direction == CardSwiperDirection.right) {
+                            await LikeDislikeapicall(
+                                remainingUsers[currentIndex!].id, 0);
+                            remainingUsers.removeAt(currentIndex);
+                            setState(() {});
+                          } else {}
+                          return true;
+                        },
                         cardBuilder: (context,
                             index,
                             horizontalOffsetPercentage,
                             verticalOffsetPercentage) {
                           final user = remainingUsers[index];
                           return GestureDetector(
-                            onPanUpdate: (details) async {
-                              if (details.delta.dx > 0) {
-                                // Swiped right
-                                log('true============${user.id}');
-                                await LikeDislikeapicall(user.id);
-                                remainingUsers.removeAt(index);
-                                setState(() {});
-                              } else if (details.delta.dx < 1) {
-                                // Swiped left
-                                log('false=============${user.id}');
-                                await LikeDislikeapicall(
-                                  user.id,
-                                );
-                                remainingUsers.removeAt(index);
-                                setState(() {});
-                              }
-                            },
+                            // onPanUpdate: (details) async {
+                            //   if (details.delta.dx > 0) {
+                            //     // Swiped right
+                            //     log('true============${user.id}');
+                            //     await LikeDislikeapicall(user.id, 0);
+                            //     remainingUsers.removeAt(index);
+                            //     setState(() {});
+                            //   } else if (details.delta.dx < 1) {
+                            //     // Swiped left
+                            //     log('false=============${user.id}');
+                            //
+                            //   }
+                            // },
                             child: Container(
                               height: height * 0.68,
                               width: width * 0.8,
