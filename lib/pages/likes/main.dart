@@ -6,7 +6,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
+import '../../api/likedislike_profile_s_api.dart';
 import '../../common/text_feild_common.dart';
+import '../../models/liked_dislike_profile_model.dart';
 import '../../network/api.dart';
 import '../../providers/likes_provider.dart';
 import '../../utils/body_builder.dart';
@@ -17,13 +19,37 @@ import '../me/main.dart';
 import '../new_match/new_match_screen.dart';
 
 class Likes extends StatefulWidget {
-  const Likes({super.key});
+  const Likes({Key? key}) : super(key: key);
 
   @override
   State<Likes> createState() => _LikesState();
 }
 
 class _LikesState extends State<Likes> {
+  bool loder = false;
+  LikedDislikeProfile likedDislikeProfile = LikedDislikeProfile();
+
+
+
+  LikeDislikeapicall(String? id,int? status) async {
+    try {
+      loder = true;
+      setState(() {});
+      likedDislikeProfile =
+      await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
+      loder = false;
+      setState(() {});
+    } catch (e) {
+      print('==============>${e.toString()}');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    LikeDislikeapicall('id', 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<LikesProvider>(
@@ -33,22 +59,22 @@ class _LikesState extends State<Likes> {
           centerTitle: true,
           backgroundColor: ColorRes.white,
           leading: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) {
-                    return Profile();
-                  },
-                ));
-              },
-              child: Icon(
-                Icons.arrow_back_ios_new_rounded,
-                color: ColorRes.appColor,
-              )),
+            onTap: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return Profile();
+                },
+              ));
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: ColorRes.appColor,
+            ),
+          ),
           title: Text(
             Strings.Match_Request,
-            style: mulishbold.copyWith(
-                fontSize: 18.75,
-                color: ColorRes.appColor),
+            style:
+                mulishbold.copyWith(fontSize: 18.75, color: ColorRes.appColor),
           ),
           actions: [
             Builder(
@@ -93,9 +119,6 @@ class _LikesState extends State<Likes> {
                     return Stack(
                       children: [
                         Container(
-                          // height: 400,
-                          //  width: 60,
-                          //  decoration: BoxDecoration(color: ColorRes.appColor),
                           child: Image.asset(
                             matches[index].image,
                             fit: BoxFit.fill,
@@ -107,14 +130,19 @@ class _LikesState extends State<Likes> {
                           child: Column(
                             children: [
                               Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                    matches[index].text,
-                                    style: mulishbold.copyWith(
-                                      fontSize: 16.41,
-                                      color: ColorRes.white,
-                                    ),
-                                  )),
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  likedDislikeProfile.likedDislikeProfile !=
+                                              null &&
+                                          likedDislikeProfile
+                                              .likedDislikeProfile!.isNotEmpty
+                                      ? likedDislikeProfile.likedDislikeProfile![index].likedId?.name ?? '' : '',
+                                  style: mulishbold.copyWith(
+                                    fontSize: 16.41,
+                                    color: ColorRes.white,
+                                  ),
+                                ),
+                              ),
                               SizedBox(
                                 height: 5,
                               ),
@@ -151,8 +179,9 @@ class _LikesState extends State<Likes> {
                                       height: 50,
                                       width: 50,
                                       decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.grey.shade50),
+                                        shape: BoxShape.circle,
+                                        color: Colors.grey.shade50,
+                                      ),
                                       child: Icon(
                                         Icons.close,
                                         color: ColorRes.darkGrey,
@@ -164,17 +193,19 @@ class _LikesState extends State<Likes> {
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (c) =>
-                                                    NewMatchScreen()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (c) => NewMatchScreen(),
+                                          ),
+                                        );
                                       },
                                       child: Container(
                                         height: 50,
                                         width: 50,
                                         decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: ColorRes.appColor),
+                                          shape: BoxShape.circle,
+                                          color: ColorRes.appColor,
+                                        ),
                                         child: Icon(
                                           Icons.favorite_border,
                                           color: ColorRes.white,

@@ -23,6 +23,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
       builder: (context) {
         return Wrap(
           children: [
+            
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
@@ -32,7 +33,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
-                              AssertRe.addimages,
+                              getAll.users!.first.images![0]??'',
                             ),
                             fit: BoxFit.cover),
                       ),

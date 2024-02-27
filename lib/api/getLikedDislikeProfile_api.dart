@@ -21,7 +21,7 @@ class LikedDislikeProfileApi {
         "likedID": likeid,
         "status": status,
       };
-      String url = EndPoints.getLikedDislikeProfile;
+      String url = EndPoints.addLikeDislikeProfile;
       http.Response? response = await HttpService.postApi(
         body: data,
         url: url,
