@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/like_matches.dart';
 import 'package:date_madly_app/pages/me/my_gallery.dart';
+import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -87,16 +88,38 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        Strings.jennifer,
-                        style: mulish14400.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: ColorRes.darkGrey,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            getAll.users?[index].name ?? "",
+                            style: mulish14400.copyWith(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: ColorRes.darkGrey,
+                            ),
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MyUpload_Photo(),
+                                  ));
+                            },
+                            child: Text(
+                              'Comment',
+                              style: mulish14400.copyWith(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: ColorRes.darkGrey,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Text(
-                        Strings.Jakarta,
+                        getAll.users?[index].live ?? "",
                         style: mulish14400.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -160,7 +183,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                           ),
                                         ),
                                         Text(
-                                          '${getAll.users![index].gender}'??'',
+                                          '${getAll.users![index].gender}' ??
+                                              '',
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -232,7 +256,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].relationStatus??''}'??'',
+                                        '${getAll.users![index].relationStatus ?? ''}' ??
+                                            '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -300,7 +325,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].degree??''}'??'',
+                                        '${getAll.users![index].degree ?? ''}' ??
+                                            '',
                                         style: mulish14400.copyWith(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w600,
@@ -364,7 +390,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].designation??''}'??'',
+                                        '${getAll.users![index].designation ?? ''}' ??
+                                            '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -432,7 +459,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].company??''}'??'',
+                                        '${getAll.users![index].company ?? ''}' ??
+                                            '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -496,7 +524,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].profileScore}'??'',
+                                        '${getAll.users![index].profileScore}' ??
+                                            '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -572,11 +601,13 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                             null &&
                                         getAll.users![index].images!.isNotEmpty)
                                     ? getAll.users![index].images![i]
-                                    : '',fit: BoxFit.cover,
+                                    : '',
+                                fit: BoxFit.cover,
                                 placeholder: (context, url) => Image.asset(
                                     height: 230,
                                     width: 155,
-                                    'assets/images/image_placeholder.png',fit: BoxFit.cover),
+                                    'assets/images/image_placeholder.png',
+                                    fit: BoxFit.cover),
                               ),
                             );
                           },
