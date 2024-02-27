@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
@@ -34,6 +37,29 @@ class _ProfileState extends State<Profile> {
 
   bool isclick = false;
   int selectedIndex = -1;
+  GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
+
+  getSingleProfileApi() async {
+    try {
+      loader = true;
+      setState(() {});
+      getSingleProfileModel =
+          await GetSingleProfileApi.getSingleProfileApi(context);
+
+      loader = false;
+      setState(() {});
+    } catch (e) {
+      loader = false;
+      setState(() {});
+    }
+  }
+
+  bool loader = false;
+  @override
+  void initState() {
+    getSingleProfileApi();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,175 +101,236 @@ class _ProfileState extends State<Profile> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              Center(
-                child: Image.asset(
-                  AssertRe.Add_Image_Profile,
-                  scale: 3,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Text(getEmail().toString()),
-              Text(
-                Strings.Brian_Immanuel,
-                style: mulishbold.copyWith(
-                    fontSize: 20,
-                    color: ColorRes.darkGrey,
-                    fontWeight: FontWeight.w700),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height / 19,
-                width: MediaQuery.of(context).size.width / 3,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(6),
-                    border: Border.all(color: ColorRes.appColor)),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                children: [
+                  Center(
+                    child: ClipOval(
+                      child: CachedNetworkImage(
+                        imageUrl:
+                            getSingleProfileModel.profile?[0].images?[0] ?? '',
+                        fit: BoxFit.fill,
+                        height: 100,
+                        width: 100,
+                        placeholder: (context, url) => Image.asset(
+                          'assets/images/image_placeholder.png',
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.fill,
+                        ),
+                        errorWidget: (context, url, error) => Image.asset(
+                          'assets/images/image_placeholder.png',
+                          height: 100,
+                          width: 100,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  // Text(getEmail().toString()),
+                  Text(
+                    getSingleProfileModel.profile?[0].name ?? '',
+                    style: mulishbold.copyWith(
+                        fontSize: 20,
+                        color: ColorRes.darkGrey,
+                        fontWeight: FontWeight.w700),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height / 19,
+                    width: MediaQuery.of(context).size.width / 3,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: ColorRes.appColor)),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.favorite_outline_sharp,
+                            color: ColorRes.appColor,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            Strings.profilesize,
+                            style: mulishbold.copyWith(
+                              fontSize: 14.06,
+                              color: ColorRes.appColor,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+
+                  Row(
                     children: [
-                      Icon(
-                        Icons.favorite_outline_sharp,
-                        color: ColorRes.appColor,
+                      Image.asset(
+                        'assets/icons/Worrk_Icon.png',
+                        scale: 4,
                       ),
                       SizedBox(
-                        width: 5,
+                        width: 1.5,
                       ),
                       Text(
-                        Strings.profilesize,
-                        style: mulishbold.copyWith(
-                          fontSize: 14.06,
-                          color: ColorRes.appColor,
-                        ),
+                        getSingleProfileModel.profile?[0].designation ?? '',
+                        style: TextStyle(color: ColorRes.grey),
+                      ),
+                      Spacer(),
+                      Image.asset(
+                        'assets/icons/Education_Icon.png',
+                        scale: 4,
+                      ),
+                      SizedBox(
+                        width: 1.5,
+                      ),
+                      Text(
+                        getSingleProfileModel.profile?[0].degree ?? '',
+                        style: TextStyle(color: ColorRes.grey),
                       )
                     ],
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                height: 70,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0),
-                  child: GridView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 5,
-                      crossAxisSpacing: 40,
-                      // mainAxisSpacing: 20
-                    ),
-                    itemCount: profileDetails.length,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        children: [
-                          Image.asset(
-                            profileDetails[index].image,
-                            scale: 4,
-                          ),
-                          SizedBox(
-                            width: 1.5,
-                          ),
-                          Text(
-                            profileDetails[index].text,
-                            style: TextStyle(color: ColorRes.grey),
-                          )
-                        ],
-                      );
-                    },
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              // Text(getEmail().toString()),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(Strings.about_me,
-                    style: mulish14400.copyWith(
-                        fontSize: 18,
-                        color: ColorRes.darkGrey,
-                        fontWeight: FontWeight.w700)),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(Strings.about,
-                  style: mulish14400.copyWith(color: ColorRes.grey)),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Text(
-                    Strings.gallery,
-                    style: mulishbold.copyWith(
-                      color: ColorRes.darkGrey,
-                      fontSize: 16,
-                    ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => MyGalleryScreen(),
-                      ));
-                    },
-                    child: Text(
-                      Strings.show_all,
-                      style: mulishbold.copyWith(
-                        color: ColorRes.appColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                  Row(
+                    children: [
+                      Image.asset(
+                        'assets/icons/Location_Icon.png',
+                        scale: 4,
                       ),
+                      SizedBox(
+                        width: 1.5,
+                      ),
+                      Text(
+                        getSingleProfileModel.profile?[0].live ?? '',
+                        style: TextStyle(color: ColorRes.grey),
+                      ),
+                      Spacer(),
+                      Image.asset(
+                        'assets/icons/Company.png',
+                        scale: 4,
+                      ),
+                      SizedBox(
+                        width: 1.5,
+                      ),
+                      Text(
+                        getSingleProfileModel.profile?[0].company ?? '',
+                        style: TextStyle(color: ColorRes.grey),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  // Text(getEmail().toString()),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(Strings.about_me,
+                        style: mulish14400.copyWith(
+                            fontSize: 18,
+                            color: ColorRes.darkGrey,
+                            fontWeight: FontWeight.w700)),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text('', style: mulish14400.copyWith(color: ColorRes.grey)),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        Strings.gallery,
+                        style: mulishbold.copyWith(
+                          color: ColorRes.darkGrey,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => MyGalleryScreen(),
+                          ));
+                        },
+                        child: Text(
+                          Strings.show_all,
+                          style: mulishbold.copyWith(
+                            color: ColorRes.appColor,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: ColorRes.appColor,
+                        size: 16,
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
+                    child: GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5),
+                      itemCount:
+                          getSingleProfileModel.profile?[0].images?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: CachedNetworkImage(
+                            imageUrl: getSingleProfileModel
+                                    .profile?[0].images?[index] ??
+                                '',
+                            fit: BoxFit.fill,
+                            height: 60,
+                            placeholder: (context, url) => Image.asset(
+                              'assets/images/image_placeholder.png',
+                              fit: BoxFit.fill,
+                              height: 60,
+                            ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/image_placeholder.png',
+                              fit: BoxFit.fill,
+                              height: 60,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
-                  Icon(
-                    Icons.arrow_forward,
-                    color: ColorRes.appColor,
-                    size: 16,
-                  )
                 ],
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 0),
-                child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, crossAxisSpacing: 2, mainAxisSpacing: 5
-                      // childAspectRatio: 2,
-                      // crossAxisSpacing: 40,
-                      // mainAxisSpacing: 20
-
-                      ),
-                  itemCount: profilePic.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        height: 60,
-                        child: Image.asset(
-                          profilePic[index],
-                        ));
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+          loader == true
+              ? Center(child: CircularProgressIndicator())
+              : SizedBox()
+        ],
       ),
     );
   }
