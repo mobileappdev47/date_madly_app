@@ -39,7 +39,331 @@ class LikedDislikeProfileApi {
     }
   }
 }
-
+// class Home extends StatefulWidget {
+//   const Home({super.key});
+//
+//   @override
+//   State<Home> createState() => _HomeState();
+// }
+//
+// class _HomeState extends State<Home> {
+//   String? selectGender;
+//   Map<String, dynamic> body = {};
+//
+//   List swipeList = [
+//     AssertRe.homelady,
+//     AssertRe.homelady,
+//     AssertRe.homelady,
+//   ];
+//   bool loder = false;
+//   GetAllUser getAll = GetAllUser();
+//   LikedDislikeProfile likedDislikeProfileApis = LikedDislikeProfile();
+//
+//   @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//     getallapicall();
+//   }
+//
+//   int status = 0;
+//
+//   getallapicall() async {
+//     try {
+//       loder = true;
+//       setState(() {});
+//       getAll = await GetAllApi.getallApi();
+//       loder = false;
+//       setState(() {});
+//     } catch (e) {
+//       print('==============>${e.toString()}');
+//     }
+//   }
+//
+//   LikeDislikeapicall(String? id) async {
+//     try {
+//       loder = true;
+//       setState(() {});
+//       likedDislikeProfileApis =
+//       await LikedDislikeProfileApi.likedDislikeProfileapi(id, status);
+//       loder = false;
+//       setState(() {});
+//     } catch (e) {
+//       print('==============>${e.toString()}');
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//     double width = MediaQuery.of(context).size.width;
+//
+//     return Consumer<HomeMainProvider>(
+//       builder: (context, value, child) => Scaffold(
+//         backgroundColor: ColorRes.white,
+//         appBar: AppBar(
+//           centerTitle: true,
+//           backgroundColor: ColorRes.white,
+//           leading: Builder(
+//             builder: (BuildContext context) {
+//               return IconButton(
+//                 icon: Image.asset(
+//                   AssertRe.drawer,
+//                   scale: 3,
+//                 ),
+//                 onPressed: () {
+//                   Scaffold.of(context).openDrawer();
+//                 },
+//               );
+//             },
+//           ),
+//           title: Text(
+//             Strings.home,
+//             style: mulishbold.copyWith(
+//               fontSize: 18.75,
+//               color: ColorRes.appColor,
+//             ),
+//           ),
+//           actions: [
+//             Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 15),
+//               child: IconButton(
+//                 onPressed: () {
+//                   value.showNotificationContainer(context);
+//                 },
+//                 icon: Image.asset(
+//                   AssertRe.notification,
+//                   scale: 2.5,
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//         drawer: Drawer(backgroundColor: ColorRes.white, child: CustomDrawer()),
+//         body: Column(
+//           crossAxisAlignment: CrossAxisAlignment.center,
+//           mainAxisAlignment: MainAxisAlignment.start,
+//           children: [
+//             getAll.users != null && getAll.users!.length > 1
+//                 ? Expanded(
+//               child: Align(
+//                 alignment: Alignment.center,
+//                 child: CardSwiper(
+//                   isDisabled: false,
+//                   backCardOffset: const Offset(10, 0),
+//                   initialIndex: 10,
+//                   padding: EdgeInsets.zero,
+//                   cardsCount: getAll.users?.length ?? 0,
+//                   cardBuilder: (context,
+//                       index,
+//                       horizontalOffsetPercentage,
+//                       verticalOffsetPercentage) {
+//                     return Row(
+//                       mainAxisAlignment: MainAxisAlignment.center,
+//                       children: [
+//                         GestureDetector(
+//                           onPanUpdate: (details) async {
+//                             if (details.delta.dx > 0) {
+//                               // Swiped right
+//                               log('true============${getAll.users![index].id}');
+//                               await LikeDislikeapicall(
+//                                   getAll.users![index].id);
+//                             } else if (details.delta.dx < 0) {
+//                               // Swiped left
+//                               log('false=============${getAll.users![index].id}');
+//
+//                               await LikeDislikeapicall(
+//                                   getAll.users![index].id);
+//                             }
+//                             setState(() {});
+//                           },
+//                           child: Container(
+//                             height: height * 0.68,
+//                             width: width * 0.8,
+//                             decoration: BoxDecoration(
+//                               color: Colors.white,
+//                               borderRadius: BorderRadius.only(
+//                                 bottomLeft: Radius.circular(40),
+//                                 bottomRight: Radius.circular(
+//                                   40,
+//                                 ),
+//                                 topRight: Radius.circular(40),
+//                                 topLeft: Radius.circular(
+//                                   40,
+//                                 ),
+//                               ),
+//                             ),
+//                             child: Column(
+//                               children: [
+//                                 Expanded(
+//                                   child: ClipRRect(
+//                                     borderRadius: BorderRadius.only(
+//                                         topLeft: Radius.circular(10),
+//                                         topRight: Radius.circular(10)),
+//                                     child: CachedNetworkImage(
+//                                       imageUrl: (getAll.users != null &&
+//                                           getAll.users!.isNotEmpty &&
+//                                           getAll.users![index]
+//                                               .images !=
+//                                               null &&
+//                                           getAll.users![index].images!
+//                                               .isNotEmpty)
+//                                           ? getAll
+//                                           .users![index].images![0]
+//                                           : '',
+//                                       fit: BoxFit.fill,
+//                                       placeholder: (context, url) =>
+//                                           Image.asset(
+//                                             'assets/images/image_placeholder.png',
+//                                             height: height * 0.68,
+//                                             width: width * 0.8,
+//                                             fit: BoxFit.fill,
+//                                           ),
+//                                       errorWidget:
+//                                           (context, url, error) =>
+//                                           Image.asset(
+//                                             'assets/images/image_placeholder.png',
+//                                             height: height * 0.68,
+//                                             width: width * 0.8,
+//                                             fit: BoxFit.fill,
+//                                           ),
+//                                     ),
+//                                   ),
+//                                 ),
+//                                 //getAll.users![index].images![1],
+//                                 Row(
+//                                   mainAxisAlignment:
+//                                   MainAxisAlignment.center,
+//                                   children: [
+//                                     Column(
+//                                       // mainAxisAlignment:
+//                                       //     MainAxisAlignment.center,
+//                                       // crossAxisAlignment:
+//                                       //     CrossAxisAlignment.end,
+//                                       children: [
+//                                         SizedBox(
+//                                           height: 10,
+//                                         ),
+//                                         Text(
+//                                           (getAll.users![index].name !=
+//                                               null &&
+//                                               getAll.users![index]
+//                                                   .name!.isNotEmpty)
+//                                               ? getAll.users![index].name!
+//                                               : '',
+//                                           style: mulishbold.copyWith(
+//                                             color: ColorRes.darkGrey,
+//                                             fontSize: 20,
+//                                           ),
+//                                         ),
+//                                         //SizedBox(height: 10,),
+//                                         Text(
+//                                           Strings.modelfashion,
+//                                           style: mulish14400.copyWith(
+//                                             fontSize: 12,
+//                                             color: ColorRes.grey,
+//                                           ),
+//                                         ),
+//                                       ],
+//                                     ),
+//                                     SizedBox(
+//                                       width: 60,
+//                                     ),
+//                                     Image.asset(
+//                                       AssertRe.Location_Icon,
+//                                       scale: 4.5,
+//                                       color: ColorRes.appColor,
+//                                     ),
+//                                     SizedBox(
+//                                       width: 10,
+//                                     ),
+//                                     Text(
+//                                       Strings.homeKM,
+//                                       style: mulish14400.copyWith(
+//                                         fontSize: 12,
+//                                       ),
+//                                     ),
+//                                   ],
+//                                 ),
+//                                 SizedBox(
+//                                   height: 10,
+//                                 ),
+//                               ],
+//                             ),
+//                           ),
+//                           onTap: () {
+//                             ladyBottomSheetUI(context);
+//                           },
+//                         ),
+//                       ],
+//                     );
+//                   },
+//                 ),
+//               ),
+//             )
+//                 : SizedBox(),
+//             Padding(
+//               padding: const EdgeInsets.symmetric(horizontal: 30),
+//               child: Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 children: [
+//                   GestureDetector(
+//                     onTap: () {
+//                       // Navigator.push(
+//                       //     context,
+//                       //     MaterialPageRoute(
+//                       //       builder: (context) => LikesYouScreen(),
+//                       //     ));
+//                     },
+//                     child: Container(
+//                       height: 50,
+//                       width: 50,
+//                       decoration: BoxDecoration(
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: Colors.grey.withOpacity(0.5),
+//                               spreadRadius: 1,
+//                               blurRadius: 2,
+//                               offset:
+//                               Offset(0, 3), // changes position of shadow
+//                             ),
+//                           ],
+//                           borderRadius: BorderRadius.circular(50),
+//                           color: Colors.grey.shade50),
+//                       child: Icon(
+//                         Icons.close,
+//                         color: ColorRes.darkGrey,
+//                       ),
+//                     ),
+//                   ),
+//                   SizedBox(
+//                     width: 20,
+//                   ),
+//                   GestureDetector(
+//                     onTap: () async {},
+//                     child: Container(
+//                       height: 50,
+//                       width: 50,
+//                       decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(50),
+//                           color: ColorRes.appColor),
+//                       child: Icon(
+//                         Icons.favorite_border,
+//                         color: ColorRes.white,
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             SizedBox(
+//               height: 60,
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 // class LikedDislikeProfileApi {
 //   static Future<LikedDislikeProfile?> likedDislikeProfileapi(Map<String, dynamic> body) async {
 //     try {
