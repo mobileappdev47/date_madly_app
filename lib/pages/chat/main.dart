@@ -48,6 +48,7 @@ class _ChatState extends State<Chat> {
       print(value.docs.length);
       boolList = List.generate(value.docs.length, (index) => false);
     });
+    setState(() {});
   }
 
   onTapDelete2(int index, otherEmail) async {
@@ -238,12 +239,12 @@ class _ChatState extends State<Chat> {
                     if (snapshot.hasData == false) {
                       return const SizedBox();
                     }
-                    return snapshot.data!.docs.isEmpty
+                    return snapshot.data?.docs.isEmpty ?? true
                         ? const Text("No Result Found")
                         : SizedBox(
                             height: 350,
                             child: ListView.builder(
-                                itemCount: snapshot.data!.docs.length,
+                                itemCount: snapshot.data?.docs.length ?? 0,
                                 itemBuilder: (context, index) {
                                   if (snapshot.data!.docs[index]
                                           .data()['Email'] ==
