@@ -30,12 +30,12 @@ class _LikesState extends State<Likes> {
   bool loder = false;
   LikedDislikeProfile likedProfile = LikedDislikeProfile();
 
-  LikeDislikeapicall() async {
+  LikeDislikeapicall(String? id, int? status) async {
     try {
       loder = true;
       setState(() {});
       likedProfile =
-          await LikedDislikeProfilesApi.likedDislikeProfilesapi(0);
+          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -46,7 +46,7 @@ class _LikesState extends State<Likes> {
   @override
   void initState() {
     super.initState();
-    LikeDislikeapicall();
+    LikeDislikeapicall('id', 0);
   }
 
   @override
