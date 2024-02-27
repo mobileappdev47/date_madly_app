@@ -208,7 +208,8 @@ class _HomeState extends State<Home> {
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(30),
                                                 topRight: Radius.circular(30)),
-                                            child: CachedNetworkImage(height: height * 0.58,
+                                            child: CachedNetworkImage(
+                                              height: height * 0.58,
                                               width: width * 0.8,
                                               imageUrl: (user.images != null &&
                                                       user.images!.isNotEmpty)
@@ -243,7 +244,6 @@ class _HomeState extends State<Home> {
                                             height: 10,
                                           ),
                                           Text(
-
                                             getAll.users != null &&
                                                     getAll.users![index].name !=
                                                         null

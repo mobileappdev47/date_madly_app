@@ -156,13 +156,11 @@ class MyApp extends StatelessWidget {
                   : appProvider.theme == ThemeConfig.lightTheme
                       ? ThemeMode.light
                       : ThemeMode.dark,
-
           // home: phone! && profileCompleted!
           //     ? const HomeMain()
           //     : phone!
           //         ? const Gender()
           //         : const PhoneOTP());
-
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
             child: HomeMain(),
