@@ -30,12 +30,12 @@ class _LikesState extends State<Likes> {
   bool loder = false;
   LikedDislikeProfile likedProfile = LikedDislikeProfile();
 
-  LikeDislikeapicall(String? id, int? status) async {
+  LikeDislikeapicall() async {
     try {
       loder = true;
       setState(() {});
       likedProfile =
-          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
+          await LikedDislikeProfilesApi.likedDislikeProfilesapi(0);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -46,7 +46,7 @@ class _LikesState extends State<Likes> {
   @override
   void initState() {
     super.initState();
-    LikeDislikeapicall('id', 0);
+    LikeDislikeapicall();
   }
 
   @override
@@ -113,7 +113,7 @@ class _LikesState extends State<Likes> {
                     mainAxisSpacing: 10,
                       crossAxisSpacing: 10
                   ),
-                  itemCount: matches.length,
+                  itemCount: likedProfile.likedDislikeProfile?.length??0,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
