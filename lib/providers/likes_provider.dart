@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:date_madly_app/models/liked_dislike_profile.dart';
+import 'package:date_madly_app/models/liked_dislike_profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

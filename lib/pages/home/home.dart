@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/additinal_details_api.dart';
 import 'package:date_madly_app/api/getLikedDislikeProfile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
@@ -16,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 import '../../api/get_All_api.dart';
+import '../../models/liked_dislike_profile_model.dart';
 import '../../models/user_model.dart';
 import '../../providers/home_main_provider.dart';
 import '../../utils/body_builder.dart';
@@ -25,7 +28,7 @@ import '../../utils/texts.dart';
 import '../likes/main.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({Key? key}) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
@@ -42,13 +45,27 @@ class _HomeState extends State<Home> {
   ];
   bool loder = false;
   GetAllUser getAll = GetAllUser();
-  LikedDislikeProfileApi likedDislikeProfileApi = LikedDislikeProfileApi();
+  LikedDislikeProfile likedDislikeProfileApis = LikedDislikeProfile();
+
+  List<User> remainingUsers = [];
+
+  AdditinalDetail additinalDetail=AdditinalDetail();
+
+  @override
+  void initState() {
+    super.initState();
+    getallapicall();
+  }
+
+  int status = 0;
 
   getallapicall() async {
     try {
       loder = true;
       setState(() {});
       getAll = await GetAllApi.getallApi();
+      remainingUsers =
+          getAll.users ?? []; // Initialize remainingUsers with all users
       loder = false;
       setState(() {});
     } catch (e) {
@@ -56,24 +73,17 @@ class _HomeState extends State<Home> {
     }
   }
 
-  LikeDislikeapicall() async {
+  LikeDislikeapicall(String? id) async {
     try {
       loder = true;
       setState(() {});
-      likedDislikeProfileApi =
-          await LikedDislikeProfileApi.likedDislikeProfileapi();
+      likedDislikeProfileApis =
+          await LikedDislikeProfileApi.likedDislikeProfileapi(id, status);
       loder = false;
       setState(() {});
     } catch (e) {
       print('==============>${e.toString()}');
     }
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getallapicall();
   }
 
   @override
@@ -127,138 +137,153 @@ class _HomeState extends State<Home> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            getAll.users != null && getAll.users!.length > 2
+            remainingUsers.isNotEmpty
                 ? Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 35),
                       child: CardSwiper(
                         isDisabled: false,
                         backCardOffset: const Offset(10, 0),
                         initialIndex: 0,
                         padding: EdgeInsets.zero,
-                        cardsCount: getAll.users?.length ?? 0,
+                        cardsCount: remainingUsers.length,
                         cardBuilder: (context,
                             index,
                             horizontalOffsetPercentage,
                             verticalOffsetPercentage) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              GestureDetector(
-                                child: Container(
-                                  height: height * 0.68,
-                                  width: width * 0.8,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(40),
-                                      bottomRight: Radius.circular(
-                                        40,
-                                      ),
-                                      topRight: Radius.circular(40),
-                                      topLeft: Radius.circular(
-                                        40,
+                          final user = remainingUsers[index];
+                          return GestureDetector(
+                            onPanUpdate: (details) async {
+                              if (details.delta.dx > 0) {
+                                // Swiped right
+                                log('true============${user.id}');
+                                await LikeDislikeapicall(user.id);
+                                remainingUsers.removeAt(index);
+                                setState(() {});
+                              } else if (details.delta.dx < 0) {
+                                // Swiped left
+                                log('false=============${user.id}');
+                                await LikeDislikeapicall(user.id,);
+                                remainingUsers.removeAt(index);
+                                setState(() {});
+                              }
+                            },
+                            child: Container(
+                              height: height * 0.68,
+                              width: width * 0.8,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(40),
+                                  bottomRight: Radius.circular(
+                                    40,
+                                  ),
+                                  topRight: Radius.circular(40),
+                                  topLeft: Radius.circular(
+                                    40,
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          topRight: Radius.circular(10)),
+                                      child: CachedNetworkImage(
+                                        imageUrl: (user.images != null &&
+                                                user.images!.isNotEmpty)
+                                            ? user.images![0]
+                                            : '',
+                                        fit: BoxFit.fill,
+                                        placeholder: (context, url) =>
+                                            Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: height * 0.68,
+                                          width: width * 0.8,
+                                          fit: BoxFit.fill,
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: height * 0.68,
+                                          width: width * 0.8,
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  child: Column(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Expanded(
-                                        child: ClipRRect(
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(10),
-                                              topRight: Radius.circular(10)),
-                                          child: CachedNetworkImage(
-                                            imageUrl: (getAll.users != null &&
-                                                    getAll.users!.isNotEmpty &&
-                                                    getAll.users![index]
-                                                            .images !=
-                                                        null &&
-                                                    getAll.users![index].images!
-                                                        .isNotEmpty)
-                                                ? getAll
-                                                    .users![index].images![0]
-                                                : '',
-                                            fit: BoxFit.fill,
-                                            placeholder: (context, url) =>
-                                                Image.asset(
-                                                    'assets/images/image_placeholder.png',   height: height * 0.68,
-                                                  width: width * 0.8, fit: BoxFit.fill,),
-                                            errorWidget: (context, url,
-                                                    error) =>
-                                                Image.asset(
-                                                    'assets/images/image_placeholder.png',   height: height * 0.68,
-                                                  width: width * 0.8, fit: BoxFit.fill,),
-                                          ),
-                                        ),
-                                      ),
-                                      //getAll.users![index].images![1],
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                      Column(
                                         children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                Strings.jennifer,
-                                                style: mulishbold.copyWith(
-                                                  color: ColorRes.darkGrey,
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                              //SizedBox(height: 10,),
-                                              Text(
-                                                Strings.modelfashion,
-                                                style: mulish14400.copyWith(
-                                                  fontSize: 12,
-                                                  color: ColorRes.grey,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
                                           SizedBox(
-                                            width: 60,
-                                          ),
-                                          Image.asset(
-                                            AssertRe.Location_Icon,
-                                            scale: 4.5,
-                                            color: ColorRes.appColor,
-                                          ),
-                                          SizedBox(
-                                            width: 10,
+                                            height: 10,
                                           ),
                                           Text(
-                                            Strings.homeKM,
+                                            (user.name != null &&
+                                                    user.name!.isNotEmpty)
+                                                ? user.name!
+                                                : '',
+                                            style: mulishbold.copyWith(
+                                              color: ColorRes.darkGrey,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                          Text(
+                                            Strings.modelfashion,
                                             style: mulish14400.copyWith(
                                               fontSize: 12,
+                                              color: ColorRes.grey,
                                             ),
                                           ),
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        width: 60,
+                                      ),
+                                      Image.asset(
+                                        AssertRe.Location_Icon,
+                                        scale: 4.5,
+                                        color: ColorRes.appColor,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        Strings.homeKM,
+                                        style: mulish14400.copyWith(
+                                          fontSize: 12,
+                                        ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                onTap: () {
-                                  ladyBottomSheetUI(context);
-                                },
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
+                            onTap: () {
+                              ladyBottomSheetUI(context,getAll,index);
+                            },
                           );
                         },
                       ),
                     ),
                   )
-                : SizedBox(),
+                : Expanded(
+                    child: Center(
+                      child: Image.asset(
+                        'assets/images/image_placeholder.png',
+                        height: height * 0.68,
+                        width: width * 0.8,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Row(
@@ -266,11 +291,11 @@ class _HomeState extends State<Home> {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LikesYouScreen(),
-                          ));
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: (context) => LikesYouScreen(),
+                      //     ));
                     },
                     child: Container(
                       height: 50,
@@ -297,10 +322,7 @@ class _HomeState extends State<Home> {
                     width: 20,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      // Navigator.push(
-                      //     context, MaterialPageRoute(builder: (c) => Likes()));
-                    },
+                    onTap: () async {},
                     child: Container(
                       height: 50,
                       width: 50,

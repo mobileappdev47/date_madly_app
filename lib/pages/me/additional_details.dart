@@ -32,17 +32,17 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   int di = -1;
   late String question;
   late List<String> array;
-  String selectedSunSign = '';
-  String selectedCuisine = '';
-  String selectedPastime = '';
-  String selectedReligion = '';
-  String selectedSmokingStatus = '';
-  String selectedDrinkingStatus = '';
-  String selectedFirstDate = '';
-  String selectedPersonality = '';
-  String selectedLookingFor = '';
-  String selectedPoliticalViews = '';
-  String selectedItem = '';
+  static String selectedSunSign = '';
+  static String selectedCuisine = '';
+  static String selectedPastime = '';
+  static String selectedReligion = '';
+  static String selectedSmokingStatus = '';
+  static String selectedDrinkingStatus = '';
+  static String selectedFirstDate = '';
+  static String selectedPersonality = '';
+  static String selectedLookingFor = '';
+  static String selectedPoliticalViews = '';
+  static String selectedItem = '';
   AdditinalDetail additinalDetail = AdditinalDetail();
   String userId = PrefService.getString(PrefKeys.userId);
 
@@ -315,7 +315,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
     }
   }
 
-  Future<void> detailApiCalling(Map<String, dynamic> body) async {
+  static Future<void> detailApiCalling(Map<String, dynamic> body) async {
     try {
       await AdditinalDetail.additinalApi(body: body);
     } catch (e) {}

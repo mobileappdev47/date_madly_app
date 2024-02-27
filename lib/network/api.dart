@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:date_madly_app/models/chat_room_model.dart';
 import 'package:date_madly_app/models/countries_model.dart';
 import 'package:date_madly_app/models/fetch_liked_dislike_profile.dart';
-import 'package:date_madly_app/models/liked_dislike_profile.dart';
+import 'package:date_madly_app/models/liked_dislike_profile_model.dart';
 import 'package:date_madly_app/models/user_model.dart';
 import 'package:dio/dio.dart';
 
