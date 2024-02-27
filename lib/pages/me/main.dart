@@ -1,7 +1,9 @@
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:date_madly_app/utils/mqtt_client.dart';
@@ -451,22 +453,34 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(Strings.log_out,
-                                  style: mulishbold.copyWith(
-                                      color: ColorRes.darkGrey,
-                                      fontSize: 16.41)),
-                              Spacer(),
-                              Image.asset(
-                                AssertRe.logout,
-                                scale: 3,
-                              )
-                            ],
+                        GestureDetector(
+                          onTap: () {
+                            PrefService.clear();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PhoneOTP(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(Strings.log_out,
+                                    style: mulishbold.copyWith(
+                                        color: ColorRes.darkGrey,
+                                        fontSize: 16.41)),
+                                Spacer(),
+                                Image.asset(
+                                  AssertRe.logout,
+                                  scale: 3,
+                                )
+                              ],
+                            ),
                           ),
                         )
                       ],

@@ -164,7 +164,7 @@ class MyApp extends StatelessWidget {
 
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: HomeMain(),
+            child: SplashScreen(),
           ),
         );
       });
@@ -229,11 +229,25 @@ class _SplashScreenState extends State<SplashScreen> {
 
   initSharedPreference() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PhoneOTP(),
-        ));
+    if (PrefService.getString(PrefKeys.userId) == '') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PhoneOTP(),
+          ));
+    } else if (PrefService.getBool(PrefKeys.isAdditional) == false) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AdditionalDetails(pageNo: 1),
+          ));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeMain(),
+          ));
+    }
   }
 
   @override
