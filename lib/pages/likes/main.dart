@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
@@ -27,16 +28,14 @@ class Likes extends StatefulWidget {
 
 class _LikesState extends State<Likes> {
   bool loder = false;
-  LikedDislikeProfile likedDislikeProfile = LikedDislikeProfile();
+  LikedDislikeProfile likedProfile = LikedDislikeProfile();
 
-
-
-  LikeDislikeapicall(String? id,int? status) async {
+  LikeDislikeapicall(String? id, int? status) async {
     try {
       loder = true;
       setState(() {});
-      likedDislikeProfile =
-      await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
+      likedProfile =
+          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -112,18 +111,35 @@ class _LikesState extends State<Likes> {
                     crossAxisCount: 2,
                     childAspectRatio: 0.7,
                     mainAxisSpacing: 10,
-                    //   crossAxisSpacing: 10
+                      crossAxisSpacing: 10
                   ),
                   itemCount: matches.length,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
-                        Container(
-                          child: Image.asset(
-                            matches[index].image,
-                            fit: BoxFit.fill,
+                        ClipRRect(
+                          child: CachedNetworkImage(
+                            imageUrl:
+                            // '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                            '',  fit: BoxFit.cover,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height,
+                            placeholder: (context, url) => Image.asset(
+                              'assets/images/image_placeholder.png',
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              fit: BoxFit.cover,
+                            ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/image_placeholder.png',
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              fit: BoxFit.cover,
+                            ),
                           ),
+                          borderRadius: BorderRadius.circular(10),
                         ),
+
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 15),
@@ -132,11 +148,14 @@ class _LikesState extends State<Likes> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  likedDislikeProfile.likedDislikeProfile !=
-                                              null &&
-                                          likedDislikeProfile
-                                              .likedDislikeProfile!.isNotEmpty
-                                      ? likedDislikeProfile.likedDislikeProfile![index].likedId?.name ?? '' : '',
+                                  // likedProfile.likedDislikeProfile != null &&
+                                  //         likedProfile
+                                  //             .likedDislikeProfile!.isNotEmpty
+                                  //     ? likedProfile.likedDislikeProfile![index]
+                                  //             .likedId?.name ??
+                                  //         ''
+                                  //     : '',
+                                  likedProfile.likedDislikeProfile?[index].likedId?.name??'name',
                                   style: mulishbold.copyWith(
                                     fontSize: 16.41,
                                     color: ColorRes.white,

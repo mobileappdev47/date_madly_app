@@ -152,14 +152,14 @@ class _HomeState extends State<Home> {
                         onSwipe:
                             (previousIndex, currentIndex, direction) async {
                           if (direction == CardSwiperDirection.left) {
-                            await LikeDislikeapicall(
-                                remainingUsers[currentIndex!].id, 1);
-                            remainingUsers.removeAt(currentIndex);
+                            // await LikeDislikeapicall(
+                            //     remainingUsers[currentIndex!].id, 1);
+                            // remainingUsers.removeAt(currentIndex);
                             setState(() {});
                           } else if (direction == CardSwiperDirection.right) {
-                            await LikeDislikeapicall(
-                                remainingUsers[currentIndex!].id, 0);
-                            remainingUsers.removeAt(currentIndex);
+                            // await LikeDislikeapicall(
+                            //     remainingUsers[currentIndex!].id, 0);
+                            // remainingUsers.removeAt(currentIndex);
                             setState(() {});
                           } else {}
                           return true;
@@ -206,28 +206,29 @@ class _HomeState extends State<Home> {
                                       ? Expanded(
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10)),
-                                            child: CachedNetworkImage(
+                                                topLeft: Radius.circular(30),
+                                                topRight: Radius.circular(30)),
+                                            child: CachedNetworkImage(height: height * 0.58,
+                                              width: width * 0.8,
                                               imageUrl: (user.images != null &&
                                                       user.images!.isNotEmpty)
                                                   ? user.images![0]
                                                   : '',
-                                              fit: BoxFit.fill,
+                                              fit: BoxFit.cover,
                                               placeholder: (context, url) =>
                                                   Image.asset(
                                                 'assets/images/image_placeholder.png',
                                                 height: height * 0.58,
-                                                width: width * 0.7,
-                                                fit: BoxFit.fill,
+                                                width: width * 0.8,
+                                                fit: BoxFit.cover,
                                               ),
                                               errorWidget:
                                                   (context, url, error) =>
                                                       Image.asset(
                                                 'assets/images/image_placeholder.png',
                                                 height: height * 0.58,
-                                                width: width * 0.7,
-                                                fit: BoxFit.fill,
+                                                width: width * 0.8,
+                                                fit: BoxFit.cover,
                                               ),
                                             ),
                                           ),
@@ -242,6 +243,7 @@ class _HomeState extends State<Home> {
                                             height: 10,
                                           ),
                                           Text(
+
                                             getAll.users != null &&
                                                     getAll.users![index].name !=
                                                         null
