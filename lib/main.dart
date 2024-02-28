@@ -22,6 +22,7 @@ import 'package:date_madly_app/pages/login/tall.dart';
 import 'package:date_madly_app/pages/login/work.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/pages/me/my_gallery.dart';
+import 'package:date_madly_app/pages/me/widgets/ChangePassword/changepassword_provider.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
@@ -129,6 +130,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => Updateprovider()),
     ChangeNotifierProvider(create: (_) => LoginProvider()),
     ChangeNotifierProvider(create: (_) => NewChatProvider()),
+    ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
   ], child: const MyApp()));
 }
 
@@ -163,7 +165,7 @@ class MyApp extends StatelessWidget {
           //         : const PhoneOTP());
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: HomeMain(),
+            child: SplashScreen(),
           ),
         );
       });

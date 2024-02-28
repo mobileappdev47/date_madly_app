@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import '../utils/endpoint.dart';
 
 class LoginApi {
-  static login(Map<String, dynamic> body, context) async {
+  static login(Map<String, dynamic> body, context, password) async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST', Uri.parse(EndPoints.login));
@@ -21,6 +21,8 @@ class LoginApi {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
             PrefKeys.userId, loginModelFromJson(data).user?.id ?? '');
+        PrefService.setValue(
+            PrefKeys.password,password);
         Navigator.push(
             context,
             MaterialPageRoute(

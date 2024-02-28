@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:date_madly_app/pages/me/widgets/ChangePassword/change_password.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -34,7 +35,8 @@ class _HomeMainState extends State<HomeMain> {
     Home(),
     Chat(),
     Likes(),
-    Profile()
+    // Profile()
+    ChangePassword()
   ];
   @override
   void initState() {
