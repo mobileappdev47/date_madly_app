@@ -16,12 +16,8 @@ class GetLikedDislikeProfilesApi {
       var headers = {'Content-Type': 'application/json'};
       var request =
           http.Request('POST', Uri.parse(EndPoints.getLikedDislikeProfiles));
-      request.body = json.encode({
-        "userID":
-            // PrefService.getString(PrefKeys.userId),
-            '65d2f730fcf0e1a4cd114e06',
-        "status": 0
-      });
+      request.body = json.encode(
+          {"userID": PrefService.getString(PrefKeys.userId), "status": 0});
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
 

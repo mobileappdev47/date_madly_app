@@ -33,13 +33,15 @@ class GetSingleProfileApi {
         updateProvider.nameController.text =
             getSingleProfileModelFromJson(data).profile?[0].name ?? '';
         updateProvider.locationController.text =
-            getSingleProfileModelFromJson(data).profile?[0].live ?? '';
+            getSingleProfileModelFromJson(data).profile?[0].location ?? '';
         updateProvider.jobController.text =
-            getSingleProfileModelFromJson(data).profile?[0].designation ?? '';
+            getSingleProfileModelFromJson(data).profile?[0].job ?? '';
         updateProvider.companyController.text =
             getSingleProfileModelFromJson(data).profile?[0].company ?? '';
         updateProvider.collegeController.text =
-            getSingleProfileModelFromJson(data).profile?[0].degree ?? '';
+            getSingleProfileModelFromJson(data).profile?[0].college ?? '';
+        updateProvider.aboutController.text =
+            getSingleProfileModelFromJson(data).profile?[0].about ?? '';
 
         if (getSingleProfileModelFromJson(data).profile?[0].dob.toString() !=
                 null &&

@@ -12,6 +12,7 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:date_madly_app/utils/mqtt_client.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,6 +67,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    print(PrefService.getString(PrefKeys.userId));
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
@@ -190,7 +192,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].designation ?? '',
+                        getSingleProfileModel.profile?[0].job ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
@@ -202,7 +204,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].degree ?? '',
+                        getSingleProfileModel.profile?[0].college ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       )
                     ],
@@ -220,7 +222,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].live ?? '',
+                        getSingleProfileModel.profile?[0].location ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
@@ -252,7 +254,16 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('', style: mulish14400.copyWith(color: ColorRes.grey)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(getSingleProfileModel.profile?[0].about ?? '',
+                          textAlign: TextAlign.start,
+                          style: mulish14400.copyWith(
+                            color: ColorRes.grey,
+                          )),
+                    ],
+                  ),
                   SizedBox(
                     height: 20,
                   ),
