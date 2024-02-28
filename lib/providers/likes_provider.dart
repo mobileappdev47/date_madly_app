@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:date_madly_app/models/liked_dislike_profile_model.dart';
+import 'package:date_madly_app/models/add_liked_dislike_profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +18,7 @@ class LikesProvider with ChangeNotifier {
     getID();
   }
   APIRequestStatus apiRequestStatus = APIRequestStatus.loading;
-  LikedDislikeProfile likeDislikeProfile = LikedDislikeProfile();
+  AddLikeDislikeProfile likeDislikeProfile = AddLikeDislikeProfile();
   Api api = Api();
   var id;
   late SharedPreferences sharedPreferences;
@@ -31,12 +31,12 @@ class LikesProvider with ChangeNotifier {
       try {
         print("params************* $params");
 
-        LikedDislikeProfile profile = await api.likedDislikeProfile(
+        AddLikeDislikeProfile profile = await api.likedDislikeProfile(
 
             Api.getLikedDislikeProfileURL, params, token());
         PrefService.getString('idToken');
         setProfile(profile);
-        print("length: ${profile.likedDislikeProfile!.length}");
+        print("length: ${profile.userId!.length}");
         setApiRequestStatus(APIRequestStatus.loaded);
       } on DioException catch (e) {
         checkError(e);

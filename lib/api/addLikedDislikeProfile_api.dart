@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/liked_dislike_profile_model.dart';
+import '../models/add_liked_dislike_profile_model.dart';
 import '../service/http_services.dart';
 import '../service/pref_service.dart';
 import '../utils/endpoint.dart';
@@ -27,7 +27,7 @@ class LikedDislikeProfileApi {
 
       print('Status Code===========${response!.statusCode}');
       if (response != null && response.statusCode == 200) {
-        return likedDislikeProfileFromJson(response.body);
+        return addLikeDislikeProfileFromJson(response.body);
       } else {
         print('Something went wrong');
       }

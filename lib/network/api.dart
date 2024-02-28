@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:date_madly_app/models/chat_room_model.dart';
 import 'package:date_madly_app/models/countries_model.dart';
 import 'package:date_madly_app/models/fetch_liked_dislike_profile.dart';
-import 'package:date_madly_app/models/liked_dislike_profile_model.dart';
+import 'package:date_madly_app/models/add_liked_dislike_profile_model.dart';
 import 'package:date_madly_app/models/user_model.dart';
 import 'package:dio/dio.dart';
 
@@ -208,7 +208,7 @@ class Api {
     return signup;
   }
 
-  Future<LikedDislikeProfile> likedDislikeProfile(
+  Future<AddLikeDislikeProfile> likedDislikeProfile(
       String url, params, token) async {
     Response response = await dio.post(url,
         options: Options(headers: {
@@ -216,7 +216,7 @@ class Api {
           HttpHeaders.authorizationHeader: 'Bearer $token'
         }),
         data: jsonEncode(params));
-    LikedDislikeProfile signup;
+    AddLikeDislikeProfile signup;
     if (response.statusCode == 401) {
       print("401 error");
       throw const HttpException('401');
@@ -224,7 +224,7 @@ class Api {
     if (response.statusCode == 200) {
       // print(response.toString());
       var json = jsonDecode(response.toString());
-      signup = LikedDislikeProfile.fromJson(json);
+      signup = AddLikeDislikeProfile.fromJson(json);
     } else {
       throw ('Error ${response.statusCode}');
     }

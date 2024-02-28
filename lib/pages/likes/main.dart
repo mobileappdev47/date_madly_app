@@ -7,9 +7,12 @@ import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../api/likedislike_profile_s_api.dart';
+import '../../api/get_All_api.dart';
+import '../../api/getlikedislike_profile_s_api.dart';
 import '../../common/text_feild_common.dart';
-import '../../models/liked_dislike_profile_model.dart';
+import '../../models/add_liked_dislike_profile_model.dart';
+import '../../models/get_likedislike_profiles_model.dart';
+import '../../models/user_model.dart';
 import '../../network/api.dart';
 import '../../providers/likes_provider.dart';
 import '../../utils/body_builder.dart';
@@ -28,14 +31,29 @@ class Likes extends StatefulWidget {
 
 class _LikesState extends State<Likes> {
   bool loder = false;
-  LikedDislikeProfile likedProfile = LikedDislikeProfile();
+  GetLikedDislikeProfile likedProfile = GetLikedDislikeProfile();
 
   LikeDislikeapicall(String? id, int? status) async {
     try {
       loder = true;
       setState(() {});
       likedProfile =
-          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, status);
+          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, '0');
+      loder = false;
+      setState(() {});
+    } catch (e) {
+      print('==============>${e.toString()}');
+    }
+  }
+
+  GetAllUser getAll = GetAllUser();
+
+  getallapicall() async {
+    try {
+      loder = true;
+      setState(() {});
+      getAll = await GetAllApi.getallApi();
+      // Initialize remainingUsers with all users
       loder = false;
       setState(() {});
     } catch (e) {
@@ -59,11 +77,13 @@ class _LikesState extends State<Likes> {
           backgroundColor: ColorRes.white,
           leading: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) {
-                  return Profile();
-                },
-              ));
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return Profile();
+                  },
+                ),
+              );
             },
             child: Icon(
               Icons.arrow_back_ios_new_rounded,
@@ -108,20 +128,19 @@ class _LikesState extends State<Likes> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.7,
-                    mainAxisSpacing: 10,
-                      crossAxisSpacing: 10
-                  ),
-                  itemCount: likedProfile.likedDislikeProfile?.length??0,
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.7,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10),
+                  itemCount: likedProfile.likedProfiles?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
                         ClipRRect(
                           child: CachedNetworkImage(
                             imageUrl:
-                            // '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
-                            '',  fit: BoxFit.cover,
+                                '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                            fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
                             placeholder: (context, url) => Image.asset(
@@ -139,7 +158,6 @@ class _LikesState extends State<Likes> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 15),
@@ -155,7 +173,10 @@ class _LikesState extends State<Likes> {
                                   //             .likedId?.name ??
                                   //         ''
                                   //     : '',
-                                  likedProfile.likedDislikeProfile?[index].likedId?.name??'name',
+                                  // likedProfile.likedProfiles?[index]
+                                  //         .likedId?. ??
+                                  //     'name','
+                                  '',
                                   style: mulishbold.copyWith(
                                     fontSize: 16.41,
                                     color: ColorRes.white,
@@ -233,14 +254,20 @@ class _LikesState extends State<Likes> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
+                              loder == false
+                                  ? Center(child: CircularProgressIndicator())
+                                  : SizedBox(),
                             ],
                           ),
-                        )
+                        ),
+                        loder == false
+                            ? Center(child: CircularProgressIndicator())
+                            : SizedBox(),
                       ],
                     );
                   },
-                )
+                ),
               ],
             ),
           ),
