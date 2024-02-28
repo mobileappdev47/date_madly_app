@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/notification_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/get_notification_model.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +31,14 @@ class HomeMainProvider with ChangeNotifier {
   ];
 
   List notificationName = ['Clara, 22', 'Renna,23', 'Patricia,23'];
+  GetNotificationModel getNotificationModel = GetNotificationModel();
+  getNotification(context) async {
+    try {
+      getNotificationModel = await NotificationApi.notificationApi(context);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   void showNotificationContainer(BuildContext context) {
     showDialog(
@@ -59,74 +70,97 @@ class HomeMainProvider with ChangeNotifier {
                             SizedBox(
                               width: 140,
                             ),
-                            Stack(
-                              children: [
-                                Image.asset(
-                                  AssertRe.notification,
-                                  scale: 3,
-                                  color: ColorRes.grey,
-                                ),
-                                CircleAvatar(
-                                  radius: 4,
-                                  backgroundColor: ColorRes.appColor,
-                                )
-                              ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Stack(
+                                children: [
+                                  Image.asset(
+                                    AssertRe.notification,
+                                    scale: 3,
+                                    color: ColorRes.grey,
+                                  ),
+                                  CircleAvatar(
+                                    radius: 4,
+                                    backgroundColor: ColorRes.appColor,
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
+                        // Align(
+                        //     alignment: Alignment.centerLeft,
+                        //     child: Text(
+                        //       Strings.today,
+                        //       style: mulishbold.copyWith(
+                        //         color: ColorRes.darkGrey,
+                        //         fontSize: 16,
+                        //       ),
+                        //     )),
                         SizedBox(
                           height: 20,
                         ),
-                        Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              Strings.today,
-                              style: mulishbold.copyWith(
-                                color: ColorRes.darkGrey,
-                                fontSize: 16,
-                              ),
-                            )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: 200,
-                          child: ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: notificationList.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Container(
-                                child: Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        Image.asset(
-                                          notificationList[index],
-                                          scale: 3,
-                                        )
-                                      ],
-                                    ),
-                                    Expanded(
-                                      child: SizedBox(
-                                        width: 20,
+                        ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount:
+                              getNotificationModel.notifications?.length ?? 0,
+                          itemBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  ClipOval(
+                                    child: CachedNetworkImage(
+                                      height: 50,
+                                      width: 50,
+                                      fit: BoxFit.cover,
+                                      imageUrl: getNotificationModel
+                                              .notifications?[index].imageUrl ??
+                                          '',
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        height: 50,
+                                        width: 50,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        height: 50,
+                                        width: 50,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
-                                    Column(
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 150,
+                                    child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.start,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                          Strings.minago,
-                                          style: mulish14400,
-                                        ),
+                                        // Text(
+                                        //   Strings.minago,
+                                        //   style: mulish14400,
+                                        // ),
                                         Row(
                                           children: [
                                             Text(
-                                              notificationName[index],
+                                              getNotificationModel
+                                                      .notifications?[index]
+                                                      .title ??
+                                                  '',
                                               style: mulishbold.copyWith(
                                                 color: ColorRes.darkGrey,
                                               ),
@@ -149,28 +183,31 @@ class HomeMainProvider with ChangeNotifier {
                                           ],
                                         ),
                                         Text(
-                                          Strings.Invites,
-                                          style: mulish14400,
+                                          getNotificationModel
+                                                  .notifications?[index].body ??
+                                              '',
+                                          maxLines: 2,
+                                          style: mulish14400.copyWith(
+                                              overflow: TextOverflow.ellipsis),
                                         ),
                                       ],
                                     ),
-                                    SizedBox(
-                                      width: 20,
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: ColorRes.appColor),
+                                    child: Icon(
+                                      Icons.favorite_border,
+                                      color: ColorRes.white,
                                     ),
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          color: ColorRes.appColor),
-                                      child: Icon(
-                                        Icons.favorite_border,
-                                        color: ColorRes.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -178,100 +215,100 @@ class HomeMainProvider with ChangeNotifier {
                         SizedBox(
                           height: 20,
                         ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            Strings.yesterday,
-                            style: mulishbold.copyWith(
-                              fontSize: 16,
-                              color: ColorRes.darkGrey,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                Image.asset(
-                                  AssertRe.notifiimage1,
-                                  scale: 3,
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  Strings.hourago,
-                                  style: mulishbold.copyWith(
-                                      fontSize: 12, color: ColorRes.grey),
-                                ),
-                                RichText(
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      color: Colors.black,
-                                    ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: Strings.patricia,
-                                        style: mulishbold.copyWith(
-                                          fontSize: 12,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                          text: Strings.likesyourphoto,
-                                          style: mulish14400),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Stack(children: [
-                          Padding(
-                            padding: EdgeInsets.only(left: 50),
-                            child: Image.asset(
-                              AssertRe.notifiimage3,
-                              scale: 2.2,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 110, left: 70),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.favorite_border,
-                                        color: ColorRes.white, size: 25),
-                                    Image.asset(
-                                      AssertRe.comment,
-                                      scale: 2.5,
-                                    )
-                                  ],
-                                ),
-                                Text(
-                                  Strings.like,
-                                  style: mulish14400.copyWith(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ])
+                        // Align(
+                        //   alignment: Alignment.centerLeft,
+                        //   child: Text(
+                        //     Strings.yesterday,
+                        //     style: mulishbold.copyWith(
+                        //       fontSize: 16,
+                        //       color: ColorRes.darkGrey,
+                        //     ),
+                        //   ),
+                        // ),
+                        // SizedBox(
+                        //   height: 20,
+                        // ),
+                        // Row(
+                        //   children: [
+                        //     Column(
+                        //       children: [
+                        //         Image.asset(
+                        //           AssertRe.notifiimage1,
+                        //           scale: 3,
+                        //         )
+                        //       ],
+                        //     ),
+                        //     SizedBox(
+                        //       width: 10,
+                        //     ),
+                        //     Column(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Text(
+                        //           Strings.hourago,
+                        //           style: mulishbold.copyWith(
+                        //               fontSize: 12, color: ColorRes.grey),
+                        //         ),
+                        //         RichText(
+                        //           text: TextSpan(
+                        //             style: TextStyle(
+                        //               fontSize: 20.0,
+                        //               color: Colors.black,
+                        //             ),
+                        //             children: <TextSpan>[
+                        //               TextSpan(
+                        //                 text: Strings.patricia,
+                        //                 style: mulishbold.copyWith(
+                        //                   fontSize: 12,
+                        //                   color: ColorRes.darkGrey,
+                        //                 ),
+                        //               ),
+                        //               TextSpan(
+                        //                   text: Strings.likesyourphoto,
+                        //                   style: mulish14400),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       ],
+                        //     ),
+                        //   ],
+                        // ),
+                        // SizedBox(height: 10),
+                        // Stack(children: [
+                        //   Padding(
+                        //     padding: EdgeInsets.only(left: 50),
+                        //     child: Image.asset(
+                        //       AssertRe.notifiimage3,
+                        //       scale: 2.2,
+                        //     ),
+                        //   ),
+                        //   Padding(
+                        //     padding: const EdgeInsets.only(top: 110, left: 70),
+                        //     child: Column(
+                        //       mainAxisAlignment: MainAxisAlignment.start,
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Row(
+                        //           children: [
+                        //             Icon(Icons.favorite_border,
+                        //                 color: ColorRes.white, size: 25),
+                        //             Image.asset(
+                        //               AssertRe.comment,
+                        //               scale: 2.5,
+                        //             )
+                        //           ],
+                        //         ),
+                        //         Text(
+                        //           Strings.like,
+                        //           style: mulish14400.copyWith(
+                        //             color: Colors.white,
+                        //           ),
+                        //         )
+                        //       ],
+                        //     ),
+                        //   )
+                        // ])
                       ],
                     ),
                   )),

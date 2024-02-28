@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:date_madly_app/models/get_like_dislike_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,24 +13,22 @@ class GetLikedDislikeProfilesApi {
     int? status,
   ) async {
     try {
-      var data = {
-        "userID": '65ccaffe1963b9d676f54d84',
-        "status": status,
-      };
-      String url = EndPoints.getLikedDislikeProfiles;
-      http.Response? response = await HttpService.postApi(
-        body: data,
-        url: url,
-      );
+      var headers = {'Content-Type': 'application/json'};
+      var request =
+          http.Request('POST', Uri.parse(EndPoints.getLikedDislikeProfiles));
+      request.body = json.encode(
+          {"userID": PrefService.getString(PrefKeys.userId), "status": 0});
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
 
-      print('Status Code===========${response!.statusCode}');
-
-      if (response != null && response.statusCode == 200) {
-        return getLikeDislikeModelFromJson(response.body);
+      if (response.statusCode == 200) {
+        var data = (await response.stream.bytesToString());
+        return getLikeDislikeModelFromJson(data);
       } else {
-        print('Something went wrong');
+        print(response.reasonPhrase);
       }
     } catch (e) {
+      print(e.toString());
       return null;
     }
   }

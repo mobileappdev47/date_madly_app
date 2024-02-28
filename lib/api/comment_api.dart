@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/get_profile_model.dart';
-import '../models/user_model.dart';
-
 class CommentApi {
   static commentApi(body, context) async {
     try {

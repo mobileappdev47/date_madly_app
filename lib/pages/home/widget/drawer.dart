@@ -63,86 +63,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 30,
             ),
-            /*Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        value.male = !value.male;
-                      });
-
-
-                    },
-                    child: Container(
-
-                      height: MediaQuery.of(context).size.height / 15,
-                      width: MediaQuery.of(context).size.width / 3.5,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(  color:value.male == true ? ColorRes.appColor : ColorRes.grey)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/Male.png',
-                            scale: 3,
-                            color: value.male == true ? ColorRes.appColor : ColorRes.grey,
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 35,
-                          ),
-                          Text(
-                            'Male',
-                            style: TextStyle(
-                                color: value.male == true ? ColorRes.appColor : ColorRes.grey, fontSize: 16),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        value.female = !value.female;
-                      });
-                    },
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 15,
-                      width: MediaQuery.of(context).size.width / 3.5,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(color: value.female == true ? ColorRes.appColor : ColorRes.grey)),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/icons/Female.png',
-                              scale: 2.5,
-                              color: value.female == true ? ColorRes.appColor : ColorRes.grey,
-                            ),SizedBox(
-                              width: MediaQuery.of(context).size.width / 30,
-                            ),
-                            Text(
-                              'Female',
-                              style: TextStyle(
-                                  color: value.female == true ? ColorRes.appColor : ColorRes.grey, fontSize: 16),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),*/
             SizedBox(
               height: 45,
               child: ListView.builder(
@@ -307,7 +227,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             GestureDetector(
-              onTap: () {
+              onTap: () async {
                 Navigator.pop(context);
               },
               child: Container(
@@ -319,7 +239,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 child: Center(
                     child: Text(
                   Strings.COntinue,
-                  style: poppins.copyWith(fontSize: 16,color: Colors.white),
+                  style: poppins.copyWith(fontSize: 16, color: Colors.white),
                 )),
               ),
             ),

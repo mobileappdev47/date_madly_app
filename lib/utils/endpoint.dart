@@ -11,4 +11,6 @@ class EndPoints {
   static const getProfile = baseUrl + 'api/getProfile';
   static const getLikedDislikeProfiles = baseUrl + 'api/getLikedDislikeProfile';
   static const commentApi = baseUrl + 'api/addComment';
+  static const filterApi = baseUrl + 'api/getFilterProfile';
+  static const notificationApi = baseUrl + 'api/notifications';
 }
