@@ -26,28 +26,29 @@ class _ChangePasswordState extends State<ChangePassword> {
   Map<String, dynamic> body = {};
   bool loader = false;
 
-  ChangePasswordModel changePasswordModel=ChangePasswordModel();
-  currentpassword() async {
-      try {
-        loader = true;
-        setState(() {});
-        // var pass=PrefService.getString(PrefKeys.password);
-        changePasswordModel =
-        await ChangePasswordApi.changepasswordapi(textPassword, textPassword);
-        loader = false;
-        setState(() {});
-      } catch (e) {
-        loader = false;
-        setState(() {});
-        print('==============>${e.toString()}');
-      }
+  // ChangePasswordModel changePasswordModel = ChangePasswordModel();
+
+  currentpassword(
+      String? currentPassword, String? newPassword, String? userId) async {
+    try {
+      loader = true;
+      setState(() {});
+      // var pass=PrefService.getString(PrefKeys.password);
+      await ChangePasswordApi.changepasswordapi(body);
+      loader = false;
+      setState(() {});
+    } catch (e) {
+      loader = false;
+      setState(() {});
+      print('==============>${e.toString()}');
     }
-@override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    currentpassword();
   }
+
+// @override
+//   void initState() {
+//     // TODO: implement initState
+//     super.initState();
+//   }
   @override
   Widget build(BuildContext context) {
     return Consumer<ChangePasswordProvider>(
@@ -186,11 +187,21 @@ class _ChangePasswordState extends State<ChangePassword> {
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(30),
               child: GestureDetector(
-                onTap: ()async{
+                onTap: () async {
                   FocusScope.of(context).unfocus();
+                  body={
+                    "_id":PrefService.getString(PrefKeys.userId),
+                  "currentPassword":PrefService.getString(PrefKeys.password),
+                  "newPassword":value.passwordController.text,
+                  };
                   if (value.validation()) {
                     print('validation conform');
-                     print('${changePasswordModel.message}');
+                    await currentpassword(
+                      PrefService.getString(PrefKeys.password),
+                      textPassword,
+                      PrefService.getString(PrefKeys.userId),
+                    );
+                    // print('${changePasswordModel.message}');
                   }
                   // Navigator.pop(context);
                 },
@@ -198,8 +209,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   height: MediaQuery.of(context).size.height / 11,
                   width: MediaQuery.of(context).size.width / 1,
                   decoration: BoxDecoration(
-                      color: ColorRes.appColor,
-                      borderRadius: BorderRadius.circular(8)),
+                    color: ColorRes.appColor,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                   child: Center(
                       child: Text(
                     Strings.save,

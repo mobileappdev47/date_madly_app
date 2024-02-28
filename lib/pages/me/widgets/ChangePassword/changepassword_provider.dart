@@ -13,10 +13,6 @@ class ChangePasswordProvider extends ChangeNotifier {
 
   bool confirmPass = true;
 
-  String password = '';
-  String confirmPassword = '';
-  String current = '';
-
   String passwordError = '';
   String confirmPasswordError = '';
   String currentError = '';
