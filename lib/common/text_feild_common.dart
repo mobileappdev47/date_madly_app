@@ -98,6 +98,7 @@ class NewTextField extends StatelessWidget {
     this.color,
     this.obscureText,
     this.maxLines,
+    this.onChange,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -109,6 +110,7 @@ class NewTextField extends StatelessWidget {
   int? maxLines;
   final Color? color;
   bool? obscureText;
+  final Function(String)? onChange;
 
   final TextInputType? textInputType;
 
@@ -125,6 +127,7 @@ class NewTextField extends StatelessWidget {
       ),
       padding: EdgeInsets.only(left: prefix != null ? 10 : 15),
       child: TextField(
+        onChanged: onChange ?? (value) {},
         maxLines: 1,
         obscureText: obscureText ?? false,
         controller: controller,

@@ -51,6 +51,7 @@ class _ChangePasswordState extends State<ChangePassword> {
 //   }
   @override
   Widget build(BuildContext context) {
+    print(PrefService.getString(PrefKeys.password));
     return Consumer<ChangePasswordProvider>(
       builder: (context, value, child) {
         return GestureDetector(
@@ -79,120 +80,129 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
               ),
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(30),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 30,
+            body: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            Strings.current_password,
+                            style: mulish14400.copyWith(
+                                color: ColorRes.grey, fontSize: 14.06),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        NewTextField(
+                          controller: value.currentController,
+                          hintText: Strings.current_password,
+                          color: ColorRes.darkGrey,
+                          obscureText: true,
+                        ),
+                        value.currentError != ""
+                            ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.currentError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            Strings.new_password,
+                            style: mulish14400.copyWith(
+                                color: ColorRes.grey, fontSize: 14.06),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        NewTextField(
+                          controller: value.passwordController,
+                          hintText: Strings.new_password,
+                          color: ColorRes.darkGrey,
+                          obscureText: true,
+                        ),
+                        value.passwordError != ""
+                            ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.passwordError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            Strings.confirm_new_password,
+                            style: mulish14400.copyWith(
+                                color: ColorRes.grey, fontSize: 14.06),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        NewTextField(
+                          controller: value.confirmPasswordController,
+                          hintText: Strings.confirm_new_password,
+                          color: ColorRes.darkGrey,
+                          obscureText: true,
+                        ),
+                        value.confirmPasswordError != ""
+                            ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.confirmPasswordError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                            : SizedBox(),
+                      ],
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        Strings.current_password,
-                        style: mulish14400.copyWith(
-                            color: ColorRes.grey, fontSize: 14.06),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    NewTextField(
-                      controller: value.currentController,
-                      hintText: Strings.current_password,
-                      color: ColorRes.darkGrey,
-                      obscureText: true,
-                    ),
-                    value.currentError != ""
-                        ? Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                value.currentError,
-                                style: errorText(),
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        Strings.new_password,
-                        style: mulish14400.copyWith(
-                            color: ColorRes.grey, fontSize: 14.06),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    NewTextField(
-                      controller: value.passwordController,
-                      hintText: Strings.new_password,
-                      color: ColorRes.darkGrey,
-                      obscureText: true,
-                    ),
-                    value.passwordError != ""
-                        ? Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                value.passwordError,
-                                style: errorText(),
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        Strings.confirm_new_password,
-                        style: mulish14400.copyWith(
-                            color: ColorRes.grey, fontSize: 14.06),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    NewTextField(
-                      controller: value.confirmPasswordController,
-                      hintText: Strings.confirm_new_password,
-                      color: ColorRes.darkGrey,
-                      obscureText: true,
-                    ),
-                    value.confirmPasswordError != ""
-                        ? Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 3),
-                              child: Text(
-                                value.confirmPasswordError,
-                                style: errorText(),
-                              ),
-                            ),
-                          )
-                        : SizedBox(),
-                  ],
+                  ),
                 ),
-              ),
+                loader == true
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : SizedBox(),
+              ],
             ),
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(30),
               child: GestureDetector(
                 onTap: () async {
                   FocusScope.of(context).unfocus();
-                  body={
-                    "_id":PrefService.getString(PrefKeys.userId),
-                  "currentPassword":PrefService.getString(PrefKeys.password),
-                  "newPassword":value.passwordController.text,
+                  body = {
+                    "_id": PrefService.getString(PrefKeys.userId),
+                    "newPassword": value.passwordController.text,
+                    "currentPassword": PrefService.getString(PrefKeys.password),
                   };
                   if (value.validation()) {
                     print('validation conform');

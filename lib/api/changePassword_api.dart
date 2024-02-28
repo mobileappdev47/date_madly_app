@@ -6,18 +6,17 @@ import '../utils/endpoint.dart';
 class ChangePasswordApi {
   static changepasswordapi(Map<String, dynamic> data) async {
     try {
-      String url = EndPoints.changePasswordApi; // Verify this endpoint URL
-      http.Response? response = await HttpService.postApi(
-        body: data,
-        url: url,
-      );
-
-      print('Response Status Code:============= ${response!.statusCode}');
-
-      if (response != null && response.statusCode == 200) {
-        return response.body;
+      var headers = {'Content-Type': 'application/json'};
+      var request =
+          http.Request('POST', Uri.parse(EndPoints.changePasswordApi));
+      request.body = json.encode(data);
+      request.headers.addAll(headers);
+      http.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        var data = (await response.stream.bytesToString());
+        return data;
       } else {
-        return 'Failed to change password: ${response?.reasonPhrase}';
+        print(response.reasonPhrase);
       }
     } catch (e) {
       return 'Error changing password: $e';

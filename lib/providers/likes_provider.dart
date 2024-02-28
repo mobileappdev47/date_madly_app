@@ -16,6 +16,20 @@ class LikesProvider with ChangeNotifier {
   LikesProvider() {
     getID();
   }
+  List filterList = [];
+
+  void searching(value, likedProfiles) {
+    filterList = (likedProfiles.where((element) {
+      return element.userId!.name
+          .toString()
+          .toLowerCase()
+          .contains(value.toString().toLowerCase());
+    }).toList());
+    notifyListeners();
+    print(filterList);
+  }
+
+
   APIRequestStatus apiRequestStatus = APIRequestStatus.loading;
   Api api = Api();
   var id;

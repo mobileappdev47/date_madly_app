@@ -98,6 +98,9 @@ class _LikesState extends State<Likes> {
                 child: Column(
                   children: [
                     NewTextField(
+                      onChange: (p0) {
+                        value.searching(p0, getLikeDislikeModel.likedProfiles);
+                      },
                       controller: value.searchController,
                       hintText: Strings.Search_Match_Request,
                       prefix: AssertRe.Search_Icon,
@@ -105,187 +108,410 @@ class _LikesState extends State<Likes> {
                     SizedBox(
                       height: 20,
                     ),
-                    GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.7,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10),
-                      itemCount: getLikeDislikeModel.likedProfiles?.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return Stack(
-                          children: [
-                            getLikeDislikeModel.likedProfiles?[index].userId
-                                            ?.images !=
-                                        null &&
-                                    getLikeDislikeModel.likedProfiles![index]
-                                        .userId!.images!.isNotEmpty
-                                ? ClipRRect(
-                                    child: CachedNetworkImage(
-                                      imageUrl: getLikeDislikeModel
-                                              .likedProfiles?[index]
-                                              .userId
-                                              ?.images?[0] ??
-                                          '',
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      placeholder: (context, url) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  )
-                                : ClipRRect(
-                                    child: CachedNetworkImage(
-                                      imageUrl: '',
-                                      fit: BoxFit.cover,
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height,
-                                      placeholder: (context, url) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 15),
-                              child: Column(
+                    value.searchController.text.isEmpty
+                        ? GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.7,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10),
+                            itemCount:
+                                getLikeDislikeModel.likedProfiles?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return Stack(
                                 children: [
-                                  Align(
-                                    alignment: Alignment.topLeft,
-                                    child: Text(
-                                      // likedProfile.likedDislikeProfile != null &&
-                                      //         likedProfile
-                                      //             .likedDislikeProfile!.isNotEmpty
-                                      //     ? likedProfile.likedDislikeProfile![index]
-                                      //             .likedId?.name ??
-                                      //         ''
-                                      //     : '',
-                                      getLikeDislikeModel.likedProfiles?[index]
-                                              .userId?.name ??
-                                          '',
-                                      style: mulishbold.copyWith(
-                                        fontSize: 16.41,
-                                        color: ColorRes.white,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        AssertRe.Location_Icon,
-                                        scale: 4.5,
-                                        color: ColorRes.white,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Expanded(
-                                        child: Text(
-                                          matches[index].loaction,
-                                          style: mulishbold.copyWith(
-                                            fontSize: 11.72,
-                                            color: ColorRes.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 110,
-                                  ),
-                                  Expanded(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            color: Colors.grey.shade50,
-                                          ),
-                                          child: Icon(
-                                            Icons.close,
-                                            color: ColorRes.darkGrey,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (c) =>
-                                                    NewMatchScreen(),
-                                              ),
-                                            );
-                                          },
-                                          child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: ColorRes.appColor,
+                                  getLikeDislikeModel.likedProfiles?[index]
+                                                  .userId?.images !=
+                                              null &&
+                                          getLikeDislikeModel
+                                              .likedProfiles![index]
+                                              .userId!
+                                              .images!
+                                              .isNotEmpty
+                                      ? ClipRRect(
+                                          child: CachedNetworkImage(
+                                            imageUrl: getLikeDislikeModel
+                                                    .likedProfiles?[index]
+                                                    .userId
+                                                    ?.images?[0] ??
+                                                '',
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
                                             ),
-                                            child: Icon(
-                                              Icons.favorite_border,
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        )
+                                      : ClipRRect(
+                                          child: CachedNetworkImage(
+                                            imageUrl: '',
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    child: Column(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            // likedProfile.likedDislikeProfile != null &&
+                                            //         likedProfile
+                                            //             .likedDislikeProfile!.isNotEmpty
+                                            //     ? likedProfile.likedDislikeProfile![index]
+                                            //             .likedId?.name ??
+                                            //         ''
+                                            //     : '',
+                                            getLikeDislikeModel
+                                                    .likedProfiles?[index]
+                                                    .userId
+                                                    ?.name ??
+                                                '',
+                                            style: mulishbold.copyWith(
+                                              fontSize: 16.41,
                                               color: ColorRes.white,
                                             ),
                                           ),
                                         ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              AssertRe.Location_Icon,
+                                              scale: 4.5,
+                                              color: ColorRes.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                matches[index].loaction,
+                                                style: mulishbold.copyWith(
+                                                  fontSize: 11.72,
+                                                  color: ColorRes.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 110,
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.grey.shade50,
+                                                ),
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: ColorRes.darkGrey,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (c) =>
+                                                          NewMatchScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: ColorRes.appColor,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.favorite_border,
+                                                    color: ColorRes.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
                                       ],
                                     ),
                                   )
                                 ],
-                              ),
-                            )
-                          ],
-                        );
-                      },
-                    )
+                              );
+                            },
+                          )
+                        : GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 0.7,
+                                    mainAxisSpacing: 10,
+                                    crossAxisSpacing: 10),
+                            itemCount: value.filterList.length,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                children: [
+                                  value.filterList?[index].userId?.images !=
+                                              null &&
+                                          value.filterList![index].userId!
+                                              .images!.isNotEmpty
+                                      ? ClipRRect(
+                                          child: CachedNetworkImage(
+                                            imageUrl: value.filterList?[index]
+                                                    .userId?.images?[0] ??
+                                                '',
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        )
+                                      : ClipRRect(
+                                          child: CachedNetworkImage(
+                                            imageUrl: '',
+                                            fit: BoxFit.cover,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              'assets/images/image_placeholder.png',
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15, vertical: 15),
+                                    child: Column(
+                                      children: [
+                                        Align(
+                                          alignment: Alignment.topLeft,
+                                          child: Text(
+                                            // likedProfile.likedDislikeProfile != null &&
+                                            //         likedProfile
+                                            //             .likedDislikeProfile!.isNotEmpty
+                                            //     ? likedProfile.likedDislikeProfile![index]
+                                            //             .likedId?.name ??
+                                            //         ''
+                                            //     : '',
+                                            value.filterList?[index].userId
+                                                    ?.name ??
+                                                '',
+                                            style: mulishbold.copyWith(
+                                              fontSize: 16.41,
+                                              color: ColorRes.white,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              AssertRe.Location_Icon,
+                                              scale: 4.5,
+                                              color: ColorRes.white,
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                matches[index].loaction,
+                                                style: mulishbold.copyWith(
+                                                  fontSize: 11.72,
+                                                  color: ColorRes.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 110,
+                                        ),
+                                        Expanded(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                height: 50,
+                                                width: 50,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: Colors.grey.shade50,
+                                                ),
+                                                child: Icon(
+                                                  Icons.close,
+                                                  color: ColorRes.darkGrey,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (c) =>
+                                                          NewMatchScreen(),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: ColorRes.appColor,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.favorite_border,
+                                                    color: ColorRes.white,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          )
                   ],
                 ),
               ),

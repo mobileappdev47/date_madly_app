@@ -71,7 +71,24 @@ class NewChatProvider extends ChangeNotifier {
     });
   }
 
+  List chatUsers = [];
+
   TextEditingController searchController = TextEditingController();
+  List filterList = [];
+  void searching(value, chatUsersList) {
+    filterList = (chatUsersList.where((element) {
+      return element
+          .data()['Email']
+          .toString()
+          .split('@')
+          .first
+          .toString()
+          .toLowerCase()
+          .contains(value.toString().toLowerCase());
+    }).toList());
+    notifyListeners();
+    print(filterList);
+  }
 
   List image = [
     'assets/icons/Add Image (1).png',
