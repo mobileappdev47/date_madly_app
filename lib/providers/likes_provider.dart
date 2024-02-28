@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:date_madly_app/models/add_liked_dislike_profile_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,31 +17,30 @@ class LikesProvider with ChangeNotifier {
     getID();
   }
   APIRequestStatus apiRequestStatus = APIRequestStatus.loading;
-  AddLikeDislikeProfile likeDislikeProfile = AddLikeDislikeProfile();
   Api api = Api();
   var id;
   late SharedPreferences sharedPreferences;
 
-  Future getAllLikes() async {
-    setApiRequestStatus(APIRequestStatus.loading);
-    var params = await getUserParams();
-    var token = await getToken();
-    Timer(const Duration(milliseconds: 800), () async {
-      try {
-        print("params************* $params");
-
-        AddLikeDislikeProfile profile = await api.likedDislikeProfile(
-
-            Api.getLikedDislikeProfileURL, params, token());
-        PrefService.getString('idToken');
-        setProfile(profile);
-        print("length: ${profile.userId!.length}");
-        setApiRequestStatus(APIRequestStatus.loaded);
-      } on DioException catch (e) {
-        checkError(e);
-      }
-    });
-  }
+  // Future getAllLikes() async {
+  //   setApiRequestStatus(APIRequestStatus.loading);
+  //   var params = await getUserParams();
+  //   var token = await getToken();
+  //   Timer(const Duration(milliseconds: 800), () async {
+  //     try {
+  //       print("params************* $params");
+  //
+  //       LikedDislikeProfile profile = await api.likedDislikeProfile(
+  //
+  //           Api.getLikedDislikeProfileURL, params, token());
+  //       PrefService.getString('idToken');
+  //       setProfile(profile);
+  //       print("length: ${profile.likedDislikeProfile!.length}");
+  //       setApiRequestStatus(APIRequestStatus.loaded);
+  //     } on DioException catch (e) {
+  //       checkError(e);
+  //     }
+  //   });
+  // }
 
   getUserParams() async {
     sharedPreferences = await SharedPreferences.getInstance();
@@ -54,8 +52,8 @@ class LikesProvider with ChangeNotifier {
   getToken() async {
     sharedPreferences = await SharedPreferences.getInstance();
     var token =
-   // PrefService.getString('accessToken');
-    sharedPreferences.getString('accessToken');
+        // PrefService.getString('accessToken');
+        sharedPreferences.getString('accessToken');
     return token;
   }
 
@@ -66,7 +64,7 @@ class LikesProvider with ChangeNotifier {
   }
 
   void setProfile(value) {
-    likeDislikeProfile = value;
+    // likeDislikeProfile = value;
     notifyListeners();
   }
 

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/get_like_dislike_model.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../api/get_All_api.dart';
-import '../../api/getlikedislike_profile_s_api.dart';
+import '../../api/get_like_dislike_api.dart';
 import '../../common/text_feild_common.dart';
-import '../../models/add_liked_dislike_profile_model.dart';
-import '../../models/get_likedislike_profiles_model.dart';
-import '../../models/user_model.dart';
 import '../../network/api.dart';
 import '../../providers/likes_provider.dart';
 import '../../utils/body_builder.dart';
@@ -31,29 +28,13 @@ class Likes extends StatefulWidget {
 
 class _LikesState extends State<Likes> {
   bool loder = false;
-  GetLikedDislikeProfile likedProfile = GetLikedDislikeProfile();
-
-  LikeDislikeapicall(String? id, int? status) async {
+  GetLikeDislikeModel getLikeDislikeModel = GetLikeDislikeModel();
+  LikeDislikeapicall() async {
     try {
       loder = true;
       setState(() {});
-      likedProfile =
-          await LikedDislikeProfilesApi.likedDislikeProfilesapi(id, '0');
-      loder = false;
-      setState(() {});
-    } catch (e) {
-      print('==============>${e.toString()}');
-    }
-  }
-
-  GetAllUser getAll = GetAllUser();
-
-  getallapicall() async {
-    try {
-      loder = true;
-      setState(() {});
-      getAll = await GetAllApi.getallApi();
-      // Initialize remainingUsers with all users
+      getLikeDislikeModel =
+          await GetLikedDislikeProfilesApi.getlikedDislikeProfilesapi(0);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -64,7 +45,7 @@ class _LikesState extends State<Likes> {
   @override
   void initState() {
     super.initState();
-    LikeDislikeapicall('id', 0);
+    LikeDislikeapicall();
   }
 
   @override
@@ -77,13 +58,11 @@ class _LikesState extends State<Likes> {
           backgroundColor: ColorRes.white,
           leading: GestureDetector(
             onTap: () {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return Profile();
-                  },
-                ),
-              );
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) {
+                  return Profile();
+                },
+              ));
             },
             child: Icon(
               Icons.arrow_back_ios_new_rounded,
@@ -132,14 +111,15 @@ class _LikesState extends State<Likes> {
                       childAspectRatio: 0.7,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10),
-                  itemCount: likedProfile.likedProfiles?.length ?? 0,
+                  itemCount: getLikeDislikeModel.likedProfiles?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
                         ClipRRect(
                           child: CachedNetworkImage(
                             imageUrl:
-                                '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                                // '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                                '',
                             fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
@@ -173,10 +153,9 @@ class _LikesState extends State<Likes> {
                                   //             .likedId?.name ??
                                   //         ''
                                   //     : '',
-                                  // likedProfile.likedProfiles?[index]
-                                  //         .likedId?. ??
-                                  //     'name','
-                                  '',
+                                  getLikeDislikeModel
+                                          .likedProfiles?[index].userId?.name ??
+                                      '',
                                   style: mulishbold.copyWith(
                                     fontSize: 16.41,
                                     color: ColorRes.white,
@@ -254,20 +233,14 @@ class _LikesState extends State<Likes> {
                                     ),
                                   ],
                                 ),
-                              ),
-                              loder == false
-                                  ? Center(child: CircularProgressIndicator())
-                                  : SizedBox(),
+                              )
                             ],
                           ),
-                        ),
-                        loder == false
-                            ? Center(child: CircularProgressIndicator())
-                            : SizedBox(),
+                        )
                       ],
                     );
                   },
-                ),
+                )
               ],
             ),
           ),

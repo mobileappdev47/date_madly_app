@@ -10,4 +10,5 @@ class EndPoints {
   static const getSingleProfile = baseUrl + 'api/getSingleProfile';
   static const getProfile = baseUrl + 'api/getProfile';
   static const getLikedDislikeProfiles = baseUrl + 'api/getLikedDislikeProfile';
+  static const commentApi = baseUrl + 'api/addComment';
 }
