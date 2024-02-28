@@ -23,6 +23,7 @@ import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/signinButton/button_list.dart';
 import '../../utils/signinButton/button_view.dart';
+import '../../utils/texts.dart';
 import '../../utils/user_text_field.dart';
 import '../home/main.dart';
 import 'gender.dart';
@@ -331,146 +332,205 @@ class _PhoneOTPState extends State<PhoneOTP> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) => OtpVerificationSCreen(
+                  //             phone: '',
+                  //           ),
+                  //         ));
+                  //   },
+                  //   child: GestureDetector(
+                  //     onTap: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //             builder: (context) => OtpVerificationSCreen(
+                  //               phone: '',
+                  //             ),
+                  //           ));
+                  //     },
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpScreen(),
+                              ));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                              5,
+                            ),
+                            color: ColorRes.appColor,
+                          ),
+                          child: Text(Strings.sign_up,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700)),
+                          width: MediaQuery.of(context).size.width * 0.8,
+                        ),
+                      ),
+
+                  //   // Container(
+                  //   //   height: 47,
+                  //   //   width: MediaQuery.of(context).size.width * 0.7,
+                  //   //   decoration: BoxDecoration(
+                  //   //     boxShadow: [
+                  //   //       BoxShadow(
+                  //   //           color: Colors.grey.withOpacity(0.2),
+                  //   //           spreadRadius: 2,
+                  //   //           blurRadius: 5,
+                  //   //           offset: Offset(2, 2)),
+                  //   //     ],
+                  //   //     borderRadius: BorderRadius.circular(
+                  //   //       5,
+                  //   //     ),
+                  //   //     color: ColorRes.appColor,
+                  //   //   ),
+                  //   //   child: Row(
+                  //   //     children: [
+                  //   //       SizedBox(
+                  //   //         width: 10,
+                  //   //       ),
+                  //   //       GestureDetector(
+                  //   //         child: Container(
+                  //   //           height: 30,
+                  //   //           width: 30,
+                  //   //           decoration: BoxDecoration(
+                  //   //             color: Colors.white,
+                  //   //             borderRadius: BorderRadius.circular(5),
+                  //   //           ),
+                  //   //           child: Image.asset(
+                  //   //             'assets/icons/google.png',
+                  //   //             scale: 4,
+                  //   //           ),
+                  //   //         ),
+                  //   //       ),
+                  //   //       SizedBox(
+                  //   //         width: 10,
+                  //   //       ),
+                  //   //       Text('Continue With google',
+                  //   //           style: TextStyle(
+                  //   //               fontFamily: 'Poppins',
+                  //   //               fontSize: 12,
+                  //   //               color: ColorRes.white,
+                  //   //               fontWeight: FontWeight.w900)),
+                  //   //       SizedBox(
+                  //   //         width: 20,
+                  //   //       )
+                  //   //     ],
+                  //   //   ),
+                  //   // ),
+                  // ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  // Container(
+                  //   height: 47,
+                  //   width: MediaQuery.of(context).size.width * 0.7,
+                  //   decoration: BoxDecoration(
+                  //     boxShadow: [
+                  //       BoxShadow(
+                  //           color: Colors.grey.withOpacity(0.2),
+                  //           spreadRadius: 2,
+                  //           blurRadius: 5,
+                  //           offset: Offset(2, 2)),
+                  //     ],
+                  //     borderRadius: BorderRadius.circular(
+                  //       5,
+                  //     ),
+                  //     color: Colors.white,
+                  //   ),
+                  //   child: Row(
+                  //     children: [
+                  //       SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Image.asset(
+                  //         'assets/icons/facebook.png',
+                  //         scale: 4,
+                  //       ),
+                  //       SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Text('Continue With Facebook',
+                  //           style: TextStyle(
+                  //               fontFamily: 'Poppins',
+                  //               fontSize: 12,
+                  //               color: ColorRes.appColor,
+                  //               fontWeight: FontWeight.w900)),
+                  //       SizedBox(
+                  //         width: 20,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => OtpVerificationSCreen(
-                              phone: '',
-                            ),
+                            builder: (context) => LoginScreen(),
                           ));
                     },
                     child: Container(
-                      height: 47,
-                      width: MediaQuery.of(context).size.width * 0.7,
+                      alignment: Alignment.center,
+                      height: 55,
                       decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.grey.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: Offset(2, 2)),
-                        ],
                         borderRadius: BorderRadius.circular(
                           5,
                         ),
                         color: ColorRes.appColor,
                       ),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 10,
-                          ),
-                          GestureDetector(
-                            child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Image.asset(
-                                'assets/icons/google.png',
-                                scale: 4,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text('Continue With google',
-                              style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  color: ColorRes.white,
-                                  fontWeight: FontWeight.w900)),
-                          SizedBox(
-                            width: 20,
-                          )
-                        ],
-                      ),
+                      child: Text(Strings.log_in,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700)),
+                      width: MediaQuery.of(context).size.width * 0.8,
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Container(
-                    height: 47,
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(2, 2)),
-                      ],
-                      borderRadius: BorderRadius.circular(
-                        5,
-                      ),
-                      color: Colors.white,
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Image.asset(
-                          'assets/icons/facebook.png',
-                          scale: 4,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text('Continue With Facebook',
-                            style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 12,
-                                color: ColorRes.appColor,
-                                fontWeight: FontWeight.w900)),
-                        SizedBox(
-                          width: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                SignUpScreen(), //LoginScreen()//
-                          ));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don't have account ?",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: ColorRes.darkGrey,
-                            fontSize: 12,
-                          ),
-                        ),
-                        Text(
-                          ' Sign Up',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: ColorRes.appColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            fontFamily: 'mulishBold',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) =>
+                  //               LoginScreen(), //LoginScreen()//
+                  //         ));
+                  //   },
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         "Don't have account ?",
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: ColorRes.darkGrey,
+                  //           fontSize: 12,
+                  //         ),
+                  //       ),
+                  //       Text(
+                  //         ' Sign Up',
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: ColorRes.appColor,
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w600,
+                  //           fontFamily: 'mulishBold',
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
