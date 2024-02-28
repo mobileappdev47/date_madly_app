@@ -152,65 +152,65 @@ class _ChatState extends State<Chat> {
                   prefix: AssertRe.Search_Icon,
                 ),
               ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    Strings.new_matches,
-                    style: mulishbold.copyWith(
-                      fontSize: 15,
-                      color: ColorRes.darkGrey,
-                    ),
-                  ),
-                  Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyMatches(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          Strings.show_all,
-                          style: mulishbold.copyWith(
-                            fontSize: 15,
-                            color: ColorRes.appColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: ColorRes.appColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 100,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: value.image.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: CircleAvatar(
-                        radius: 30,
-                        child: Image.asset(value.image[index]),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              // Row(
+              //   children: [
+              //     SizedBox(
+              //       width: 20,
+              //     ),
+              //     Text(
+              //       Strings.new_matches,
+              //       style: mulishbold.copyWith(
+              //         fontSize: 15,
+              //         color: ColorRes.darkGrey,
+              //       ),
+              //     ),
+              //     Spacer(),
+              //     TextButton(
+              //       onPressed: () {
+              //         Navigator.push(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) => MyMatches(),
+              //           ),
+              //         );
+              //       },
+              //       child: Row(
+              //         children: [
+              //           Text(
+              //             Strings.show_all,
+              //             style: mulishbold.copyWith(
+              //               fontSize: 15,
+              //               color: ColorRes.appColor,
+              //             ),
+              //           ),
+              //           SizedBox(
+              //             width: 4,
+              //           ),
+              //           Icon(
+              //             Icons.arrow_forward,
+              //             color: ColorRes.appColor,
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(
+              //   height: 100,
+              //   child: ListView.builder(
+              //     scrollDirection: Axis.horizontal,
+              //     itemCount: value.image.length,
+              //     itemBuilder: (context, index) {
+              //       return Padding(
+              //         padding: const EdgeInsets.only(left: 15),
+              //         child: CircleAvatar(
+              //           radius: 30,
+              //           child: Image.asset(value.image[index]),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
               SizedBox(
                 height: 40,
                 child: Align(
@@ -241,134 +241,146 @@ class _ChatState extends State<Chat> {
                     }
                     return snapshot.data?.docs.isEmpty ?? true
                         ? const Text("No Result Found")
-                        : SizedBox(
-                            height: 350,
-                            child: ListView.builder(
-                                itemCount: snapshot.data?.docs.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  if (snapshot.data!.docs[index]
-                                          .data()['Email'] ==
-                                      userEmail) {
-                                    return const SizedBox();
-                                  } else {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        value.gotoChatScreen(
-                                          context,
-                                          snapshot.data!.docs[index]
-                                              .data()['Email'],
-                                          snapshot.data!.docs[index]
-                                              .data()['Email'],
-                                        );
-                                      },
-                                      onLongPress: () {
-                                        setState(() {
-                                          value.isImage = true;
-                                          boolList[index] = true;
-                                          value.otherEmail = snapshot
-                                              .data!.docs[index]
-                                              .data()['Email'];
-                                          value.deleteIndex = index;
-                                        });
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Container(
-                                          padding: EdgeInsets.all(15),
-                                          height: 80,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          color: boolList[index]
-                                              ? ColorRes.appColor
-                                                  .withOpacity(0.2)
-                                              : ColorRes.lgrey,
-                                          child: Column(
-                                            children: [
-                                              Row(
+                        : boolList.isNotEmpty
+                            ? SizedBox(
+                                height: 350,
+                                child: ListView.builder(
+                                    itemCount: snapshot.data?.docs.length ?? 0,
+                                    itemBuilder: (context, index) {
+                                      if (snapshot.data!.docs[index]
+                                              .data()['Email'] ==
+                                          userEmail) {
+                                        return const SizedBox();
+                                      } else {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            value.gotoChatScreen(
+                                              context,
+                                              snapshot.data!.docs[index]
+                                                  .data()['Email'],
+                                              snapshot.data!.docs[index]
+                                                  .data()['Email'],
+                                            );
+                                          },
+                                          onLongPress: () {
+                                            setState(() {
+                                              value.isImage = true;
+                                              boolList[index] = true;
+                                              value.otherEmail = snapshot
+                                                  .data!.docs[index]
+                                                  .data()['Email'];
+                                              value.deleteIndex = index;
+                                            });
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            child: Container(
+                                              padding: EdgeInsets.all(15),
+                                              height: 80,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              color: boolList[index]
+                                                  ? ColorRes.appColor
+                                                      .withOpacity(0.2)
+                                                  : ColorRes.lgrey,
+                                              child: Column(
                                                 children: [
-                                                  Image.asset(
-                                                    value.image[0],
-                                                    scale: 3,
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                  Row(
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 15),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              snapshot.data!
-                                                                  .docs[index]
-                                                                  .data()[
-                                                                      'Email']
-                                                                  .toString()
-                                                                  .split('@')
-                                                                  .first,
-                                                              style: mulishbold
-                                                                  .copyWith(
-                                                                fontSize: 14,
-                                                                color: ColorRes
-                                                                    .darkGrey,
+                                                      Image.asset(
+                                                        value.image[0],
+                                                        scale: 3,
+                                                      ),
+                                                      Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 15),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  snapshot
+                                                                      .data!
+                                                                      .docs[
+                                                                          index]
+                                                                      .data()[
+                                                                          'Email']
+                                                                      .toString()
+                                                                      .split(
+                                                                          '@')
+                                                                      .first,
+                                                                  style: mulishbold
+                                                                      .copyWith(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: ColorRes
+                                                                        .darkGrey,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 15),
+                                                            child: SizedBox(
+                                                              child: Text(
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                Strings.Omg,
+                                                                style: mulishbold
+                                                                    .copyWith(
+                                                                        fontSize:
+                                                                            12,
+                                                                        color: ColorRes
+                                                                            .grey),
                                                               ),
                                                             ),
-                                                          ],
-                                                        ),
+                                                          ),
+                                                        ],
                                                       ),
+                                                      Spacer(),
                                                       Padding(
                                                         padding:
                                                             const EdgeInsets
                                                                 .only(left: 15),
-                                                        child: SizedBox(
-                                                          child: Text(
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            Strings.Omg,
-                                                            style: mulishbold
-                                                                .copyWith(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color: ColorRes
-                                                                        .grey),
+                                                        child: Text(
+                                                          Strings.pm,
+                                                          style: mulishbold
+                                                              .copyWith(
+                                                            fontSize: 14,
+                                                            color:
+                                                                ColorRes.grey,
                                                           ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
-                                                  Spacer(),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 15),
-                                                    child: Text(
-                                                      Strings.pm,
-                                                      style:
-                                                          mulishbold.copyWith(
-                                                        fontSize: 14,
-                                                        color: ColorRes.grey,
-                                                      ),
-                                                    ),
-                                                  ),
                                                 ],
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    );
-                                  }
-                                }),
-                          );
+                                        );
+                                      }
+                                    }),
+                              )
+                            : SizedBox();
                     ListView.builder(
                       padding: EdgeInsets.all(0),
                       itemCount: snapshot.data!.docs.length,

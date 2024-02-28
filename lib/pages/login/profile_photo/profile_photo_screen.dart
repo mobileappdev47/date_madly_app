@@ -431,7 +431,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                         )
                       : SizedBox(),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 25,
+                    height: MediaQuery.of(context).size.height / 7,
                   ),
                 ],
               ),

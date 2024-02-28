@@ -35,8 +35,8 @@ class _HomeMainState extends State<HomeMain> {
     Home(),
     Chat(),
     Likes(),
-    // Profile()
-    ChangePassword()
+    Profile()
+    // ChangePassword()
   ];
   @override
   void initState() {

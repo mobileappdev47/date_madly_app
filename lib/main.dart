@@ -147,7 +147,7 @@ class MyApp extends StatelessWidget {
           key: appProvider.key,
           debugShowCheckedModeBanner: false,
           navigatorKey: appProvider.navigatorKey,
-          title: 'DateMadly App',
+          title: 'Lovecirco',
           theme: themeData(appProvider.theme, appProvider.lightColorScheme,
               appProvider.lightCustomColors),
           darkTheme: themeData(ThemeConfig.darkTheme,

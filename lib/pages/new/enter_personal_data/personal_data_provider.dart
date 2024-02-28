@@ -17,7 +17,7 @@ class Updateprovider extends ChangeNotifier {
   String job = '';
   String company = '';
   String college = '';
-  String gender = '';
+  String gender = 'Male';
 
   String nameError = '';
   String dobError = '';

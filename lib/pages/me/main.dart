@@ -3,8 +3,10 @@ import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
+import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
@@ -432,7 +434,7 @@ class _ProfileState extends State<Profile> {
                                                                         MaterialPageRoute(
                                                                   builder:
                                                                       (context) =>
-                                                                          PersonalInfo(),
+                                                                          EnterPersonalDataScreen(),
                                                                 ));
                                                               },
                                                               child: Row(
@@ -515,20 +517,24 @@ class _ProfileState extends State<Profile> {
                                           child: GestureDetector(
                                             onTap: () {
                                               setState(() {
-                                                selectedIndex =
-                                                    selectedIndex == index
-                                                        ? -1
-                                                        : index;
-                                                /* currentIndex == 0
-                                                    ? isclick = !isclick
-                                                    : null; */
+                                                if (index == 0) {
+                                                  selectedIndex =
+                                                      selectedIndex == index
+                                                          ? -1
+                                                          : index;
+                                                } else {}
                                               });
                                             },
-                                            child: Image.asset(
-                                              selectedIndex == index
-                                                  ? AssertRe.down
-                                                  : AssertRe.side,
-                                              scale: 4,
+                                            child: Container(
+                                              height: 30,
+                                              width: 30,
+                                              alignment: Alignment.center,
+                                              child: Image.asset(
+                                                selectedIndex == index
+                                                    ? AssertRe.down
+                                                    : AssertRe.side,
+                                                scale: 4,
+                                              ),
                                             ),
                                           ),
                                         ),

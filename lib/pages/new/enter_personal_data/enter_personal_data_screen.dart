@@ -563,7 +563,12 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 "about": value.aboutController.text,
                               };
                               if (value.validation()) {
-                                await updateApiCall(context);
+                                // await updateApiCall(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => HomeMain(),
+                                    ));
                               } // Call the API method
                             },
                             child: Container(

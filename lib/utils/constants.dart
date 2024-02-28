@@ -17,7 +17,7 @@ class Constants {
     return btn;
   }
 
-  static var appName = 'DateMadly App';
+  static var appName = 'Lovecirco';
 
   static ButtonStyle squareButton(context) {
     ButtonStyle btn = ElevatedButton.styleFrom(
