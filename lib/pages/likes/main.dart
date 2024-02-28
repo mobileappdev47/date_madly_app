@@ -111,7 +111,7 @@ class _LikesState extends State<Likes> {
                       childAspectRatio: 0.7,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10),
-                  itemCount: getLikeDislikeModel.likedProfiles?.length ?? 0,
+                  itemCount: getLikeDislikeModel.likedProfiles?.length ?? 1,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
@@ -155,7 +155,7 @@ class _LikesState extends State<Likes> {
                                   //     : '',
                                   getLikeDislikeModel
                                           .likedProfiles?[index].userId?.name ??
-                                      '',
+                                      'name',
                                   style: mulishbold.copyWith(
                                     fontSize: 16.41,
                                     color: ColorRes.white,

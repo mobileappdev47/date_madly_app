@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpApi {
-  static signUpApi({Map<String, dynamic>? body, BuildContext? context}) async {
+  static signUpApi({Map<String, dynamic>? body, BuildContext? context,required String password}) async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST', Uri.parse(EndPoints.signUpApi));
@@ -23,6 +23,8 @@ class SignUpApi {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
             PrefKeys.userId, signUpModelFromJson(data).user?.id ?? '');
+        PrefService.setValue(
+            PrefKeys.password,password);
         if (signUpModelFromJson(data).user != null) {
           if (signUpModelFromJson(data).user!.name != 'User Exists') {
             Navigator.pushReplacement(

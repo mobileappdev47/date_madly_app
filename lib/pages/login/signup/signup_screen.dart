@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       loader = true;
       setState(() {});
-      signup = await SignUpApi.signUpApi(body: body, context: context);
+      signup = await SignUpApi.signUpApi(body: body, context: context,password: textPassword);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -340,6 +340,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 await signUpApiCall();
                                 await PrefService.setValue(
                                     PrefKeys.email, value.emailController.text);
+                                await PrefService.setValue(
+                                    PrefKeys.password, value.passwordController.text);
                               }
                             }),
                       ),

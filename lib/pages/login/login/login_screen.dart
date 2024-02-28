@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       loader = true;
       setState(() {});
-      await LoginApi.login(body, context);
+      await LoginApi.login(body, context,textPassword);
       loader = false;
       setState(() {});
     } catch (e) {

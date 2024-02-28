@@ -19,7 +19,7 @@ import '../../theme/theme_config.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import 'change_password.dart';
+import 'widgets/ChangePassword/change_password.dart';
 import 'my_gallery.dart';
 
 class Profile extends StatefulWidget {
