@@ -64,12 +64,12 @@ class _MyGalleryScreenState extends State<MyGalleryScreen> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyUpload_Photo(),
-                              ),
-                            );
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MyUpload_Photo(),
+                            //   ),
+                            // );
                           },
                           child: Container(
                             height: 25,

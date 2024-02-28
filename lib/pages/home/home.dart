@@ -5,6 +5,7 @@ import 'package:date_madly_app/api/additinal_details_api.dart';
 import 'package:date_madly_app/api/getLikedDislikeProfile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
+import 'package:date_madly_app/models/add_like_dislike_model.dart';
 import 'package:date_madly_app/pages/home/image_scroll.dart';
 import 'package:date_madly_app/pages/home/lady_bottomsheet.dart';
 import 'package:date_madly_app/pages/home/likes_you_screen.dart';
@@ -18,7 +19,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 import '../../api/get_All_api.dart';
-import '../../models/liked_dislike_profile_model.dart';
 import '../../models/user_model.dart';
 import '../../providers/home_main_provider.dart';
 import '../../utils/body_builder.dart';
@@ -45,12 +45,11 @@ class _HomeState extends State<Home> {
   ];
   bool loder = false;
   GetAllUser getAll = GetAllUser();
-  LikedDislikeProfile likedDislikeProfileApis = LikedDislikeProfile();
 
   List<User> remainingUsers = [];
 
   AdditinalDetail additinalDetail = AdditinalDetail();
-
+  AddLikeDislikeModel addLikeDislikeModel = AddLikeDislikeModel();
   @override
   void initState() {
     super.initState();
@@ -77,8 +76,8 @@ class _HomeState extends State<Home> {
     try {
       loder = true;
       setState(() {});
-      likedDislikeProfileApis =
-          await LikedDislikeProfileApi.likedDislikeProfileapi(id, status);
+      addLikeDislikeModel =
+          await AddLikedDislikeProfileApi.addLikedDislikeProfileapi(id, status);
       loder = false;
       setState(() {});
     } catch (e) {

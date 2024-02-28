@@ -104,7 +104,11 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MyUpload_Photo(),
+                                    builder: (context) => MyUpload_Photo(
+                                        imageUrl:
+                                            getAll.users![index].images?[0] ??
+                                                '',
+                                        userId: getAll.users?[index].id ?? ''),
                                   ));
                             },
                             child: Text(

@@ -143,12 +143,12 @@ class MyPhotoScreen extends StatelessWidget {
                 SizedBox(width: 30),
                 GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MyUpload_Photo(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => MyUpload_Photo(),
+                    //   ),
+                    // );
                   },
                   child: CircleAvatar(
                     radius: 40,

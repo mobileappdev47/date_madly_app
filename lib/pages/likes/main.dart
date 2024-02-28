@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/get_like_dislike_model.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
@@ -7,9 +8,8 @@ import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../api/likedislike_profile_s_api.dart';
+import '../../api/get_like_dislike_api.dart';
 import '../../common/text_feild_common.dart';
-import '../../models/liked_dislike_profile_model.dart';
 import '../../network/api.dart';
 import '../../providers/likes_provider.dart';
 import '../../utils/body_builder.dart';
@@ -28,14 +28,13 @@ class Likes extends StatefulWidget {
 
 class _LikesState extends State<Likes> {
   bool loder = false;
-  LikedDislikeProfile likedProfile = LikedDislikeProfile();
-
+  GetLikeDislikeModel getLikeDislikeModel = GetLikeDislikeModel();
   LikeDislikeapicall() async {
     try {
       loder = true;
       setState(() {});
-      likedProfile =
-          await LikedDislikeProfilesApi.likedDislikeProfilesapi(0);
+      getLikeDislikeModel =
+          await GetLikedDislikeProfilesApi.getlikedDislikeProfilesapi(0);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -108,20 +107,20 @@ class _LikesState extends State<Likes> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.7,
-                    mainAxisSpacing: 10,
-                      crossAxisSpacing: 10
-                  ),
-                  itemCount: likedProfile.likedDislikeProfile?.length??0,
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.7,
+                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 10),
+                  itemCount: getLikeDislikeModel.likedProfiles?.length ?? 0,
                   itemBuilder: (context, index) {
                     return Stack(
                       children: [
                         ClipRRect(
                           child: CachedNetworkImage(
                             imageUrl:
-                            // '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
-                            '',  fit: BoxFit.cover,
+                                // '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                                '',
+                            fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height,
                             placeholder: (context, url) => Image.asset(
@@ -139,7 +138,6 @@ class _LikesState extends State<Likes> {
                           ),
                           borderRadius: BorderRadius.circular(10),
                         ),
-
                         Padding(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 15, vertical: 15),
@@ -155,7 +153,9 @@ class _LikesState extends State<Likes> {
                                   //             .likedId?.name ??
                                   //         ''
                                   //     : '',
-                                  likedProfile.likedDislikeProfile?[index].likedId?.name??'name',
+                                  getLikeDislikeModel
+                                          .likedProfiles?[index].userId?.name ??
+                                      '',
                                   style: mulishbold.copyWith(
                                     fontSize: 16.41,
                                     color: ColorRes.white,
