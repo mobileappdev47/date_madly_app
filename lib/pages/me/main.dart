@@ -7,6 +7,7 @@ import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.da
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
+import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
@@ -41,6 +42,7 @@ class _ProfileState extends State<Profile> {
   bool isclick = false;
   int selectedIndex = -1;
   GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
+  HomeMainProvider homeMainProvider=HomeMainProvider();
 
   getSingleProfileApi() async {
     try {
@@ -48,7 +50,6 @@ class _ProfileState extends State<Profile> {
       setState(() {});
       getSingleProfileModel =
           await GetSingleProfileApi.getSingleProfileApi(context);
-
       loader = false;
       setState(() {});
     } catch (e) {
@@ -94,7 +95,7 @@ class _ProfileState extends State<Profile> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: GestureDetector(
               onTap: () {
-                showNotificationContainer(context);
+                showNotificationContainers(context, homeMainProvider);
               },
               child: Image.asset(
                 AssertRe.Setting,
@@ -114,8 +115,8 @@ class _ProfileState extends State<Profile> {
                   Center(
                     child: ClipOval(
                       child: CachedNetworkImage(
-                        imageUrl:
-                            getSingleProfileModel.profile?[0].images?[0] ?? '',
+                        imageUrl:'assets/images/image_placeholder.png',
+                            // getSingleProfileModel.profile?[0].images?[0] ?? '',
                         fit: BoxFit.fill,
                         height: 100,
                         width: 100,
@@ -338,7 +339,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  void showNotificationContainer(BuildContext context) {
+  void showNotificationContainers(BuildContext context,HomeMainProvider homeMainProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -389,6 +390,8 @@ class _ProfileState extends State<Profile> {
                                   selectedIndex =
                                       selectedIndex == index ? -1 : index;
                                 } else if (index == 1) {
+                                  Navigator.of(context).pop();
+                                  homeMainProvider.showNotificationContainer(context);
                                 } else if (index == 2) {
                                   if (!await launchUrl(
                                       Uri.parse('https://www.google.com/'))) {
