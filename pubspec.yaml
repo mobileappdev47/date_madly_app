@@ -57,6 +57,7 @@ dependencies:
   flutter_background_service: ^5.0.5
   syncfusion_flutter_sliders: ^23.1.39
   syncfusion_flutter_core: ^23.1.39
+  url_launcher:
   #  timeago: ^3.5.0
   jiffy: ^6.2.1
   isar: ^3.1.0

@@ -15,6 +15,7 @@ import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/app_provider.dart';
 import '../../theme/theme_config.dart';
@@ -382,167 +383,192 @@ class _ProfileState extends State<Profile> {
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: settingData.length,
-                            itemBuilder: (context, index) => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Container(
-                                            height: selectedIndex == index
-                                                ? 90
-                                                : 40,
-                                            width: 220,
-                                            child: Column(
-                                              children: [
-                                                Align(
-                                                  alignment:
-                                                      Alignment.centerLeft,
-                                                  child: Text(
-                                                    settingData[index],
-                                                    style: mulishbold.copyWith(
-                                                      color: ColorRes.darkGrey,
-                                                      fontSize: 16.41,
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () async {
+                                if (index == 0) {
+                                  selectedIndex =
+                                      selectedIndex == index ? -1 : index;
+                                } else if (index == 1) {
+                                } else if (index == 2) {
+                                  if (!await launchUrl(
+                                      Uri.parse('https://www.google.com/'))) {
+                                    throw Exception('Could not launch');
+                                  }
+                                } else if (index == 3) {
+                                  if (!await launchUrl(
+                                      Uri.parse('https://www.google.com/'))) {
+                                    throw Exception('Could not launch');
+                                  }
+                                } else {}
+                                setState(() {});
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Container(
+                                              height: selectedIndex == index
+                                                  ? 90
+                                                  : 40,
+                                              width: 220,
+                                              child: Column(
+                                                children: [
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    child: Text(
+                                                      settingData[index],
+                                                      style:
+                                                          mulishbold.copyWith(
+                                                        color:
+                                                            ColorRes.darkGrey,
+                                                        fontSize: 16.41,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10,
-                                                ),
-                                                selectedIndex == index
-                                                    ? Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 60),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceAround,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(
-                                                                        MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          EnterPersonalDataScreen(),
-                                                                ));
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width: 150,
-                                                                    child: Text(
-                                                                      Strings
-                                                                          .personal_info,
-                                                                      style: mulishbold
-                                                                          .copyWith(
-                                                                        color: ColorRes
-                                                                            .grey,
-                                                                        fontSize:
-                                                                            13,
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  selectedIndex == index
+                                                      ? Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  left: 60),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceAround,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                          MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            EnterPersonalDataScreen(),
+                                                                  ));
+                                                                },
+                                                                child: Row(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          150,
+                                                                      child:
+                                                                          Text(
+                                                                        Strings
+                                                                            .personal_info,
+                                                                        style: mulishbold
+                                                                            .copyWith(
+                                                                          color:
+                                                                              ColorRes.grey,
+                                                                          fontSize:
+                                                                              13,
+                                                                        ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                  Image.asset(
-                                                                    AssertRe
-                                                                        .side,
-                                                                    color:
-                                                                        ColorRes
-                                                                            .grey,
-                                                                    scale: 4,
-                                                                  )
-                                                                ],
+                                                                    Image.asset(
+                                                                      AssertRe
+                                                                          .side,
+                                                                      color: ColorRes
+                                                                          .grey,
+                                                                      scale: 4,
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                            SizedBox(
-                                                              height: 10,
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .push(
-                                                                        MaterialPageRoute(
-                                                                  builder:
-                                                                      (context) =>
-                                                                          ChangePassword(),
-                                                                ));
-                                                              },
-                                                              child: Row(
-                                                                children: [
-                                                                  SizedBox(
-                                                                    width: 150,
-                                                                    child: Text(
-                                                                      Strings
-                                                                          .change_password,
-                                                                      style: mulishbold.copyWith(
-                                                                          color: ColorRes
-                                                                              .grey,
-                                                                          fontSize:
-                                                                              13),
+                                                              SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .push(
+                                                                          MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            ChangePassword(),
+                                                                  ));
+                                                                },
+                                                                child: Row(
+                                                                  children: [
+                                                                    SizedBox(
+                                                                      width:
+                                                                          150,
+                                                                      child:
+                                                                          Text(
+                                                                        Strings
+                                                                            .change_password,
+                                                                        style: mulishbold.copyWith(
+                                                                            color:
+                                                                                ColorRes.grey,
+                                                                            fontSize: 13),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                  Image.asset(
-                                                                    AssertRe
-                                                                        .side,
-                                                                    color:
-                                                                        ColorRes
-                                                                            .grey,
-                                                                    scale: 4,
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    : SizedBox(),
-                                              ],
-                                            )),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              bottom: selectedIndex == index
-                                                  ? 60
-                                                  : 20),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (index == 0) {
-                                                  selectedIndex =
-                                                      selectedIndex == index
-                                                          ? -1
-                                                          : index;
-                                                } else {}
-                                              });
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
-                                                selectedIndex == index
-                                                    ? AssertRe.down
-                                                    : AssertRe.side,
-                                                scale: 4,
+                                                                    Image.asset(
+                                                                      AssertRe
+                                                                          .side,
+                                                                      color: ColorRes
+                                                                          .grey,
+                                                                      scale: 4,
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : SizedBox(),
+                                                ],
+                                              )),
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                bottom: selectedIndex == index
+                                                    ? 60
+                                                    : 20),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                setState(() {
+                                                  if (index == 0) {
+                                                    selectedIndex =
+                                                        selectedIndex == index
+                                                            ? -1
+                                                            : index;
+                                                  } else {}
+                                                });
+                                              },
+                                              child: Container(
+                                                height: 30,
+                                                width: 30,
+                                                alignment: Alignment.center,
+                                                child: Image.asset(
+                                                  selectedIndex == index
+                                                      ? AssertRe.down
+                                                      : AssertRe.side,
+                                                  scale: 4,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -590,8 +616,6 @@ class _ProfileState extends State<Profile> {
 List settingData = [
   'My Account',
   'Notifications',
-  'Legal',
-  'Language',
   'Privacy Policy',
   'Terms And Conditions'
 ];
