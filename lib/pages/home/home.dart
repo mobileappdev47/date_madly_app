@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/additinal_details_api.dart';
-import 'package:date_madly_app/api/getLikedDislikeProfile_api.dart';
+import 'package:date_madly_app/api/add_like_dislike.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/models/add_like_dislike_model.dart';
