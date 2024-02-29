@@ -45,12 +45,12 @@ class _LikesState extends State<Likes> {
     }
   }
 
-  updateRequestStatusApi({String? likeId, int? status}) async {
+  updateRequestStatusApi({String? likeId, int? status, String? rID}) async {
     try {
       loder = true;
       setState(() {});
       updateRequestModel =
-          await UpdateRequestApi.updateRequestApi(likeId, status);
+          await UpdateRequestApi.updateRequestApi(likeId, status, rID);
       loder = false;
       setState(() {});
     } catch (e) {
@@ -265,7 +265,14 @@ class _LikesState extends State<Likes> {
                                                               .userId
                                                               ?.id ??
                                                           '',
-                                                      status: 1);
+                                                      status: 1,
+                                                      rID: getLikeDislikeModel
+                                                              .likedProfiles?[
+                                                                  index]
+                                                              .id ??
+                                                          '');
+
+                                                  await LikeDislikeapicall();
                                                 },
                                                 child: Container(
                                                   height: 50,
@@ -292,7 +299,13 @@ class _LikesState extends State<Likes> {
                                                               .userId
                                                               ?.id ??
                                                           '',
-                                                      status: 0);
+                                                      status: 0,
+                                                      rID: getLikeDislikeModel
+                                                              .likedProfiles?[
+                                                                  index]
+                                                              .id ??
+                                                          '');
+                                                  await LikeDislikeapicall();
                                                 },
                                                 child: Container(
                                                   height: 50,
@@ -446,7 +459,12 @@ class _LikesState extends State<Likes> {
                                                               .userId
                                                               ?.id ??
                                                           '',
-                                                      status: 1);
+                                                      status: 1,
+                                                      rID: value
+                                                              .filterList[index]
+                                                              .id ??
+                                                          '');
+                                                  await LikeDislikeapicall();
                                                 },
                                                 child: Container(
                                                   height: 50,
@@ -472,7 +490,12 @@ class _LikesState extends State<Likes> {
                                                               .userId
                                                               ?.name ??
                                                           '',
-                                                      status: 0);
+                                                      status: 0,
+                                                      rID: value
+                                                              .filterList[index]
+                                                              .id ??
+                                                          '');
+                                                  await LikeDislikeapicall();
                                                 },
                                                 child: Container(
                                                   height: 50,

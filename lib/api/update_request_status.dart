@@ -15,6 +15,7 @@ class UpdateRequestApi {
   static updateRequestApi(
     String? likeid,
     int? status,
+    String? requstId,
   ) async {
     try {
       var headers = {'Content-Type': 'application/json'};
@@ -23,6 +24,7 @@ class UpdateRequestApi {
       request.body = json.encode({
         "userID": PrefService.getString(PrefKeys.userId),
         "likedID": likeid.toString(),
+        "requestID": requstId,
         "status": status.toString(),
       });
       request.headers.addAll(headers);
