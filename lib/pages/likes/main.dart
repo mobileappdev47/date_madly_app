@@ -71,6 +71,7 @@ class _LikesState extends State<Likes> {
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: ColorRes.white,
           // leading: GestureDetector(

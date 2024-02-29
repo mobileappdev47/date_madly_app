@@ -102,6 +102,7 @@ class _ChatState extends State<Chat> {
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
           backgroundColor: ColorRes.white,
@@ -188,35 +189,35 @@ class _ChatState extends State<Chat> {
                     ),
                   ),
                   Spacer(),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MyMatches(
-                              chatUsers: getAllChatRoom.chatRoom ?? []),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          Strings.show_all,
-                          style: mulishbold.copyWith(
-                            fontSize: 15,
-                            color: ColorRes.appColor,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: ColorRes.appColor,
-                        ),
-                      ],
-                    ),
-                  ),
+                  // TextButton(
+                  //   onPressed: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(
+                  //         builder: (context) => MyMatches(
+                  //             chatUsers: getAllChatRoom.chatRoom ?? []),
+                  //       ),
+                  //     );
+                  //   },
+                  //   child: Row(
+                  //     children: [
+                  //       Text(
+                  //         Strings.show_all,
+                  //         style: mulishbold.copyWith(
+                  //           fontSize: 15,
+                  //           color: ColorRes.appColor,
+                  //         ),
+                  //       ),
+                  //       SizedBox(
+                  //         width: 4,
+                  //       ),
+                  //       Icon(
+                  //         Icons.arrow_forward,
+                  //         color: ColorRes.appColor,
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
               SizedBox(

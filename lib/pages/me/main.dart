@@ -72,6 +72,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,

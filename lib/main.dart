@@ -6,6 +6,7 @@ import 'package:country_codes/country_codes.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/main.dart';
 import 'package:date_madly_app/pages/home/home.dart';
+import 'package:date_madly_app/pages/home/likes_you_screen.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/dob.dart';
 import 'package:date_madly_app/pages/login/gender.dart';
@@ -228,7 +229,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // initSharedPreference();
+    initSharedPreference();
   }
 
   initSharedPreference() async {
@@ -249,7 +250,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeMain(),
+            builder: (context) => LikesYouScreen(),
           ));
     }
   }
@@ -277,7 +278,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   "Lovecircl",
                   style: mulishbold.copyWith(fontSize: 40,color: ColorRes.appColor),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.width / 2),
+                SizedBox(height: MediaQuery.of(context).size.width / 2.2),
                 const CircularProgressIndicator(
                   color: ColorRes.appColor,
                 ),
