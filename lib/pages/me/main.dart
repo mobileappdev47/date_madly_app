@@ -43,7 +43,7 @@ class _ProfileState extends State<Profile> {
   bool isclick = false;
   int selectedIndex = -1;
   GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
-  HomeMainProvider homeMainProvider=HomeMainProvider();
+  HomeMainProvider homeMainProvider = HomeMainProvider();
 
   getSingleProfileApi() async {
     try {
@@ -117,8 +117,8 @@ class _ProfileState extends State<Profile> {
                   Center(
                     child: ClipOval(
                       child: CachedNetworkImage(
-                        imageUrl:'assets/images/image_placeholder.png',
-                            // getSingleProfileModel.profile?[0].images?[0] ?? '',
+                        imageUrl:
+                            getSingleProfileModel.profile?[0].images?[0] ?? '',
                         fit: BoxFit.fill,
                         height: 100,
                         width: 100,
@@ -350,7 +350,8 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  void showNotificationContainers(BuildContext context,HomeMainProvider homeMainProvider) {
+  void showNotificationContainers(
+      BuildContext context, HomeMainProvider homeMainProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -402,7 +403,8 @@ class _ProfileState extends State<Profile> {
                                       selectedIndex == index ? -1 : index;
                                 } else if (index == 1) {
                                   Navigator.of(context).pop();
-                                  homeMainProvider.showNotificationContainer(context);
+                                  homeMainProvider
+                                      .showNotificationContainer(context);
                                 } else if (index == 2) {
                                   if (!await launchUrl(
                                       Uri.parse('https://www.google.com/'))) {
