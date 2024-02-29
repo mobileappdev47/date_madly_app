@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:date_madly_app/models/add_like_dislike_model.dart';
+import 'package:date_madly_app/models/get_all_chat_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,19 +11,13 @@ import '../service/pref_service.dart';
 import '../utils/endpoint.dart';
 import '../utils/pref_key.dart';
 
-class AddLikedDislikeProfileApi {
-  static addLikedDislikeProfileapi(
-    String? likeid,
-    int? status,
-  ) async {
+class GetAllChatApi {
+  static getAllChatApi() async {
     try {
       var headers = {'Content-Type': 'application/json'};
-      var request =
-          http.Request('POST', Uri.parse(EndPoints.addLikedDislikeProfile));
+      var request = http.Request('POST', Uri.parse(EndPoints.getAllChatApi));
       request.body = json.encode({
-        "userID": PrefService.getString(PrefKeys.userId),
-        "likedID": likeid.toString(),
-        "status": status.toString(),
+        "id": PrefService.getString(PrefKeys.userId),
       });
       request.headers.addAll(headers);
 
@@ -30,7 +25,7 @@ class AddLikedDislikeProfileApi {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = (await response.stream.bytesToString());
-        return addLikeDislikeModelFromJson(data);
+        return getAllChatRoomFromJson(data);
       } else {
         print(response.reasonPhrase);
       }

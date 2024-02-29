@@ -12,9 +12,11 @@ import 'package:date_madly_app/pages/home/lady_bottomsheet.dart';
 import 'package:date_madly_app/pages/home/likes_you_screen.dart';
 import 'package:date_madly_app/pages/home/widget/drawer.dart';
 import 'package:date_madly_app/pages/new_match/new_match_screen.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/enum/api_request_status.dart';
 import 'package:date_madly_app/utils/font_family.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
@@ -43,7 +45,7 @@ class _HomeState extends State<Home> {
   Map<String, dynamic> body = {};
   Map<String, dynamic> filterBody = {};
   SfRangeValues values = SfRangeValues(20, 30);
-
+  CardSwiperController cardSwiperController = CardSwiperController();
   List swipeList = [
     AssertRe.homelady,
     AssertRe.homelady,
@@ -54,6 +56,7 @@ class _HomeState extends State<Home> {
 
   List<User> remainingUsers = [];
 
+  int cardIndex = 0;
   AdditinalDetail additinalDetail = AdditinalDetail();
   AddLikeDislikeModel addLikeDislikeModel = AddLikeDislikeModel();
 
@@ -84,7 +87,7 @@ class _HomeState extends State<Home> {
   int status = 0;
   double _currentSliderValue = 0;
   double ageValue = 0;
-  var currentindex = -1;
+  var currentindex1 = -1;
 
   getallapicall() async {
     try {
@@ -98,7 +101,7 @@ class _HomeState extends State<Home> {
     } catch (e) {
       loder = false;
       setState(() {});
-      print('==============>${e.toString()}');
+      print('===>${e.toString()}');
     }
   }
 
@@ -126,6 +129,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    print(PrefService.getString(PrefKeys.userId));
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -219,7 +223,7 @@ class _HomeState extends State<Home> {
                           itemBuilder: (context, index) => GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    currentindex = index;
+                                    currentindex1 = index;
                                   });
                                 },
                                 child: Padding(
@@ -229,7 +233,7 @@ class _HomeState extends State<Home> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5),
                                       border: Border.all(
-                                          color: index == currentindex
+                                          color: index == currentindex1
                                               ? ColorRes.appColor
                                               : ColorRes.grey),
                                     ),
@@ -242,7 +246,7 @@ class _HomeState extends State<Home> {
                                         Image.asset(
                                           AssertRe.genderIcon[index],
                                           scale: 3,
-                                          color: index == currentindex
+                                          color: index == currentindex1
                                               ? ColorRes.appColor
                                               : ColorRes.grey,
                                         ),
@@ -254,7 +258,7 @@ class _HomeState extends State<Home> {
                                           style: mulish14400.copyWith(
                                             fontFamily: Fonts.mulishBold,
                                             fontSize: 12.4,
-                                            color: index == currentindex
+                                            color: index == currentindex1
                                                 ? ColorRes.appColor
                                                 : ColorRes.grey,
                                           ),
@@ -429,9 +433,9 @@ class _HomeState extends State<Home> {
                     ),
                     GestureDetector(
                       onTap: () async {
-                        if (currentindex != -1) {
+                        if (currentindex1 != -1) {
                           filterBody['gender'] =
-                              currentindex == 0 ? 'Male' : "Female";
+                              currentindex1 == 0 ? 'Male' : "Female";
                         }
                         if (_currentSliderValue != 0) {
                           filterBody['distance'] =
@@ -501,6 +505,7 @@ class _HomeState extends State<Home> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 35),
                             child: CardSwiper(
+                              controller: cardSwiperController,
                               isDisabled: false,
                               backCardOffset: const Offset(10, 0),
                               initialIndex: 0,
@@ -508,16 +513,18 @@ class _HomeState extends State<Home> {
                               cardsCount: remainingUsers.length,
                               onSwipe: (previousIndex, currentIndex,
                                   direction) async {
+                                cardIndex = currentIndex!;
+                                setState(() {});
+                                var index1 = currentIndex! - 1;
                                 if (direction == CardSwiperDirection.left) {
-                                  // await LikeDislikeapicall(
-                                  //     remainingUsers[currentIndex!].id, 1);
-                                  // remainingUsers.removeAt(currentIndex);
+                                  await LikeDislikeapicall(
+                                      remainingUsers[index1].id, 1);
+
                                   setState(() {});
                                 } else if (direction ==
                                     CardSwiperDirection.right) {
-                                  // await LikeDislikeapicall(
-                                  //     remainingUsers[currentIndex!].id, 0);
-                                  // remainingUsers.removeAt(currentIndex);
+                                  await LikeDislikeapicall(
+                                      remainingUsers[index1].id, 0);
                                   setState(() {});
                                 } else {}
                                 return true;
@@ -527,20 +534,8 @@ class _HomeState extends State<Home> {
                                   horizontalOffsetPercentage,
                                   verticalOffsetPercentage) {
                                 final user = remainingUsers[index];
+
                                 return GestureDetector(
-                                  // onPanUpdate: (details) async {
-                                  //   if (details.delta.dx > 0) {
-                                  //     // Swiped right
-                                  //     log('true============${user.id}');
-                                  //     await LikeDislikeapicall(user.id, 0);
-                                  //     remainingUsers.removeAt(index);
-                                  //     setState(() {});
-                                  //   } else if (details.delta.dx < 1) {
-                                  //     // Swiped left
-                                  //     log('false=============${user.id}');
-                                  //
-                                  //   }
-                                  // },
                                   child: Container(
                                     height: height * 0.68,
                                     width: width * 0.8,
@@ -680,12 +675,10 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               GestureDetector(
-                                onTap: () {
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //       builder: (context) => LikesYouScreen(),
-                                  //     ));
+                                onTap: () async {
+                                  await LikeDislikeapicall(
+                                      remainingUsers[cardIndex].id, 1);
+                                  cardSwiperController.swipeLeft();
                                 },
                                 child: Container(
                                   height: 50,
@@ -712,7 +705,12 @@ class _HomeState extends State<Home> {
                                 width: 20,
                               ),
                               GestureDetector(
-                                onTap: () async {},
+                                onTap: () async {
+                                  await LikeDislikeapicall(
+                                      remainingUsers[cardIndex].id, 0);
+                                  cardSwiperController.swipeRight();
+                                  setState(() {});
+                                },
                                 child: Container(
                                   height: 50,
                                   width: 50,

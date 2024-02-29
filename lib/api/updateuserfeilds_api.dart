@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:date_madly_app/models/update_user.dart';
 import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/service/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,26 +15,26 @@ import '../utils/endpoint.dart';
 class UpdateUserApi {
   static updateUsers(
       Map<String, String>? body, BuildContext context, File? image) async {
-    // try {
-    //   String url = EndPoints.Update;
-    //   http.Response? response = await HttpService.postApi(url: url, body: body);
-    //   print('Status Code===========${response!.statusCode}');
-    //   if (response != null && response?.statusCode == 200) {
-    //     print('Status Code===========${response!.statusCode}');
-    //     Navigator.push(
-    //         context,
-    //         MaterialPageRoute(
-    //           builder: (context) => HomeMain(),
-    //         ));
-    //
-    //     return updateUsersFromJson(response!.body);
-    //   } else {
-    //     print('Something went wrong');
-    //   }
-    // } catch (e) {
-    //   return null;
-    // }
-    final url = Uri.parse(EndPoints.Update);
+    try {
+      String url = EndPoints.Update;
+      http.Response? response = await HttpService.postApi(url: url, body: body);
+      print('Status Code===========${response!.statusCode}');
+      if (response != null && response?.statusCode == 200) {
+        print('Status Code===========${response!.statusCode}');
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeMain(),
+            ));
+
+        return updateUsersFromJson(response!.body);
+      } else {
+        print('Something went wrong');
+      }
+    } catch (e) {
+      return null;
+    }
+    /* final url = Uri.parse(EndPoints.Update);
     var request = http.MultipartRequest('POST', url);
     ;
     request.fields.addAll(body!);
@@ -66,9 +67,9 @@ class UpdateUserApi {
             ));
         return updateUsersFromJson(data);
       } else {}
-      return;
-    } catch (e) {
+      return;*/
+/*    } catch (e) {
       debugPrint(e.toString());
-    }
+    }*/
   }
 }

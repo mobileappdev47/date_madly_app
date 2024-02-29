@@ -168,7 +168,7 @@ class MyApp extends StatelessWidget {
           //         : const PhoneOTP());
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: HomeMain(),
+            child: SplashScreen(),
           ),
         );
       });

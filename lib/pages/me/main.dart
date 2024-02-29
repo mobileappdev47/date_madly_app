@@ -13,6 +13,7 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:date_madly_app/utils/mqtt_client.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,7 +43,7 @@ class _ProfileState extends State<Profile> {
   bool isclick = false;
   int selectedIndex = -1;
   GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
-  HomeMainProvider homeMainProvider=HomeMainProvider();
+  HomeMainProvider homeMainProvider = HomeMainProvider();
 
   getSingleProfileApi() async {
     try {
@@ -67,6 +68,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    print(PrefService.getString(PrefKeys.userId));
     return Scaffold(
       backgroundColor: ColorRes.white,
       appBar: AppBar(
@@ -105,8 +107,8 @@ class _ProfileState extends State<Profile> {
                   Center(
                     child: ClipOval(
                       child: CachedNetworkImage(
-                        imageUrl:'assets/images/image_placeholder.png',
-                            // getSingleProfileModel.profile?[0].images?[0] ?? '',
+                        imageUrl:
+                            getSingleProfileModel.profile?[0].images?[0] ?? '',
                         fit: BoxFit.fill,
                         height: 100,
                         width: 100,
@@ -181,7 +183,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].designation ?? '',
+                        getSingleProfileModel.profile?[0].job ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
@@ -193,7 +195,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].degree ?? '',
+                        getSingleProfileModel.profile?[0].college ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       )
                     ],
@@ -211,7 +213,7 @@ class _ProfileState extends State<Profile> {
                         width: 1.5,
                       ),
                       Text(
-                        getSingleProfileModel.profile?[0].live ?? '',
+                        getSingleProfileModel.profile?[0].location ?? '',
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
@@ -243,7 +245,16 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20,
                   ),
-                  Text('', style: mulish14400.copyWith(color: ColorRes.grey)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(getSingleProfileModel.profile?[0].about ?? '',
+                          textAlign: TextAlign.start,
+                          style: mulish14400.copyWith(
+                            color: ColorRes.grey,
+                          )),
+                    ],
+                  ),
                   SizedBox(
                     height: 20,
                   ),
@@ -329,7 +340,8 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  void showNotificationContainers(BuildContext context,HomeMainProvider homeMainProvider) {
+  void showNotificationContainers(
+      BuildContext context, HomeMainProvider homeMainProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -381,7 +393,8 @@ class _ProfileState extends State<Profile> {
                                       selectedIndex == index ? -1 : index;
                                 } else if (index == 1) {
                                   Navigator.of(context).pop();
-                                  homeMainProvider.showNotificationContainer(context);
+                                  homeMainProvider
+                                      .showNotificationContainer(context);
                                 } else if (index == 2) {
                                   if (!await launchUrl(
                                       Uri.parse('https://www.google.com/'))) {

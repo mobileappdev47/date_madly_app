@@ -11,8 +11,8 @@ import '../../utils/texts.dart';
 import 'chat_message.dart';
 
 class MyMatches extends StatelessWidget {
-  const MyMatches({super.key});
-
+  MyMatches({super.key, required this.chatUsers});
+  final List chatUsers;
   @override
   Widget build(BuildContext context) {
     return Consumer<ChatProvider>(
@@ -68,7 +68,7 @@ class MyMatches extends StatelessWidget {
             children: [
               NewTextField(
                 controller: value.searchController,
-                hintText:Strings.search_massages,
+                hintText: Strings.search_massages,
                 prefix: AssertRe.Search_Icon,
               ),
               SizedBox(
@@ -98,18 +98,19 @@ class MyMatches extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(Strings.patrcia,
-                              style: mulishbold.copyWith(
-                                fontSize: 15,
-                                color: ColorRes.darkGrey,
-                              ),),
+                          Text(
+                            Strings.patrcia,
+                            style: mulishbold.copyWith(
+                              fontSize: 15,
+                              color: ColorRes.darkGrey,
+                            ),
+                          ),
                           Text(
                             overflow: TextOverflow.ellipsis,
                             Strings.fashion_designer,
                             style: mulish14400.copyWith(
                               fontSize: 14,
                               color: ColorRes.grey,
-
                             ),
                           ),
                         ],

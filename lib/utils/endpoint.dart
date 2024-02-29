@@ -14,4 +14,6 @@ class EndPoints {
   static const changePasswordApi = baseUrl + 'api/changePassword';
   static const filterApi = baseUrl + 'api/getFilterProfile';
   static const notificationApi = baseUrl + 'api/notifications';
+  static const updateRequestStatusApi = baseUrl + 'api/updateRequestStatus';
+  static const getAllChatApi = baseUrl + 'api/getAllChatRoom';
 }

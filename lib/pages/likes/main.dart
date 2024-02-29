@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/update_request_status.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_like_dislike_model.dart';
+import 'package:date_madly_app/models/update_request_status.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,7 @@ class Likes extends StatefulWidget {
 class _LikesState extends State<Likes> {
   bool loder = false;
   GetLikeDislikeModel getLikeDislikeModel = GetLikeDislikeModel();
+  UpdateRequestModel updateRequestModel = UpdateRequestModel();
   LikeDislikeapicall() async {
     try {
       loder = true;
@@ -39,6 +42,20 @@ class _LikesState extends State<Likes> {
       setState(() {});
     } catch (e) {
       print('==============>${e.toString()}');
+    }
+  }
+
+  updateRequestStatusApi({String? likeId, int? status}) async {
+    try {
+      loder = true;
+      setState(() {});
+      updateRequestModel =
+          await UpdateRequestApi.updateRequestApi(likeId, status);
+      loder = false;
+      setState(() {});
+    } catch (e) {
+      loder = false;
+      setState(() {});
     }
   }
 
@@ -108,7 +125,7 @@ class _LikesState extends State<Likes> {
                     SizedBox(
                       height: 20,
                     ),
-                    value.searchController.text.isEmpty
+                    (value.searchController.text.isEmpty)
                         ? GridView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -217,13 +234,6 @@ class _LikesState extends State<Likes> {
                                         Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            // likedProfile.likedDislikeProfile != null &&
-                                            //         likedProfile
-                                            //             .likedDislikeProfile!.isNotEmpty
-                                            //     ? likedProfile.likedDislikeProfile![index]
-                                            //             .likedId?.name ??
-                                            //         ''
-                                            //     : '',
                                             getLikeDislikeModel
                                                     .likedProfiles?[index]
                                                     .userId
@@ -238,27 +248,6 @@ class _LikesState extends State<Likes> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              AssertRe.Location_Icon,
-                                              scale: 4.5,
-                                              color: ColorRes.white,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                matches[index].loaction,
-                                                style: mulishbold.copyWith(
-                                                  fontSize: 11.72,
-                                                  color: ColorRes.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         SizedBox(
                                           height: 110,
                                         ),
@@ -267,30 +256,43 @@ class _LikesState extends State<Likes> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.grey.shade50,
-                                                ),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: ColorRes.darkGrey,
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await updateRequestStatusApi(
+                                                      likeId: getLikeDislikeModel
+                                                              .likedProfiles?[
+                                                                  index]
+                                                              .userId
+                                                              ?.id ??
+                                                          '',
+                                                      status: 1);
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.grey.shade50,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color: ColorRes.darkGrey,
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 20,
                                               ),
                                               GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (c) =>
-                                                          NewMatchScreen(),
-                                                    ),
-                                                  );
+                                                onTap: () async {
+                                                  await updateRequestStatusApi(
+                                                      likeId: getLikeDislikeModel
+                                                              .likedProfiles?[
+                                                                  index]
+                                                              .userId
+                                                              ?.id ??
+                                                          '',
+                                                      status: 0);
                                                 },
                                                 child: Container(
                                                   height: 50,
@@ -416,13 +418,6 @@ class _LikesState extends State<Likes> {
                                         Align(
                                           alignment: Alignment.topLeft,
                                           child: Text(
-                                            // likedProfile.likedDislikeProfile != null &&
-                                            //         likedProfile
-                                            //             .likedDislikeProfile!.isNotEmpty
-                                            //     ? likedProfile.likedDislikeProfile![index]
-                                            //             .likedId?.name ??
-                                            //         ''
-                                            //     : '',
                                             value.filterList?[index].userId
                                                     ?.name ??
                                                 '',
@@ -435,27 +430,6 @@ class _LikesState extends State<Likes> {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Row(
-                                          children: [
-                                            Image.asset(
-                                              AssertRe.Location_Icon,
-                                              scale: 4.5,
-                                              color: ColorRes.white,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Expanded(
-                                              child: Text(
-                                                matches[index].loaction,
-                                                style: mulishbold.copyWith(
-                                                  fontSize: 11.72,
-                                                  color: ColorRes.white,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
                                         SizedBox(
                                           height: 110,
                                         ),
@@ -464,30 +438,41 @@ class _LikesState extends State<Likes> {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
-                                              Container(
-                                                height: 50,
-                                                width: 50,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: Colors.grey.shade50,
-                                                ),
-                                                child: Icon(
-                                                  Icons.close,
-                                                  color: ColorRes.darkGrey,
+                                              GestureDetector(
+                                                onTap: () async {
+                                                  await updateRequestStatusApi(
+                                                      likeId: value
+                                                              .filterList[index]
+                                                              .userId
+                                                              ?.id ??
+                                                          '',
+                                                      status: 1);
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  width: 50,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.grey.shade50,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.close,
+                                                    color: ColorRes.darkGrey,
+                                                  ),
                                                 ),
                                               ),
                                               SizedBox(
                                                 width: 20,
                                               ),
                                               GestureDetector(
-                                                onTap: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (c) =>
-                                                          NewMatchScreen(),
-                                                    ),
-                                                  );
+                                                onTap: () async {
+                                                  await updateRequestStatusApi(
+                                                      likeId: value
+                                                              .filterList[index]
+                                                              .userId
+                                                              ?.name ??
+                                                          '',
+                                                      status: 0);
                                                 },
                                                 child: Container(
                                                   height: 50,
