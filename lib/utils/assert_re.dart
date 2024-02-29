@@ -10,6 +10,7 @@ class AssertRe {
   ///---------------------------------------- Home ----------------------------------------Cheers!
 
   static const notification = icons + 'Notification.png';
+  static const loginIntro = image + 'loginIntro.png';
   static const homelady = image + 'lady.png';
   static const notifiimage1 = icons + 'n1.png';
   static const notifiimage3 = icons + 'n3.png';

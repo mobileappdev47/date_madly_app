@@ -1,6 +1,8 @@
 class Strings {
   ///---------------------------------------- Drawer ----------------------------------------
 
+  static const Made = "Made with ❤️";
+  static const Lovecirc = "Lovecirc";
   static const filter = "Filter";
   static const gender = "Gender";
   static const Jakarta = "Jakarta, Indonesia";
@@ -147,7 +149,7 @@ class Strings {
   static const by_click = "By click the sign up button, you’re agree to ";
   static const parken = "Parken’s Terms and Service ";
   static const acknlowledge = "and acknlowledge the ";
-  static const Privacy = "Privacy and Policy";
+  static const Privacy = "Privacy and   Policy";
   static const name = "Name";
   static const date_of_birth = "Date of Birth";
   static const password = "Password";
@@ -155,7 +157,7 @@ class Strings {
   static const emails = "Email";
 
   static const password_must =
-      "Password must be at least 8 character uppercase,lowercase, and unique code like #%!";
+      "Password must be at least 8 character uppercase,lowercase,and unique code like #%!";
 
   ///---------------------------------------- Upload a profile Photo ----------------------------------------///
 

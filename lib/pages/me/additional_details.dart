@@ -43,7 +43,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   String selectedLookingFor = '';
   String selectedPoliticalViews = '';
   String selectedItem = '';
-  AdditinalDetail additinalDetail = AdditinalDetail();
+
+  // AdditinalDetail additinalDetail = AdditinalDetail();
   String userId = PrefService.getString(PrefKeys.userId);
 
   @override
@@ -66,11 +67,10 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                 const SizedBox(height: 10),
                 Text(
                   Strings.additional_details,
-                  style: mulish14400.copyWith(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
-                      color: ColorRes.darkGrey,
-                      fontFamily: Fonts.poppins),
+                  style: mulishbold.copyWith(
+                    fontSize: 14,
+                    color: ColorRes.darkGrey,
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Text(
@@ -81,17 +81,15 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       color: ColorRes.darkGrey,
                       fontFamily: Fonts.poppins),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Image.asset(
                   AssertRe.logo,
                   scale: 2.5,
                 ),
                 const SizedBox(height: 10),
                 Text(question,
-                    style: mulish14400.copyWith(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 16,
-                      fontFamily: Fonts.poppins,
+                    style: mulishbold.copyWith(
+                      fontSize: 15,
                       color: ColorRes.darkGrey,
                     )),
                 const SizedBox(height: 10),
@@ -208,7 +206,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               Text(
                                 Strings.close,
                                 style: mulish14400.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 14,
                                   color: ColorRes.white,
                                   fontFamily: Fonts.poppins,
                                 ),

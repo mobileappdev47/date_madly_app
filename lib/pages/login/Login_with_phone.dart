@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
+import 'package:date_madly_app/utils/text_style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -294,7 +297,7 @@ class _PhoneOTPState extends State<PhoneOTP> {
           Row(
             children: [
               const SizedBox(
-                width: 20,
+                width: 41,
               ),
               Image.asset(
                 "assets/logos/logoSplashFill.png",
@@ -304,21 +307,19 @@ class _PhoneOTPState extends State<PhoneOTP> {
                 width: 10,
               ),
               Text(
-                "LovecircO",
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black,
-                ),
+                Strings.Lovecirc,
+                style: mulishbold.copyWith(fontSize: 15,color: ColorRes.darkGrey)
               ),
             ],
           ),
           const SizedBox(height: 20),
           Image.asset(
-            "assets/images/loginIntro.png",
-            scale: 4,
+            AssertRe.loginIntro,fit: BoxFit.cover,
+            // "assets/images/loginIntro.png",
+            scale: 3.3,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
+            height: 30,
           ),
           Expanded(
             child: Container(
@@ -352,30 +353,30 @@ class _PhoneOTPState extends State<PhoneOTP> {
                   //             ),
                   //           ));
                   //     },
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SignUpScreen(),
-                              ));
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              5,
-                            ),
-                            color: ColorRes.appColor,
-                          ),
-                          child: Text(Strings.sign_up,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700)),
-                          width: MediaQuery.of(context).size.width * 0.8,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          5,
                         ),
+                        color: ColorRes.appColor,
                       ),
+                      child: Text(
+                        Strings.sign_up,
+                        style: popinsbold().copyWith(color: ColorRes.white,fontSize: 14),
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                    ),
+                  ),
 
                   //   // Container(
                   //   //   height: 47,
@@ -488,10 +489,10 @@ class _PhoneOTPState extends State<PhoneOTP> {
                         ),
                         color: ColorRes.appColor,
                       ),
-                      child: Text(Strings.log_in,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700)),
+                      child: Text(
+                        Strings.log_in,
+                        style: popinsbold().copyWith(color: ColorRes.white,fontSize: 14),
+                      ),
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
                   ),

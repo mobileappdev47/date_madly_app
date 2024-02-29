@@ -85,24 +85,24 @@ class _ChatState extends State<Chat> {
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
           backgroundColor: ColorRes.white,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MapScreen1(),
-                    ),
-                  );
-                },
-                icon: Icon(
-                  Icons.arrow_back_ios_rounded,
-                  color: ColorRes.appColor,
-                ),
-              );
-            },
-          ),
+          // leading: Builder(
+          //   builder: (BuildContext context) {
+          //     return IconButton(
+          //       onPressed: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //             builder: (context) => MapScreen1(),
+          //           ),
+          //         );
+          //       },
+          //       icon: Icon(
+          //         Icons.arrow_back_ios_rounded,
+          //         color: ColorRes.appColor,
+          //       ),
+          //     );
+          //   },
+          // ),
           title: Text(
             Strings.chat,
             style: mulishbold.copyWith(

@@ -24,7 +24,7 @@ class GetLikedDislikeProfilesApi {
       });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-
+      print('Status Code===${response.statusCode}');
       if (response.statusCode == 200) {
         var data = (await response.stream.bytesToString());
         return getLikeDislikeModelFromJson(data);
