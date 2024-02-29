@@ -395,7 +395,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                   child: Padding(
                                     padding: EdgeInsets.only(right: 20),
                                     child: Container(
-                                      width: 175,
+                                      width: 145,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
                                         border: Border.all(
