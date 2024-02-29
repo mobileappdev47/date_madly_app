@@ -21,8 +21,8 @@ class LoginApi {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
             PrefKeys.userId, loginModelFromJson(data).user?.id ?? '');
-        PrefService.setValue(
-            PrefKeys.password,password);
+        PrefService.setValue(PrefKeys.password, password);
+        PrefService.setValue(PrefKeys.isAdditional, true);
         Navigator.push(
             context,
             MaterialPageRoute(

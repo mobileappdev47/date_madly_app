@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_madly_app/api/get_all_chat_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/models/get_all_chat_model.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/my_matches.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
@@ -38,6 +41,7 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+    getAllChatApi();
     getCollectionLength();
     super.initState();
   }
@@ -75,6 +79,22 @@ class _ChatState extends State<Chat> {
           .delete();
     });
     setState(() {});
+  }
+
+  bool loader = false;
+  GetAllChatRoom getAllChatRoom = GetAllChatRoom();
+  getAllChatApi() async {
+    try {
+      loader = true;
+      setState(() {});
+      getAllChatRoom = await GetAllChatApi.getAllChatApi();
+      loader = false;
+      setState(() {});
+    } catch (e) {
+      loader = false;
+      setState(() {});
+      print('==============>${e.toString()}');
+    }
   }
 
   Widget build(BuildContext context) {
@@ -155,65 +175,106 @@ class _ChatState extends State<Chat> {
                   prefix: AssertRe.Search_Icon,
                 ),
               ),
-              // Row(
-              //   children: [
-              //     SizedBox(
-              //       width: 20,
-              //     ),
-              //     Text(
-              //       Strings.new_matches,
-              //       style: mulishbold.copyWith(
-              //         fontSize: 15,
-              //         color: ColorRes.darkGrey,
-              //       ),
-              //     ),
-              //     Spacer(),
-              //     TextButton(
-              //       onPressed: () {
-              //         Navigator.push(
-              //           context,
-              //           MaterialPageRoute(
-              //             builder: (context) => MyMatches(),
-              //           ),
-              //         );
-              //       },
-              //       child: Row(
-              //         children: [
-              //           Text(
-              //             Strings.show_all,
-              //             style: mulishbold.copyWith(
-              //               fontSize: 15,
-              //               color: ColorRes.appColor,
-              //             ),
-              //           ),
-              //           SizedBox(
-              //             width: 4,
-              //           ),
-              //           Icon(
-              //             Icons.arrow_forward,
-              //             color: ColorRes.appColor,
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(
-              //   height: 100,
-              //   child: ListView.builder(
-              //     scrollDirection: Axis.horizontal,
-              //     itemCount: value.image.length,
-              //     itemBuilder: (context, index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.only(left: 15),
-              //         child: CircleAvatar(
-              //           radius: 30,
-              //           child: Image.asset(value.image[index]),
-              //         ),
-              //       );
-              //     },
-              //   ),
-              // ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Text(
+                    Strings.new_matches,
+                    style: mulishbold.copyWith(
+                      fontSize: 15,
+                      color: ColorRes.darkGrey,
+                    ),
+                  ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MyMatches(
+                              chatUsers: getAllChatRoom.chatRoom ?? []),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          Strings.show_all,
+                          style: mulishbold.copyWith(
+                            fontSize: 15,
+                            color: ColorRes.appColor,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 4,
+                        ),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: ColorRes.appColor,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 60,
+                child: ListView.separated(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  separatorBuilder: (context, index) => SizedBox(
+                    width: 20,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: getAllChatRoom.chatRoom?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return ClipOval(
+                      child: getAllChatRoom.chatRoom?[index].participants?[1]
+                                      .images !=
+                                  null &&
+                              getAllChatRoom.chatRoom![index].participants![1]
+                                  .images!.isNotEmpty
+                          ? CachedNetworkImage(
+                              imageUrl: getAllChatRoom.chatRoom?[index]
+                                      .participants?[1].images?[0] ??
+                                  '',
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  ))
+                          : CachedNetworkImage(
+                              imageUrl: '',
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) => Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  )),
+                    );
+                  },
+                ),
+              ),
               SizedBox(
                 height: 40,
                 child: Align(

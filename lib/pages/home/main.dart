@@ -58,42 +58,7 @@ class _HomeMainState extends State<HomeMain> {
       child: Scaffold(
           backgroundColor: Theme.of(context).colorScheme.surface,
           body: _widgetOptions.elementAt(currentIndex),
-
-          /*body: PageTransitionSwitcher(
-              transitionBuilder: (Widget child,
-                      Animation<double> primaryAnimation,
-                      Animation<double> secondaryAnimation) =>
-                  FadeThroughTransition(
-                      animation: primaryAnimation,
-                      secondaryAnimation: secondaryAnimation,
-                      child: child),
-              child: _widgetOptions[_lastSelected]),*/
-          // body: PageView(
-          //   controller: pageController,
-          //   physics: const NeverScrollableScrollPhysics(),
-          //   onPageChanged: (index) {
-          //     _lastSelected = index;
-          //     // pageController.jumpToPage(index);
-          //     // pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
-          //     setState(() {});
-          //   },
-          //   children: _widgetOptions,
-          // ),
-
-          // body: IndexedStack(
-          //   index: _lastSelected,
-          //   children: const <Widget>[Home(), Likes(), Chat(), Me()],
-          // ),
-          bottomNavigationBar: /*BottomNavigationBar(
-            items: [
-              BottomNavigationBarItem(
-
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-            ],
-          )*/
-              Container(
+          bottomNavigationBar: Container(
             height: 60,
             decoration: BoxDecoration(
                 color: ColorRes.lightPink,
@@ -145,55 +110,7 @@ class _HomeMainState extends State<HomeMain> {
                 ),
               ],
             ),
-          )
-          /* Theme(
-            data: Theme.of(context).copyWith(
-                // splashColor: Colors.transparent,
-                // highlightColor: Colors.transparent
-                ),
-            child: NavigationBar(
-              onDestinationSelected: (int index) {
-                setState(() {
-                  _lastSelected = index;
-                  // pageController.jumpToPage(index);
-                  // pageController.animateToPage(index,
-                  //     duration: const Duration(milliseconds: 400),
-                  //     curve: Curves.bounceIn);
-                });
-              },
-              selectedIndex: _lastSelected,
-             */ /* destinations: [
-             */ /**/ /*   Row(
-                  children: [
-                    Image.asset(''assets/icons/Home.png'',scale: 4,),
-                    Image.asset('assets/icons/Home.png',scale: 4,),
-                    Image.asset('assets/icons/Home.png',scale: 4,),
-                    Image.asset('assets/icons/Home.png',scale: 4,)
-                  ],
-                )*/ /**/ /*
-              ],*/ /*
-              destinations: [
-                const NavigationDestination(
-
-                  icon: Icon(Icons.home_outlined),
-                  selectedIcon: Icon(Icons.home),
-                  label: "Home",
-                ),
-                const NavigationDestination(
-                    icon: Icon(Icons.favorite_outline),
-                    selectedIcon: Icon(Icons.favorite),
-                    label: "Likes"),
-                NavigationDestination(
-                    icon: const Icon(Icons.chat_outlined),
-                    selectedIcon: const Icon(Icons.chat),
-                    label: "Chat"),
-                const NavigationDestination(
-                    icon: Icon(Icons.account_circle_outlined),
-                    selectedIcon: Icon(Icons.account_circle),
-                    label: "Me"),
-              ]),
-            ),*/
-          ),
+          )),
     );
   }
 }
