@@ -246,8 +246,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                   ),
                   Text(
                     Strings.upload_profile,
-                    style: mulish14400.copyWith(
-                        fontFamily: Fonts.poppinsBold,
+                    style: mulishbold.copyWith(
                         color: ColorRes.darkGrey,
                         fontSize: 21),
                   ),
@@ -256,7 +255,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                   ),
                   Text(
                     Strings.Please_upload,
-                    style: mulish14400.copyWith(fontFamily: Fonts.poppins),
+                    style: mulish14400.copyWith(fontFamily: Fonts.poppins,fontSize: 12),
                   ),
                   SizedBox(
                     height: 13,

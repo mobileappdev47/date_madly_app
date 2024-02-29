@@ -75,16 +75,6 @@ class _ProfileState extends State<Profile> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
-        leading: GestureDetector(
-            onTap: () {
-              //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-              // return Me();
-              // },));
-            },
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: ColorRes.appColor,
-            )),
         title: Text(
           Strings.profile,
           style: mulishbold.copyWith(
@@ -278,26 +268,26 @@ class _ProfileState extends State<Profile> {
                         ),
                       ),
                       Spacer(),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => MyGalleryScreen(),
-                          ));
-                        },
-                        child: Text(
-                          Strings.show_all,
-                          style: mulishbold.copyWith(
-                            color: ColorRes.appColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward,
-                        color: ColorRes.appColor,
-                        size: 16,
-                      )
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.of(context).push(MaterialPageRoute(
+                      //       builder: (context) => MyGalleryScreen(),
+                      //     ));
+                      //   },
+                      //   child: Text(
+                      //     Strings.show_all,
+                      //     style: mulishbold.copyWith(
+                      //       color: ColorRes.appColor,
+                      //       fontSize: 12,
+                      //       fontWeight: FontWeight.w600,
+                      //     ),
+                      //   ),
+                      // ),
+                      // Icon(
+                      //   Icons.arrow_forward,
+                      //   color: ColorRes.appColor,
+                      //   size: 16,
+                      // )
                     ],
                   ),
                   SizedBox(
@@ -433,7 +423,7 @@ class _ProfileState extends State<Profile> {
                                               height: selectedIndex == index
                                                   ? 90
                                                   : 40,
-                                              width: 220,
+                                              width: 210,
                                               child: Column(
                                                 children: [
                                                   Align(

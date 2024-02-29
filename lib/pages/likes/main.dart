@@ -73,39 +73,39 @@ class _LikesState extends State<Likes> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: ColorRes.white,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) {
-                  return Profile();
-                },
-              ));
-            },
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: ColorRes.appColor,
-            ),
-          ),
+          // leading: GestureDetector(
+          //   onTap: () {
+          //     Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //       builder: (context) {
+          //         return Profile();
+          //       },
+          //     ));
+          //   },
+          //   child: Icon(
+          //     Icons.arrow_back_ios_new_rounded,
+          //     color: ColorRes.appColor,
+          //   ),
+          // ),
           title: Text(
             Strings.Match_Request,
             style:
                 mulishbold.copyWith(fontSize: 18.75, color: ColorRes.appColor),
           ),
-          actions: [
-            Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: Image.asset(
-                    AssertRe.right_drawer,
-                    scale: 3,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              },
-            ),
-          ],
+          // actions: [
+          //   Builder(
+          //     builder: (BuildContext context) {
+          //       return IconButton(
+          //         icon: Image.asset(
+          //           AssertRe.right_drawer,
+          //           scale: 3,
+          //         ),
+          //         onPressed: () {
+          //           Scaffold.of(context).openDrawer();
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ],
         ),
         body: Stack(
           children: [

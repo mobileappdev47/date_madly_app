@@ -40,7 +40,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       loader = true;
       setState(() {});
-      signup = await SignUpApi.signUpApi(body: body, context: context,password: textPassword);
+      signup = await SignUpApi.signUpApi(
+          body: body, context: context, password: textPassword);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -71,16 +72,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         children: [
                           Text(
                             Strings.sign_up,
-                            style: mulish14400.copyWith(
-                              fontFamily: Fonts.poppins,
-                              fontWeight: FontWeight.w700,
+                            style: mulishbold.copyWith(
                               color: ColorRes.darkBlue,
                               fontSize: 18,
                             ),
                           ),
                           Text(
                             Strings.cancle,
-                            style: TextStyle(color: ColorRes.appColor),
+                            style: mulish14400.copyWith(color: ColorRes.appColor,fontSize: 12),
                           ),
                         ],
                       ),
@@ -340,8 +339,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 await signUpApiCall();
                                 await PrefService.setValue(
                                     PrefKeys.email, value.emailController.text);
-                                await PrefService.setValue(
-                                    PrefKeys.password, value.passwordController.text);
+                                await PrefService.setValue(PrefKeys.password,
+                                    value.passwordController.text);
                               }
                             }),
                       ),

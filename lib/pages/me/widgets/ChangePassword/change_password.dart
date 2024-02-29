@@ -33,7 +33,6 @@ class _ChangePasswordState extends State<ChangePassword> {
     try {
       loader = true;
       setState(() {});
-      // var pass=PrefService.getString(PrefKeys.password);
       await ChangePasswordApi.changepasswordapi(body);
       loader = false;
       setState(() {});

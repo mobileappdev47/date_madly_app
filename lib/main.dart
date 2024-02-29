@@ -39,6 +39,7 @@ import 'package:date_madly_app/theme/theme_config.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/custom_colors.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
+import 'package:date_madly_app/utils/texts.dart';
 
 // import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -49,6 +50,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'common/text_style.dart';
 import 'providers/app_provider.dart';
 import 'utils/firebase_options.dart';
 
@@ -226,7 +228,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    initSharedPreference();
+    // initSharedPreference();
   }
 
   initSharedPreference() async {
@@ -269,23 +271,19 @@ class _SplashScreenState extends State<SplashScreen> {
                 SizedBox(height: MediaQuery.of(context).size.width / 1.5),
                 Image.asset(
                   "assets/icons/logo.png",
-                  scale: 2.5,
+                  scale: 2,
                 ),
                 Text(
-                  "LovecirclO",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 24,
-                    color: ColorRes.appColor,
-                  ),
+                  "Lovecircl",
+                  style: mulishbold.copyWith(fontSize: 40,color: ColorRes.appColor),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.width / 2),
                 const CircularProgressIndicator(
                   color: ColorRes.appColor,
                 ),
-                const Text(
-                  "Made with ❤️",
-                  style: TextStyle(color: ColorRes.grey),
+                Text(
+                  Strings.Made,
+                  style: mulishbold.copyWith(fontSize: 18),
                 ),
               ],
             ),

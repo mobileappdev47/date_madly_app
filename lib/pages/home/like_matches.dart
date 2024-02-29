@@ -29,18 +29,18 @@ class LikeMatches extends StatelessWidget {
         toolbarHeight: 80,
         centerTitle: true,
         backgroundColor: ColorRes.white,
-        leading: Builder(
-          builder: (BuildContext context) {
-            return Icon(
-              Icons.arrow_back_ios_rounded,
-              color: ColorRes.appColor,
-            );
-            Image.asset(
-              'assets/icons/drawer.png',
-              scale: 3,
-            );
-          },
-        ),
+        // leading: Builder(
+        //   builder: (BuildContext context) {
+        //     return Icon(
+        //       Icons.arrow_back_ios_rounded,
+        //       color: ColorRes.appColor,
+        //     );
+        //     Image.asset(
+        //       'assets/icons/drawer.png',
+        //       scale: 3,
+        //     );
+        //   },
+        // ),
         title: Text(
           Strings.jeniffer_matches,
           style: mulish14400.copyWith(
@@ -48,21 +48,21 @@ class LikeMatches extends StatelessWidget {
               fontSize: 15,
               fontWeight: FontWeight.w600),
         ),
-        actions: [
-          Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                icon: Image.asset(
-                  AssertRe.Filter_Icon,
-                  scale: 1.3,
-                ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              );
-            },
-          ),
-        ],
+        // actions: [
+        //   Builder(
+        //     builder: (BuildContext context) {
+        //       return IconButton(
+        //         icon: Image.asset(
+        //           AssertRe.Filter_Icon,
+        //           scale: 1.3,
+        //         ),
+        //         onPressed: () {
+        //           Scaffold.of(context).openDrawer();
+        //         },
+        //       );
+        //     },
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20),

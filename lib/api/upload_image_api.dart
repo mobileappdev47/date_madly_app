@@ -15,7 +15,7 @@ class UploadImageApi {
   static uploadImageApi(File image, context) async {
     final url = Uri.parse(EndPoints.uploadImage);
     var request = http.MultipartRequest('POST', url);
-    ;
+
     request.fields.addAll({
       'id': PrefService.getString(PrefKeys.userId),
     });
