@@ -34,6 +34,7 @@ class Strings {
   static const like = "100 Like";
   static const likeyou = "Likes You";
   static const noone = "No one has like you. Try uploading images to get likes";
+  static const nodata = "No data found.";
 
   ///#---------------------------------------- Cheers! ----------------------------------------#///
 

@@ -210,25 +210,29 @@ class _ChangePasswordState extends State<ChangePassword> {
                       textPassword,
                       PrefService.getString(PrefKeys.userId),
                     );
+                    Navigator.pop(context);
                     // print('${changePasswordModel.message}');
                   }
                   // Navigator.pop(context);
                 },
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 11,
-                  width: MediaQuery.of(context).size.width / 1,
-                  decoration: BoxDecoration(
-                    color: ColorRes.appColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                      child: Text(
-                    Strings.save,
-                    style: mulishbold.copyWith(
-                      fontSize: 16,
-                      color: ColorRes.white,
+                child: GestureDetector(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 11,
+                    width: MediaQuery.of(context).size.width / 1,
+                    decoration: BoxDecoration(
+                      color: ColorRes.appColor,
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                  )),
+                    child: Center(
+                      child: Text(
+                        Strings.save,
+                        style: mulishbold.copyWith(
+                          fontSize: 16,
+                          color: ColorRes.white,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

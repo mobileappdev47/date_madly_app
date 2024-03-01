@@ -10,6 +10,16 @@ import 'package:flutter/material.dart';
 import '../../models/user_model.dart';
 import '../../utils/texts.dart';
 
+String? splitDegree(String? degree) {
+  if (degree != null && degree.length > 10) {
+    return degree.replaceAllMapped(
+      RegExp(r".{15}"),
+      (match) => '${match.group(0)}\n',
+    );
+  }
+  return degree;
+}
+
 ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
@@ -187,8 +197,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                           ),
                                         ),
                                         Text(
-                                          '${getAll.users![index].gender}' ??
-                                              '',
+                                          '${splitDegree(getAll.users![index].gender) ?? ''}',
                                           style: mulish14400.copyWith(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -329,10 +338,9 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].degree ?? ''}' ??
-                                            '',
+                                        '${splitDegree(getAll.users![index].degree) ?? ''}',
                                         style: mulish14400.copyWith(
-                                          fontSize: 10,
+                                          fontSize: 14,
                                           fontWeight: FontWeight.w600,
                                           color: ColorRes.darkGrey,
                                         ),
@@ -394,8 +402,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].designation ?? ''}' ??
-                                            '',
+                                        '${splitDegree(getAll.users![index].designation) ?? ''}',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -463,8 +470,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].company ?? ''}' ??
-                                            '',
+                                        '${splitDegree(getAll.users![index].company) ?? ''}',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w600,
@@ -558,28 +564,28 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                             ),
                           ),
                           Spacer(),
-                          GestureDetector(
-                            child: Text(
-                              Strings.seeall,
-                              style: mulish14400.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
-                                color: ColorRes.appColor,
-                              ),
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyGalleryScreen(),
-                                  ));
-                            },
-                          ),
-                          Icon(
-                            Icons.arrow_forward_outlined,
-                            color: ColorRes.appColor,
-                            size: 15,
-                          )
+                          // GestureDetector(
+                          //   child: Text(
+                          //     Strings.seeall,
+                          //     style: mulish14400.copyWith(
+                          //       fontSize: 12,
+                          //       fontWeight: FontWeight.w300,
+                          //       color: ColorRes.appColor,
+                          //     ),
+                          //   ),
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => MyGalleryScreen(),
+                          //         ));
+                          //   },
+                          // ),
+                          // Icon(
+                          //   Icons.arrow_forward_outlined,
+                          //   color: ColorRes.appColor,
+                          //   size: 15,
+                          // )
                         ],
                       ),
                       SizedBox(

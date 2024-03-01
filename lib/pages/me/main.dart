@@ -472,7 +472,7 @@ class _ProfileState extends State<Profile> {
                                                                   children: [
                                                                     SizedBox(
                                                                       width:
-                                                                          150,
+                                                                          140,
                                                                       child:
                                                                           Text(
                                                                         Strings
@@ -514,7 +514,7 @@ class _ProfileState extends State<Profile> {
                                                                   children: [
                                                                     SizedBox(
                                                                       width:
-                                                                          150,
+                                                                          140,
                                                                       child:
                                                                           Text(
                                                                         Strings
