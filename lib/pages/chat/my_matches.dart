@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -82,14 +83,57 @@ class MyMatches extends StatelessWidget {
                 },
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: value.image.length,
+                itemCount: chatUsers.length,
                 itemBuilder: (context, index) => Padding(
                   padding: const EdgeInsets.only(top: 5),
                   child: Row(
                     children: [
-                      Image.asset(
-                        value.image[index],
-                        scale: 3,
+                      ClipOval(
+                        child: chatUsers?[index].participants?[1].images !=
+                                    null &&
+                                chatUsers![index]
+                                    .participants![1]
+                                    .images!
+                                    .isNotEmpty
+                            ? CachedNetworkImage(
+                                imageUrl: chatUsers?[index]
+                                        .participants?[1]
+                                        .images?[0] ??
+                                    '',
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.fill,
+                                placeholder: (context, url) => Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    ))
+                            : CachedNetworkImage(
+                                imageUrl: '',
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.fill,
+                                placeholder: (context, url) => Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    )),
                       ),
                       SizedBox(
                         width: 10,
@@ -99,7 +143,7 @@ class MyMatches extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            Strings.patrcia,
+                            chatUsers[index].participants?[1].name ?? '',
                             style: mulishbold.copyWith(
                               fontSize: 15,
                               color: ColorRes.darkGrey,

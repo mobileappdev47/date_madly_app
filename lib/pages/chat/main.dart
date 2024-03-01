@@ -14,6 +14,7 @@ import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
+import 'package:isar/isar.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,7 @@ class _ChatState extends State<Chat> {
   }
 
   List boolList = [];
+
   getCollectionLength() async {
     await FirebaseFirestore.instance.collection('Auth').get().then((value) {
       print(value.docs.length);
@@ -83,6 +85,7 @@ class _ChatState extends State<Chat> {
 
   bool loader = false;
   GetAllChatRoom getAllChatRoom = GetAllChatRoom();
+
   getAllChatApi() async {
     try {
       loader = true;
@@ -97,12 +100,39 @@ class _ChatState extends State<Chat> {
     }
   }
 
+  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
+  List firebaseChatUser = [];
+
+  List myFirebaseList = [];
+  addDataInFirebase(email) async {
+    fireStore
+        .collection("Auth")
+        .doc(PrefService.getString(PrefKeys.email))
+        .get()
+        .then((value) {
+      var data = value.data();
+      if (data != null) {
+        for (int i = 0; i < data['ChatUserList'].length; i++) {
+          myFirebaseList.add(data['ChatUserList'][i]);
+          // if (data['ChatUserList'][i] == email) {
+          //   print('already');
+          // } else {}
+        }
+      }
+    });
+
+    await fireStore
+        .collection("Auth")
+        .doc(PrefService.getString(PrefKeys.email))
+        .set({'ChatUserList': firebaseChatUser});
+  }
+
   Widget build(BuildContext context) {
     return Consumer<NewChatProvider>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
-          automaticallyImplyLeading: false,
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
           backgroundColor: ColorRes.white,
@@ -161,475 +191,459 @@ class _ChatState extends State<Chat> {
                 : SizedBox(),
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 26, vertical: 25),
-                child: NewTextField(
-                  onChange: (p0) {
-                    value.searching(p0, value.chatUsers);
-                  },
-                  controller: value.searchController,
-                  hintText: Strings.search_massages,
-                  prefix: AssertRe.Search_Icon,
-                ),
-              ),
-              Row(
+        body: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
                 children: [
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    Strings.new_matches,
-                    style: mulishbold.copyWith(
-                      fontSize: 15,
-                      color: ColorRes.darkGrey,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 26, vertical: 25),
+                    child: NewTextField(
+                      onChange: (p0) {
+                        value.searching(p0, value.chatUsers);
+                      },
+                      controller: value.searchController,
+                      hintText: Strings.search_massages,
+                      prefix: AssertRe.Search_Icon,
                     ),
                   ),
-                  Spacer(),
-                  // TextButton(
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(
-                  //         builder: (context) => MyMatches(
-                  //             chatUsers: getAllChatRoom.chatRoom ?? []),
-                  //       ),
-                  //     );
-                  //   },
-                  //   child: Row(
-                  //     children: [
-                  //       Text(
-                  //         Strings.show_all,
-                  //         style: mulishbold.copyWith(
-                  //           fontSize: 15,
-                  //           color: ColorRes.appColor,
-                  //         ),
-                  //       ),
-                  //       SizedBox(
-                  //         width: 4,
-                  //       ),
-                  //       Icon(
-                  //         Icons.arrow_forward,
-                  //         color: ColorRes.appColor,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-              SizedBox(
-                height: 60,
-                child: ListView.separated(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  separatorBuilder: (context, index) => SizedBox(
-                    width: 20,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: getAllChatRoom.chatRoom?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return ClipOval(
-                      child: getAllChatRoom.chatRoom?[index].participants?[1]
-                                      .images !=
-                                  null &&
-                              getAllChatRoom.chatRoom![index].participants![1]
-                                  .images!.isNotEmpty
-                          ? CachedNetworkImage(
-                              imageUrl: getAllChatRoom.chatRoom?[index]
-                                      .participants?[1].images?[0] ??
-                                  '',
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.fill,
-                              placeholder: (context, url) => Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.fill,
-                                  ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.fill,
-                                  ))
-                          : CachedNetworkImage(
-                              imageUrl: '',
-                              height: 60,
-                              width: 60,
-                              fit: BoxFit.fill,
-                              placeholder: (context, url) => Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.fill,
-                                  ),
-                              errorWidget: (context, url, error) => Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    height: 60,
-                                    width: 60,
-                                    fit: BoxFit.fill,
-                                  )),
-                    );
-                  },
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 26),
-                    child: Text(
-                      Strings.messages,
-                      style: mulishbold.copyWith(
-                        fontSize: 14,
-                        color: ColorRes.darkGrey,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 20,
                       ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 36,
-              ),
-              value.searchController.text.isEmpty
-                  ? SizedBox(
-                      height: 350,
-                      child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        stream: FirebaseFirestore.instance
-                            .collection('Auth')
-                            .snapshots(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData == false) {
-                            return const SizedBox();
-                          }
-                          return snapshot.data?.docs.isEmpty ?? true
-                              ? const Text("No Result Found")
-                              : boolList.isNotEmpty
-                                  ? SizedBox(
-                                      height: 350,
-                                      child: ListView.builder(
-                                          itemCount:
-                                              snapshot.data?.docs.length ?? 0,
-                                          itemBuilder: (context, index) {
-                                            value.chatUsers =
-                                                snapshot.data!.docs;
-                                            if (snapshot.data!.docs[index]
-                                                    .data()['Email'] ==
-                                                userEmail) {
-                                              return const SizedBox();
-                                            } else {
-                                              return GestureDetector(
-                                                onTap: () {
-                                                  value.gotoChatScreen(
-                                                    context,
-                                                    snapshot.data!.docs[index]
-                                                        .data()['Email'],
-                                                    snapshot.data!.docs[index]
-                                                        .data()['Email'],
-                                                  );
-                                                },
-                                                onLongPress: () {
-                                                  setState(() {
-                                                    value.isImage = true;
-                                                    boolList[index] = true;
-                                                    value.otherEmail = snapshot
-                                                        .data!.docs[index]
-                                                        .data()['Email'];
-                                                    value.deleteIndex = index;
-                                                  });
-                                                },
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          top: 5),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(15),
-                                                    height: 80,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    color: boolList[index]
-                                                        ? ColorRes.appColor
-                                                            .withOpacity(0.2)
-                                                        : ColorRes.lgrey,
-                                                    child: Column(
-                                                      children: [
-                                                        Row(
-                                                          children: [
-                                                            Image.asset(
-                                                              value.image[0],
-                                                              scale: 3,
-                                                            ),
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              15),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Text(
-                                                                        snapshot
-                                                                            .data!
-                                                                            .docs[index]
-                                                                            .data()['Email']
-                                                                            .toString()
-                                                                            .split('@')
-                                                                            .first,
-                                                                        style: mulishbold
-                                                                            .copyWith(
-                                                                          fontSize:
-                                                                              14,
-                                                                          color:
-                                                                              ColorRes.darkGrey,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              15),
-                                                                  child:
-                                                                      SizedBox(
-                                                                    child: Text(
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      Strings
-                                                                          .Omg,
-                                                                      style: mulishbold.copyWith(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              ColorRes.grey),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Spacer(),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 15),
-                                                              child: Text(
-                                                                Strings.pm,
-                                                                style: mulishbold
-                                                                    .copyWith(
-                                                                  fontSize: 14,
-                                                                  color:
-                                                                      ColorRes
-                                                                          .grey,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              );
-                                            }
-                                          }),
-                                    )
-                                  : SizedBox();
-                          ListView.builder(
-                            padding: EdgeInsets.all(0),
-                            itemCount: snapshot.data!.docs.length,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (snapshot.data!.docs[index].data()['Email'] ==
-                                  userEmail) {
-                                return const SizedBox();
-                              } else {
-                                return InkWell(
-                                  onTap: () {
-                                    value.gotoChatScreen(
-                                      context,
-                                      snapshot.data!.docs[index]
-                                          .data()['Email'],
-                                      snapshot.data!.docs[index]
-                                          .data()['Email'],
-                                    );
-                                    // setState(() {});
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 25),
-                                    child: Container(
-                                      padding: EdgeInsets.only(left: 20),
-                                      alignment: Alignment.center,
-                                      height: 60,
-                                      width: 60,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                      ),
-                                      child: snapshot.data!.docs[index]
-                                              .data()['Email']
-                                              .toString()
-                                              .isEmpty
-                                          ? const SizedBox()
-                                          : Text(
-                                              snapshot.data!.docs[index]
-                                                  .data()['Email']
-                                                  .toString(),
-                                              style: TextStyle(
-                                                fontSize: 17,
-                                              ),
-                                            ),
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
+                      Text(
+                        Strings.new_matches,
+                        style: mulishbold.copyWith(
+                          fontSize: 15,
+                          color: ColorRes.darkGrey,
+                        ),
+                      ),
+                      Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyMatches(
+                                  chatUsers: getAllChatRoom.chatRoom ?? []),
+                            ),
                           );
                         },
+                        child: Row(
+                          children: [
+                            Text(
+                              Strings.show_all,
+                              style: mulishbold.copyWith(
+                                fontSize: 15,
+                                color: ColorRes.appColor,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Icon(
+                              Icons.arrow_forward,
+                              color: ColorRes.appColor,
+                            ),
+                          ],
+                        ),
                       ),
-                    )
-                  : SizedBox(
-                      height: 350,
-                      child: SizedBox(
-                        height: 350,
-                        child: ListView.builder(
-                            itemCount: value.filterList.length ?? 0,
-                            itemBuilder: (context, index) {
-                              if (value.filterList[index].data()['Email'] ==
-                                  userEmail) {
-                                return const SizedBox();
-                              } else {
-                                return GestureDetector(
-                                  onTap: () {
-                                    value.gotoChatScreen(
-                                      context,
-                                      value.filterList[index].data()['Email'],
-                                      value.filterList[index].data()['Email'],
-                                    );
-                                  },
-                                  onLongPress: () {
-                                    setState(() {
-                                      value.isImage = true;
-                                      boolList[index] = true;
-                                      value.otherEmail = value.filterList[index]
-                                          .data()['Email'];
-                                      value.deleteIndex = index;
-                                    });
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 5),
-                                    child: Container(
-                                      padding: EdgeInsets.all(15),
-                                      height: 80,
-                                      width: MediaQuery.of(context).size.width,
-                                      color: boolList[index]
-                                          ? ColorRes.appColor.withOpacity(0.2)
-                                          : ColorRes.lgrey,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                value.image[0],
-                                                scale: 3,
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 15),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          value
-                                                              .filterList[index]
-                                                              .data()['Email']
-                                                              .toString()
-                                                              .split('@')
-                                                              .first,
-                                                          style: mulishbold
-                                                              .copyWith(
-                                                            fontSize: 14,
-                                                            color: ColorRes
-                                                                .darkGrey,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            left: 15),
-                                                    child: SizedBox(
-                                                      child: Text(
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        Strings.Omg,
-                                                        style:
-                                                            mulishbold.copyWith(
-                                                                fontSize: 12,
-                                                                color: ColorRes
-                                                                    .grey),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              Spacer(),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 15),
-                                                child: Text(
-                                                  Strings.pm,
-                                                  style: mulishbold.copyWith(
-                                                    fontSize: 14,
-                                                    color: ColorRes.grey,
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
-                            }),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 60,
+                    child: ListView.separated(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      separatorBuilder: (context, index) => SizedBox(
+                        width: 20,
+                      ),
+                      scrollDirection: Axis.horizontal,
+                      itemCount: getAllChatRoom.chatRoom?.length ?? 0,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            // firebaseChatUser.add({
+                            //   'name': getAllChatRoom
+                            //           .chatRoom![index].participants![1].name ??
+                            //       '',
+                            //   "Email": getAllChatRoom.chatRoom![index]
+                            //           .participants![1].email ??
+                            //       ''
+                            // });
+                            // print(firebaseChatUser);
+                            //
+                            // await addDataInFirebase();
+                          },
+                          child: ClipOval(
+                            child: getAllChatRoom.chatRoom?[index]
+                                            .participants?[1].images !=
+                                        null &&
+                                    getAllChatRoom.chatRoom![index]
+                                        .participants![1].images!.isNotEmpty
+                                ? CachedNetworkImage(
+                                    imageUrl: getAllChatRoom.chatRoom?[index]
+                                            .participants?[1].images?[0] ??
+                                        '',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                    placeholder: (context, url) => Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        ))
+                                : CachedNetworkImage(
+                                    imageUrl: '',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                    placeholder: (context, url) => Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        )),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 26),
+                        child: Text(
+                          Strings.messages,
+                          style: mulishbold.copyWith(
+                            fontSize: 14,
+                            color: ColorRes.darkGrey,
+                          ),
+                        ),
                       ),
                     ),
-            ],
-          ),
+                  ),
+                  SizedBox(
+                    width: 36,
+                  ),
+                  // value.searchController.text.isEmpty
+                  //     ? SizedBox(
+                  //         height: 350,
+                  //         child: StreamBuilder<
+                  //             DocumentSnapshot<Map<String, dynamic>>>(
+                  //           stream: FirebaseFirestore.instance
+                  //               .collection('Auth')
+                  //               .doc(PrefService.getString(PrefKeys.email))
+                  //               .snapshots(),
+                  //           builder: (context, snapshot) {
+                  //             if (snapshot.hasData == false) {
+                  //               return const SizedBox();
+                  //             }
+                  //             return snapshot.data?['ChatUserList'].isEmpty ??
+                  //                     true
+                  //                 ? const Text("No Result Found")
+                  //                 : SizedBox(
+                  //                     height: 350,
+                  //                     child: ListView.builder(
+                  //                         itemCount: snapshot
+                  //                                 .data?['ChatUserList']
+                  //                                 .length ??
+                  //                             0,
+                  //                         itemBuilder: (context, index) {
+                  //                           value.chatUsers =
+                  //                               snapshot.data?['ChatUserList'];
+                  //                           if (snapshot.data?['ChatUserList']
+                  //                                   [index]['Email'] ==
+                  //                               userEmail) {
+                  //                             return const SizedBox();
+                  //                           } else {
+                  //                             return GestureDetector(
+                  //                               onTap: () {
+                  //                                 value.gotoChatScreen(
+                  //                                   context,
+                  //                                   snapshot.data?[
+                  //                                           'ChatUserList']
+                  //                                       [index]['Email'],
+                  //                                   snapshot.data?[
+                  //                                           'ChatUserList']
+                  //                                       [index]['Email'],
+                  //                                 );
+                  //                               },
+                  //                               onLongPress: () {
+                  //                                 setState(() {
+                  //                                   value.isImage = true;
+                  //                                   boolList[index] = true;
+                  //                                   value.otherEmail =
+                  //                                       snapshot.data?[
+                  //                                               'ChatUserList']
+                  //                                           [index]['Email'];
+                  //                                   value.deleteIndex = index;
+                  //                                 });
+                  //                               },
+                  //                               child: Padding(
+                  //                                 padding:
+                  //                                     const EdgeInsets.only(
+                  //                                         top: 5),
+                  //                                 child: Container(
+                  //                                   padding: EdgeInsets.all(15),
+                  //                                   height: 80,
+                  //                                   width:
+                  //                                       MediaQuery.of(context)
+                  //                                           .size
+                  //                                           .width,
+                  //                                   color: ColorRes.lgrey,
+                  //                                   child: Column(
+                  //                                     children: [
+                  //                                       Row(
+                  //                                         children: [
+                  //                                           Image.asset(
+                  //                                             value.image[0],
+                  //                                             scale: 3,
+                  //                                           ),
+                  //                                           Column(
+                  //                                             mainAxisAlignment:
+                  //                                                 MainAxisAlignment
+                  //                                                     .start,
+                  //                                             crossAxisAlignment:
+                  //                                                 CrossAxisAlignment
+                  //                                                     .start,
+                  //                                             children: [
+                  //                                               Padding(
+                  //                                                 padding:
+                  //                                                     const EdgeInsets
+                  //                                                         .only(
+                  //                                                         left:
+                  //                                                             15),
+                  //                                                 child: Row(
+                  //                                                   mainAxisAlignment:
+                  //                                                       MainAxisAlignment
+                  //                                                           .spaceBetween,
+                  //                                                   children: [
+                  //                                                     Text(
+                  //                                                       snapshot.data?['ChatUserList'][index]['name'].toString() ??
+                  //                                                           '',
+                  //                                                       style: mulishbold
+                  //                                                           .copyWith(
+                  //                                                         fontSize:
+                  //                                                             14,
+                  //                                                         color:
+                  //                                                             ColorRes.darkGrey,
+                  //                                                       ),
+                  //                                                     ),
+                  //                                                   ],
+                  //                                                 ),
+                  //                                               ),
+                  //                                               Padding(
+                  //                                                 padding:
+                  //                                                     const EdgeInsets
+                  //                                                         .only(
+                  //                                                         left:
+                  //                                                             15),
+                  //                                                 child:
+                  //                                                     SizedBox(
+                  //                                                   child: Text(
+                  //                                                     overflow:
+                  //                                                         TextOverflow
+                  //                                                             .ellipsis,
+                  //                                                     Strings
+                  //                                                         .Omg,
+                  //                                                     style: mulishbold.copyWith(
+                  //                                                         fontSize:
+                  //                                                             12,
+                  //                                                         color:
+                  //                                                             ColorRes.grey),
+                  //                                                   ),
+                  //                                                 ),
+                  //                                               ),
+                  //                                             ],
+                  //                                           ),
+                  //                                           Spacer(),
+                  //                                           Padding(
+                  //                                             padding:
+                  //                                                 const EdgeInsets
+                  //                                                     .only(
+                  //                                                     left: 15),
+                  //                                             child: Text(
+                  //                                               Strings.pm,
+                  //                                               style: mulishbold
+                  //                                                   .copyWith(
+                  //                                                 fontSize: 14,
+                  //                                                 color:
+                  //                                                     ColorRes
+                  //                                                         .grey,
+                  //                                               ),
+                  //                                             ),
+                  //                                           ),
+                  //                                         ],
+                  //                                       ),
+                  //                                     ],
+                  //                                   ),
+                  //                                 ),
+                  //                               ),
+                  //                             );
+                  //                           }
+                  //                         }),
+                  //                   );
+                  //           },
+                  //         ),
+                  //       )
+                  //     : SizedBox(
+                  //         height: 350,
+                  //         child: SizedBox(
+                  //           height: 350,
+                  //           child: ListView.builder(
+                  //               itemCount: value.filterList.length ?? 0,
+                  //               itemBuilder: (context, index) {
+                  //                 if (value.filterList[index].data()['Email'] ==
+                  //                     userEmail) {
+                  //                   return const SizedBox();
+                  //                 } else {
+                  //                   return GestureDetector(
+                  //                     onTap: () {
+                  //                       value.gotoChatScreen(
+                  //                         context,
+                  //                         value.filterList[index]
+                  //                             .data()['Email'],
+                  //                         value.filterList[index]
+                  //                             .data()['Email'],
+                  //                       );
+                  //                     },
+                  //                     onLongPress: () {
+                  //                       setState(() {
+                  //                         value.isImage = true;
+                  //                         boolList[index] = true;
+                  //                         value.otherEmail = value
+                  //                             .filterList[index]
+                  //                             .data()['Email'];
+                  //                         value.deleteIndex = index;
+                  //                       });
+                  //                     },
+                  //                     child: Padding(
+                  //                       padding: const EdgeInsets.only(top: 5),
+                  //                       child: Container(
+                  //                         padding: EdgeInsets.all(15),
+                  //                         height: 80,
+                  //                         width:
+                  //                             MediaQuery.of(context).size.width,
+                  //                         color: boolList[index]
+                  //                             ? ColorRes.appColor
+                  //                                 .withOpacity(0.2)
+                  //                             : ColorRes.lgrey,
+                  //                         child: Column(
+                  //                           children: [
+                  //                             Row(
+                  //                               children: [
+                  //                                 Image.asset(
+                  //                                   value.image[0],
+                  //                                   scale: 3,
+                  //                                 ),
+                  //                                 Column(
+                  //                                   mainAxisAlignment:
+                  //                                       MainAxisAlignment.start,
+                  //                                   crossAxisAlignment:
+                  //                                       CrossAxisAlignment
+                  //                                           .start,
+                  //                                   children: [
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .only(left: 15),
+                  //                                       child: Row(
+                  //                                         mainAxisAlignment:
+                  //                                             MainAxisAlignment
+                  //                                                 .spaceBetween,
+                  //                                         children: [
+                  //                                           Text(
+                  //                                             value.filterList[
+                  //                                                     index]
+                  //                                                 .data()[
+                  //                                                     'Email']
+                  //                                                 .toString()
+                  //                                                 .split('@')
+                  //                                                 .first,
+                  //                                             style: mulishbold
+                  //                                                 .copyWith(
+                  //                                               fontSize: 14,
+                  //                                               color: ColorRes
+                  //                                                   .darkGrey,
+                  //                                             ),
+                  //                                           ),
+                  //                                         ],
+                  //                                       ),
+                  //                                     ),
+                  //                                     Padding(
+                  //                                       padding:
+                  //                                           const EdgeInsets
+                  //                                               .only(left: 15),
+                  //                                       child: SizedBox(
+                  //                                         child: Text(
+                  //                                           overflow:
+                  //                                               TextOverflow
+                  //                                                   .ellipsis,
+                  //                                           Strings.Omg,
+                  //                                           style: mulishbold
+                  //                                               .copyWith(
+                  //                                                   fontSize:
+                  //                                                       12,
+                  //                                                   color: ColorRes
+                  //                                                       .grey),
+                  //                                         ),
+                  //                                       ),
+                  //                                     ),
+                  //                                   ],
+                  //                                 ),
+                  //                                 Spacer(),
+                  //                                 Padding(
+                  //                                   padding:
+                  //                                       const EdgeInsets.only(
+                  //                                           left: 15),
+                  //                                   child: Text(
+                  //                                     Strings.pm,
+                  //                                     style:
+                  //                                         mulishbold.copyWith(
+                  //                                       fontSize: 14,
+                  //                                       color: ColorRes.grey,
+                  //                                     ),
+                  //                                   ),
+                  //                                 ),
+                  //                               ],
+                  //                             ),
+                  //                           ],
+                  //                         ),
+                  //                       ),
+                  //                     ),
+                  //                   );
+                  //                 }
+                  //               }),
+                  //         ),
+                  //       ),
+                ],
+              ),
+            ),
+            loader == true
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : SizedBox()
+          ],
         ),
       ),
     );

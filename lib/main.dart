@@ -169,7 +169,7 @@ class MyApp extends StatelessWidget {
           //         : const PhoneOTP());
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: SplashScreen(),
+            child: HomeMain(),
           ),
         );
       });
@@ -276,7 +276,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
                 Text(
                   "Lovecircl",
-                  style: mulishbold.copyWith(fontSize: 40,color: ColorRes.appColor),
+                  style: mulishbold.copyWith(
+                      fontSize: 40, color: ColorRes.appColor),
                 ),
                 SizedBox(height: MediaQuery.of(context).size.width / 2.2),
                 const CircularProgressIndicator(
