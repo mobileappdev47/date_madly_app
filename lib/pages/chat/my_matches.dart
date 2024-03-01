@@ -47,21 +47,21 @@ class MyMatches extends StatelessWidget {
               color: ColorRes.appColor,
             ),
           ),
-          actions: [
-            Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: Image.asset(
-                    AssertRe.Filter_Icon,
-                    scale: 1.2,
-                  ),
-                  onPressed: () {
-                    Scaffold.of(context).openDrawer();
-                  },
-                );
-              },
-            ),
-          ],
+          // actions: [
+          //   Builder(
+          //     builder: (BuildContext context) {
+          //       return IconButton(
+          //         icon: Image.asset(
+          //           AssertRe.Filter_Icon,
+          //           scale: 1.2,
+          //         ),
+          //         onPressed: () {
+          //           Scaffold.of(context).openDrawer();
+          //         },
+          //       );
+          //     },
+          //   ),
+          // ],
         ),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 18),
