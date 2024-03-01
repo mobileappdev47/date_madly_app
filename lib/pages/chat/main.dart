@@ -48,22 +48,56 @@ class _ChatState extends State<Chat> {
   }
 
   List boolList = [];
+  bool isDelete = false;
 
   getCollectionLength() async {
-    await FirebaseFirestore.instance.collection('Auth').get().then((value) {
-      print(value.docs.length);
-      boolList = List.generate(value.docs.length, (index) => false);
+    // await FirebaseFirestore.instance.collection('Auth').get().then((value) {
+    //   print(value.docs.length);
+    //   boolList = List.generate(value.docs.length, (index) => false);
+    // });
+    // setState(() {});
+    fireStore
+        .collection("Auth")
+        .doc(PrefService.getString(PrefKeys.email))
+        .get()
+        .then((value) {
+      var data = value.data();
+      if (data != null) {
+        boolList = List.generate(data['ChatUserList'].length, (index) => false);
+      }
     });
     setState(() {});
   }
 
   onTapDelete2(int index, otherEmail) async {
+    boolList[index] = false;
     NewChatProvider newChatProvider =
         Provider.of<NewChatProvider>(context, listen: false);
     String docid = newChatProvider.getChatId(userEmail, otherEmail);
     print(docid);
     newChatProvider.isImage = false;
-    boolList[index] = false;
+
+    for (int i = 0; i < myFirebaseList.length; i++) {
+      if (myFirebaseList[i]['Email'] == otherEmail) {
+        print('delete');
+        isDelete = true;
+        setState(() {});
+        break;
+      } else {
+        isDelete = false;
+        setState(() {});
+      }
+    }
+
+    if (isDelete == true) {
+      myFirebaseList.removeAt(index);
+      await fireStore
+          .collection("Auth")
+          .doc(PrefService.getString(PrefKeys.email))
+          .update({'ChatUserList': myFirebaseList});
+      boolList = List.generate(myFirebaseList.length, (index) => false);
+    } else {}
+
     await FirebaseFirestore.instance.collection("chats").doc(docid).delete();
 
     var chatsData = await FirebaseFirestore.instance
@@ -80,6 +114,7 @@ class _ChatState extends State<Chat> {
           .doc(element.id)
           .delete();
     });
+
     setState(() {});
   }
 
@@ -87,6 +122,9 @@ class _ChatState extends State<Chat> {
   GetAllChatRoom getAllChatRoom = GetAllChatRoom();
 
   getAllChatApi() async {
+    NewChatProvider newChatProvider =
+        Provider.of<NewChatProvider>(context, listen: false);
+    newChatProvider.userEmail = PrefService.getString(PrefKeys.email);
     try {
       loader = true;
       setState(() {});
@@ -102,30 +140,105 @@ class _ChatState extends State<Chat> {
 
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-  List firebaseChatUser = [];
-
   List myFirebaseList = [];
-  addDataInFirebase(email) async {
+  List otherFirebaseList = [];
+  bool isAlready = false;
+  bool isAlready2 = false;
+  Map otherUserMap = {};
+
+  addDataInFirebase(email, map) async {
+    NewChatProvider newChatProvider =
+        Provider.of<NewChatProvider>(context, listen: false);
+    myFirebaseList.clear();
     fireStore
         .collection("Auth")
         .doc(PrefService.getString(PrefKeys.email))
         .get()
-        .then((value) {
+        .then((value) async {
       var data = value.data();
-      if (data != null) {
+      if (data != null && data['ChatUserList'].isNotEmpty) {
         for (int i = 0; i < data['ChatUserList'].length; i++) {
           myFirebaseList.add(data['ChatUserList'][i]);
-          // if (data['ChatUserList'][i] == email) {
-          //   print('already');
-          // } else {}
         }
+        print(myFirebaseList);
+        for (int i = 0; i < myFirebaseList.length; i++) {
+          if (myFirebaseList[i]['Email'] == email) {
+            print('already');
+
+            isAlready = true;
+            setState(() {});
+            break;
+          } else {
+            isAlready = false;
+            setState(() {});
+          }
+        }
+
+        if (isAlready == false) {
+          myFirebaseList.add(map);
+          await fireStore
+              .collection("Auth")
+              .doc(PrefService.getString(PrefKeys.email))
+              .update({'ChatUserList': myFirebaseList});
+          boolList = List.generate(myFirebaseList.length, (index) => false);
+        } else {
+          newChatProvider.gotoChatScreen(
+            context,
+            email,
+            email,
+          );
+        }
+      } else {
+        await fireStore
+            .collection("Auth")
+            .doc(PrefService.getString(PrefKeys.email))
+            .set({
+          'ChatUserList': [map]
+        });
       }
     });
+  }
 
-    await fireStore
-        .collection("Auth")
-        .doc(PrefService.getString(PrefKeys.email))
-        .set({'ChatUserList': firebaseChatUser});
+  addDataInOtherUserFirebase(otherEmail, map) async {
+    NewChatProvider newChatProvider =
+        Provider.of<NewChatProvider>(context, listen: false);
+    otherFirebaseList.clear();
+    fireStore.collection("Auth").doc(otherEmail).get().then((value) async {
+      var data = value.data();
+      if (data != null && data['ChatUserList'].isNotEmpty) {
+        for (int i = 0; i < data['ChatUserList'].length; i++) {
+          otherFirebaseList.add(data['ChatUserList'][i]);
+        }
+        print(otherFirebaseList);
+        for (int i = 0; i < otherFirebaseList.length; i++) {
+          if (otherFirebaseList[i]['Email'] ==
+              PrefService.getString(PrefKeys.email)) {
+            print('already');
+
+            isAlready2 = true;
+            setState(() {});
+            break;
+          } else {
+            isAlready2 = false;
+            setState(() {});
+          }
+        }
+
+        if (isAlready2 == false) {
+          otherFirebaseList.add(map);
+          await fireStore
+              .collection("Auth")
+              .doc(otherEmail)
+              .update({'ChatUserList': otherFirebaseList});
+        } else {
+          print('0');
+        }
+      } else {
+        await fireStore.collection("Auth").doc(otherEmail).set({
+          'ChatUserList': [map]
+        });
+      }
+    });
   }
 
   Widget build(BuildContext context) {
@@ -136,24 +249,6 @@ class _ChatState extends State<Chat> {
           surfaceTintColor: Colors.transparent,
           centerTitle: true,
           backgroundColor: ColorRes.white,
-          // leading: Builder(
-          //   builder: (BuildContext context) {
-          //     return IconButton(
-          //       onPressed: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //             builder: (context) => MapScreen1(),
-          //           ),
-          //         );
-          //       },
-          //       icon: Icon(
-          //         Icons.arrow_back_ios_rounded,
-          //         color: ColorRes.appColor,
-          //       ),
-          //     );
-          //   },
-          // ),
           title: Text(
             Strings.chat,
             style: mulishbold.copyWith(
@@ -262,30 +357,54 @@ class _ChatState extends State<Chat> {
                       scrollDirection: Axis.horizontal,
                       itemCount: getAllChatRoom.chatRoom?.length ?? 0,
                       itemBuilder: (context, index) {
+                        var data;
+                        var data2;
+                        if (getAllChatRoom
+                                .chatRoom![index].participants![1].email ==
+                            PrefService.getString(PrefKeys.email)) {
+                          data =
+                              getAllChatRoom.chatRoom![index].participants![0];
+                          data2 =
+                              getAllChatRoom.chatRoom![index].participants![1];
+                        } else {
+                          data =
+                              getAllChatRoom.chatRoom![index].participants![1];
+                          data2 =
+                              getAllChatRoom.chatRoom![index].participants![0];
+                        }
+
                         return GestureDetector(
                           onTap: () async {
-                            // firebaseChatUser.add({
-                            //   'name': getAllChatRoom
-                            //           .chatRoom![index].participants![1].name ??
-                            //       '',
-                            //   "Email": getAllChatRoom.chatRoom![index]
-                            //           .participants![1].email ??
-                            //       ''
-                            // });
-                            // print(firebaseChatUser);
-                            //
-                            // await addDataInFirebase();
+                            Map dataPass = {
+                              'name': data.name ?? '',
+                              "Email": data.email ?? '',
+                              "userImage":
+                                  data.images != null && data.images!.isNotEmpty
+                                      ? data.images![0]
+                                      : '',
+                              'LastMsg': '',
+                              'LastMsgTime': '',
+                            };
+                            otherUserMap = {
+                              'name': data2.name ?? '',
+                              "Email": data2.email ?? '',
+                              "userImage": data2.images != null &&
+                                      data2.images!.isNotEmpty
+                                  ? data2.images![0]
+                                  : '',
+                              'LastMsg': '',
+                              'LastMsgTime': '',
+                            };
+                            await addDataInFirebase(data.email ?? '', dataPass);
+
+                            await addDataInOtherUserFirebase(
+                                data.email ?? '', otherUserMap);
                           },
                           child: ClipOval(
-                            child: getAllChatRoom.chatRoom?[index]
-                                            .participants?[1].images !=
-                                        null &&
-                                    getAllChatRoom.chatRoom![index]
-                                        .participants![1].images!.isNotEmpty
+                            child: data.images != null &&
+                                    data.images!.isNotEmpty
                                 ? CachedNetworkImage(
-                                    imageUrl: getAllChatRoom.chatRoom?[index]
-                                            .participants?[1].images?[0] ??
-                                        '',
+                                    imageUrl: data.images?[0] ?? '',
                                     height: 60,
                                     width: 60,
                                     fit: BoxFit.fill,
@@ -344,297 +463,357 @@ class _ChatState extends State<Chat> {
                   SizedBox(
                     width: 36,
                   ),
-                  // value.searchController.text.isEmpty
-                  //     ? SizedBox(
-                  //         height: 350,
-                  //         child: StreamBuilder<
-                  //             DocumentSnapshot<Map<String, dynamic>>>(
-                  //           stream: FirebaseFirestore.instance
-                  //               .collection('Auth')
-                  //               .doc(PrefService.getString(PrefKeys.email))
-                  //               .snapshots(),
-                  //           builder: (context, snapshot) {
-                  //             if (snapshot.hasData == false) {
-                  //               return const SizedBox();
-                  //             }
-                  //             return snapshot.data?['ChatUserList'].isEmpty ??
-                  //                     true
-                  //                 ? const Text("No Result Found")
-                  //                 : SizedBox(
-                  //                     height: 350,
-                  //                     child: ListView.builder(
-                  //                         itemCount: snapshot
-                  //                                 .data?['ChatUserList']
-                  //                                 .length ??
-                  //                             0,
-                  //                         itemBuilder: (context, index) {
-                  //                           value.chatUsers =
-                  //                               snapshot.data?['ChatUserList'];
-                  //                           if (snapshot.data?['ChatUserList']
-                  //                                   [index]['Email'] ==
-                  //                               userEmail) {
-                  //                             return const SizedBox();
-                  //                           } else {
-                  //                             return GestureDetector(
-                  //                               onTap: () {
-                  //                                 value.gotoChatScreen(
-                  //                                   context,
-                  //                                   snapshot.data?[
-                  //                                           'ChatUserList']
-                  //                                       [index]['Email'],
-                  //                                   snapshot.data?[
-                  //                                           'ChatUserList']
-                  //                                       [index]['Email'],
-                  //                                 );
-                  //                               },
-                  //                               onLongPress: () {
-                  //                                 setState(() {
-                  //                                   value.isImage = true;
-                  //                                   boolList[index] = true;
-                  //                                   value.otherEmail =
-                  //                                       snapshot.data?[
-                  //                                               'ChatUserList']
-                  //                                           [index]['Email'];
-                  //                                   value.deleteIndex = index;
-                  //                                 });
-                  //                               },
-                  //                               child: Padding(
-                  //                                 padding:
-                  //                                     const EdgeInsets.only(
-                  //                                         top: 5),
-                  //                                 child: Container(
-                  //                                   padding: EdgeInsets.all(15),
-                  //                                   height: 80,
-                  //                                   width:
-                  //                                       MediaQuery.of(context)
-                  //                                           .size
-                  //                                           .width,
-                  //                                   color: ColorRes.lgrey,
-                  //                                   child: Column(
-                  //                                     children: [
-                  //                                       Row(
-                  //                                         children: [
-                  //                                           Image.asset(
-                  //                                             value.image[0],
-                  //                                             scale: 3,
-                  //                                           ),
-                  //                                           Column(
-                  //                                             mainAxisAlignment:
-                  //                                                 MainAxisAlignment
-                  //                                                     .start,
-                  //                                             crossAxisAlignment:
-                  //                                                 CrossAxisAlignment
-                  //                                                     .start,
-                  //                                             children: [
-                  //                                               Padding(
-                  //                                                 padding:
-                  //                                                     const EdgeInsets
-                  //                                                         .only(
-                  //                                                         left:
-                  //                                                             15),
-                  //                                                 child: Row(
-                  //                                                   mainAxisAlignment:
-                  //                                                       MainAxisAlignment
-                  //                                                           .spaceBetween,
-                  //                                                   children: [
-                  //                                                     Text(
-                  //                                                       snapshot.data?['ChatUserList'][index]['name'].toString() ??
-                  //                                                           '',
-                  //                                                       style: mulishbold
-                  //                                                           .copyWith(
-                  //                                                         fontSize:
-                  //                                                             14,
-                  //                                                         color:
-                  //                                                             ColorRes.darkGrey,
-                  //                                                       ),
-                  //                                                     ),
-                  //                                                   ],
-                  //                                                 ),
-                  //                                               ),
-                  //                                               Padding(
-                  //                                                 padding:
-                  //                                                     const EdgeInsets
-                  //                                                         .only(
-                  //                                                         left:
-                  //                                                             15),
-                  //                                                 child:
-                  //                                                     SizedBox(
-                  //                                                   child: Text(
-                  //                                                     overflow:
-                  //                                                         TextOverflow
-                  //                                                             .ellipsis,
-                  //                                                     Strings
-                  //                                                         .Omg,
-                  //                                                     style: mulishbold.copyWith(
-                  //                                                         fontSize:
-                  //                                                             12,
-                  //                                                         color:
-                  //                                                             ColorRes.grey),
-                  //                                                   ),
-                  //                                                 ),
-                  //                                               ),
-                  //                                             ],
-                  //                                           ),
-                  //                                           Spacer(),
-                  //                                           Padding(
-                  //                                             padding:
-                  //                                                 const EdgeInsets
-                  //                                                     .only(
-                  //                                                     left: 15),
-                  //                                             child: Text(
-                  //                                               Strings.pm,
-                  //                                               style: mulishbold
-                  //                                                   .copyWith(
-                  //                                                 fontSize: 14,
-                  //                                                 color:
-                  //                                                     ColorRes
-                  //                                                         .grey,
-                  //                                               ),
-                  //                                             ),
-                  //                                           ),
-                  //                                         ],
-                  //                                       ),
-                  //                                     ],
-                  //                                   ),
-                  //                                 ),
-                  //                               ),
-                  //                             );
-                  //                           }
-                  //                         }),
-                  //                   );
-                  //           },
-                  //         ),
-                  //       )
-                  //     : SizedBox(
-                  //         height: 350,
-                  //         child: SizedBox(
-                  //           height: 350,
-                  //           child: ListView.builder(
-                  //               itemCount: value.filterList.length ?? 0,
-                  //               itemBuilder: (context, index) {
-                  //                 if (value.filterList[index].data()['Email'] ==
-                  //                     userEmail) {
-                  //                   return const SizedBox();
-                  //                 } else {
-                  //                   return GestureDetector(
-                  //                     onTap: () {
-                  //                       value.gotoChatScreen(
-                  //                         context,
-                  //                         value.filterList[index]
-                  //                             .data()['Email'],
-                  //                         value.filterList[index]
-                  //                             .data()['Email'],
-                  //                       );
-                  //                     },
-                  //                     onLongPress: () {
-                  //                       setState(() {
-                  //                         value.isImage = true;
-                  //                         boolList[index] = true;
-                  //                         value.otherEmail = value
-                  //                             .filterList[index]
-                  //                             .data()['Email'];
-                  //                         value.deleteIndex = index;
-                  //                       });
-                  //                     },
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.only(top: 5),
-                  //                       child: Container(
-                  //                         padding: EdgeInsets.all(15),
-                  //                         height: 80,
-                  //                         width:
-                  //                             MediaQuery.of(context).size.width,
-                  //                         color: boolList[index]
-                  //                             ? ColorRes.appColor
-                  //                                 .withOpacity(0.2)
-                  //                             : ColorRes.lgrey,
-                  //                         child: Column(
-                  //                           children: [
-                  //                             Row(
-                  //                               children: [
-                  //                                 Image.asset(
-                  //                                   value.image[0],
-                  //                                   scale: 3,
-                  //                                 ),
-                  //                                 Column(
-                  //                                   mainAxisAlignment:
-                  //                                       MainAxisAlignment.start,
-                  //                                   crossAxisAlignment:
-                  //                                       CrossAxisAlignment
-                  //                                           .start,
-                  //                                   children: [
-                  //                                     Padding(
-                  //                                       padding:
-                  //                                           const EdgeInsets
-                  //                                               .only(left: 15),
-                  //                                       child: Row(
-                  //                                         mainAxisAlignment:
-                  //                                             MainAxisAlignment
-                  //                                                 .spaceBetween,
-                  //                                         children: [
-                  //                                           Text(
-                  //                                             value.filterList[
-                  //                                                     index]
-                  //                                                 .data()[
-                  //                                                     'Email']
-                  //                                                 .toString()
-                  //                                                 .split('@')
-                  //                                                 .first,
-                  //                                             style: mulishbold
-                  //                                                 .copyWith(
-                  //                                               fontSize: 14,
-                  //                                               color: ColorRes
-                  //                                                   .darkGrey,
-                  //                                             ),
-                  //                                           ),
-                  //                                         ],
-                  //                                       ),
-                  //                                     ),
-                  //                                     Padding(
-                  //                                       padding:
-                  //                                           const EdgeInsets
-                  //                                               .only(left: 15),
-                  //                                       child: SizedBox(
-                  //                                         child: Text(
-                  //                                           overflow:
-                  //                                               TextOverflow
-                  //                                                   .ellipsis,
-                  //                                           Strings.Omg,
-                  //                                           style: mulishbold
-                  //                                               .copyWith(
-                  //                                                   fontSize:
-                  //                                                       12,
-                  //                                                   color: ColorRes
-                  //                                                       .grey),
-                  //                                         ),
-                  //                                       ),
-                  //                                     ),
-                  //                                   ],
-                  //                                 ),
-                  //                                 Spacer(),
-                  //                                 Padding(
-                  //                                   padding:
-                  //                                       const EdgeInsets.only(
-                  //                                           left: 15),
-                  //                                   child: Text(
-                  //                                     Strings.pm,
-                  //                                     style:
-                  //                                         mulishbold.copyWith(
-                  //                                       fontSize: 14,
-                  //                                       color: ColorRes.grey,
-                  //                                     ),
-                  //                                   ),
-                  //                                 ),
-                  //                               ],
-                  //                             ),
-                  //                           ],
-                  //                         ),
-                  //                       ),
-                  //                     ),
-                  //                   );
-                  //                 }
-                  //               }),
-                  //         ),
-                  //       ),
+                  value.searchController.text.isEmpty
+                      ? SizedBox(
+                          height: 350,
+                          child: StreamBuilder<
+                              DocumentSnapshot<Map<String, dynamic>>>(
+                            stream: FirebaseFirestore.instance
+                                .collection('Auth')
+                                .doc(PrefService.getString(PrefKeys.email))
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData == false) {
+                                return const SizedBox();
+                              }
+
+                              return snapshot.data == null ||
+                                      snapshot.data!['ChatUserList'] == null ||
+                                      snapshot.data!['ChatUserList'].isEmpty
+                                  ? const Text("No Result Found")
+                                  : SizedBox(
+                                      height: 350,
+                                      child: ListView.builder(
+                                          itemCount: snapshot
+                                                  .data?['ChatUserList']
+                                                  .length ??
+                                              0,
+                                          itemBuilder: (context, index) {
+                                            value.chatUsers =
+                                                snapshot.data?['ChatUserList'];
+                                            if (snapshot.data?['ChatUserList']
+                                                    [index]['Email'] ==
+                                                userEmail) {
+                                              return const SizedBox();
+                                            } else {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  value.gotoChatScreen(
+                                                    context,
+                                                    snapshot.data?[
+                                                            'ChatUserList']
+                                                        [index]['Email'],
+                                                    snapshot.data?[
+                                                            'ChatUserList']
+                                                        [index]['Email'],
+                                                  );
+                                                },
+                                                onLongPress: () {
+                                                  setState(() {
+                                                    value.isImage = true;
+                                                    boolList[index] = true;
+                                                    value.deleteIndex = index;
+                                                    value.otherEmail =
+                                                        snapshot.data?[
+                                                                'ChatUserList']
+                                                            [index]['Email'];
+                                                  });
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          top: 5),
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(15),
+                                                    height: 80,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    color:
+                                                        // boolList[index] ==
+                                                        //         true
+                                                        //     ? ColorRes.appColor
+                                                        //         .withOpacity(0.2)
+                                                        //     :
+                                                        ColorRes.lgrey,
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            ClipOval(
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                      imageUrl:
+                                                                          snapshot.data?['ChatUserList'][index]['userImage'] ??
+                                                                              '',
+                                                                      height:
+                                                                          50,
+                                                                      width: 50,
+                                                                      fit: BoxFit
+                                                                          .fill,
+                                                                      placeholder: (context,
+                                                                              url) =>
+                                                                          Image
+                                                                              .asset(
+                                                                            'assets/images/image_placeholder.png',
+                                                                            height:
+                                                                                60,
+                                                                            width:
+                                                                                60,
+                                                                            fit:
+                                                                                BoxFit.fill,
+                                                                          ),
+                                                                      errorWidget: (context,
+                                                                              url,
+                                                                              error) =>
+                                                                          Image
+                                                                              .asset(
+                                                                            'assets/images/image_placeholder.png',
+                                                                            height:
+                                                                                60,
+                                                                            width:
+                                                                                60,
+                                                                            fit:
+                                                                                BoxFit.fill,
+                                                                          )),
+                                                            ),
+                                                            Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              15),
+                                                                  child: Row(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Text(
+                                                                        snapshot.data?['ChatUserList'][index]['name'].toString() ??
+                                                                            '',
+                                                                        style: mulishbold
+                                                                            .copyWith(
+                                                                          fontSize:
+                                                                              14,
+                                                                          color:
+                                                                              ColorRes.darkGrey,
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              15),
+                                                                  child:
+                                                                      SizedBox(
+                                                                    child: Text(
+                                                                      snapshot.data?['ChatUserList'][index]
+                                                                              [
+                                                                              'LastMsg'] ??
+                                                                          '',
+                                                                      overflow:
+                                                                          TextOverflow
+                                                                              .ellipsis,
+                                                                      style: mulishbold.copyWith(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              ColorRes.grey),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Spacer(),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left: 15),
+                                                              child: Text(
+                                                                snapshot.data?['ChatUserList']
+                                                                            [
+                                                                            index]
+                                                                        [
+                                                                        'LastMsgTime'] ??
+                                                                    '',
+                                                                style: mulishbold
+                                                                    .copyWith(
+                                                                  fontSize: 14,
+                                                                  color:
+                                                                      ColorRes
+                                                                          .grey,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          }),
+                                    );
+                            },
+                          ),
+                        )
+                      : SizedBox(
+                          height: 350,
+                          child: ListView.builder(
+                              itemCount: value.filterList.length ?? 0,
+                              itemBuilder: (context, index) {
+                                if (value.filterList[index]['Email'] ==
+                                    userEmail) {
+                                  return const SizedBox();
+                                } else {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      value.gotoChatScreen(
+                                        context,
+                                        value.filterList[index]['Email'],
+                                        value.filterList[index]['Email'],
+                                      );
+                                    },
+                                    onLongPress: () {
+                                      setState(() {
+                                        // value.isImage = true;
+                                        // boolList[index] = true;
+                                        // value.otherEmail =
+                                        //     value.filterList[index]['Email'];
+                                        // value.deleteIndex = index;
+                                      });
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Container(
+                                        padding: EdgeInsets.all(15),
+                                        height: 80,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        color: ColorRes.lgrey,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipOval(
+                                                  child: CachedNetworkImage(
+                                                      imageUrl: value.filterList[
+                                                                  index]
+                                                              ['userImage'] ??
+                                                          '',
+                                                      height: 50,
+                                                      width: 50,
+                                                      fit: BoxFit.fill,
+                                                      placeholder: (context,
+                                                              url) =>
+                                                          Image.asset(
+                                                            'assets/images/image_placeholder.png',
+                                                            height: 60,
+                                                            width: 60,
+                                                            fit: BoxFit.fill,
+                                                          ),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                            'assets/images/image_placeholder.png',
+                                                            height: 60,
+                                                            width: 60,
+                                                            fit: BoxFit.fill,
+                                                          )),
+                                                ),
+                                                Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 15),
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            value.filterList[
+                                                                        index]
+                                                                        ['name']
+                                                                    .toString() ??
+                                                                '',
+                                                            style: mulishbold
+                                                                .copyWith(
+                                                              fontSize: 14,
+                                                              color: ColorRes
+                                                                  .darkGrey,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 15),
+                                                      child: SizedBox(
+                                                        child: Text(
+                                                          value.filterList[
+                                                                      index]
+                                                                  ['LastMsg'] ??
+                                                              '',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: mulishbold
+                                                              .copyWith(
+                                                                  fontSize: 12,
+                                                                  color: ColorRes
+                                                                      .grey),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Spacer(),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 15),
+                                                  child: Text(
+                                                    value.filterList[index]
+                                                            ['LastMsgTime'] ??
+                                                        '',
+                                                    style: mulishbold.copyWith(
+                                                      fontSize: 14,
+                                                      color: ColorRes.grey,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              }),
+                        )
                 ],
               ),
             ),

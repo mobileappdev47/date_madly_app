@@ -77,11 +77,7 @@ class NewChatProvider extends ChangeNotifier {
   List filterList = [];
   void searching(value, chatUsersList) {
     filterList = (chatUsersList.where((element) {
-      return element
-          .data()['Email']
-          .toString()
-          .split('@')
-          .first
+      return element['name']
           .toString()
           .toLowerCase()
           .contains(value.toString().toLowerCase());
@@ -111,7 +107,11 @@ class NewChatProvider extends ChangeNotifier {
   }
 
   int deleteIndex = 0;
-  void gotoChatScreen(BuildContext context, String otherUid, email) async {
+  void gotoChatScreen(
+    BuildContext context,
+    String otherUid,
+    email,
+  ) async {
     await getRoomId(otherUid);
     // Navigator.push(
     //     context,

@@ -41,7 +41,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       loader = true;
       setState(() {});
       signup = await SignUpApi.signUpApi(
-          body: body, context: context, password: textPassword);
+        body: body,
+        context: context,
+        password: textPassword,
+      );
       loader = false;
       setState(() {});
     } catch (e) {
@@ -79,7 +82,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           Text(
                             Strings.cancle,
-                            style: mulish14400.copyWith(color: ColorRes.appColor,fontSize: 12),
+                            style: mulish14400.copyWith(
+                                color: ColorRes.appColor, fontSize: 12),
                           ),
                         ],
                       ),
@@ -337,8 +341,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               };
                               if (value.validation()) {
                                 await signUpApiCall();
-                                await PrefService.setValue(
-                                    PrefKeys.email, value.emailController.text);
+
                                 await PrefService.setValue(PrefKeys.password,
                                     value.passwordController.text);
                               }

@@ -168,7 +168,7 @@ class MyApp extends StatelessWidget {
           //         : const PhoneOTP());
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: HomeMain(),
+            child: SplashScreen(),
           ),
         );
       });
@@ -228,7 +228,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // initSharedPreference();
+    initSharedPreference();
   }
 
   initSharedPreference() async {

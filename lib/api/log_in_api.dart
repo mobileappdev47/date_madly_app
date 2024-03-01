@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/models/login_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/pref_service.dart';
@@ -23,11 +24,14 @@ class LoginApi {
             PrefKeys.userId, loginModelFromJson(data).user?.id ?? '');
         PrefService.setValue(PrefKeys.password, password);
         PrefService.setValue(PrefKeys.isAdditional, true);
+
         Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => HomeMain(),
             ));
+        await PrefService.setValue(PrefKeys.email, body['email']);
+        getFirebaseCollection(body['email']);
         return loginModelFromJson(data);
       } else {
         print(response.reasonPhrase);
@@ -35,5 +39,27 @@ class LoginApi {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  static getFirebaseCollection(email) {
+    final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    fireStore.collection("Auth").get().then((value) async {
+      var list = (value.docs);
+      bool already = false;
+
+      for (int i = 0; i < list.length; i++) {
+        if (list[i].id == email) {
+          print('collection already exist');
+          already = true;
+          break;
+        } else {}
+      }
+
+      if (already == false) {
+        await fireStore.collection("Auth").doc(email).set({'ChatUserList': []});
+      } else {
+        print('done');
+      }
+    });
   }
 }

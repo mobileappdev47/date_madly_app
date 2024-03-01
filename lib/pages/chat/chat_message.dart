@@ -545,7 +545,32 @@ class _ChatScreenState extends State<ChatScreen> {
                           widget.roomId.toString(),
                           widget.otherEmail,
                         );
+
                         FocusScope.of(context).unfocus();
+
+                        final FirebaseFirestore fireStore =
+                            FirebaseFirestore.instance;
+                        fireStore.collection("Auth").get().then((value) async {
+                          var list = (value.docs);
+                          bool already = false;
+
+                          for (int i = 0; i < list.length; i++) {
+                            if (list[i].id == widget.otherEmail) {
+                              print('collection already exist');
+                              already = true;
+                              break;
+                            } else {}
+                          }
+
+                          if (already == false) {
+                            await fireStore
+                                .collection("Auth")
+                                .doc(widget.otherEmail)
+                                .set({'ChatUserList': []});
+                          } else {
+                            print('done');
+                          }
+                        });
                       }
                       setState(() {});
                     },

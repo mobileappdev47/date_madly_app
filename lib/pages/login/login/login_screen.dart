@@ -174,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       loader = true;
       setState(() {});
-      await LoginApi.login(body, context,textPassword);
+      await LoginApi.login(body, context, textPassword);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -356,8 +356,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               };
                               if (value.validation()) {
                                 await loginapi();
-                                await PrefService.setValue(
-                                    PrefKeys.email, value.emailController.text);
                               }
                             }),
                       ),
