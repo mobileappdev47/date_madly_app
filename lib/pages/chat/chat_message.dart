@@ -26,9 +26,10 @@ class ChatScreen extends StatefulWidget {
   final String? roomId;
   final String? otherEmail;
   final String? userEmail;
+  final String? image;
 
   ChatScreen(
-      {Key? key, this.email, this.userEmail, this.otherEmail, this.roomId})
+      {Key? key, this.email, this.userEmail, this.otherEmail, this.roomId,this.image})
       : super(key: key);
 
   @override
@@ -76,11 +77,30 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     title: Row(
                       children: [
-                        Image.asset(
-                          AssertRe.Add_Image,
-                          scale: 3,
-                          fit: BoxFit.fill,
+                        ClipOval(
+                          child: CachedNetworkImage(
+                              imageUrl: widget.image ?? '',
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.fill,
+                              placeholder: (context,
+                                  url) =>
+                                  Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  ),
+                              errorWidget: (context,
+                                  url, error) =>
+                                  Image.asset(
+                                    'assets/images/image_placeholder.png',
+                                    height: 60,
+                                    width: 60,
+                                    fit: BoxFit.fill,
+                                  )),
                         ),
+
                         SizedBox(
                           width: 10,
                         ),
@@ -301,39 +321,59 @@ class _ChatScreenState extends State<ChatScreen> {
                                                               CrossAxisAlignment
                                                                   .start,
                                                           children: [
-                                                            Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          10.0),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: ColorRes
-                                                                    .white,
-                                                                borderRadius: BorderRadius.only(
-                                                                    topRight: Radius
-                                                                        .circular(
-                                                                            20),
-                                                                    bottomLeft:
-                                                                        Radius.circular(
-                                                                            20),
-                                                                    bottomRight:
-                                                                        Radius.circular(
-                                                                            20)),
-                                                              ),
-                                                              child: SizedBox(
-                                                                child: Text(
-                                                                  documents[
-                                                                          index]
-                                                                      [
-                                                                      "content"],
-                                                                  style: mulishbold
-                                                                      .copyWith(
-                                                                    fontSize:
-                                                                        12,
-                                                                    color:
-                                                                        ColorRes
-                                                                            .grey,
+                                                            IntrinsicWidth(
+                                                              child: Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                  horizontal:
+                                                                  MediaQuery.of(context).size.width *
+                                                                      0.05,
+                                                                  vertical:
+                                                                  MediaQuery.of(context).size.width *
+                                                                      0.03,
+                                                                ),
+                                                                margin:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    bottom: 5),
+                                                                decoration:
+                                                                BoxDecoration(
+                                                                  color: ColorRes
+                                                                      .white,
+                                                                  borderRadius: BorderRadius.only(
+                                                                      topRight: Radius
+                                                                          .circular(
+                                                                          20),
+                                                                      bottomLeft:
+                                                                      Radius.circular(
+                                                                          20),
+                                                                      bottomRight:
+                                                                      Radius.circular(
+                                                                          20)),
+
+                                                                ),
+                                                                alignment: Alignment
+                                                                    .center,
+                                                                constraints:
+                                                                BoxConstraints(
+                                                                  maxWidth:
+                                                                  MediaQuery.of(context).size.width /
+                                                                      1.5,
+                                                                ),
+                                                                child: SizedBox(
+                                                                  child: Text(
+                                                                    documents[
+                                                                            index]
+                                                                        [
+                                                                        "content"],
+                                                                    style: mulishbold
+                                                                        .copyWith(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color:
+                                                                          ColorRes
+                                                                              .black,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
@@ -345,16 +385,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                               const SizedBox(
                                                 height: 3,
                                               ),
-                                              // Text(
-                                              //   DateFormat("hh:mm aa").format(
-                                              //       DateTime
-                                              //           .fromMillisecondsSinceEpoch(
-                                              //               documents[index]
-                                              //                   ["time"])),
-                                              //   style: const TextStyle(
-                                              //       color: ColorRes.black,
-                                              //       fontSize: 8),
-                                              // ),
+                                              Text(
+                                                DateFormat("hh:mm aa").format((
+                                                            documents[index]
+                                                                ["time"].toDate())),
+                                                style: const TextStyle(
+                                                    color: ColorRes.black,
+                                                    fontSize: 8),
+                                              ),
                                             ],
                                           ),
                                         ],
@@ -408,31 +446,57 @@ class _ChatScreenState extends State<ChatScreen> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
-                                                          CustomPaint(
-                                                            painter:
-                                                                ChatBubblePainter(),
+                                                          IntrinsicWidth(
                                                             child: Container(
-                                                              padding:
-                                                                  EdgeInsets
-                                                                      .all(
-                                                                          10.0),
+
+                                                              margin:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                                  bottom: 5),
                                                               decoration:
-                                                                  BoxDecoration(
+                                                              BoxDecoration(
                                                                 color: ColorRes
-                                                                    .colorFF9BAD,
+                                                                    .appColor,
                                                                 borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10.0),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                    10),
                                                               ),
-                                                              child: Text(
-                                                                documents[index]
-                                                                    ["content"],
-                                                                style: mulish14400
-                                                                    .copyWith(
-                                                                  fontSize: 12,
-                                                                  color: ColorRes
-                                                                      .darkGrey,
+                                                              alignment: Alignment
+                                                                  .center,
+                                                              constraints:
+                                                              BoxConstraints(
+                                                                maxWidth:
+                                                                MediaQuery.of(context).size.width /
+                                                                    1.5,
+                                                              ),
+                                                              child: CustomPaint(
+                                                                painter:
+                                                                    ChatBubblePainter(),
+                                                                child: Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .all(
+                                                                              10.0),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: ColorRes
+                                                                        .colorFF9BAD,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                10.0),
+                                                                  ),
+                                                                  child: Text(
+                                                                    documents[index]
+                                                                        ["content"],
+                                                                    style: mulish14400
+                                                                        .copyWith(
+                                                                      fontSize: 12,
+                                                                      color: ColorRes
+                                                                          .white,
+                                                                    ),
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -447,20 +511,19 @@ class _ChatScreenState extends State<ChatScreen> {
                                               const SizedBox(
                                                 height: 3,
                                               ),
-                                              // Align(
-                                              //   alignment:
-                                              //       Alignment.centerRight,
-                                              //   child: Text(
-                                              //     DateFormat("hh:mm aa").format(
-                                              //         DateTime
-                                              //             .fromMillisecondsSinceEpoch(
-                                              //                 documents[index]
-                                              //                     ["time"])),
-                                              //     style: const TextStyle(
-                                              //         color: ColorRes.black,
-                                              //         fontSize: 8),
-                                              //   ),
-                                              // ),
+                                              Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  DateFormat("hh:mm aa").format(
+
+                                                              documents[index]
+                                                                  ["time"].toDate()),
+                                                  style: const TextStyle(
+                                                      color: ColorRes.black,
+                                                      fontSize: 8),
+                                                ),
+                                              ),
                                             ],
                                           ),
                                           const SizedBox(width: 10),

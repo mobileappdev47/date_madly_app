@@ -48,6 +48,8 @@ class _ChatState extends State<Chat> {
   }
 
   List boolList = [];
+  List lastMessage = [];
+  List lastMessageTime = [];
   bool isDelete = false;
 
   getCollectionLength() async {
@@ -64,6 +66,8 @@ class _ChatState extends State<Chat> {
       var data = value.data();
       if (data != null) {
         boolList = List.generate(data['ChatUserList'].length, (index) => false);
+        lastMessage = List.generate(data['ChatUserList'].length, (index) => '');
+        lastMessageTime = List.generate(data['ChatUserList'].length, (index) => '');
       }
     });
     setState(() {});
@@ -146,7 +150,7 @@ class _ChatState extends State<Chat> {
   bool isAlready2 = false;
   Map otherUserMap = {};
 
-  addDataInFirebase(email, map) async {
+  addDataInFirebase(email, map,userImage) async {
     NewChatProvider newChatProvider =
         Provider.of<NewChatProvider>(context, listen: false);
     myFirebaseList.clear();
@@ -186,6 +190,7 @@ class _ChatState extends State<Chat> {
             context,
             email,
             email,
+            userImage
           );
         }
       } else {
@@ -375,6 +380,7 @@ class _ChatState extends State<Chat> {
 
                         return GestureDetector(
                           onTap: () async {
+                            getCollectionLength();
                             Map dataPass = {
                               'name': data.name ?? '',
                               "Email": data.email ?? '',
@@ -395,7 +401,8 @@ class _ChatState extends State<Chat> {
                               'LastMsg': '',
                               'LastMsgTime': '',
                             };
-                            await addDataInFirebase(data.email ?? '', dataPass);
+
+                            await addDataInFirebase(data.email ?? '', dataPass,data.images[0]);
 
                             await addDataInOtherUserFirebase(
                                 data.email ?? '', otherUserMap);
@@ -489,6 +496,7 @@ class _ChatState extends State<Chat> {
                                                   .length ??
                                               0,
                                           itemBuilder: (context, index) {
+
                                             value.chatUsers =
                                                 snapshot.data?['ChatUserList'];
                                             if (snapshot.data?['ChatUserList']
@@ -506,6 +514,9 @@ class _ChatState extends State<Chat> {
                                                     snapshot.data?[
                                                             'ChatUserList']
                                                         [index]['Email'],
+                                                      snapshot.data?[
+                                                      'ChatUserList']
+                                                      [index]['userImage']
                                                   );
                                                 },
                                                 onLongPress: () {
@@ -578,21 +589,17 @@ class _ChatState extends State<Chat> {
                                                                                 BoxFit.fill,
                                                                           )),
                                                             ),
-                                                            Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              15),
-                                                                  child: Row(
+                                                            Padding(
+                                                              padding: const EdgeInsets.only(left: 15.0),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Row(
                                                                     mainAxisAlignment:
                                                                         MainAxisAlignment
                                                                             .spaceBetween,
@@ -610,55 +617,185 @@ class _ChatState extends State<Chat> {
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              15),
-                                                                  child:
-                                                                      SizedBox(
-                                                                    child: Text(
-                                                                      snapshot.data?['ChatUserList'][index]
-                                                                              [
-                                                                              'LastMsg'] ??
-                                                                          '',
-                                                                      overflow:
-                                                                          TextOverflow
-                                                                              .ellipsis,
-                                                                      style: mulishbold.copyWith(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              ColorRes.grey),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                            Spacer(),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      left: 15),
-                                                              child: Text(
-                                                                snapshot.data?['ChatUserList']
-                                                                            [
+                                                                  StreamBuilder(
+                                                                      stream: FirebaseFirestore
+                                                                          .instance
+                                                                          .collection("chats")
+                                                                          .snapshots(),
+                                                                      builder: (context, snap) {
+                                                                        if (snap.data != null) {
+                                                                          var doc = snap.data!.docs;
+                                                                          doc.forEach((e) {
+                                                                            if (e
+                                                                                .data()['uidList']
+                                                                            [0]
+                                                                                .contains(PrefService
+                                                                                .getString(PrefKeys
+                                                                                .email))) {
+                                                                              if (e
+                                                                                  .data()['uidList']
+                                                                              [1]
+                                                                                  .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
+                                                                                  .toString())) {
+
+                                                                                  lastMessage[
+                                                                                index] = e
+                                                                                    .data()[
+                                                                                'lastMessage'];
+                                                                              }
+                                                                            } else if (e
+                                                                                .data()['uidList']
+                                                                            [1]
+                                                                                .contains(PrefService
+                                                                                .getString(PrefKeys
+                                                                                .email))) {
+                                                                              if (e
+                                                                                  .data()['uidList']
+                                                                              [0]
+                                                                                  .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
+                                                                                  .toString())) {
+
+                                                                                    lastMessage[
+                                                                                index] = e
+                                                                                    .data()[
+                                                                                'lastMessage'];
+                                                                              }
+                                                                            }
+                                                                          });
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                          if(lastMessage.isNotEmpty) {
+                                                                            lastMessage[
+                                                                            index] =
+                                                                            "";
+                                                                          }
+                                                                        }
+
+                                                                        return snap.data?.docs !=
+                                                                            null &&
+                                                                            snap.data!.docs
+                                                                                .isEmpty
+                                                                            ? const SizedBox()
+                                                                            : Container(
+                                                                          width: 100,
+                                                                          alignment: Alignment
+                                                                              .centerLeft,
+                                                                          child: (lastMessage.isNotEmpty)?
+                                                                          Text(
+
+                                                                                lastMessage[
                                                                             index]
-                                                                        [
-                                                                        'LastMsgTime'] ??
-                                                                    '',
-                                                                style: mulishbold
-                                                                    .copyWith(
-                                                                  fontSize: 14,
-                                                                  color:
-                                                                      ColorRes
-                                                                          .grey,
-                                                                ),
+                                                                                .toString()
+                                                                                .contains(
+                                                                                "https://firebasestorage.googleapis.com")
+                                                                                ? "Image"
+                                                                                : lastMessage[
+                                                                            index] ??
+                                                                                "",
+                                                                            overflow:
+                                                                            TextOverflow
+                                                                                .ellipsis,
+                                                                            maxLines: 1,
+                                                                            style:
+                                                                            const TextStyle(
+                                                                                fontSize:
+                                                                                14,
+                                                                                color: Colors
+                                                                                    .grey),
+                                                                          ):const SizedBox(),
+                                                                        );
+                                                                      }),
+                                                                ],
                                                               ),
                                                             ),
+                                                            Spacer(),
+                                                            StreamBuilder(
+                                                                stream: FirebaseFirestore
+                                                                    .instance
+                                                                    .collection("chats")
+                                                                    .snapshots(),
+                                                                builder: (context, snap) {
+                                                                  if (snap.data != null) {
+                                                                    var doc = snap.data!.docs;
+                                                                    doc.forEach((e) {
+                                                                      if (e
+                                                                          .data()['uidList']
+                                                                      [0]
+                                                                          .contains(PrefService
+                                                                          .getString(PrefKeys
+                                                                          .email))) {
+                                                                        if (e
+                                                                            .data()['uidList']
+                                                                        [1]
+                                                                            .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
+                                                                            )) {
+
+                                                                              lastMessageTime[
+                                                                          index] = e
+                                                                              .data()[
+                                                                          'lastMessageTime'];
+                                                                        }
+                                                                      } else if (e
+                                                                          .data()['uidList']
+                                                                      [1]
+                                                                          .contains(PrefService
+                                                                          .getString(PrefKeys
+                                                                          .email))) {
+                                                                        if (e
+                                                                            .data()['uidList']
+                                                                        [0]
+                                                                            .contains(snapshot.data?['ChatUserList'][index]['Email']
+                                                                            .toString())) {
+
+                                                                          if(lastMessageTime.isNotEmpty) {
+                                                                            lastMessageTime[
+                                                                            index] =
+                                                                            e
+                                                                                .data()[
+                                                                            'lastMessageTime'];
+                                                                          }
+                                                                        }
+                                                                      }
+                                                                    });
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                    if(lastMessageTime.isNotEmpty) {
+                                                                      lastMessageTime[
+                                                                      index] =
+                                                                      "";
+                                                                    }
+                                                                  }
+
+                                                                  return snap.data?.docs !=
+                                                                      null &&
+                                                                      snap.data!.docs
+                                                                          .isEmpty
+                                                                      ? const SizedBox()
+                                                                      : (lastMessageTime.isNotEmpty &&lastMessageTime[index] !='' && lastMessageTime[index] != null )?Container(
+                                                                    width: 100,
+                                                                    alignment: Alignment
+                                                                        .centerRight,
+                                                                    child: Text(
+                                                                      DateFormat("hh:mm aa").format(
+
+                                                                              lastMessageTime[index].toDate()
+                                                                          ),
+                                                                      overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                      maxLines: 1,
+                                                                      style:
+                                                                      const TextStyle(
+                                                                          fontSize:
+                                                                          12,
+                                                                          color: Colors
+                                                                              .grey),
+                                                                    ),
+                                                                  ):const SizedBox();
+                                                                }),
                                                           ],
                                                         ),
                                                       ],
@@ -687,6 +824,7 @@ class _ChatState extends State<Chat> {
                                         context,
                                         value.filterList[index]['Email'],
                                         value.filterList[index]['Email'],
+                                        value.filterList[index]['userImage'],
                                       );
                                     },
                                     onLongPress: () {
