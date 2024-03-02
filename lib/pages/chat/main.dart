@@ -67,7 +67,8 @@ class _ChatState extends State<Chat> {
       if (data != null) {
         boolList = List.generate(data['ChatUserList'].length, (index) => false);
         lastMessage = List.generate(data['ChatUserList'].length, (index) => '');
-        lastMessageTime = List.generate(data['ChatUserList'].length, (index) => '');
+        lastMessageTime =
+            List.generate(data['ChatUserList'].length, (index) => '');
       }
     });
     setState(() {});
@@ -150,7 +151,7 @@ class _ChatState extends State<Chat> {
   bool isAlready2 = false;
   Map otherUserMap = {};
 
-  addDataInFirebase(email, map,userImage) async {
+  addDataInFirebase(email, map, userImage) async {
     NewChatProvider newChatProvider =
         Provider.of<NewChatProvider>(context, listen: false);
     myFirebaseList.clear();
@@ -186,12 +187,7 @@ class _ChatState extends State<Chat> {
               .update({'ChatUserList': myFirebaseList});
           boolList = List.generate(myFirebaseList.length, (index) => false);
         } else {
-          newChatProvider.gotoChatScreen(
-            context,
-            email,
-            email,
-            userImage
-          );
+          newChatProvider.gotoChatScreen(context, email, email, userImage);
         }
       } else {
         await fireStore
@@ -402,7 +398,8 @@ class _ChatState extends State<Chat> {
                               'LastMsgTime': '',
                             };
 
-                            await addDataInFirebase(data.email ?? '', dataPass,data.images[0]);
+                            await addDataInFirebase(
+                                data.email ?? '', dataPass, data.images[0]);
 
                             await addDataInOtherUserFirebase(
                                 data.email ?? '', otherUserMap);
@@ -496,7 +493,6 @@ class _ChatState extends State<Chat> {
                                                   .length ??
                                               0,
                                           itemBuilder: (context, index) {
-
                                             value.chatUsers =
                                                 snapshot.data?['ChatUserList'];
                                             if (snapshot.data?['ChatUserList']
@@ -507,17 +503,16 @@ class _ChatState extends State<Chat> {
                                               return GestureDetector(
                                                 onTap: () {
                                                   value.gotoChatScreen(
-                                                    context,
-                                                    snapshot.data?[
-                                                            'ChatUserList']
-                                                        [index]['Email'],
-                                                    snapshot.data?[
-                                                            'ChatUserList']
-                                                        [index]['Email'],
+                                                      context,
                                                       snapshot.data?[
-                                                      'ChatUserList']
-                                                      [index]['userImage']
-                                                  );
+                                                              'ChatUserList']
+                                                          [index]['Email'],
+                                                      snapshot.data?[
+                                                              'ChatUserList']
+                                                          [index]['Email'],
+                                                      snapshot.data?[
+                                                              'ChatUserList']
+                                                          [index]['userImage']);
                                                 },
                                                 onLongPress: () {
                                                   setState(() {
@@ -590,7 +585,11 @@ class _ChatState extends State<Chat> {
                                                                           )),
                                                             ),
                                                             Padding(
-                                                              padding: const EdgeInsets.only(left: 15.0),
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      left:
+                                                                          15.0),
                                                               child: Column(
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
@@ -620,92 +619,56 @@ class _ChatState extends State<Chat> {
                                                                   StreamBuilder(
                                                                       stream: FirebaseFirestore
                                                                           .instance
-                                                                          .collection("chats")
+                                                                          .collection(
+                                                                              "chats")
                                                                           .snapshots(),
-                                                                      builder: (context, snap) {
-                                                                        if (snap.data != null) {
-                                                                          var doc = snap.data!.docs;
-                                                                          doc.forEach((e) {
-                                                                            if (e
-                                                                                .data()['uidList']
-                                                                            [0]
-                                                                                .contains(PrefService
-                                                                                .getString(PrefKeys
-                                                                                .email))) {
-                                                                              if (e
-                                                                                  .data()['uidList']
-                                                                              [1]
-                                                                                  .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
-                                                                                  .toString())) {
-
-                                                                                  lastMessage[
-                                                                                index] = e
-                                                                                    .data()[
-                                                                                'lastMessage'];
+                                                                      builder:
+                                                                          (context,
+                                                                              snap) {
+                                                                        if (snap.data !=
+                                                                            null) {
+                                                                          var doc = snap
+                                                                              .data!
+                                                                              .docs;
+                                                                          doc.forEach(
+                                                                              (e) {
+                                                                            if (e.data()['uidList'][0].contains(PrefService.getString(PrefKeys.email))) {
+                                                                              if (e.data()['uidList'][1].contains(snapshot.data?['ChatUserList'][index]['Email'].toString().toString())) {
+                                                                                if (lastMessageTime.isNotEmpty) {
+                                                                                  lastMessage[index] = e.data()['lastMessage'];
+                                                                                }
                                                                               }
-                                                                            } else if (e
-                                                                                .data()['uidList']
-                                                                            [1]
-                                                                                .contains(PrefService
-                                                                                .getString(PrefKeys
-                                                                                .email))) {
-                                                                              if (e
-                                                                                  .data()['uidList']
-                                                                              [0]
-                                                                                  .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
-                                                                                  .toString())) {
-
-                                                                                    lastMessage[
-                                                                                index] = e
-                                                                                    .data()[
-                                                                                'lastMessage'];
+                                                                            } else if (e.data()['uidList'][1].contains(PrefService.getString(PrefKeys.email))) {
+                                                                              if (e.data()['uidList'][0].contains(snapshot.data?['ChatUserList'][index]['Email'].toString().toString())) {
+                                                                                if (lastMessage.isNotEmpty) {
+                                                                                  lastMessage[index] = e.data()['lastMessage'];
+                                                                                }
                                                                               }
                                                                             }
                                                                           });
-                                                                        }
-                                                                        else
-                                                                        {
-
-                                                                          if(lastMessage.isNotEmpty) {
-                                                                            lastMessage[
-                                                                            index] =
-                                                                            "";
+                                                                        } else {
+                                                                          if (lastMessage
+                                                                              .isNotEmpty) {
+                                                                            lastMessage[index] =
+                                                                                "";
                                                                           }
                                                                         }
 
-                                                                        return snap.data?.docs !=
-                                                                            null &&
-                                                                            snap.data!.docs
-                                                                                .isEmpty
+                                                                        return snap.data?.docs != null &&
+                                                                                snap.data!.docs.isEmpty
                                                                             ? const SizedBox()
                                                                             : Container(
-                                                                          width: 100,
-                                                                          alignment: Alignment
-                                                                              .centerLeft,
-                                                                          child: (lastMessage.isNotEmpty)?
-                                                                          Text(
-
-                                                                                lastMessage[
-                                                                            index]
-                                                                                .toString()
-                                                                                .contains(
-                                                                                "https://firebasestorage.googleapis.com")
-                                                                                ? "Image"
-                                                                                : lastMessage[
-                                                                            index] ??
-                                                                                "",
-                                                                            overflow:
-                                                                            TextOverflow
-                                                                                .ellipsis,
-                                                                            maxLines: 1,
-                                                                            style:
-                                                                            const TextStyle(
-                                                                                fontSize:
-                                                                                14,
-                                                                                color: Colors
-                                                                                    .grey),
-                                                                          ):const SizedBox(),
-                                                                        );
+                                                                                width: 100,
+                                                                                alignment: Alignment.centerLeft,
+                                                                                child: (lastMessage.isNotEmpty)
+                                                                                    ? Text(
+                                                                                        lastMessage[index].toString().contains("https://firebasestorage.googleapis.com") ? "Image" : lastMessage[index] ?? "",
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                        maxLines: 1,
+                                                                                        style: const TextStyle(fontSize: 14, color: Colors.grey),
+                                                                                      )
+                                                                                    : const SizedBox(),
+                                                                              );
                                                                       }),
                                                                 ],
                                                               ),
@@ -714,87 +677,82 @@ class _ChatState extends State<Chat> {
                                                             StreamBuilder(
                                                                 stream: FirebaseFirestore
                                                                     .instance
-                                                                    .collection("chats")
+                                                                    .collection(
+                                                                        "chats")
                                                                     .snapshots(),
-                                                                builder: (context, snap) {
-                                                                  if (snap.data != null) {
-                                                                    var doc = snap.data!.docs;
-                                                                    doc.forEach((e) {
+                                                                builder:
+                                                                    (context,
+                                                                        snap) {
+                                                                  if (snap.data !=
+                                                                      null) {
+                                                                    var doc = snap
+                                                                        .data!
+                                                                        .docs;
+                                                                    doc.forEach(
+                                                                        (e) {
                                                                       if (e
                                                                           .data()['uidList']
-                                                                      [0]
-                                                                          .contains(PrefService
-                                                                          .getString(PrefKeys
-                                                                          .email))) {
-                                                                        if (e
-                                                                            .data()['uidList']
-                                                                        [1]
-                                                                            .contains(snapshot.data?['ChatUserList'][index]['Email'].toString()
-                                                                            )) {
-
-                                                                              lastMessageTime[
-                                                                          index] = e
-                                                                              .data()[
-                                                                          'lastMessageTime'];
+                                                                              [
+                                                                              0]
+                                                                          .contains(PrefService.getString(PrefKeys
+                                                                              .email))) {
+                                                                        if (e.data()['uidList'][1].contains(snapshot
+                                                                            .data?['ChatUserList'][index]['Email']
+                                                                            .toString())) {
+                                                                          if (lastMessageTime
+                                                                              .isNotEmpty) {
+                                                                            lastMessageTime[index] =
+                                                                                e.data()['lastMessageTime'];
+                                                                          }
                                                                         }
                                                                       } else if (e
-                                                                          .data()['uidList']
-                                                                      [1]
-                                                                          .contains(PrefService
-                                                                          .getString(PrefKeys
-                                                                          .email))) {
-                                                                        if (e
-                                                                            .data()['uidList']
-                                                                        [0]
-                                                                            .contains(snapshot.data?['ChatUserList'][index]['Email']
+                                                                          .data()[
+                                                                              'uidList']
+                                                                              [
+                                                                              1]
+                                                                          .contains(
+                                                                              PrefService.getString(PrefKeys.email))) {
+                                                                        if (e.data()['uidList'][0].contains(snapshot
+                                                                            .data?['ChatUserList'][index]['Email']
                                                                             .toString())) {
-
-                                                                          if(lastMessageTime.isNotEmpty) {
-                                                                            lastMessageTime[
-                                                                            index] =
-                                                                            e
-                                                                                .data()[
-                                                                            'lastMessageTime'];
+                                                                          if (lastMessageTime
+                                                                              .isNotEmpty) {
+                                                                            lastMessageTime[index] =
+                                                                                e.data()['lastMessageTime'];
                                                                           }
                                                                         }
                                                                       }
                                                                     });
-                                                                  }
-                                                                  else
-                                                                  {
-                                                                    if(lastMessageTime.isNotEmpty) {
+                                                                  } else {
+                                                                    if (lastMessageTime
+                                                                        .isNotEmpty) {
                                                                       lastMessageTime[
-                                                                      index] =
-                                                                      "";
+                                                                          index] = "";
                                                                     }
                                                                   }
 
                                                                   return snap.data?.docs !=
-                                                                      null &&
-                                                                      snap.data!.docs
-                                                                          .isEmpty
+                                                                              null &&
+                                                                          snap
+                                                                              .data!
+                                                                              .docs
+                                                                              .isEmpty
                                                                       ? const SizedBox()
-                                                                      : (lastMessageTime.isNotEmpty &&lastMessageTime[index] !='' && lastMessageTime[index] != null )?Container(
-                                                                    width: 100,
-                                                                    alignment: Alignment
-                                                                        .centerRight,
-                                                                    child: Text(
-                                                                      DateFormat("hh:mm aa").format(
-
-                                                                              lastMessageTime[index].toDate()
-                                                                          ),
-                                                                      overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                      maxLines: 1,
-                                                                      style:
-                                                                      const TextStyle(
-                                                                          fontSize:
-                                                                          12,
-                                                                          color: Colors
-                                                                              .grey),
-                                                                    ),
-                                                                  ):const SizedBox();
+                                                                      : lastMessageTime
+                                                                              .isEmpty
+                                                                          ? const SizedBox()
+                                                                          : (lastMessageTime[index] != '' && lastMessageTime[index] != null)
+                                                                              ? Container(
+                                                                                  width: 100,
+                                                                                  alignment: Alignment.centerRight,
+                                                                                  child: Text(
+                                                                                    DateFormat("hh:mm aa").format(lastMessageTime[index].toDate()),
+                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                    maxLines: 1,
+                                                                                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                                                                                  ),
+                                                                                )
+                                                                              : const SizedBox();
                                                                 }),
                                                           ],
                                                         ),
