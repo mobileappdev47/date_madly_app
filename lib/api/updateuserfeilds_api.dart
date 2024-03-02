@@ -27,6 +27,11 @@ class UpdateUserApi {
 
       if (response.statusCode == 200) {
         var data = (await response.stream.bytesToString());
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeMain(),
+            ));
         return updateUsersFromJson(data);
       } else {
         print(response.reasonPhrase);
