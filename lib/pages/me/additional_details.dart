@@ -171,8 +171,44 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor:
+                                  MaterialStateProperty.all(ColorRes.appColor)),
+                          onPressed: () async {
+                            if (widget.pageNo == 1) {
+                              Navigator.pop(context);
+                            } else {
+                              widget.pageNo--;
+                              getVars();
+                              di = -1;
+                              setState(() {});
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.arrow_back,
+                                color: ColorRes.white,
+                                size: 20,
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                'Back',
+                                style: mulish14400.copyWith(
+                                  fontSize: 14,
+                                  color: ColorRes.white,
+                                  fontFamily: Fonts.poppins,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
                         ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor:
@@ -204,7 +240,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               ),
                               SizedBox(width: 5),
                               Text(
-                                Strings.close,
+                                'Next',
                                 style: mulish14400.copyWith(
                                   fontSize: 14,
                                   color: ColorRes.white,

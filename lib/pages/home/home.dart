@@ -14,6 +14,7 @@ import 'package:date_madly_app/pages/home/widget/drawer.dart';
 import 'package:date_madly_app/pages/new_match/new_match_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/asset.dart';
 import 'package:date_madly_app/utils/enum/api_request_status.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -175,7 +176,7 @@ class _HomeState extends State<Home> {
           ],
         ),
         drawer: Drawer(
-            backgroundColor: ColorRes.white,
+            backgroundColor: Colors.white,
             child: Consumer<HomeMainProvider>(
               builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.all(20),
@@ -295,7 +296,7 @@ class _HomeState extends State<Home> {
                           Text(
                             Strings.Jakarta,
                             style: mulish14400.copyWith(
-                              color: ColorRes.grey,
+                              color: ColorRes.darkGrey,
                               fontSize: 14.06,
                               fontFamily: Fonts.mulishRegular,
                             ),
@@ -319,17 +320,34 @@ class _HomeState extends State<Home> {
                       children: [
                         Container(
                           width: 220,
-                          child: Slider(
-                            value: _currentSliderValue,
-                            min: 0,
-                            max: 50,
-                            //  divisions: 10,
-                            label: _currentSliderValue.round().toString(),
-                            onChanged: (double value) {
-                              setState(() {
-                                _currentSliderValue = value;
-                              });
-                            },
+                          child: SfSliderTheme(
+                            data: SfSliderThemeData(
+                              tooltipBackgroundColor: ColorRes.appColor,
+                            ),
+                            child: SfSlider(
+                              value: _currentSliderValue,
+                              onChanged: (value) {
+                                setState(() {
+                                  _currentSliderValue = value;
+                                });
+                              },
+                              min: 0,
+                              max: 50,
+                              thumbIcon: Image.asset(
+                                AssertRe.slidericon,
+                                scale: 2,
+                              ),
+                              activeColor: ColorRes.appColor.withOpacity(0.9),
+                              inactiveColor: ColorRes.colorF1F2F2,
+                              enableTooltip: true,
+                              tooltipShape: const SfRectangularTooltipShape(),
+                              tooltipTextFormatterCallback:
+                                  (dynamic actualValue, String formattedText) {
+                                var myVal =
+                                    double.parse(actualValue.toString());
+                                return '${myVal.toStringAsFixed(0).toString()}';
+                              },
+                            ),
                           ),
                         ),
                         //SizedBox(width: 25,),
@@ -382,16 +400,16 @@ class _HomeState extends State<Home> {
                           child: SfRangeSliderTheme(
                             data: SfRangeSliderThemeData(
                               tooltipBackgroundColor: ColorRes.appColor,
-                              thumbStrokeWidth: 3,
-                              thumbStrokeColor: ColorRes.appColor,
+                              thumbStrokeWidth: 2,
+                              thumbStrokeColor: ColorRes.white,
                             ),
                             child: SfRangeSlider(
-                              inactiveColor: ColorRes.black.withOpacity(0.15),
+                              inactiveColor: ColorRes.colorF1F2F2,
                               tooltipTextFormatterCallback:
                                   (dynamic actualValue, String formattedText) {
                                 var myVal =
                                     double.parse(actualValue.toString());
-                                return '\$ ${myVal.toStringAsFixed(2).toString()}';
+                                return '${myVal.toStringAsFixed(0).toString()}';
                               },
                               min: 20.0,
                               max: 30.0,
@@ -401,14 +419,14 @@ class _HomeState extends State<Home> {
                               endThumbIcon: ClipOval(
                                   child: Container(
                                 color: ColorRes.appColor,
-                                width: 50,
-                                height: 50,
+                                width: 40,
+                                height: 40,
                               )),
                               startThumbIcon: ClipOval(
                                   child: Container(
                                 color: ColorRes.appColor,
-                                width: 50,
-                                height: 50,
+                                width: 40,
+                                height: 40,
                               )),
                               activeColor: ColorRes.appColor.withOpacity(0.9),
                               values: values,
@@ -477,17 +495,33 @@ class _HomeState extends State<Home> {
                         height: MediaQuery.of(context).size.height / 30,
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 11,
-                      width: MediaQuery.of(context).size.width / 1.5,
-                      decoration: BoxDecoration(
-                          color: ColorRes.white,
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Center(
-                          child: Text(
-                        Strings.clear,
-                        style: poppins.copyWith(fontSize: 16),
-                      )),
+                    GestureDetector(
+                      onTap: () {
+                        currentindex1 = -1;
+                        _currentSliderValue = 0;
+                        values = SfRangeValues(20, 30);
+                        setState(() {});
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height / 11,
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                  spreadRadius: 0,
+                                  offset: Offset(2, 2),
+                                  color: ColorRes.color939393.withOpacity(0.25),
+                                  blurRadius: 10)
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Center(
+                            child: Text(
+                          Strings.clear,
+                          style: poppins.copyWith(
+                              fontSize: 16, color: ColorRes.grey),
+                        )),
+                      ),
                     )
                   ],
                 ),

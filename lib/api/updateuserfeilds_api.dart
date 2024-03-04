@@ -24,7 +24,6 @@ class UpdateUserApi {
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-
       if (response.statusCode == 200) {
         var data = (await response.stream.bytesToString());
         Navigator.push(

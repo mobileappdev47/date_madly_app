@@ -21,6 +21,7 @@ class AssertRe {
 
   static const chat = icons + 'Chat.png';
   static const user = icons + 'User.png';
+  static const slidericon = icons + 'slider_icons.png';
 
   ///---------------------------------------- ladyBottomSheetUI! ----------------------------------------MyGalleryScreen
 
@@ -56,8 +57,8 @@ class AssertRe {
 
   static const right_drawer = icons + 'right_drawer.png';
 
-///---------------------------------------- Profile ----------------------------------------
-///---------------------------------------- PersonalInfo ----------------------------------------
+  ///---------------------------------------- Profile ----------------------------------------
+  ///---------------------------------------- PersonalInfo ----------------------------------------
   static const Setting = icons + 'Setting.png';
   static const Add_Image_Profile = icons + 'Add Image_Profile.png';
   static const side = icons + 'side.png';
@@ -66,20 +67,19 @@ class AssertRe {
 
   ///---------------------------------------- PersonalInfo ----------------------------------------
 
-
   static const Email = icons + 'Email.png';
   static const new_phone = icons + 'new_phone.png';
   static const Date_Icon = icons + 'Date_Icon.png';
   static const Comment = icons + 'Comment.png';
 
-///---------------------------------------- profileViewBottomSheet ----------------------------------------///
+  ///---------------------------------------- profileViewBottomSheet ----------------------------------------///
 
   static const Send_Icon = icons + 'Send_Icon.png';
   static const image_map_screen_2 = icons + 'image_map_screen_2.png';
   static const map_screen_1 = icons + 'map_screen_1.png';
   static const logo = icons + 'logo.png';
 
-///---------------------------------------- SignUpScreen ----------------------------------------///
+  ///---------------------------------------- SignUpScreen ----------------------------------------///
 
   static const check = icons + 'check (1).png';
   static const gallary = icons + 'gallary.png';
@@ -95,10 +95,9 @@ class AssertRe {
   static const Archive_Icon = icons + 'Archive_Icon.png';
   static const Dump_Icon = icons + 'Dump_Icon.png';
 
-///---------------------------------------- MyMatches ----------------------------------------///
+  ///---------------------------------------- MyMatches ----------------------------------------///
 
-
-static const Call = icons + 'Call.png';
-static const Emoticon = icons + 'Emoticon.png';
-static const Send = icons + 'Send.png';
+  static const Call = icons + 'Call.png';
+  static const Emoticon = icons + 'Emoticon.png';
+  static const Send = icons + 'Send.png';
 }
