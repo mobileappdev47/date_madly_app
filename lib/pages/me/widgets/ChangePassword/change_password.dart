@@ -33,7 +33,7 @@ class _ChangePasswordState extends State<ChangePassword> {
     try {
       loader = true;
       setState(() {});
-      await ChangePasswordApi.changepasswordapi(body);
+      await ChangePasswordApi.changepasswordapi(body, context);
       loader = false;
       setState(() {});
     } catch (e) {

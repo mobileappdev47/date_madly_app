@@ -374,9 +374,13 @@ class _ChatState extends State<Chat> {
                               'LastMsg': '',
                               'LastMsgTime': '',
                             };
-
-                            await addDataInFirebase(
-                                data.email ?? '', dataPass, data.images[0]);
+                            if (data.images.isNotEmpty) {
+                              await addDataInFirebase(
+                                  data.email ?? '', dataPass, data.images[0]);
+                            } else {
+                              await addDataInFirebase(
+                                  data.email ?? '', dataPass, '');
+                            }
                           },
                           child: ClipOval(
                             child: data.images != null &&

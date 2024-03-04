@@ -31,6 +31,9 @@ class SignUpApi {
             PrefKeys.userId, signUpModelFromJson(data).user?.id ?? '');
         PrefService.setValue(PrefKeys.password, password);
 
+        PrefService.setValue(PrefKeys.lat, body!['latitude']);
+        PrefService.setValue(PrefKeys.long, body!['longitude']);
+
         if (signUpModelFromJson(data).user != null) {
           if (signUpModelFromJson(data).user!.name != 'User Exists') {
             Navigator.pushReplacement(

@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../utils/endpoint.dart';
 
 class LoginApi {
-  static login(Map<String, dynamic> body, context, password) async {
+  static login(Map<String, dynamic> body, context, password, lat, long) async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST', Uri.parse(EndPoints.login));
@@ -31,6 +31,10 @@ class LoginApi {
               builder: (context) => HomeMain(),
             ));
         await PrefService.setValue(PrefKeys.email, body['email']);
+
+        PrefService.setValue(PrefKeys.lat, lat);
+        PrefService.setValue(PrefKeys.long, long);
+
         getFirebaseCollection(body['email']);
         return loginModelFromJson(data);
       } else {

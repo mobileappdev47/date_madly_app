@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
+import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
@@ -28,8 +29,8 @@ import 'widgets/ChangePassword/change_password.dart';
 import 'my_gallery.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
-
+  Profile({super.key, this.userId});
+  final String? userId;
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -49,8 +50,8 @@ class _ProfileState extends State<Profile> {
     try {
       loader = true;
       setState(() {});
-      getSingleProfileModel =
-          await GetSingleProfileApi.getSingleProfileApi(context);
+      getSingleProfileModel = await GetSingleProfileApi.getSingleProfileApi(
+          context, widget.userId ?? PrefService.getString(PrefKeys.userId));
       loader = false;
       setState(() {});
     } catch (e) {
@@ -109,7 +110,11 @@ class _ProfileState extends State<Profile> {
                     child: ClipOval(
                       child: CachedNetworkImage(
                         imageUrl:
-                            getSingleProfileModel.profile?[0].images?[0] ?? '',
+                            getSingleProfileModel.profile?[0].images != null &&
+                                    getSingleProfileModel
+                                        .profile![0].images!.isNotEmpty
+                                ? getSingleProfileModel.profile![0].images![0]
+                                : '',
                         fit: BoxFit.fill,
                         height: 100,
                         width: 100,
@@ -160,7 +165,9 @@ class _ProfileState extends State<Profile> {
                             width: 5,
                           ),
                           Text(
-                            Strings.profilesize,
+                            getSingleProfileModel.profile?[0].profileScore
+                                    .toString() ??
+                                '',
                             style: mulishbold.copyWith(
                               fontSize: 14.06,
                               color: ColorRes.appColor,
@@ -173,7 +180,6 @@ class _ProfileState extends State<Profile> {
                   SizedBox(
                     height: 20,
                   ),
-
                   Row(
                     children: [
                       Image.asset(

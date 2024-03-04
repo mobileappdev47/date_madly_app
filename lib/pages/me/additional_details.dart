@@ -233,12 +233,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                           },
                           child: Row(
                             children: [
-                              Icon(
-                                Icons.arrow_back,
-                                color: ColorRes.white,
-                                size: 20,
-                              ),
-                              SizedBox(width: 5),
                               Text(
                                 'Next',
                                 style: mulish14400.copyWith(
@@ -246,6 +240,12 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                   color: ColorRes.white,
                                   fontFamily: Fonts.poppins,
                                 ),
+                              ),
+                              SizedBox(width: 5),
+                              Icon(
+                                Icons.arrow_forward_outlined,
+                                color: ColorRes.white,
+                                size: 20,
                               ),
                             ],
                           ),

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/user_model.dart';
 import '../../utils/texts.dart';
+import '../me/main.dart';
 
 ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
   double width = MediaQuery.of(context).size.width;
@@ -123,7 +124,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                         ],
                       ),
                       Text(
-                        getAll.users?[index].live ?? "",
+                        getAll.users?[index].location ?? "",
                         style: mulish14400.copyWith(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
@@ -260,7 +261,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].relationStatus ?? ''}' ??
+                                        '${getAll.users![index].gender ?? ''}' ??
                                             '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
@@ -329,7 +330,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].degree ?? ''}' ??
+                                        '${getAll.users![index].college ?? ''}' ??
                                             '',
                                         style: mulish14400.copyWith(
                                           fontSize: 10,
@@ -394,7 +395,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         ),
                                       ),
                                       Text(
-                                        '${getAll.users![index].designation ?? ''}' ??
+                                        '${getAll.users![index].job ?? ''}' ??
                                             '',
                                         style: mulish14400.copyWith(
                                           fontSize: 14,
@@ -571,7 +572,8 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => MyGalleryScreen(),
+                                    builder: (context) => Profile(
+                                        userId: getAll.users?[index].id ?? ''),
                                   ));
                             },
                           ),

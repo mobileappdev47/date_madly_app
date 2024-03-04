@@ -1,6 +1,3 @@
-// // To parse this JSON data, do
-// //
-// //     final getSingleProfileModel = getSingleProfileModelFromJson(jsonString);
 //
 // import 'dart:convert';
 //
@@ -35,65 +32,73 @@
 // class Profile {
 //   String? id;
 //   String? name;
+//   String? email;
+//   String? password;
 //   List<String>? images;
-//   int? phoneNo;
+//   int? profileScore;
 //   DateTime? dob;
-//   int? height;
-//   String? live;
-//   String? degree;
-//   String? designation;
-//   String? company;
-//   String? income;
 //   BasicInfo? basicInfo;
+//   String? about;
+//   String? college;
+//   String? company;
+//   String? gender;
+//   String? job;
+//   String? location;
 //
 //   Profile({
 //     this.id,
 //     this.name,
+//     this.email,
+//     this.password,
 //     this.images,
-//     this.phoneNo,
+//     this.profileScore,
 //     this.dob,
-//     this.height,
-//     this.live,
-//     this.degree,
-//     this.designation,
-//     this.company,
-//     this.income,
 //     this.basicInfo,
+//     this.about,
+//     this.college,
+//     this.company,
+//     this.gender,
+//     this.job,
+//     this.location,
 //   });
 //
 //   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
 //         id: json["_id"],
 //         name: json["name"],
+//         email: json["email"],
+//         password: json["password"],
 //         images: json["images"] == null
 //             ? []
 //             : List<String>.from(json["images"]!.map((x) => x)),
-//         phoneNo: json["phoneNo"],
+//         profileScore: json["profileScore"],
 //         dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
-//         height: json["height"],
-//         live: json["live"],
-//         degree: json["degree"],
-//         designation: json["designation"],
-//         company: json["company"],
-//         income: json["income"],
 //         basicInfo: json["basic_Info"] == null
 //             ? null
 //             : BasicInfo.fromJson(json["basic_Info"]),
+//         about: json["about"],
+//         college: json["college"],
+//         company: json["company"],
+//         gender: json["gender"],
+//         job: json["job"],
+//         location: json["location"],
 //       );
 //
 //   Map<String, dynamic> toJson() => {
 //         "_id": id,
 //         "name": name,
+//         "email": email,
+//         "password": password,
 //         "images":
 //             images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
-//         "phoneNo": phoneNo,
+//         "profileScore": profileScore,
 //         "dob": dob?.toIso8601String(),
-//         "height": height,
-//         "live": live,
-//         "degree": degree,
-//         "designation": designation,
-//         "company": company,
-//         "income": income,
 //         "basic_Info": basicInfo?.toJson(),
+//         "about": about,
+//         "college": college,
+//         "company": company,
+//         "gender": gender,
+//         "job": job,
+//         "location": location,
 //       };
 // }
 //
@@ -147,6 +152,7 @@ class GetSingleProfileModel {
 }
 
 class Profile {
+  Loc? loc;
   String? id;
   String? name;
   String? email;
@@ -163,6 +169,7 @@ class Profile {
   String? location;
 
   Profile({
+    this.loc,
     this.id,
     this.name,
     this.email,
@@ -180,6 +187,7 @@ class Profile {
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+        loc: json["loc"] == null ? null : Loc.fromJson(json["loc"]),
         id: json["_id"],
         name: json["name"],
         email: json["email"],
@@ -201,6 +209,7 @@ class Profile {
       );
 
   Map<String, dynamic> toJson() => {
+        "loc": loc?.toJson(),
         "_id": id,
         "name": name,
         "email": email,
@@ -232,5 +241,29 @@ class BasicInfo {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
+      };
+}
+
+class Loc {
+  String? type;
+  List<double>? coordinates;
+
+  Loc({
+    this.type,
+    this.coordinates,
+  });
+
+  factory Loc.fromJson(Map<String, dynamic> json) => Loc(
+        type: json["type"],
+        coordinates: json["coordinates"] == null
+            ? []
+            : List<double>.from(json["coordinates"]!.map((x) => x?.toDouble())),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "type": type,
+        "coordinates": coordinates == null
+            ? []
+            : List<dynamic>.from(coordinates!.map((x) => x)),
       };
 }

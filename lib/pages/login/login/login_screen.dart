@@ -145,6 +145,7 @@ import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -170,11 +171,31 @@ class _LoginScreenState extends State<LoginScreen> {
   Map<String, dynamic> body = {};
   bool loader = false;
 
+  String lat = '';
+  String long = '';
+  Future getCurrentLatLang() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+    }
+  }
+
   loginapi() async {
     try {
       loader = true;
       setState(() {});
-      await LoginApi.login(body, context, textPassword);
+      await LoginApi.login(body, context, textPassword, lat, long);
       loader = false;
       setState(() {});
     } catch (e) {
@@ -182,6 +203,12 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {});
       print(e.toString());
     }
+  }
+
+  @override
+  void initState() {
+    getCurrentLatLang();
+    super.initState();
   }
 
   @override

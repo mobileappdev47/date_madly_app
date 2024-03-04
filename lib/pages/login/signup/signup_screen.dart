@@ -21,6 +21,7 @@ import '../../../utils/texts.dart';
 import '../../new/enter_personal_data/enter_personal_data_screen.dart';
 import '../Login_with_phone.dart';
 import '../profile_photo/profile_photo_screen.dart';
+import 'package:geolocator/geolocator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -52,6 +53,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {});
       print(e.toString());
     }
+  }
+
+  String lat = '';
+  String long = '';
+  Future getCurrentLatLang() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+    }
+  }
+
+  @override
+  void initState() {
+    getCurrentLatLang();
+    super.initState();
   }
 
   @override
@@ -337,7 +365,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 "email": value.emailController.text,
                                 "password": value.passwordController.text,
                                 "dob": value.dobController.text,
-                                "type": "email"
+                                "type": "email",
+                                'longitude': long,
+                                'latitude': lat,
+                                "loc": {
+                                  "type": "Point",
+                                  "coordinates": [
+                                    double.parse(long),
+                                    double.parse(lat)
+                                  ]
+                                }
                               };
                               if (value.validation()) {
                                 await signUpApiCall();

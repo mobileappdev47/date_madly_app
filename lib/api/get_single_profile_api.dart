@@ -12,15 +12,11 @@ import 'package:provider/provider.dart';
 import '../utils/endpoint.dart';
 
 class GetSingleProfileApi {
-  static getSingleProfileApi(context) async {
+  static getSingleProfileApi(context, userId) async {
     try {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request('POST', Uri.parse(EndPoints.getSingleProfile));
-      request.body = json.encode({
-        "_id": PrefService.getString(
-          PrefKeys.userId,
-        ),
-      });
+      request.body = json.encode({"_id": userId});
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();

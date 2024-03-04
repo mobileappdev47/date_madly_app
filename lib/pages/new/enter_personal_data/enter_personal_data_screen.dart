@@ -79,8 +79,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     try {
       loader = true;
       setState(() {});
-      getSingleProfileModel =
-          await GetSingleProfileApi.getSingleProfileApi(context);
+      getSingleProfileModel = await GetSingleProfileApi.getSingleProfileApi(
+          context, PrefService.getString(PrefKeys.userId));
 
       loader = false;
       setState(() {});

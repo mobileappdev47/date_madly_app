@@ -31,7 +31,7 @@ class _HomeMainState extends State<HomeMain> {
 
   PageController pageController =
       PageController(initialPage: 0, keepPage: true);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     Home(),
     Chat(),
     Likes(),

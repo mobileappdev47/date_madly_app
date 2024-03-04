@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/additinal_details_api.dart';
 import 'package:date_madly_app/api/add_like_dislike.dart';
@@ -20,19 +21,21 @@ import 'package:date_madly_app/utils/font_family.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 
 import '../../api/get_All_api.dart';
 import '../../models/user_model.dart';
 import '../../providers/home_main_provider.dart';
-import '../../utils/body_builder.dart';
+
 import '../../utils/colors.dart';
-import '../../utils/text_style.dart';
+
 import '../../utils/texts.dart';
 import '../likes/main.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:geocoding/geocoding.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -65,7 +68,43 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getallapicall();
+    getCurrentLatLang();
     getNotification();
+  }
+
+  String locationData = '';
+  String lat = '';
+  String long = '';
+  Future getCurrentLatLang() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        double.parse(lat),
+        double.parse(long),
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        print(
+            'Place: ${place.name}, ${place.subThoroughfare}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.country}');
+        locationData = place.administrativeArea! + ' , ' + place.country!;
+      } else {
+        print('No place found for the given coordinates.');
+      }
+    }
   }
 
   filterApiCall(filterBody) async {
@@ -89,12 +128,32 @@ class _HomeState extends State<Home> {
   double _currentSliderValue = 0;
   double ageValue = 0;
   var currentindex1 = -1;
+  List distanceList = [];
 
   getallapicall() async {
     try {
+      distanceList.clear();
       loder = true;
       setState(() {});
       getAll = await GetAllApi.getallApi();
+      if (getAll.users != null) {
+        for (int i = 0; i < getAll.users!.length; i++) {
+          if (getAll.users![i].loc != null &&
+              getAll.users![i].loc!.coordinates != null &&
+              getAll.users![i].loc!.coordinates!.isNotEmpty) {
+            double distance = calculateDistance(
+              double.parse(PrefService.getString(PrefKeys.lat)),
+              double.parse(PrefService.getString(PrefKeys.long)),
+              double.parse(getAll.users![i].loc!.coordinates!.first.toString()),
+              double.parse(getAll.users![i].loc!.coordinates!.last.toString()),
+            );
+            distanceList.add(distance.toStringAsFixed(0).toString() + ' KM ');
+          } else {
+            distanceList.add('');
+          }
+        }
+      }
+
       remainingUsers = getAll.users ?? [];
       loder = false;
 
@@ -104,6 +163,35 @@ class _HomeState extends State<Home> {
       setState(() {});
       print('===>${e.toString()}');
     }
+  }
+
+  double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
+    const double earthRadius = 6371.0; // Radius of the Earth in kilometers
+
+    // Convert degrees to radians
+    lat1 = degreesToRadians(lat1);
+    lon1 = degreesToRadians(lon1);
+    lat2 = degreesToRadians(lat2);
+    lon2 = degreesToRadians(lon2);
+
+    // Calculate the differences
+    double dlat = lat2 - lat1;
+    double dlon = lon2 - lon1;
+
+    // Haversine formula
+    double a =
+        pow(sin(dlat / 2), 2) + cos(lat1) * cos(lat2) * pow(sin(dlon / 2), 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    // Calculate the distance
+    double distance = earthRadius * c;
+
+    print(distance);
+    return distance;
+  }
+
+  double degreesToRadians(double degrees) {
+    return degrees * (pi / 180.0);
   }
 
   getNotification() {
@@ -119,6 +207,7 @@ class _HomeState extends State<Home> {
       setState(() {});
       addLikeDislikeModel =
           await AddLikedDislikeProfileApi.addLikedDislikeProfileapi(id, status);
+
       loder = false;
       setState(() {});
     } catch (e) {
@@ -294,7 +383,7 @@ class _HomeState extends State<Home> {
                             width: MediaQuery.of(context).size.width / 30,
                           ),
                           Text(
-                            Strings.Jakarta,
+                            locationData,
                             style: mulish14400.copyWith(
                               color: ColorRes.darkGrey,
                               fontSize: 14.06,
@@ -678,7 +767,7 @@ class _HomeState extends State<Home> {
                                               width: 10,
                                             ),
                                             Text(
-                                              Strings.homeKM,
+                                              distanceList[index] ?? '',
                                               style: mulish14400.copyWith(
                                                 fontSize: 12,
                                               ),

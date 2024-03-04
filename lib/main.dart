@@ -4,28 +4,18 @@ import 'dart:io';
 import 'package:country_codes/country_codes.dart';
 
 import 'package:date_madly_app/pages/chat/new_provider.dart';
-import 'package:date_madly_app/pages/chat/main.dart';
-import 'package:date_madly_app/pages/home/home.dart';
-import 'package:date_madly_app/pages/home/likes_you_screen.dart';
+
 import 'package:date_madly_app/pages/home/main.dart';
-import 'package:date_madly_app/pages/login/dob.dart';
-import 'package:date_madly_app/pages/login/gender.dart';
+
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
-import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
-import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
-import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
-import 'package:date_madly_app/pages/login/relationship_status.dart';
+
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
-import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
-import 'package:date_madly_app/pages/login/tall.dart';
-import 'package:date_madly_app/pages/login/work.dart';
+
 import 'package:date_madly_app/pages/me/additional_details.dart';
-import 'package:date_madly_app/pages/me/my_gallery.dart';
-import 'package:date_madly_app/pages/me/widgets/ChangePassword/change_password.dart';
+
 import 'package:date_madly_app/pages/me/widgets/ChangePassword/changepassword_provider.dart';
-import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
