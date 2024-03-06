@@ -16,8 +16,7 @@ import 'package:provider/provider.dart';
 import '../../utils/constants.dart';
 
 class UploadImage extends StatefulWidget {
-  const UploadImage(
-      {super.key, required this.newLogin,this.profileModel});
+  const UploadImage({super.key, required this.newLogin, this.profileModel});
 
   final bool newLogin;
   final ProfileModel? profileModel;

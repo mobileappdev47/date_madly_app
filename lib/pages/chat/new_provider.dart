@@ -109,11 +109,7 @@ class NewChatProvider extends ChangeNotifier {
 
   int deleteIndex = 0;
   void gotoChatScreen(
-    BuildContext context,
-    String otherUid,
-    email,
-      userImage
-  ) async {
+      BuildContext context, String otherUid, email, userImage) async {
     await getRoomId(otherUid);
     // Navigator.push(
     //     context,
@@ -127,7 +123,7 @@ class NewChatProvider extends ChangeNotifier {
         context,
         MaterialPageRoute(
             builder: (context) => ChatScreen(
-              image:userImage,
+                image: userImage,
                 roomId: roomId,
                 email: email,
                 otherEmail: otherUid,
@@ -237,7 +233,7 @@ class NewChatProvider extends ChangeNotifier {
   }
 
   var imageChat;
-bool loader = false;
+  bool loader = false;
   pickImage(context, roomId) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -247,80 +243,79 @@ bool loader = false;
       showDialog(
           context: context,
           builder: (context) {
-            return StatefulBuilder(
-              builder: (context,s) {
-                return AlertDialog(
-                    title: Text("Send Image"),
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            Container(
-                                height: 300,
-                                width: 300,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Image.file(File(pickedFile.path))),
-                            loader == true
-                                ? Center(
-                              child: CircularProgressIndicator(color: ColorRes.appColor,),
-                            )
-                                : SizedBox()
-                          ],
+            return StatefulBuilder(builder: (context, s) {
+              return AlertDialog(
+                  title: Text("Send Image"),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Container(
+                              height: 300,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Image.file(File(pickedFile.path))),
+                          loader == true
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: ColorRes.appColor,
+                                  ),
+                                )
+                              : SizedBox()
+                        ],
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    GestureDetector(
+                      onTap: () {
+                        imageChat = null;
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 90,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: ColorRes.appColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      ],
-                    ),
-                    actions: [
-                      InkWell(
-                        onTap: () {
-                          imageChat = null;
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 90,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: ColorRes.appColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            "Cancel",
-                            style: TextStyle(color: ColorRes.white, fontSize: 15),
-                          ),
+                        child: const Text(
+                          "Cancel",
+                          style: TextStyle(color: ColorRes.white, fontSize: 15),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          loader =true;
-                          s.call((){});
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        loader = true;
+                        s.call(() {});
 
-                          await uploadImage(roomId);
-                          Navigator.pop(context);
+                        await uploadImage(roomId);
+                        Navigator.pop(context);
 
-                          loader =false;
-                          s.call((){});
-
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 90,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: ColorRes.appColor,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: const Text(
-                            "Send",
-                            style: TextStyle(color: ColorRes.white, fontSize: 15),
-                          ),
+                        loader = false;
+                        s.call(() {});
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 90,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: ColorRes.appColor,
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      )
-                    ]);
-              }
-            );
+                        child: const Text(
+                          "Send",
+                          style: TextStyle(color: ColorRes.white, fontSize: 15),
+                        ),
+                      ),
+                    )
+                  ]);
+            });
           });
       print(pickedFile.path);
       notifyListeners();

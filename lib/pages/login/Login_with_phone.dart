@@ -306,15 +306,14 @@ class _PhoneOTPState extends State<PhoneOTP> {
               const SizedBox(
                 width: 10,
               ),
-              Text(
-                Strings.Lovecirc,
-                style: mulishbold.copyWith(fontSize: 15,color: ColorRes.darkGrey)
-              ),
+              Text(Strings.Lovecirc,
+                  style: mulishbold.copyWith(
+                      fontSize: 15, color: ColorRes.darkGrey)),
             ],
           ),
           const SizedBox(height: 20),
           Image.asset(
-            AssertRe.loginIntro,fit: BoxFit.cover,
+            AssertRe.loginIntro, fit: BoxFit.cover,
             // "assets/images/loginIntro.png",
             scale: 3.3,
           ),
@@ -372,7 +371,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       ),
                       child: Text(
                         Strings.sign_up,
-                        style: popinsbold().copyWith(color: ColorRes.white,fontSize: 14),
+                        style: popinsbold()
+                            .copyWith(color: ColorRes.white, fontSize: 14),
                       ),
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),
@@ -491,7 +491,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                       ),
                       child: Text(
                         Strings.log_in,
-                        style: popinsbold().copyWith(color: ColorRes.white,fontSize: 14),
+                        style: popinsbold()
+                            .copyWith(color: ColorRes.white, fontSize: 14),
                       ),
                       width: MediaQuery.of(context).size.width * 0.8,
                     ),

@@ -29,7 +29,12 @@ class ChatScreen extends StatefulWidget {
   final String? image;
 
   ChatScreen(
-      {Key? key, this.email, this.userEmail, this.otherEmail, this.roomId,this.image})
+      {Key? key,
+      this.email,
+      this.userEmail,
+      this.otherEmail,
+      this.roomId,
+      this.image})
       : super(key: key);
 
   @override
@@ -83,24 +88,19 @@ class _ChatScreenState extends State<ChatScreen> {
                               height: 50,
                               width: 50,
                               fit: BoxFit.fill,
-                              placeholder: (context,
-                                  url) =>
-                                  Image.asset(
+                              placeholder: (context, url) => Image.asset(
                                     'assets/images/image_placeholder.png',
                                     height: 60,
                                     width: 60,
                                     fit: BoxFit.fill,
                                   ),
-                              errorWidget: (context,
-                                  url, error) =>
-                                  Image.asset(
+                              errorWidget: (context, url, error) => Image.asset(
                                     'assets/images/image_placeholder.png',
                                     height: 60,
                                     width: 60,
                                     fit: BoxFit.fill,
                                   )),
                         ),
-
                         SizedBox(
                           width: 10,
                         ),
@@ -120,41 +120,11 @@ class _ChatScreenState extends State<ChatScreen> {
                               SizedBox(
                                 height: 5,
                               ),
-                              Text(
-                                Strings.online,
-                                style: mulishbold.copyWith(
-                                  fontSize: 15,
-                                  color: ColorRes.darkGrey,
-                                ),
-                              )
                             ],
                           ),
                         )
                       ],
                     ),
-                    actions: [
-                      IconButton(
-                        icon: Image.asset(
-                          AssertRe.Call,
-                          scale: 3,
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Call(),
-                          ));
-                        },
-                      ),
-                      IconButton(
-                        icon: Image.asset(
-                          AssertRe.Video_Call,
-                          scale: 3,
-                        ),
-                        onPressed: () {},
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                    ],
                   ),
                 ),
               ),
@@ -325,39 +295,46 @@ class _ChatScreenState extends State<ChatScreen> {
                                                               child: Container(
                                                                 padding: EdgeInsets
                                                                     .symmetric(
-                                                                  horizontal:
-                                                                  MediaQuery.of(context).size.width *
+                                                                  horizontal: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
                                                                       0.05,
-                                                                  vertical:
-                                                                  MediaQuery.of(context).size.width *
+                                                                  vertical: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width *
                                                                       0.03,
                                                                 ),
                                                                 margin:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    bottom: 5),
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        bottom:
+                                                                            5),
                                                                 decoration:
-                                                                BoxDecoration(
+                                                                    BoxDecoration(
                                                                   color: ColorRes
                                                                       .white,
                                                                   borderRadius: BorderRadius.only(
-                                                                      topRight: Radius
-                                                                          .circular(
-                                                                          20),
+                                                                      topRight:
+                                                                          Radius.circular(
+                                                                              20),
                                                                       bottomLeft:
-                                                                      Radius.circular(
-                                                                          20),
+                                                                          Radius.circular(
+                                                                              20),
                                                                       bottomRight:
-                                                                      Radius.circular(
-                                                                          20)),
-
+                                                                          Radius.circular(
+                                                                              20)),
                                                                 ),
-                                                                alignment: Alignment
-                                                                    .center,
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
                                                                 constraints:
-                                                                BoxConstraints(
-                                                                  maxWidth:
-                                                                  MediaQuery.of(context).size.width /
+                                                                    BoxConstraints(
+                                                                  maxWidth: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width /
                                                                       1.5,
                                                                 ),
                                                                 child: SizedBox(
@@ -370,9 +347,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                         .copyWith(
                                                                       fontSize:
                                                                           12,
-                                                                      color:
-                                                                          ColorRes
-                                                                              .black,
+                                                                      color: ColorRes
+                                                                          .black,
                                                                     ),
                                                                   ),
                                                                 ),
@@ -386,9 +362,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 height: 3,
                                               ),
                                               Text(
-                                                DateFormat("hh:mm aa").format((
-                                                            documents[index]
-                                                                ["time"].toDate())),
+                                                DateFormat("hh:mm aa").format(
+                                                    (documents[index]["time"]
+                                                        .toDate())),
                                                 style: const TextStyle(
                                                     color: ColorRes.black,
                                                     fontSize: 8),
@@ -448,32 +424,37 @@ class _ChatScreenState extends State<ChatScreen> {
                                                         children: [
                                                           IntrinsicWidth(
                                                             child: Container(
-
                                                               margin:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  bottom: 5),
+                                                                  const EdgeInsets
+                                                                      .only(
+                                                                      bottom:
+                                                                          5),
                                                               decoration:
-                                                              BoxDecoration(
+                                                                  BoxDecoration(
                                                                 color: ColorRes
                                                                     .appColor,
                                                                 borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                    10),
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10),
                                                               ),
-                                                              alignment: Alignment
-                                                                  .center,
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                               constraints:
-                                                              BoxConstraints(
-                                                                maxWidth:
-                                                                MediaQuery.of(context).size.width /
+                                                                  BoxConstraints(
+                                                                maxWidth: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
                                                                     1.5,
                                                               ),
-                                                              child: CustomPaint(
+                                                              child:
+                                                                  CustomPaint(
                                                                 painter:
                                                                     ChatBubblePainter(),
-                                                                child: Container(
+                                                                child:
+                                                                    Container(
                                                                   padding:
                                                                       EdgeInsets
                                                                           .all(
@@ -483,16 +464,18 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                     color: ColorRes
                                                                         .colorFF9BAD,
                                                                     borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                10.0),
+                                                                        BorderRadius.circular(
+                                                                            10.0),
                                                                   ),
                                                                   child: Text(
-                                                                    documents[index]
-                                                                        ["content"],
+                                                                    documents[
+                                                                            index]
+                                                                        [
+                                                                        "content"],
                                                                     style: mulish14400
                                                                         .copyWith(
-                                                                      fontSize: 12,
+                                                                      fontSize:
+                                                                          12,
                                                                       color: ColorRes
                                                                           .white,
                                                                     ),
@@ -507,7 +490,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                         ],
                                                       ),
                                                     ),
-
                                               const SizedBox(
                                                 height: 3,
                                               ),
@@ -516,9 +498,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                                     Alignment.centerRight,
                                                 child: Text(
                                                   DateFormat("hh:mm aa").format(
-
-                                                              documents[index]
-                                                                  ["time"].toDate()),
+                                                      documents[index]["time"]
+                                                          .toDate()),
                                                   style: const TextStyle(
                                                       color: ColorRes.black,
                                                       fontSize: 8),

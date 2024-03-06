@@ -588,7 +588,7 @@ class _HomeState extends State<Home> {
                       onTap: () {
                         currentindex1 = -1;
                         _currentSliderValue = 0;
-                        values = SfRangeValues(20, 30);
+                        values = SfRangeValues(20, 20);
                         setState(() {});
                       },
                       child: Container(

@@ -63,12 +63,12 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         phoneError = 'Enter the Mobile Number';
       });
       return false;
-    }else
-    if (RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)').hasMatch(phoneController.text)) {
+    } else if (RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+        .hasMatch(phoneController.text)) {
       setState(() {
         phoneError = '';
       });
-     // return true;
+      // return true;
     } else {
       setState(() {
         phoneError = 'Enter the valid number';
@@ -259,8 +259,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     child: Text(
                         'We need your mobile number to get you signed in',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: ColorRes.darkGrey, fontSize: 12)),
+                        style:
+                            TextStyle(color: ColorRes.darkGrey, fontSize: 12)),
                   ),
                 ],
               ),
@@ -273,14 +273,14 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   GestureDetector(
                     onTap: () {
                       FocusScope.of(context).unfocus();
-                        if (validation()) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtpVerificationSCreen(
-                                phone: phoneController.text),
-                          ));
-                     }
+                      if (validation()) {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtpVerificationSCreen(
+                                  phone: phoneController.text),
+                            ));
+                      }
                     },
                     child: Container(
                       alignment: Alignment.center,

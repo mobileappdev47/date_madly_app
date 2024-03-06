@@ -16,7 +16,6 @@ class LoginWithEmail extends StatefulWidget {
 class _LoginWithEmailState extends State<LoginWithEmail> {
   late SharedPreferences sharedPreferences;
   Api api = Api();
-  
 
   var phoneEmail;
   var pass;
@@ -167,11 +166,9 @@ class _LoginWithEmailState extends State<LoginWithEmail> {
               //   ),
               // ),
               // SizedBox(height: 20),
-              SignInButton(
-                Buttons.GoogleDark,
-                text: "Continue with Google",
-                onPressed: ()=>_signInGoogle(context)
-              ),
+              SignInButton(Buttons.GoogleDark,
+                  text: "Continue with Google",
+                  onPressed: () => _signInGoogle(context)),
               SignInButton(
                 Buttons.Email,
                 onPressed: () {},

@@ -480,7 +480,7 @@ class _ChatState extends State<Chat> {
                                                     userEmail) {
                                                   return const SizedBox();
                                                 } else {
-                                                  return GestureDetector(
+                                                  return InkWell(
                                                     onTap: () {
                                                       value.gotoChatScreen(
                                                           context,
@@ -717,7 +717,7 @@ class _ChatState extends State<Chat> {
                                     userEmail) {
                                   return const SizedBox();
                                 } else {
-                                  return GestureDetector(
+                                  return InkWell(
                                     onTap: () {
                                       value.gotoChatScreen(
                                         context,

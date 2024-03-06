@@ -89,7 +89,7 @@ class _MyMatchesState extends State<MyMatches> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: widget.chatUsers.length,
-                      itemBuilder: (context, index) => GestureDetector(
+                      itemBuilder: (context, index) => InkWell(
                         onTap: () {
                           NewChatProvider newChatProvider =
                               Provider.of<NewChatProvider>(context,
@@ -221,7 +221,7 @@ class _MyMatchesState extends State<MyMatches> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: filterList.length,
-                      itemBuilder: (context, index) => GestureDetector(
+                      itemBuilder: (context, index) => InkWell(
                         onTap: () {
                           NewChatProvider newChatProvider =
                               Provider.of<NewChatProvider>(context,

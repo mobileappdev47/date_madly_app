@@ -750,7 +750,7 @@ class _LikesState extends State<Likes> {
                 //           Rect.fromLTRB(0, 0, rect.width, rect.height / 1));
                 //     },
                 //     blendMode: BlendMode.dstIn,
-                //     child: InkWell(
+                //     child: GestureDetector(
                 //       splashColor:
                 //           Theme.of(context).colorScheme.tertiaryContainer,
                 //       onTap: () => print("je"),

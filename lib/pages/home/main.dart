@@ -69,43 +69,80 @@ class _HomeMainState extends State<HomeMain> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                    onTap: () {
-                      nextPage(0);
-                    },
+                GestureDetector(
+                  onTap: () {
+                    nextPage(0);
+                  },
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: currentIndex == 0
+                            ? ColorRes.appColor.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle),
                     child: Image.asset(
                       'assets/icons/Home.png',
                       color: currentIndex == 0 ? ColorRes.appColor : null,
                       scale: 4,
-                    )),
-                InkWell(
+                    ),
+                  ),
+                ),
+                GestureDetector(
                   onTap: () {
                     nextPage(1);
                   },
-                  child: Image.asset(
-                    'assets/icons/Chat.png',
-                    color: currentIndex == 1 ? ColorRes.appColor : null,
-                    scale: 4,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: currentIndex == 1
+                            ? ColorRes.appColor.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle),
+                    child: Image.asset(
+                      'assets/icons/Chat.png',
+                      color: currentIndex == 1 ? ColorRes.appColor : null,
+                      scale: 4,
+                    ),
                   ),
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     nextPage(2);
                   },
-                  child: Image.asset(
-                    'assets/icons/Love.png',
-                    color: currentIndex == 2 ? ColorRes.appColor : null,
-                    scale: 4,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: currentIndex == 2
+                            ? ColorRes.appColor.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle),
+                    child: Image.asset(
+                      'assets/icons/Love.png',
+                      color: currentIndex == 2 ? ColorRes.appColor : null,
+                      scale: 4,
+                    ),
                   ),
                 ),
-                InkWell(
+                GestureDetector(
                   onTap: () {
                     nextPage(3);
                   },
-                  child: Image.asset(
-                    'assets/icons/Profile.png',
-                    color: currentIndex == 3 ? ColorRes.appColor : null,
-                    scale: 4,
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                        color: currentIndex == 3
+                            ? ColorRes.appColor.withOpacity(0.2)
+                            : Colors.transparent,
+                        shape: BoxShape.circle),
+                    child: Image.asset(
+                      'assets/icons/Profile.png',
+                      color: currentIndex == 3 ? ColorRes.appColor : null,
+                      scale: 4,
+                    ),
                   ),
                 ),
               ],

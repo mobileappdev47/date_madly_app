@@ -77,14 +77,19 @@ class _CallState extends State<Call> {
                   color: ColorRes.darkGrey,
                   fontSize: 12,
                   fontWeight: FontWeight.w400)),
-          SizedBox(height: 170,),
+          SizedBox(
+            height: 170,
+          ),
           Expanded(
             child: CircleAvatar(
               radius: 40,
               backgroundColor: ColorRes.appColor,
               child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
             ),
-          ), SizedBox(height: 20,),
+          ),
+          SizedBox(
+            height: 20,
+          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -107,8 +112,7 @@ class _CallState extends State<Call> {
                     child: CircleAvatar(
                       radius: 30,
                       backgroundColor: ColorRes.white,
-                      child:
-                      Image.asset('assets/icons/Speaker.png', scale: 4),
+                      child: Image.asset('assets/icons/Speaker.png', scale: 4),
                     ),
                   ),
                   Container(
@@ -128,7 +132,7 @@ class _CallState extends State<Call> {
                       radius: 30,
                       backgroundColor: ColorRes.white,
                       child:
-                      Image.asset('assets/icons/Video Call.png', scale: 4),
+                          Image.asset('assets/icons/Video Call.png', scale: 4),
                     ),
                   ),
                   Container(
@@ -147,11 +151,11 @@ class _CallState extends State<Call> {
                     child: CircleAvatar(
                       radius: 30,
                       backgroundColor: ColorRes.white,
-                      child:
-                      Image.asset('assets/icons/Turn Off Voice.png', scale: 4),
+                      child: Image.asset('assets/icons/Turn Off Voice.png',
+                          scale: 4),
                     ),
                   ),
-                 /* Expanded(
+                  /* Expanded(
                     flex: 2,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,

@@ -103,6 +103,7 @@ Future<void> main() async {
       print('Message also contained a notification: ${message.notification}');
     }
   });
+
   // await initializeService();
   // FlutterBackgroundService().invoke("setAsBackground");
   // mqttFunctions.startMQTT();

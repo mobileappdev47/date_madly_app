@@ -24,6 +24,43 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
     ),
     context: context,
     builder: (context) {
+      List dataList = [];
+
+      if (getAll.users![index].gender != '' &&
+          getAll.users![index].gender != null) {
+        dataList.add({
+          'data': 'Gender',
+          'detail': getAll.users![index].gender,
+        });
+      }
+      if (getAll.users![index].college != '' &&
+          getAll.users![index].college != null) {
+        dataList.add({
+          'data': 'College',
+          'detail': getAll.users![index].college,
+        });
+      }
+      if (getAll.users![index].job != '' && getAll.users![index].job != null) {
+        dataList.add({
+          'data': 'Designation',
+          'detail': getAll.users![index].job,
+        });
+      }
+      if (getAll.users![index].profileScore != '' &&
+          getAll.users![index].profileScore != null) {
+        dataList.add({
+          'data': 'Profile Score',
+          'detail': getAll.users![index].profileScore.toString(),
+        });
+      }
+      if (getAll.users![index].company != '' &&
+          getAll.users![index].company != null) {
+        dataList.add({
+          'data': 'Company',
+          'detail': getAll.users![index].company,
+        });
+      }
+
       return Wrap(
         children: [
           Stack(
@@ -99,28 +136,28 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                               color: ColorRes.darkGrey,
                             ),
                           ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MyUpload_Photo(
-                                        imageUrl:
-                                            getAll.users![index].images?[0] ??
-                                                '',
-                                        userId: getAll.users?[index].id ?? ''),
-                                  ));
-                            },
-                            child: Text(
-                              'Comment',
-                              style: mulish14400.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                                color: ColorRes.darkGrey,
-                              ),
-                            ),
-                          ),
+                          // Spacer(),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.push(
+                          //         context,
+                          //         MaterialPageRoute(
+                          //           builder: (context) => MyUpload_Photo(
+                          //               imageUrl:
+                          //                   getAll.users![index].images?[0] ??
+                          //                       '',
+                          //               userId: getAll.users?[index].id ?? ''),
+                          //         ));
+                          //   },
+                          //   child: Text(
+                          //     'Comment',
+                          //     style: mulish14400.copyWith(
+                          //       fontSize: 18,
+                          //       fontWeight: FontWeight.w600,
+                          //       color: ColorRes.darkGrey,
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                       Text(
@@ -134,417 +171,488 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                       SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: GestureDetector(
-                              child: Container(
-                                height: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: ColorRes.colorF4f4f4,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(50),
-                                          color: Colors.grey.shade50),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: ColorRes.darkGrey,
-                                        size: 14,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 7,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          Strings.genderss,
-                                          style: mulish14400.copyWith(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w300,
-                                            color: ColorRes.darkGrey,
-                                          ),
-                                        ),
-                                        Text(
-                                          '${getAll.users![index].gender}' ??
-                                              '',
-                                          style: mulish14400.copyWith(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: ColorRes.darkGrey,
-                                          ),
+                      GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: dataList.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 2,
+                        ),
+                        itemBuilder: (context, index) {
+                          return Container(
+                            height: 80,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorRes.colorF4f4f4,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 30,
+                                  width: 30,
+                                  decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.grey.withOpacity(0.5),
+                                          spreadRadius: 1,
+                                          blurRadius: 2,
+                                          offset: Offset(0, 3),
                                         ),
                                       ],
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: Colors.grey.shade50),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: ColorRes.darkGrey,
+                                    size: 14,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      dataList[index]['data'],
+                                      style: mulish14400.copyWith(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300,
+                                        color: ColorRes.darkGrey,
+                                      ),
+                                    ),
+                                    Text(
+                                      dataList[index]?['detail'] ?? '',
+                                      style: mulish14400.copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w600,
+                                        color: ColorRes.darkGrey,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => LikeMatches(),
-                                    ));
-                              },
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorRes.colorF4f4f4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.grey.shade50),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: ColorRes.darkGrey,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        Strings.RelationStatus,
-                                        style: mulish14400.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${getAll.users![index].gender ?? ''}' ??
-                                            '',
-                                        style: mulish14400.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorRes.colorF4f4f4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.grey.shade50),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: ColorRes.darkGrey,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        Strings.degree,
-                                        style: mulish14400.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${getAll.users![index].college ?? ''}' ??
-                                            '',
-                                        style: mulish14400.copyWith(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorRes.colorF4f4f4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.grey.shade50),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: ColorRes.darkGrey,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        Strings.designation,
-                                        style: mulish14400.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${getAll.users![index].job ?? ''}' ??
-                                            '',
-                                        style: mulish14400.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorRes.colorF4f4f4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.grey.shade50),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: ColorRes.darkGrey,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        Strings.companys,
-                                        style: mulish14400.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${getAll.users![index].company ?? ''}' ??
-                                            '',
-                                        style: mulish14400.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 7,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: ColorRes.colorF4f4f4,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 30,
-                                    width: 30,
-                                    decoration: BoxDecoration(
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.grey.withOpacity(0.5),
-                                            spreadRadius: 1,
-                                            blurRadius: 2,
-                                            offset: Offset(0,
-                                                3), // changes position of shadow
-                                          ),
-                                        ],
-                                        borderRadius: BorderRadius.circular(50),
-                                        color: Colors.grey.shade50),
-                                    child: Icon(
-                                      Icons.close,
-                                      color: ColorRes.darkGrey,
-                                      size: 14,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 7,
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        Strings.profileScore,
-                                        style: mulish14400.copyWith(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${getAll.users![index].profileScore}' ??
-                                            '',
-                                        style: mulish14400.copyWith(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: ColorRes.darkGrey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                          );
+                        },
+                      )
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: GestureDetector(
+                      //         child: Container(
+                      //           height: 80,
+                      //           decoration: BoxDecoration(
+                      //             borderRadius: BorderRadius.circular(8),
+                      //             color: ColorRes.colorF4f4f4,
+                      //           ),
+                      //           child: Row(
+                      //             mainAxisAlignment: MainAxisAlignment.center,
+                      //             children: [
+                      //               Container(
+                      //                 height: 30,
+                      //                 width: 30,
+                      //                 decoration: BoxDecoration(
+                      //                     boxShadow: [
+                      //                       BoxShadow(
+                      //                         color:
+                      //                             Colors.grey.withOpacity(0.5),
+                      //                         spreadRadius: 1,
+                      //                         blurRadius: 2,
+                      //                         offset: Offset(0,
+                      //                             3), // changes position of shadow
+                      //                       ),
+                      //                     ],
+                      //                     borderRadius:
+                      //                         BorderRadius.circular(50),
+                      //                     color: Colors.grey.shade50),
+                      //                 child: Icon(
+                      //                   Icons.close,
+                      //                   color: ColorRes.darkGrey,
+                      //                   size: 14,
+                      //                 ),
+                      //               ),
+                      //               SizedBox(
+                      //                 width: 7,
+                      //               ),
+                      //               Column(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                 mainAxisAlignment:
+                      //                     MainAxisAlignment.center,
+                      //                 children: [
+                      //                   Text(
+                      //                     Strings.genderss,
+                      //                     style: mulish14400.copyWith(
+                      //                       fontSize: 12,
+                      //                       fontWeight: FontWeight.w300,
+                      //                       color: ColorRes.darkGrey,
+                      //                     ),
+                      //                   ),
+                      //                   Text(
+                      //                     '${getAll.users![index].gender}' ??
+                      //                         '',
+                      //                     style: mulish14400.copyWith(
+                      //                       fontSize: 14,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       color: ColorRes.darkGrey,
+                      //                     ),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ],
+                      //           ),
+                      //         ),
+                      //         onTap: () {
+                      //           Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                 builder: (context) => LikeMatches(),
+                      //               ));
+                      //         },
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 7,
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 80,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: ColorRes.colorF4f4f4,
+                      //         ),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             Container(
+                      //               height: 30,
+                      //               width: 30,
+                      //               decoration: BoxDecoration(
+                      //                   boxShadow: [
+                      //                     BoxShadow(
+                      //                       color: Colors.grey.withOpacity(0.5),
+                      //                       spreadRadius: 1,
+                      //                       blurRadius: 2,
+                      //                       offset: Offset(0,
+                      //                           3), // changes position of shadow
+                      //                     ),
+                      //                   ],
+                      //                   borderRadius: BorderRadius.circular(50),
+                      //                   color: Colors.grey.shade50),
+                      //               child: Icon(
+                      //                 Icons.close,
+                      //                 color: ColorRes.darkGrey,
+                      //                 size: 14,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 7,
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   Strings.RelationStatus,
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 12,
+                      //                     fontWeight: FontWeight.w300,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   '${getAll.users![index].gender ?? ''}' ??
+                      //                       '',
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w600,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 80,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: ColorRes.colorF4f4f4,
+                      //         ),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             Container(
+                      //               height: 30,
+                      //               width: 30,
+                      //               decoration: BoxDecoration(
+                      //                   boxShadow: [
+                      //                     BoxShadow(
+                      //                       color: Colors.grey.withOpacity(0.5),
+                      //                       spreadRadius: 1,
+                      //                       blurRadius: 2,
+                      //                       offset: Offset(0,
+                      //                           3), // changes position of shadow
+                      //                     ),
+                      //                   ],
+                      //                   borderRadius: BorderRadius.circular(50),
+                      //                   color: Colors.grey.shade50),
+                      //               child: Icon(
+                      //                 Icons.close,
+                      //                 color: ColorRes.darkGrey,
+                      //                 size: 14,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 7,
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   Strings.degree,
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 12,
+                      //                     fontWeight: FontWeight.w300,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   '${getAll.users![index].college ?? ''}' ??
+                      //                       '',
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 10,
+                      //                     fontWeight: FontWeight.w600,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 7,
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 80,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: ColorRes.colorF4f4f4,
+                      //         ),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             Container(
+                      //               height: 30,
+                      //               width: 30,
+                      //               decoration: BoxDecoration(
+                      //                   boxShadow: [
+                      //                     BoxShadow(
+                      //                       color: Colors.grey.withOpacity(0.5),
+                      //                       spreadRadius: 1,
+                      //                       blurRadius: 2,
+                      //                       offset: Offset(0,
+                      //                           3), // changes position of shadow
+                      //                     ),
+                      //                   ],
+                      //                   borderRadius: BorderRadius.circular(50),
+                      //                   color: Colors.grey.shade50),
+                      //               child: Icon(
+                      //                 Icons.close,
+                      //                 color: ColorRes.darkGrey,
+                      //                 size: 14,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 7,
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   Strings.designation,
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 12,
+                      //                     fontWeight: FontWeight.w300,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   '${getAll.users![index].job ?? ''}' ??
+                      //                       '',
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w600,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 80,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: ColorRes.colorF4f4f4,
+                      //         ),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             Container(
+                      //               height: 30,
+                      //               width: 30,
+                      //               decoration: BoxDecoration(
+                      //                   boxShadow: [
+                      //                     BoxShadow(
+                      //                       color: Colors.grey.withOpacity(0.5),
+                      //                       spreadRadius: 1,
+                      //                       blurRadius: 2,
+                      //                       offset: Offset(0,
+                      //                           3), // changes position of shadow
+                      //                     ),
+                      //                   ],
+                      //                   borderRadius: BorderRadius.circular(50),
+                      //                   color: Colors.grey.shade50),
+                      //               child: Icon(
+                      //                 Icons.close,
+                      //                 color: ColorRes.darkGrey,
+                      //                 size: 14,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 7,
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   Strings.companys,
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 12,
+                      //                     fontWeight: FontWeight.w300,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   '${getAll.users![index].company ?? ''}' ??
+                      //                       '',
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w600,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     SizedBox(
+                      //       width: 7,
+                      //     ),
+                      //     Expanded(
+                      //       child: Container(
+                      //         height: 80,
+                      //         decoration: BoxDecoration(
+                      //           borderRadius: BorderRadius.circular(8),
+                      //           color: ColorRes.colorF4f4f4,
+                      //         ),
+                      //         child: Row(
+                      //           mainAxisAlignment: MainAxisAlignment.center,
+                      //           children: [
+                      //             Container(
+                      //               height: 30,
+                      //               width: 30,
+                      //               decoration: BoxDecoration(
+                      //                   boxShadow: [
+                      //                     BoxShadow(
+                      //                       color: Colors.grey.withOpacity(0.5),
+                      //                       spreadRadius: 1,
+                      //                       blurRadius: 2,
+                      //                       offset: Offset(0,
+                      //                           3), // changes position of shadow
+                      //                     ),
+                      //                   ],
+                      //                   borderRadius: BorderRadius.circular(50),
+                      //                   color: Colors.grey.shade50),
+                      //               child: Icon(
+                      //                 Icons.close,
+                      //                 color: ColorRes.darkGrey,
+                      //                 size: 14,
+                      //               ),
+                      //             ),
+                      //             SizedBox(
+                      //               width: 7,
+                      //             ),
+                      //             Column(
+                      //               crossAxisAlignment:
+                      //                   CrossAxisAlignment.start,
+                      //               mainAxisAlignment: MainAxisAlignment.center,
+                      //               children: [
+                      //                 Text(
+                      //                   Strings.profileScore,
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 12,
+                      //                     fontWeight: FontWeight.w300,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //                 Text(
+                      //                   '${getAll.users![index].profileScore}' ??
+                      //                       '',
+                      //                   style: mulish14400.copyWith(
+                      //                     fontSize: 14,
+                      //                     fontWeight: FontWeight.w600,
+                      //                     color: ColorRes.darkGrey,
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      ,
                       SizedBox(
                         height: 20,
                       ),
@@ -559,7 +667,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                             ),
                           ),
                           Spacer(),
-                          GestureDetector(
+                          InkWell(
                             child: Text(
                               Strings.seeall,
                               style: mulish14400.copyWith(

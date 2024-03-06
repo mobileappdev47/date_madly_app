@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
@@ -87,7 +89,8 @@ class _ProfileState extends State<Profile> {
         actions: [
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: GestureDetector(
+            child: InkWell(
+              splashColor: ColorRes.appColor.withOpacity(0.5),
               onTap: () {
                 showNotificationContainers(context, homeMainProvider);
               },
@@ -165,7 +168,7 @@ class _ProfileState extends State<Profile> {
                             width: 5,
                           ),
                           Text(
-                            getSingleProfileModel.profile?[0].profileScore
+                            getSingleProfileModel.profile?[0].likes
                                     .toString() ??
                                 '',
                             style: mulishbold.copyWith(
@@ -182,10 +185,13 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/Worrk_Icon.png',
-                        scale: 4,
-                      ),
+                      getSingleProfileModel.profile?[0].job != null &&
+                              getSingleProfileModel.profile?[0].job != ''
+                          ? Image.asset(
+                              'assets/icons/Worrk_Icon.png',
+                              scale: 4,
+                            )
+                          : SizedBox(),
                       SizedBox(
                         width: 1.5,
                       ),
@@ -194,10 +200,13 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
-                      Image.asset(
-                        'assets/icons/Education_Icon.png',
-                        scale: 4,
-                      ),
+                      getSingleProfileModel.profile?[0].college != null &&
+                              getSingleProfileModel.profile?[0].college != ''
+                          ? Image.asset(
+                              'assets/icons/Education_Icon.png',
+                              scale: 4,
+                            )
+                          : SizedBox(),
                       SizedBox(
                         width: 1.5,
                       ),
@@ -212,10 +221,13 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/Location_Icon.png',
-                        scale: 4,
-                      ),
+                      getSingleProfileModel.profile?[0].location != null &&
+                              getSingleProfileModel.profile?[0].location != ''
+                          ? Image.asset(
+                              'assets/icons/Location_Icon.png',
+                              scale: 4,
+                            )
+                          : SizedBox(),
                       SizedBox(
                         width: 1.5,
                       ),
@@ -224,10 +236,13 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(color: ColorRes.grey),
                       ),
                       Spacer(),
-                      Image.asset(
-                        'assets/icons/Company.png',
-                        scale: 4,
-                      ),
+                      getSingleProfileModel.profile?[0].company != null &&
+                              getSingleProfileModel.profile?[0].company != ''
+                          ? Image.asset(
+                              'assets/icons/Company.png',
+                              scale: 4,
+                            )
+                          : SizedBox(),
                       SizedBox(
                         width: 1.5,
                       ),
@@ -241,14 +256,17 @@ class _ProfileState extends State<Profile> {
                     height: 20,
                   ),
                   // Text(getEmail().toString()),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(Strings.about_me,
-                        style: mulish14400.copyWith(
-                            fontSize: 18,
-                            color: ColorRes.darkGrey,
-                            fontWeight: FontWeight.w700)),
-                  ),
+                  getSingleProfileModel.profile?[0].about != '' &&
+                          getSingleProfileModel.profile?[0].about != null
+                      ? Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(Strings.about_me,
+                              style: mulish14400.copyWith(
+                                  fontSize: 18,
+                                  color: ColorRes.darkGrey,
+                                  fontWeight: FontWeight.w700)),
+                        )
+                      : SizedBox(),
                   SizedBox(
                     height: 20,
                   ),
@@ -267,13 +285,17 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                      Text(
-                        Strings.gallery,
-                        style: mulishbold.copyWith(
-                          color: ColorRes.darkGrey,
-                          fontSize: 16,
-                        ),
-                      ),
+                      getSingleProfileModel.profile?[0].images != null &&
+                              getSingleProfileModel
+                                  .profile![0].images!.isNotEmpty
+                          ? Text(
+                              Strings.gallery,
+                              style: mulishbold.copyWith(
+                                color: ColorRes.darkGrey,
+                                fontSize: 16,
+                              ),
+                            )
+                          : SizedBox(),
                       Spacer(),
                       // GestureDetector(
                       //   onTap: () {
@@ -352,272 +374,278 @@ class _ProfileState extends State<Profile> {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) => Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0, right: 0),
-              child: Container(
-                  width: MediaQuery.of(context).size.width / 1.2,
-                  height: MediaQuery.of(context).size.height,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          bottomLeft: Radius.circular(30))),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              Strings.notification,
-                              style: mulishbold.copyWith(
-                                color: ColorRes.appColor,
-                                fontSize: 18,
+        return Scaffold(
+          body: StatefulBuilder(
+            builder: (context, setState) => Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0, right: 0),
+                child: Container(
+                    width: MediaQuery.of(context).size.width / 1.2,
+                    height: MediaQuery.of(context).size.height,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            bottomLeft: Radius.circular(30))),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 20),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                Strings.notification,
+                                style: mulishbold.copyWith(
+                                  color: ColorRes.appColor,
+                                  fontSize: 18,
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            Image.asset(
-                              AssertRe.Setting,
-                              scale: 3,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Expanded(
-                          child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: settingData.length,
-                            itemBuilder: (context, index) => GestureDetector(
-                              onTap: () async {
-                                if (index == 0) {
-                                  selectedIndex =
-                                      selectedIndex == index ? -1 : index;
-                                } else if (index == 1) {
-                                  Navigator.of(context).pop();
-                                  homeMainProvider
-                                      .showNotificationContainer(context);
-                                } else if (index == 2) {
-                                  if (!await launchUrl(
-                                      Uri.parse('https://www.google.com/'))) {
-                                    throw Exception('Could not launch');
-                                  }
-                                } else if (index == 3) {
-                                  if (!await launchUrl(
-                                      Uri.parse('https://www.google.com/'))) {
-                                    throw Exception('Could not launch');
-                                  }
-                                } else {}
-                                setState(() {});
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Container(
-                                              height: selectedIndex == index
-                                                  ? 90
-                                                  : 40,
-                                              width: 210,
-                                              child: Column(
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        Alignment.centerLeft,
-                                                    child: Text(
-                                                      settingData[index],
-                                                      style:
-                                                          mulishbold.copyWith(
-                                                        color:
-                                                            ColorRes.darkGrey,
-                                                        fontSize: 16.41,
+                              Spacer(),
+                              Image.asset(
+                                AssertRe.Setting,
+                                scale: 3,
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: settingData.length,
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () async {
+                                  if (index == 0) {
+                                    selectedIndex =
+                                        selectedIndex == index ? -1 : index;
+                                  } else if (index == 1) {
+                                    Navigator.of(context).pop();
+                                    homeMainProvider
+                                        .showNotificationContainer(context);
+                                  } else if (index == 2) {
+                                    if (!await launchUrl(
+                                        Uri.parse('https://www.google.com/'))) {
+                                      throw Exception('Could not launch');
+                                    }
+                                  } else if (index == 3) {
+                                    if (!await launchUrl(
+                                        Uri.parse('https://www.google.com/'))) {
+                                      throw Exception('Could not launch');
+                                    }
+                                  } else {}
+                                  setState(() {});
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Container(
+                                                height: selectedIndex == index
+                                                    ? 90
+                                                    : 40,
+                                                width: 210,
+                                                child: Column(
+                                                  children: [
+                                                    Align(
+                                                      alignment:
+                                                          Alignment.centerLeft,
+                                                      child: Text(
+                                                        settingData[index],
+                                                        style:
+                                                            mulishbold.copyWith(
+                                                          color:
+                                                              ColorRes.darkGrey,
+                                                          fontSize: 16.41,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  selectedIndex == index
-                                                      ? Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .only(
-                                                                  left: 60),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceAround,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(
-                                                                          MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            EnterPersonalDataScreen(),
-                                                                  ));
-                                                                },
-                                                                child: Row(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          150,
-                                                                      child:
-                                                                          Text(
-                                                                        Strings
-                                                                            .personal_info,
-                                                                        style: mulishbold
-                                                                            .copyWith(
-                                                                          color:
-                                                                              ColorRes.grey,
-                                                                          fontSize:
-                                                                              13,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    Image.asset(
-                                                                      AssertRe
-                                                                          .side,
-                                                                      color: ColorRes
-                                                                          .grey,
-                                                                      scale: 4,
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .push(
-                                                                          MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            ChangePassword(),
-                                                                  ));
-                                                                },
-                                                                child: Row(
-                                                                  children: [
-                                                                    SizedBox(
-                                                                      width:
-                                                                          150,
-                                                                      child:
-                                                                          Text(
-                                                                        Strings
-                                                                            .change_password,
-                                                                        style: mulishbold.copyWith(
+                                                    SizedBox(
+                                                      height: 10,
+                                                    ),
+                                                    selectedIndex == index
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    left: 60),
+                                                            child: Column(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceAround,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .push(
+                                                                            MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              EnterPersonalDataScreen(),
+                                                                    ));
+                                                                  },
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width:
+                                                                            150,
+                                                                        child:
+                                                                            Text(
+                                                                          Strings
+                                                                              .personal_info,
+                                                                          style:
+                                                                              mulishbold.copyWith(
                                                                             color:
                                                                                 ColorRes.grey,
-                                                                            fontSize: 13),
+                                                                            fontSize:
+                                                                                13,
+                                                                          ),
+                                                                        ),
                                                                       ),
-                                                                    ),
-                                                                    Image.asset(
-                                                                      AssertRe
-                                                                          .side,
-                                                                      color: ColorRes
-                                                                          .grey,
-                                                                      scale: 4,
-                                                                    )
-                                                                  ],
+                                                                      Image
+                                                                          .asset(
+                                                                        AssertRe
+                                                                            .side,
+                                                                        color: ColorRes
+                                                                            .grey,
+                                                                        scale:
+                                                                            4,
+                                                                      )
+                                                                    ],
+                                                                  ),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : SizedBox(),
-                                                ],
-                                              )),
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                bottom: selectedIndex == index
-                                                    ? 60
-                                                    : 20),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                setState(() {
-                                                  if (index == 0) {
-                                                    selectedIndex =
-                                                        selectedIndex == index
-                                                            ? -1
-                                                            : index;
-                                                  } else {}
-                                                });
-                                              },
-                                              child: Container(
-                                                height: 30,
-                                                width: 30,
-                                                alignment: Alignment.center,
-                                                child: Image.asset(
-                                                  selectedIndex == index
-                                                      ? AssertRe.down
-                                                      : AssertRe.side,
-                                                  scale: 4,
+                                                                SizedBox(
+                                                                  height: 10,
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Navigator.of(
+                                                                            context)
+                                                                        .push(
+                                                                            MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              ChangePassword(),
+                                                                    ));
+                                                                  },
+                                                                  child: Row(
+                                                                    children: [
+                                                                      SizedBox(
+                                                                        width:
+                                                                            150,
+                                                                        child:
+                                                                            Text(
+                                                                          Strings
+                                                                              .change_password,
+                                                                          style: mulishbold.copyWith(
+                                                                              color: ColorRes.grey,
+                                                                              fontSize: 13),
+                                                                        ),
+                                                                      ),
+                                                                      Image
+                                                                          .asset(
+                                                                        AssertRe
+                                                                            .side,
+                                                                        color: ColorRes
+                                                                            .grey,
+                                                                        scale:
+                                                                            4,
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            ),
+                                                          )
+                                                        : SizedBox(),
+                                                  ],
+                                                )),
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  bottom: selectedIndex == index
+                                                      ? 60
+                                                      : 20),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (index == 0) {
+                                                      selectedIndex =
+                                                          selectedIndex == index
+                                                              ? -1
+                                                              : index;
+                                                    } else {}
+                                                  });
+                                                },
+                                                child: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  alignment: Alignment.center,
+                                                  child: Image.asset(
+                                                    selectedIndex == index
+                                                        ? AssertRe.down
+                                                        : AssertRe.side,
+                                                    scale: 4,
+                                                  ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              PrefService.clear();
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PhoneOTP(),
+                                ),
+                                (route) => false,
+                              );
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(Strings.log_out,
+                                      style: mulishbold.copyWith(
+                                          color: ColorRes.darkGrey,
+                                          fontSize: 16.41)),
+                                  Spacer(),
+                                  Image.asset(
+                                    AssertRe.logout,
+                                    scale: 3,
+                                  )
                                 ],
                               ),
                             ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            PrefService.clear();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PhoneOTP(),
-                              ),
-                              (route) => false,
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(Strings.log_out,
-                                    style: mulishbold.copyWith(
-                                        color: ColorRes.darkGrey,
-                                        fontSize: 16.41)),
-                                Spacer(),
-                                Image.asset(
-                                  AssertRe.logout,
-                                  scale: 3,
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )),
+                          )
+                        ],
+                      ),
+                    )),
+              ),
             ),
           ),
         );
