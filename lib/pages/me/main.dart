@@ -79,6 +79,17 @@ class _ProfileState extends State<Profile> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         backgroundColor: ColorRes.white,
+        leading: widget.userId == null
+            ? SizedBox()
+            : GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: ColorRes.appColor,
+                ),
+              ),
         title: Text(
           Strings.profile,
           style: mulishbold.copyWith(
@@ -395,6 +406,16 @@ class _ProfileState extends State<Profile> {
                         children: [
                           Row(
                             children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: ColorRes.appColor,
+                                ),
+                              ),
+                              Spacer(),
                               Text(
                                 Strings.notification,
                                 style: mulishbold.copyWith(

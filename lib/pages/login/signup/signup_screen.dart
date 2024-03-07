@@ -101,6 +101,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: ColorRes.appColor,
+                            ),
+                          ),
                           Text(
                             Strings.sign_up,
                             style: mulishbold.copyWith(
@@ -108,10 +117,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               fontSize: 18,
                             ),
                           ),
-                          Text(
-                            Strings.cancle,
-                            style: mulish14400.copyWith(
-                                color: ColorRes.appColor, fontSize: 12),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Colors.transparent,
+                            ),
                           ),
                         ],
                       ),

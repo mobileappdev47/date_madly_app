@@ -230,6 +230,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: ColorRes.appColor,
+                            ),
+                          ),
                           Text(
                             Strings.log_in,
                             style: mulish14400.copyWith(
@@ -239,9 +248,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontSize: 18,
                             ),
                           ),
-                          Text(
-                            Strings.cancle,
-                            style: TextStyle(color: ColorRes.appColor),
+                          Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            color: Colors.transparent,
                           ),
                         ],
                       ),

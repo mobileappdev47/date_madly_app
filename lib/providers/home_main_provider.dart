@@ -32,6 +32,7 @@ class HomeMainProvider with ChangeNotifier {
 
   List notificationName = ['Clara, 22', 'Renna,23', 'Patricia,23'];
   GetNotificationModel getNotificationModel = GetNotificationModel();
+
   getNotification(context) async {
     try {
       getNotificationModel = await NotificationApi.notificationApi(context);
@@ -64,6 +65,15 @@ class HomeMainProvider with ChangeNotifier {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pop(context);
+                              },
+                              child: Icon(
+                                Icons.arrow_back_ios_new_rounded,
+                                color: ColorRes.appColor,
+                              ),
+                            ),
                             Text(Strings.notification,
                                 style: mulishbold.copyWith(
                                     fontSize: 18, color: ColorRes.appColor)),
