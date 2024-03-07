@@ -155,7 +155,7 @@ class SignUpProvider extends ChangeNotifier {
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      firstDate: DateTime(1900),
       lastDate: DateTime(2101),
     );
 
@@ -165,7 +165,6 @@ class SignUpProvider extends ChangeNotifier {
       data = DateFormat('yyyy-MM-dd').format(picked);
       notifyListeners();
       // });
-
       // Handle the selected date, e.g., update a variable or display it
       print('Selected date: ${dobController.text}');
     }

@@ -340,7 +340,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     data: ThemeData.light().copyWith(
                                       primaryColor: ColorRes.grey,
                                       colorScheme: const ColorScheme.light(
-                                          primary: ColorRes.darkGrey),
+                                          primary: ColorRes.appColor),
                                       buttonTheme: const ButtonThemeData(
                                           textTheme: ButtonTextTheme.primary),
                                     ),
@@ -348,7 +348,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                   );
                                 },
                                 context: context,
-                                firstDate: DateTime(1970),
+                                firstDate: DateTime(1900),
                                 lastDate: DateTime.now(),
                                 currentDate: DateTime.now(),
                                 initialDate: DateTime.now(),
