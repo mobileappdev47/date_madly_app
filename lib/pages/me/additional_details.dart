@@ -214,21 +214,34 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               backgroundColor:
                                   MaterialStateProperty.all(ColorRes.appColor)),
                           onPressed: () async {
-                            if (widget.pageNo == 10) {
-                              callApi();
-                              setState(() {});
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfilePhotoScreen(),
-                                  ));
+                            if (di != -1) {
+                              if (widget.pageNo == 10) {
+                                callApi();
+                                setState(() {});
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProfilePhotoScreen(),
+                                    ));
+                              } else {
+                                callApi();
+                                setState(() {});
+                                widget.pageNo++;
+                                getVars();
+                                di = -1;
+                                setState(() {});
+                              }
                             } else {
-                              callApi();
-                              setState(() {});
-                              widget.pageNo++;
-                              getVars();
-                              di = -1;
-                              setState(() {});
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(SnackBar(
+                                duration: Duration(milliseconds: 800),
+                                content: Text(
+                                  'Please select any option!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.red,
+                              ));
                             }
                           },
                           child: Row(

@@ -217,27 +217,60 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                             color: ColorRes.lightGrey,
                           ),
                           child: imageFile == null
-                              ? CachedNetworkImage(
-                                  imageUrl: getSingleProfileModel
-                                          .profile?[0].images?[0] ??
-                                      '',
-                                  fit: BoxFit.fill,
-                                  height: 225,
-                                  width: MediaQuery.of(context).size.width,
-                                  placeholder: (context, url) => Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    fit: BoxFit.fill,
-                                    height: 225,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                    'assets/images/image_placeholder.png',
-                                    fit: BoxFit.fill,
-                                    height: 225,
-                                    width: MediaQuery.of(context).size.width,
-                                  ),
-                                )
+                              ? getSingleProfileModel.profile != null &&
+                                      getSingleProfileModel
+                                          .profile!.isNotEmpty &&
+                                      getSingleProfileModel
+                                              .profile![0].images !=
+                                          null &&
+                                      getSingleProfileModel
+                                          .profile![0].images!.isNotEmpty
+                                  ? CachedNetworkImage(
+                                      imageUrl: getSingleProfileModel
+                                              .profile?[0].images?[0] ??
+                                          '',
+                                      fit: BoxFit.fill,
+                                      height: 225,
+                                      width: MediaQuery.of(context).size.width,
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        fit: BoxFit.fill,
+                                        height: 225,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        fit: BoxFit.fill,
+                                        height: 225,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: '',
+                                      fit: BoxFit.fill,
+                                      height: 225,
+                                      width: MediaQuery.of(context).size.width,
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        fit: BoxFit.fill,
+                                        height: 225,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        'assets/images/image_placeholder.png',
+                                        fit: BoxFit.fill,
+                                        height: 225,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                      ),
+                                    )
                               : ClipRRect(
                                   child: Image.file(
                                     imageFile!,

@@ -67,6 +67,13 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
 
   imageValidation() {
     if (imageFile == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Please select atLeast one image!',
+          style: TextStyle(color: ColorRes.white),
+        ),
+        backgroundColor: Colors.red,
+      ));
       setState(() {
         imageError = 'Add Profile Image';
       });

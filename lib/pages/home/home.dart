@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
   String? selectGender;
   Map<String, dynamic> body = {};
   Map<String, dynamic> filterBody = {};
-  SfRangeValues values = SfRangeValues(20, 30);
+  SfRangeValues values = SfRangeValues(20, 20);
   CardSwiperController cardSwiperController = CardSwiperController();
   List swipeList = [
     AssertRe.homelady,
@@ -540,16 +540,18 @@ class _HomeState extends State<Home> {
                     ),
                     GestureDetector(
                       onTap: () async {
+                        filterBody = {};
+                        print(filterBody);
                         if (currentindex1 != -1) {
                           filterBody['gender'] =
-                              currentindex1 == 0 ? 'Male' : "Female";
+                              currentindex1 == 0 ? 'Male' : "female";
                         }
                         if (_currentSliderValue != 0) {
                           filterBody['distance'] =
                               _currentSliderValue.toInt().toString();
                         }
                         print(values.end);
-                        if (values.start == 20 && values.end == 30) {
+                        if (values.start == 20 && values.end == 20) {
                           print('no');
                         } else {
                           double minimumAge =

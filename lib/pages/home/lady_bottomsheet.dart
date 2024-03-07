@@ -716,7 +716,15 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         getAll.users![index].images!.isNotEmpty)
                                     ? getAll.users![index].images![i]
                                     : '',
+                                height: 230,
+                                width: 155,
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                        height: 230,
+                                        width: 155,
+                                        'assets/images/image_placeholder.png',
+                                        fit: BoxFit.cover),
                                 placeholder: (context, url) => Image.asset(
                                     height: 230,
                                     width: 155,
