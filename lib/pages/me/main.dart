@@ -200,7 +200,9 @@ class _ProfileState extends State<Profile> {
                               getSingleProfileModel.profile?[0].job != ''
                           ? Image.asset(
                               'assets/icons/Worrk_Icon.png',
-                              scale: 4,
+                              height: 18,
+                              width: 18,
+                              fit: BoxFit.contain,
                             )
                           : SizedBox(),
                       SizedBox(
@@ -215,7 +217,9 @@ class _ProfileState extends State<Profile> {
                               getSingleProfileModel.profile?[0].college != ''
                           ? Image.asset(
                               'assets/icons/Education_Icon.png',
-                              scale: 4,
+                              height: 18,
+                              width: 18,
+                              fit: BoxFit.contain,
                             )
                           : SizedBox(),
                       SizedBox(
@@ -236,7 +240,9 @@ class _ProfileState extends State<Profile> {
                               getSingleProfileModel.profile?[0].location != ''
                           ? Image.asset(
                               'assets/icons/Location_Icon.png',
-                              scale: 4,
+                              height: 20,
+                              width: 18,
+                              fit: BoxFit.contain,
                             )
                           : SizedBox(),
                       SizedBox(
@@ -251,7 +257,9 @@ class _ProfileState extends State<Profile> {
                               getSingleProfileModel.profile?[0].company != ''
                           ? Image.asset(
                               'assets/icons/Company.png',
-                              scale: 4,
+                              height: 18,
+                              width: 18,
+                              fit: BoxFit.contain,
                             )
                           : SizedBox(),
                       SizedBox(

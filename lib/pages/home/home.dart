@@ -701,14 +701,14 @@ class _HomeState extends State<Home> {
                                                                     .isNotEmpty)
                                                             ? user.images![0]
                                                             : '',
-                                                    fit: BoxFit.cover,
+                                                    fit: BoxFit.fill,
                                                     placeholder:
                                                         (context, url) =>
                                                             Image.asset(
                                                       'assets/images/image_placeholder.png',
                                                       height: height * 0.58,
                                                       width: width * 0.8,
-                                                      fit: BoxFit.cover,
+                                                      fit: BoxFit.fill,
                                                     ),
                                                     errorWidget:
                                                         (context, url, error) =>
@@ -716,7 +716,7 @@ class _HomeState extends State<Home> {
                                                       'assets/images/image_placeholder.png',
                                                       height: height * 0.58,
                                                       width: width * 0.8,
-                                                      fit: BoxFit.cover,
+                                                      fit: BoxFit.fill,
                                                     ),
                                                   ),
                                                 ),

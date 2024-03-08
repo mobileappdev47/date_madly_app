@@ -68,35 +68,35 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
             children: [
               Stack(
                 children: [
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //         image: NetworkImage(
-                  //             '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![1] : ''}'),
-                  //         fit: BoxFit.cover),
-                  //   ),
-                  //   width: MediaQuery.of(context).size.width,
-                  //   height: MediaQuery.of(context).size.height,
-                  //   padding: EdgeInsets.only(left: 15, right: 15),
-                  // ),
-                  CachedNetworkImage(
-                    imageUrl:
-                        '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
-                    fit: BoxFit.cover,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                    placeholder: (context, url) => Image.asset(
-                      'assets/images/image_placeholder.png',
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      fit: BoxFit.cover,
-                    ),
-                    errorWidget: (context, url, error) => Image.asset(
-                      'assets/images/image_placeholder.png',
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      fit: BoxFit.cover,
-                    ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.6,
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${getAll.users![index].images != null && getAll.users![index].images!.isNotEmpty ? getAll.users![index].images![0] : ''}',
+                          fit: BoxFit.fill,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.6,
+                          placeholder: (context, url) => Image.asset(
+                            'assets/images/image_placeholder.png',
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            fit: BoxFit.fill,
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            'assets/images/image_placeholder.png',
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.6,
+                            fit: BoxFit.fill,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                      ),
+                    ],
                   ),
                   GestureDetector(
                     onTap: () {
