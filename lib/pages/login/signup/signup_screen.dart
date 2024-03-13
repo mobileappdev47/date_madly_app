@@ -385,7 +385,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     double.parse(long),
                                     double.parse(lat)
                                   ]
-                                }
+                                },
+                                'device_tokens': [
+                                  PrefService.getString(PrefKeys.deviceToken)
+                                ],
                               };
                               if (value.validation()) {
                                 await signUpApiCall();

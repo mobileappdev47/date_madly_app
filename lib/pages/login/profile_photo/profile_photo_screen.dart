@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/api/image_delete_api.dart';
 import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/api/upload_image_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
@@ -35,10 +36,8 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
   int selectedindex = -1;
   String imageError = '';
   bool loader = false;
-  List netWorkImageList = [
-    'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-    'https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-674010.jpg&fm=jpg',
-  ];
+
+  List netWorkImageList = List.generate(30, (index) => '');
 
   Future<String> get localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -57,6 +56,8 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
         await file.writeAsBytes(response.bodyBytes);
         print("Image downloaded and saved as ${file}");
         imageList[index] = file;
+        netWorkImageList[index] = imageUrl;
+        setState(() {});
       } else {
         print("Failed to download image. Status code: ${response.statusCode}");
       }
@@ -118,6 +119,14 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
   }
 
   UploadImageModel uploadImageModel = UploadImageModel();
+
+  deleteImageApi(url) async {
+    try {
+      await ImageDeleteApi.imageDeleteApi(context, url);
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   uploadApi() async {
     try {
@@ -393,26 +402,51 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                             selectedindex == index;
                           });
                         },
-                        child: Container(
-                          height: MediaQuery.of(context).size.height / 5,
-                          width: MediaQuery.of(context).size.width / 3,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: ColorRes.lightGrey,
-                          ),
-                          child: imageList[index].path.isEmpty
-                              ? Image.asset(
-                                  AssertRe.gallary,
-                                  scale: 3,
-                                  //,
-                                )
-                              : ClipRRect(
-                                  borderRadius: BorderRadius.circular(8),
-                                  child: Image.file(
-                                    imageList[index],
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
+                        child: Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height / 5,
+                              width: MediaQuery.of(context).size.width / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorRes.lightGrey,
+                              ),
+                              child: imageList[index].path.isEmpty
+                                  ? Image.asset(
+                                      AssertRe.gallary,
+                                      scale: 3,
+                                      //,
+                                    )
+                                  : ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.file(
+                                        imageList[index],
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                            ),
+                            widget.from != null &&
+                                    widget.from == 'enter' &&
+                                    imageList[index].path.isNotEmpty
+                                ? GestureDetector(
+                                    onTap: () {
+                                      imageList.removeAt(index);
+                                      setState(() {});
+                                      deleteImageApi(netWorkImageList[index]);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8, right: 8),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: Colors.black,
+                                        size: 16,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(),
+                          ],
                         ),
                       );
                     },

@@ -7,6 +7,7 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
+import 'package:date_madly_app/pages/login/signup/mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
@@ -499,6 +500,31 @@ class _PhoneOTPState extends State<PhoneOTP> {
                   ),
                   SizedBox(
                     height: 10,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MobileNumberScreen(),
+                          ));
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          5,
+                        ),
+                        color: ColorRes.appColor,
+                      ),
+                      child: Text(
+                        'Phone',
+                        style: popinsbold()
+                            .copyWith(color: ColorRes.white, fontSize: 14),
+                      ),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                    ),
                   ),
                   // GestureDetector(
                   //   onTap: () {

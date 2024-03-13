@@ -501,7 +501,7 @@ class _HomeState extends State<Home> {
                                 return '${myVal.toStringAsFixed(0).toString()}';
                               },
                               min: 20.0,
-                              max: 30.0,
+                              max: 70.0,
                               interval: 1,
                               enableTooltip: true,
                               tooltipShape: const SfRectangularTooltipShape(),
@@ -542,6 +542,9 @@ class _HomeState extends State<Home> {
                       onTap: () async {
                         filterBody = {};
                         print(filterBody);
+                        filterBody['latitude'] = lat;
+                        filterBody['longitude'] = long;
+
                         if (currentindex1 != -1) {
                           filterBody['gender'] =
                               currentindex1 == 0 ? 'Male' : "female";

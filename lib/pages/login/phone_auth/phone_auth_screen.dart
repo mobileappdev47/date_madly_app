@@ -274,12 +274,13 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     onTap: () {
                       FocusScope.of(context).unfocus();
                       if (validation()) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OtpVerificationSCreen(
-                                  phone: phoneController.text),
-                            ));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => OtpVerificationSCreen(
+                        //         verificationId: ,
+                        //           phone: phoneController.text),
+                        //     ));
                       }
                     },
                     child: Container(

@@ -16,4 +16,5 @@ class EndPoints {
   static const notificationApi = baseUrl + 'api/notifications';
   static const updateRequestStatusApi = baseUrl + 'api/updateRequestStatus';
   static const getAllChatApi = baseUrl + 'api/getAllChatRoom';
+  static const deleteImageApi = baseUrl + 'api/deleteImage';
 }

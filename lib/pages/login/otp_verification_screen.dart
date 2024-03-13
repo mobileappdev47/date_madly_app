@@ -1,22 +1,53 @@
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpVerificationSCreen extends StatefulWidget {
-  OtpVerificationSCreen({Key? key, required this.phone}) : super(key: key);
+  OtpVerificationSCreen({Key? key, required this.phone, this.verificationId})
+      : super(key: key);
   final String phone;
-
+  final verificationId;
   @override
   State<OtpVerificationSCreen> createState() => _OtpVerificationSCreenState();
 }
 
 class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
+  TextEditingController pinPutController = TextEditingController();
+  TextEditingController otpController = TextEditingController();
+  bool loader = false;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  Future<void> verifyOTP() async {
+    loader = true;
+    setState(() {});
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: widget.verificationId,
+        smsCode: otpController.text,
+      );
+
+      await auth.signInWithCredential(credential);
+
+      loader = false;
+      setState(() {});
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeMain(),
+          ));
+      print('Authentication successful');
+    } catch (e) {
+      loader = false;
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Verification failed!')));
+      print('Verification failed: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController pinPutController = TextEditingController();
-    TextEditingController otpController = TextEditingController();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -39,9 +70,14 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
                         color: ColorRes.darkBlue,
                         fontSize: 18),
                   ),
-                  Text(
-                    'Cancel',
-                    style: TextStyle(color: ColorRes.appColor),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Cancel',
+                      style: TextStyle(color: ColorRes.appColor),
+                    ),
                   )
                 ],
               ),
@@ -52,7 +88,7 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'We’ve just send you 4 digits code to your email',
+                    'We’ve just send you 4 digits code to number',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ColorRes.darkGrey,
@@ -65,7 +101,7 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    'example@example.com',
+                    widget.phone,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: ColorRes.darkGrey,
@@ -88,7 +124,7 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
                   controller: otpController,
                   cursorColor: Color(0xffACACAC),
                   appContext: context,
-                  length: 4,
+                  length: 6,
                   onChanged: (value) {
                     // Handle changes in the entered pin code
                     print(value);
@@ -113,7 +149,7 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
                     borderWidth: 1,
                     errorBorderWidth: 1,
                     fieldHeight: 47,
-                    fieldWidth: 60,
+                    fieldWidth: 40,
                     activeFillColor: Color(0xffACACAC),
                   ),
                 ),
@@ -123,11 +159,7 @@ class _OtpVerificationSCreenState extends State<OtpVerificationSCreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomeMain(),
-                      ));
+                  verifyOTP();
                 },
                 child: Container(
                   alignment: Alignment.center,

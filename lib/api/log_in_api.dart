@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/models/login_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class LoginApi {
   static login(Map<String, dynamic> body, context, password, lat, long) async {
     try {
       var headers = {'Content-Type': 'application/json'};
+
       var request = http.Request('POST', Uri.parse(EndPoints.login));
       request.body = json.encode(body);
       request.headers.addAll(headers);
@@ -21,7 +23,7 @@ class LoginApi {
       if (response.statusCode == 200) {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
-            PrefKeys.userId, loginModelFromJson(data).user?.id ?? '');
+            PrefKeys.userId, loginModelFromJson(data).updatedUser?.id ?? '');
         PrefService.setValue(PrefKeys.password, password);
         PrefService.setValue(PrefKeys.isAdditional, true);
 

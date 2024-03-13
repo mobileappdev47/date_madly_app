@@ -140,6 +140,7 @@ import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
+import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -386,9 +387,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
+                              String? token =
+                                  await NotificationService.getToken();
                               body = {
                                 "email": value.emailController.text,
-                                "password": value.passwordController.text
+                                "password": value.passwordController.text,
+                                'newDeviceTokens': [token],
                               };
                               if (value.validation()) {
                                 await loginapi();

@@ -6,4 +6,5 @@ class PrefKeys {
   static const isAdditional = 'isAdditional';
   static const lat = 'latitude';
   static const long = 'longitude';
+  static const deviceToken = 'deviceToken';
 }

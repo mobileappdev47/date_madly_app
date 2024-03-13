@@ -9,9 +9,14 @@ import 'package:date_madly_app/pages/home/main.dart';
 
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
+import 'package:date_madly_app/pages/login/login/login_screen.dart';
+import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
+import 'package:date_madly_app/pages/login/signup/mobile_number_screen.dart';
 
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
+import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
+import 'package:date_madly_app/pages/login/verify_otp.dart';
 
 import 'package:date_madly_app/pages/me/additional_details.dart';
 
@@ -25,6 +30,7 @@ import 'package:date_madly_app/providers/edit_profile_provider.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:date_madly_app/providers/likes_provider.dart';
 import 'package:date_madly_app/providers/upload_image_provider.dart';
+import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/theme/theme_config.dart';
 import 'package:date_madly_app/utils/colors.dart';
@@ -45,12 +51,8 @@ import 'common/text_style.dart';
 import 'providers/app_provider.dart';
 import 'utils/firebase_options.dart';
 
-// import 'package:web_socket_channel/status.dart' as status;
-
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
   print("Handling a background message: ${message.notification}");
@@ -59,15 +61,13 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PrefService.init();
-  // await Firebase.initializeApp();
-
   if (Platform.isIOS) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyDwNwwGJ772nIN8vUZJ9dLXRCmJeLd07tw",
-        appId: "1:17736339925:ios:b2577bcc864240af5c2d5c",
-        messagingSenderId: "17736339925",
-        projectId: "datemadly-aec15",
+        apiKey: "AIzaSyBRYXnU5ndzUduH0VraNpoQsWyjytDb7As",
+        appId: "1:914912403564:ios:576ff814a78fba0320f849",
+        messagingSenderId: "914912403564",
+        projectId: "love-circo",
       ),
     );
   } else {
@@ -81,34 +81,8 @@ Future<void> main() async {
       ),
     );
   }
-  //await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  NotificationService.init();
   await CountryCodes.init();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: true,
-    criticalAlert: true,
-    provisional: false,
-    sound: true,
-  );
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
-  });
-
-  // await initializeService();
-  // FlutterBackgroundService().invoke("setAsBackground");
-  // mqttFunctions.startMQTT();
-  // var data = channel.stream;
-  // print(data);
 
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
@@ -153,11 +127,6 @@ class MyApp extends StatelessWidget {
                   : appProvider.theme == ThemeConfig.lightTheme
                       ? ThemeMode.light
                       : ThemeMode.dark,
-          // home: phone! && profileCompleted!
-          //     ? const HomeMain()
-          //     : phone!
-          //         ? const Gender()
-          //         : const PhoneOTP());
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
             child: SplashScreen(),
@@ -168,7 +137,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// ChangeNotifierProvider(create: (_) => PhoneAuthProvider()),
 class PreSplashScreen extends StatefulWidget {
   const PreSplashScreen({Key? key}) : super(key: key);
 
@@ -221,6 +189,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     initSharedPreference();
+    printFCMToken();
   }
 
   initSharedPreference() async {
@@ -244,6 +213,13 @@ class _SplashScreenState extends State<SplashScreen> {
             builder: (context) => HomeMain(),
           ));
     }
+  }
+
+  void printFCMToken() async {
+    String? token = await NotificationService.getToken();
+    print("FCM Token: ===================================>$token");
+
+    await PrefService.setValue(PrefKeys.deviceToken, token);
   }
 
   @override
@@ -290,9 +266,6 @@ ThemeData themeData(
   return theme.copyWith(
       textTheme: GoogleFonts.nunitoTextTheme(theme.textTheme),
       colorScheme: ColorScheme.fromSeed(seedColor: ColorRes.appColor),
-      // extensions: [customColors],
-      // sliderTheme:
-      //     const SliderThemeData(showValueIndicator: ShowValueIndicator.never),
       pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.android: CupertinoPageTransitionsBuilder(),

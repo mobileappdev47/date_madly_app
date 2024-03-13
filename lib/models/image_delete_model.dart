@@ -1,44 +1,45 @@
 // To parse this JSON data, do
 //
-//     final loginModel = loginModelFromJson(jsonString);
+//     final imageDeleteModel = imageDeleteModelFromJson(jsonString);
 
 import 'dart:convert';
 
-LoginModel loginModelFromJson(String str) =>
-    LoginModel.fromJson(json.decode(str));
+ImageDeleteModel imageDeleteModelFromJson(String str) =>
+    ImageDeleteModel.fromJson(json.decode(str));
 
-String loginModelToJson(LoginModel data) => json.encode(data.toJson());
+String imageDeleteModelToJson(ImageDeleteModel data) =>
+    json.encode(data.toJson());
 
-class LoginModel {
-  UpdatedUser? updatedUser;
-  String? jwtToken;
+class ImageDeleteModel {
+  String? message;
+  Profile? profile;
 
-  LoginModel({
-    this.updatedUser,
-    this.jwtToken,
+  ImageDeleteModel({
+    this.message,
+    this.profile,
   });
 
-  factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
-        updatedUser: json["updatedUser"] == null
-            ? null
-            : UpdatedUser.fromJson(json["updatedUser"]),
-        jwtToken: json["jwtToken"],
+  factory ImageDeleteModel.fromJson(Map<String, dynamic> json) =>
+      ImageDeleteModel(
+        message: json["message"],
+        profile:
+            json["profile"] == null ? null : Profile.fromJson(json["profile"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "updatedUser": updatedUser?.toJson(),
-        "jwtToken": jwtToken,
+        "message": message,
+        "profile": profile?.toJson(),
       };
 }
 
-class UpdatedUser {
+class Profile {
   Loc? loc;
   int? likes;
   String? id;
   String? name;
   String? email;
   String? password;
-  List<String>? deviceTokens;
+  List<dynamic>? deviceTokens;
   List<dynamic>? images;
   int? profileScore;
   DateTime? dob;
@@ -57,7 +58,7 @@ class UpdatedUser {
   String? job;
   String? location;
 
-  UpdatedUser({
+  Profile({
     this.loc,
     this.likes,
     this.id,
@@ -84,7 +85,7 @@ class UpdatedUser {
     this.location,
   });
 
-  factory UpdatedUser.fromJson(Map<String, dynamic> json) => UpdatedUser(
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         loc: json["loc"] == null ? null : Loc.fromJson(json["loc"]),
         likes: json["likes"],
         id: json["_id"],
@@ -93,7 +94,7 @@ class UpdatedUser {
         password: json["password"],
         deviceTokens: json["device_tokens"] == null
             ? []
-            : List<String>.from(json["device_tokens"]!.map((x) => x)),
+            : List<dynamic>.from(json["device_tokens"]!.map((x) => x)),
         images: json["images"] == null
             ? []
             : List<dynamic>.from(json["images"]!.map((x) => x)),

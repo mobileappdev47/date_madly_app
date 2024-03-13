@@ -9,7 +9,7 @@ class Strings {
   static const distance = "Distance";
   static const distancerange = "50 KM";
   static const age = "Age";
-  static const agerange = "20-30";
+  static const agerange = "20-70";
   static const COntinue = "Continue";
   static const clear = "Clear";
   static const List genders = ['Male', 'Female'];
