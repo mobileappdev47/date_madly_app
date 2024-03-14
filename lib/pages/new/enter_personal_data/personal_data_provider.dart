@@ -1,3 +1,9 @@
+import 'package:date_madly_app/api/get_single_profile_api.dart';
+import 'package:date_madly_app/api/updateuserfeilds_api.dart';
+import 'package:date_madly_app/models/get_single_profile_model.dart';
+import 'package:date_madly_app/models/update_user.dart';
+import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +32,39 @@ class Updateprovider extends ChangeNotifier {
   String companyError = '';
   String collegeError = '';
   String genderError = '';
+
+  GetSingleProfileModel getSingleProfileModel = GetSingleProfileModel();
+  bool loader = false;
+  getSingleProfileApi(context) async {
+    try {
+      loader = true;
+      notifyListeners();
+      getSingleProfileModel = await GetSingleProfileApi.getSingleProfileApi(
+          context, PrefService.getString(PrefKeys.userId));
+
+      loader = false;
+      notifyListeners();
+    } catch (e) {
+      loader = false;
+      notifyListeners();
+    }
+  }
+
+  // UpdateUsers updateUsers = UpdateUsers();
+
+  // updateApiCall(BuildContext context,body) async {
+  //   try {
+  //     loader = true;
+  //     setState(() {});
+  //     updateUsers = await UpdateUserApi.updateUsers(body, context, imageFile);
+  //     loader = false;
+  //     setState(() {});
+  //   } catch (e) {
+  //     loader = false;
+  //     setState(() {});
+  //     print(e.toString());
+  //   }
+  // }
 
   jobValidation() {
     if (jobController.text.trim() == "") {

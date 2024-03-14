@@ -92,6 +92,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
 
   @override
   void initState() {
+    // Updateprovider updateProvider =
+    //     Provider.of<Updateprovider>(context, listen: false);
     getSingleProfileApi();
     super.initState();
   }

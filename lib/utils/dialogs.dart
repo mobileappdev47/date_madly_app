@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'custom_alert.dart';
@@ -124,5 +126,65 @@ class Dialogs {
                     ]),
               ),
             ));
+  }
+
+  showImageFullView(BuildContext context, image) {
+    showDialog(
+      context: context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+        child: Container(
+          height: MediaQuery.of(context).size.width - 150,
+          width: MediaQuery.of(context).size.width - 40,
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: CachedNetworkImage(
+                  imageUrl: image,
+                  // height: MediaQuery.of(context).size.width - 150,
+                  width: MediaQuery.of(context).size.width - 40,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) => Image.asset(
+                    'assets/images/image_placeholder.png',
+                    // height: MediaQuery.of(context).size.width - 150,
+                    width: MediaQuery.of(context).size.width - 40,
+                    fit: BoxFit.fill,
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    'assets/images/image_placeholder.png',
+                    // height: MediaQuery.of(context).size.width - 150,
+                    width: MediaQuery.of(context).size.width - 40,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, top: 10),
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: ColorRes.appColor,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: ColorRes.white,
+                      size: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

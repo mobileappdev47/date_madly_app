@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
+import 'package:date_madly_app/api/image_delete_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
@@ -10,11 +11,13 @@ import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.da
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
+import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:date_madly_app/providers/me_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/constants.dart';
+import 'package:date_madly_app/utils/dialogs.dart';
 import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +70,20 @@ class _ProfileState extends State<Profile> {
   void initState() {
     getSingleProfileApi();
     super.initState();
+  }
+
+  deleteImageApi(url) async {
+    try {
+      loader = true;
+      setState(() {});
+      await ImageDeleteApi.imageDeleteApi(context, url);
+      loader = false;
+      setState(() {});
+    } catch (e) {
+      loader = false;
+      setState(() {});
+      print(e.toString());
+    }
   }
 
   @override
@@ -315,27 +332,6 @@ class _ProfileState extends State<Profile> {
                               ),
                             )
                           : SizedBox(),
-                      Spacer(),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.of(context).push(MaterialPageRoute(
-                      //       builder: (context) => MyGalleryScreen(),
-                      //     ));
-                      //   },
-                      //   child: Text(
-                      //     Strings.show_all,
-                      //     style: mulishbold.copyWith(
-                      //       color: ColorRes.appColor,
-                      //       fontSize: 12,
-                      //       fontWeight: FontWeight.w600,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Icon(
-                      //   Icons.arrow_forward,
-                      //   color: ColorRes.appColor,
-                      //   size: 16,
-                      // )
                     ],
                   ),
                   SizedBox(
@@ -353,23 +349,120 @@ class _ProfileState extends State<Profile> {
                       itemCount:
                           getSingleProfileModel.profile?[0].images?.length ?? 0,
                       itemBuilder: (context, index) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: CachedNetworkImage(
-                            imageUrl: getSingleProfileModel
-                                    .profile?[0].images?[index] ??
-                                '',
-                            fit: BoxFit.fill,
-                            height: 60,
-                            placeholder: (context, url) => Image.asset(
-                              'assets/images/image_placeholder.png',
+                        return GestureDetector(
+                          onTap: () {
+                            // Dialogs().showImageFullView(
+                            //     context,
+                            //     getSingleProfileModel
+                            //             .profile?[0].images?[index] ??
+                            //         ''
+                            //         );
+                            showDialog(
+                              context: context,
+                              builder: (context) => Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 80),
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width - 40,
+                                  child: Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: CachedNetworkImage(
+                                          imageUrl: getSingleProfileModel
+                                                  .profile?[0].images?[index] ??
+                                              '',
+                                          height: MediaQuery.of(context)
+                                              .size
+                                              .height,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width -
+                                              40,
+                                          fit: BoxFit.fill,
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            'assets/images/image_placeholder.png',
+                                            // height: MediaQuery.of(context).size.width - 150,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            fit: BoxFit.fill,
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            'assets/images/image_placeholder.png',
+                                            // height: MediaQuery.of(context).size.width - 150,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                40,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            fit: BoxFit.fill,
+                                          ),
+                                        ),
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+
+                                          deleteImageApi(getSingleProfileModel
+                                                  .profile?[0].images?[index] ??
+                                              '');
+                                          getSingleProfileModel
+                                              .profile?[0].images
+                                              ?.removeAt(index);
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 10, top: 10),
+                                          child: Container(
+                                            height: 40,
+                                            width: 40,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: ColorRes.appColor,
+                                            ),
+                                            child: Icon(
+                                              Icons.close,
+                                              color: ColorRes.white,
+                                              size: 16,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: getSingleProfileModel
+                                      .profile?[0].images?[index] ??
+                                  '',
                               fit: BoxFit.fill,
                               height: 60,
-                            ),
-                            errorWidget: (context, url, error) => Image.asset(
-                              'assets/images/image_placeholder.png',
-                              fit: BoxFit.fill,
-                              height: 60,
+                              placeholder: (context, url) => Image.asset(
+                                'assets/images/image_placeholder.png',
+                                fit: BoxFit.fill,
+                                height: 60,
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                'assets/images/image_placeholder.png',
+                                fit: BoxFit.fill,
+                                height: 60,
+                              ),
                             ),
                           ),
                         );
@@ -735,168 +828,3 @@ List<profileDetail> profileDetails = [
   profileDetail('assets/icons/Location_Icon.png', 'Jakarta, Indonesia'),
   profileDetail('assets/icons/Company.png', 'Design Center')
 ];
-
-/*
-class Me extends StatefulWidget {
-  const Me({Key? key}) : super(key: key);
-
-  @override
-  State<Me> createState() => _MeState();
-}
-
-class _MeState extends State<Me> {
-  List items = [];
-  @override
-  void initState() {
-    super.initState();
-    items = [
-      {
-        'icon': Icons.edit,
-        'title': 'Edit Profile',
-        'function': () => _pushPageDialog(const EditProfile(), context),
-      },
-      // {
-      //   'icon': Icons.favorite,
-      //   'title': 'Your Likes',
-      //   'function': () => print(""),
-      // },
-      {
-        'icon': Icons.dark_mode,
-        'title': 'Dark Mode',
-        'function': () => print(""),
-      },
-      {
-        'icon': Icons.info,
-        'title': 'About',
-        'function': () => showAbout(),
-      },
-      {
-        'icon': Icons.file_copy,
-        'title': 'Licenses',
-        'function': () => _pushPageDialog(LicensePage(), context),
-      },
-      {
-        'icon': Icons.file_copy,
-        'title': 'Logout',
-        'function': () => _pushPageDialog(const LicensePage(), context),
-      },
-    ];
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          centerTitle: true,
-          title: const Text('Settings'),
-          leading: Container()),
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: items.length,
-        itemBuilder: (BuildContext context, int index) {
-          if (items[index]['title'] == 'Dark Mode') {
-            return _buildThemeSwitch(items[index], context);
-          }
-          if (items[index]['title'] == 'Logout') {
-            return _logout(items[index], context);
-          }
-          return ListTile(
-            style: ListTileStyle.drawer,
-            onTap: items[index]['function'],
-            leading: Icon(items[index]['icon']),
-            title: Text(items[index]['title']),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return const Divider(height: 6);
-        },
-      ),
-    );
-  }
-
-  Widget _logout(Map item, context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: FilledButton.tonalIcon(
-          onPressed: () async {
-            SharedPreferences sharedPreferences =
-                await SharedPreferences.getInstance();
-            await sharedPreferences.clear();
-            mqttFunctions.client.disconnect();
-            Navigator.pushNamedAndRemoveUntil(context, '/', (_) => false);
-            // HomeMainProvider homeMainProvider = Provider.of<HomeMainProvider>(context, listen: false);
-            // homeMainProvider.profileModel.profile = [];
-            // homeMainProvider.singleProfileModel.profile = [];
-            // homeMainProvider.controller.dispose();
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (BuildContext context) {
-            //       return const SplashScreen();
-            //     },
-            //   ),
-            // );
-          },
-          icon: const Icon(Icons.logout),
-          label: const Text("Logout")),
-    );
-  }
-
-  Widget _buildThemeSwitch(Map item, context) {
-    return SwitchListTile(
-      secondary: Icon(item['icon']),
-      title: Text(item['title']),
-      value: Provider.of<AppProvider>(context).theme == ThemeConfig.lightTheme
-          ? false
-          : true,
-      onChanged: (v) {
-        if (v) {
-          Provider.of<AppProvider>(context, listen: false)
-              .setTheme(ThemeConfig.darkTheme, 'dark');
-        } else {
-          Provider.of<AppProvider>(context, listen: false)
-              .setTheme(ThemeConfig.lightTheme, 'light');
-        }
-      },
-    );
-  }
-
-  _pushPageDialog(Widget page, context) {
-    var val = Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (BuildContext context) {
-          return page;
-        },
-        fullscreenDialog: true,
-      ),
-    );
-    return val;
-  }
-
-  showAbout() {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return AlertDialog(
-          title: const Text('About'),
-          content: Text('${Constants.appName} by SoodWebSolutions'),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                  textStyle: TextStyle(
-                color: Theme.of(context).colorScheme.secondary,
-              )),
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-*/

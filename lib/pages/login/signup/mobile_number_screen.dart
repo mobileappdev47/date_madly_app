@@ -80,7 +80,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
         print("Phone verification failed");
         loader = false;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.red,
             content: Text(
               'Phone verification failed',
               style: TextStyle(

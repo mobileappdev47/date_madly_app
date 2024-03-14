@@ -13,6 +13,7 @@ import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../../utils/colors.dart';
@@ -107,15 +108,62 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
       setState(() {
         imageFile = File(pickedFile.path);
         selectedindex = index;
-        imageList[index] = imageFile!;
-
-        if (widget.from != null && widget.from == 'enter') {
-          newImageFile.add(imageFile!);
-        }
+        editImage(imageFile!.path, index);
+        // imageList[index] = imageFile!;
+        //
+        // if (widget.from != null && widget.from == 'enter') {
+        //   newImageFile.add(imageFile!);
+        // }
       });
     } else {
       print('No image selected.');
     }
+  }
+
+  editImage(imagePath, index) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: imagePath, // Path of the selected image
+      aspectRatio:
+          CropAspectRatio(ratioX: 1, ratioY: 1), // Aspect ratio for cropping
+      compressQuality: 100, // Compression quality for the cropped image
+      compressFormat: ImageCompressFormat.jpg, // Compression format
+      maxHeight: 100,
+      cropStyle: CropStyle.rectangle,
+      maxWidth: 100,
+
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Cropper',
+            toolbarColor: ColorRes.appColor,
+            toolbarWidgetColor: Colors.white,
+            activeControlsWidgetColor: ColorRes.appColor,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+        WebUiSettings(
+          context: context,
+        ),
+      ],
+    );
+    print(croppedFile!.path);
+
+    String path = croppedFile!.path;
+    File file = File(path);
+    imageList[index] = file!;
+
+    if (widget.from != null && widget.from == 'enter') {
+      newImageFile.add(file!);
+    }
+    setState(() {});
   }
 
   UploadImageModel uploadImageModel = UploadImageModel();
@@ -253,7 +301,16 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pop(context);
+                          if (widget.from != null && widget.from == 'enter') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EnterPersonalDataScreen(),
+                              ),
+                            );
+                          } else {
+                            Navigator.pop(context);
+                          }
                         },
                         child: Icon(Icons.arrow_back),
                       )),
