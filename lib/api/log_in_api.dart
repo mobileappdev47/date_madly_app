@@ -4,8 +4,10 @@ import 'package:date_madly_app/models/login_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:http/http.dart' as http;
 import '../utils/endpoint.dart';
 
@@ -41,6 +43,10 @@ class LoginApi {
         return loginModelFromJson(data);
       } else {
         print(response.reasonPhrase);
+        var data = await response.stream.bytesToString();
+
+        FlutterToastr.show(jsonDecode(data)['error'], context,
+            backgroundColor: ColorRes.appColor);
       }
     } catch (e) {
       print(e.toString());
