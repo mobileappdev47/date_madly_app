@@ -68,6 +68,7 @@ Future<void> main() async {
         appId: "1:914912403564:ios:576ff814a78fba0320f849",
         messagingSenderId: "914912403564",
         projectId: "love-circo",
+        storageBucket: "love-circo.appspot.com",
       ),
     );
   } else {
