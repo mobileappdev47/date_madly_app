@@ -371,6 +371,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             onPressed: () async {
                               FocusScope.of(context).unfocus();
+                               await getCurrentLatLang();
                               body = {
                                 "name": value.nameController.text,
                                 "email": value.emailController.text,
