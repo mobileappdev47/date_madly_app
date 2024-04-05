@@ -48,7 +48,7 @@ class _HomeState extends State<Home> {
   String? selectGender;
   Map<String, dynamic> body = {};
   Map<String, dynamic> filterBody = {};
-  SfRangeValues values = SfRangeValues(20, 20);
+  SfRangeValues values = SfRangeValues(20, 40);
   CardSwiperController cardSwiperController = CardSwiperController();
   List swipeList = [
     AssertRe.homelady,
@@ -592,8 +592,8 @@ class _HomeState extends State<Home> {
                     GestureDetector(
                       onTap: () {
                         currentindex1 = -1;
-                        _currentSliderValue = 0;
-                        values = SfRangeValues(20, 20);
+                        // _currentSliderValue = 0;
+                        values = SfRangeValues(20, 40);
                         setState(() {});
                       },
                       child: Container(

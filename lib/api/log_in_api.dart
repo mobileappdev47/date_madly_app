@@ -38,9 +38,16 @@ class LoginApi {
         PrefService.setValue(PrefKeys.long, long);
 
         getFirebaseCollection(body['email']);
+
         return loginModelFromJson(data);
       } else {
         print(response.reasonPhrase);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please enter correct credentials!',style: TextStyle(
+            color: Colors.white
+          ),),
+          backgroundColor: Colors.red,
+        ));
       }
     } catch (e) {
       print(e.toString());

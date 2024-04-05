@@ -64,14 +64,12 @@ class _ProfileState extends State<Profile> {
       setState(() {});
     }
   }
-
   bool loader = false;
   @override
   void initState() {
     getSingleProfileApi();
     super.initState();
   }
-
   deleteImageApi(url) async {
     try {
       loader = true;
