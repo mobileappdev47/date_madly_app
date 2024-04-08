@@ -122,11 +122,11 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
 
   editImage(imagePath, index) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imagePath, // Path of the selected image
+      sourcePath: imagePath,
       aspectRatio:
-          CropAspectRatio(ratioX: 1, ratioY: 1), // Aspect ratio for cropping
-      compressQuality: 100, // Compression quality for the cropped image
-      compressFormat: ImageCompressFormat.jpg, // Compression format
+          CropAspectRatio(ratioX: 1, ratioY: 1),
+      compressQuality: 100,
+      compressFormat: ImageCompressFormat.jpg,
       maxHeight: 100,
       cropStyle: CropStyle.rectangle,
       maxWidth: 100,

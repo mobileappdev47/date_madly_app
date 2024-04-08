@@ -77,7 +77,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
         }
       },
       verificationFailed: (FirebaseAuthException e) {
-        print("Phone verification failed");
+        print("Phone verification failed--${e.toString()}");
         loader = false;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             backgroundColor: Colors.red,
