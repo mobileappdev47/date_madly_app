@@ -58,6 +58,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
       {required String countryCode, required String phoneNumber}) async {
     loader = true;
     setState(() {});
+    // auth.setSettings().setAppVerificationDisabledForTesting(true);
     await auth.verifyPhoneNumber(
       phoneNumber: '$countryCode$phoneNumber',
       timeout: const Duration(seconds: 10),
@@ -77,6 +78,7 @@ class _MobileNumberScreenState extends State<MobileNumberScreen> {
         }
       },
       verificationFailed: (FirebaseAuthException e) {
+
         print("Phone verification failed--${e.toString()}");
         loader = false;
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

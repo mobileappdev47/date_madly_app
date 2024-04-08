@@ -40,6 +40,7 @@ import 'package:date_madly_app/utils/texts.dart';
 
 // import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -82,6 +83,10 @@ Future<void> main() async {
       ),
     );
   }
+  await FirebaseAppCheck.instance.activate(
+    androidProvider: AndroidProvider.playIntegrity,
+    appleProvider: AppleProvider.appAttest,
+  );
   NotificationService.init();
   await CountryCodes.init();
 
