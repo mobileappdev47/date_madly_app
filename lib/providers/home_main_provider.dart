@@ -63,7 +63,7 @@ class HomeMainProvider with ChangeNotifier {
                     child: Column(
                       children: [
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -77,9 +77,7 @@ class HomeMainProvider with ChangeNotifier {
                             Text(Strings.notification,
                                 style: mulishbold.copyWith(
                                     fontSize: 18, color: ColorRes.appColor)),
-                            SizedBox(
-                              width: 140,
-                            ),
+
                             GestureDetector(
                               onTap: () {
                                 Navigator.pop(context);
@@ -150,7 +148,7 @@ class HomeMainProvider with ChangeNotifier {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
                                   SizedBox(
                                     width: 150,
@@ -204,14 +202,24 @@ class HomeMainProvider with ChangeNotifier {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
                                   Container(
-                                    height: 40,
-                                    width: 40,
+                                    height: 35,
+                                    width: 35,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(50),
-                                        color: ColorRes.appColor),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Color(0xffED1E79,),
+                                          Color(0xffC1272D,),
+                                        ],
+                                      ),
+
+
+                                    ),
                                     child: Icon(
                                       Icons.favorite_border,
                                       color: ColorRes.white,

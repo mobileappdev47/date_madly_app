@@ -35,7 +35,9 @@ import 'my_gallery.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key, this.userId});
+
   final String? userId;
+
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -64,12 +66,15 @@ class _ProfileState extends State<Profile> {
       setState(() {});
     }
   }
+
   bool loader = false;
+
   @override
   void initState() {
     getSingleProfileApi();
     super.initState();
   }
+
   deleteImageApi(url) async {
     try {
       loader = true;
@@ -123,6 +128,7 @@ class _ProfileState extends State<Profile> {
               child: Image.asset(
                 AssertRe.Setting,
                 scale: 3,
+                color: ColorRes.appColor,
               ),
             ),
           )
@@ -211,39 +217,63 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width* 0.4,
+                  child: Row(
+                    children: [
                       getSingleProfileModel.profile?[0].job != null &&
-                              getSingleProfileModel.profile?[0].job != ''
+                          getSingleProfileModel.profile?[0].job != ''
                           ? Image.asset(
-                              'assets/icons/Worrk_Icon.png',
-                              height: 18,
-                              width: 18,
-                              fit: BoxFit.contain,
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                        width: 1.5,
-                      ),
-                      Text(
-                        getSingleProfileModel.profile?[0].job ?? '',
-                        style: TextStyle(color: ColorRes.grey),
-                      ),
-                      Spacer(),
-                      getSingleProfileModel.profile?[0].college != null &&
-                              getSingleProfileModel.profile?[0].college != ''
-                          ? Image.asset(
-                              'assets/icons/Education_Icon.png',
-                              height: 18,
-                              width: 18,
-                              fit: BoxFit.contain,
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                        width: 1.5,
-                      ),
-                      Text(
-                        getSingleProfileModel.profile?[0].college ?? '',
-                        style: TextStyle(color: ColorRes.grey),
+                        'assets/icons/Worrk_Icon.png',
+                        height: 18,
+                        width: 18,
+                        fit: BoxFit.contain,
                       )
+                          : SizedBox(),
+                      SizedBox(
+                        width: 1.5,
+                      ),
+                      Expanded(
+                        child: Text(
+                          getSingleProfileModel.profile?[0].job ?? '',
+                          style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
+
+
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 7,),
+                Expanded(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width* 0.4,
+                    child: Row(
+                      children: [
+                  
+                        getSingleProfileModel.profile?[0].college != null &&
+                            getSingleProfileModel.profile?[0].college != ''
+                            ? Image.asset(
+                          'assets/icons/Education_Icon.png',
+                          height: 18,
+                          width: 18,
+                          fit: BoxFit.contain,
+                        )
+                            : SizedBox(),
+                        SizedBox(
+                          width: 1.5,
+                        ),
+                        Expanded(
+                          child: Text(
+                            getSingleProfileModel.profile?[0].college ?? '',
+                            style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
+
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
                     ],
                   ),
                   SizedBox(
@@ -251,39 +281,61 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                      getSingleProfileModel.profile?[0].location != null &&
-                              getSingleProfileModel.profile?[0].location != ''
-                          ? Image.asset(
-                              'assets/icons/Location_Icon.png',
-                              height: 20,
-                              width: 18,
-                              fit: BoxFit.contain,
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                        width: 1.5,
-                      ),
-                      Text(
-                        getSingleProfileModel.profile?[0].location ?? '',
-                        style: TextStyle(color: ColorRes.grey),
-                      ),
-                      Spacer(),
-                      getSingleProfileModel.profile?[0].company != null &&
-                              getSingleProfileModel.profile?[0].company != ''
-                          ? Image.asset(
-                              'assets/icons/Company.png',
-                              height: 18,
-                              width: 18,
-                              fit: BoxFit.contain,
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                        width: 1.5,
-                      ),
-                      Text(
-                        getSingleProfileModel.profile?[0].company ?? '',
-                        style: TextStyle(color: ColorRes.grey),
-                      )
+                 SizedBox(
+                   width: MediaQuery.of(context).size.width* 0.4,
+
+                   child:
+                   Row(
+                     children: [
+                       getSingleProfileModel.profile?[0].location != null &&
+                           getSingleProfileModel.profile?[0].location != ''
+                           ? Image.asset(
+                         'assets/icons/Location_Icon.png',
+                         height: 20,
+                         width: 18,
+                         fit: BoxFit.contain,
+                       )
+                           : SizedBox(),
+                       SizedBox(
+                         width: 1.5,
+                       ),
+                       Expanded(
+                         child: Text(
+                           getSingleProfileModel.profile?[0].location ?? '',
+                           style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
+                         ),
+                       ),
+                     ],
+                   ),
+                 ),
+                    SizedBox(width: 7,),
+                     Expanded(
+                       child: SizedBox(
+                         child: 
+                         Row(
+                           children: [
+                             getSingleProfileModel.profile?[0].company != null &&
+                                 getSingleProfileModel.profile?[0].company != ''
+                                 ? Image.asset(
+                               'assets/icons/Company.png',
+                               height: 18,
+                               width: 18,
+                               fit: BoxFit.contain,
+                             )
+                                 : SizedBox(),
+                             SizedBox(
+                               width: 1.5,
+                             ),
+                             Expanded(
+                               child: Text(
+                                 getSingleProfileModel.profile?[0].company ?? '',
+                                 style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
+                               ),
+                             ),
+                           ],
+                         ),
+                       ),
+                     ),
                     ],
                   ),
                   SizedBox(
@@ -499,42 +551,49 @@ class _ProfileState extends State<Profile> {
                             topLeft: Radius.circular(30),
                             bottomLeft: Radius.circular(30))),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 30, vertical: 20),
+                      padding: const EdgeInsets.only(
+                          top: 20, left: 15, right: 10, bottom: 20),
                       child: Column(
                         children: [
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Icon(
-                                  Icons.arrow_back_ios_new_rounded,
-                                  color: ColorRes.appColor,
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: 10.0, left: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: Icon(
+                                    Icons.arrow_back_ios,
+                                    color: ColorRes.appColor,
+                                    size: 18,
+                                  ),
                                 ),
-                              ),
-                              Spacer(),
-                              Text(
-                                Strings.notification,
-                                style: mulishbold.copyWith(
-                                  color: ColorRes.appColor,
-                                  fontSize: 18,
+                                // Spacer(),
+                                Text(
+                                  'Settings',
+                                  style: mulishbold.copyWith(
+                                    color: ColorRes.appColor,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                              ),
-                              Spacer(),
-                              Image.asset(
-                                AssertRe.Setting,
-                                scale: 3,
-                              )
-                            ],
+                                // Spacer(),
+                                Image.asset(
+                                  AssertRe.Setting,
+                                  scale: 3,
+                                  color: ColorRes.appColor,
+                                )
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 40,
                           ),
                           Expanded(
                             child: ListView.builder(
-                              padding: EdgeInsets.zero,
+                              padding: EdgeInsets.symmetric(horizontal: 1),
                               itemCount: settingData.length,
                               itemBuilder: (context, index) => GestureDetector(
                                 onTap: () async {
@@ -558,174 +617,127 @@ class _ProfileState extends State<Profile> {
                                   } else {}
                                   setState(() {});
                                 },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                child: Column(
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                    Row(
                                       children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Container(
-                                                height: selectedIndex == index
-                                                    ? 90
-                                                    : 40,
-                                                width: 210,
-                                                child: Column(
-                                                  children: [
-                                                    Align(
-                                                      alignment:
-                                                          Alignment.centerLeft,
-                                                      child: Text(
-                                                        settingData[index],
-                                                        style:
-                                                            mulishbold.copyWith(
-                                                          color:
-                                                              ColorRes.darkGrey,
-                                                          fontSize: 16.41,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10,
-                                                    ),
-                                                    selectedIndex == index
-                                                        ? Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(
-                                                                    left: 60),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceAround,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .push(
-                                                                            MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              EnterPersonalDataScreen(),
-                                                                    ));
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                        width:
-                                                                            150,
-                                                                        child:
-                                                                            Text(
-                                                                          Strings
-                                                                              .personal_info,
-                                                                          style:
-                                                                              mulishbold.copyWith(
-                                                                            color:
-                                                                                ColorRes.grey,
-                                                                            fontSize:
-                                                                                13,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      Image
-                                                                          .asset(
-                                                                        AssertRe
-                                                                            .side,
-                                                                        color: ColorRes
-                                                                            .grey,
-                                                                        scale:
-                                                                            4,
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 10,
-                                                                ),
-                                                                GestureDetector(
-                                                                  onTap: () {
-                                                                    Navigator.of(
-                                                                            context)
-                                                                        .push(
-                                                                            MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              ChangePassword(),
-                                                                    ));
-                                                                  },
-                                                                  child: Row(
-                                                                    children: [
-                                                                      SizedBox(
-                                                                        width:
-                                                                            150,
-                                                                        child:
-                                                                            Text(
-                                                                          Strings
-                                                                              .change_password,
-                                                                          style: mulishbold.copyWith(
-                                                                              color: ColorRes.grey,
-                                                                              fontSize: 13),
-                                                                        ),
-                                                                      ),
-                                                                      Image
-                                                                          .asset(
-                                                                        AssertRe
-                                                                            .side,
-                                                                        color: ColorRes
-                                                                            .grey,
-                                                                        scale:
-                                                                            4,
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                )
-                                                              ],
-                                                            ),
-                                                          )
-                                                        : SizedBox(),
-                                                  ],
-                                                )),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  bottom: selectedIndex == index
-                                                      ? 60
-                                                      : 20),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (index == 0) {
-                                                      selectedIndex =
-                                                          selectedIndex == index
-                                                              ? -1
-                                                              : index;
-                                                    } else {}
-                                                  });
-                                                },
-                                                child: Container(
-                                                  height: 30,
-                                                  width: 30,
-                                                  alignment: Alignment.center,
-                                                  child: Image.asset(
-                                                    selectedIndex == index
-                                                        ? AssertRe.down
-                                                        : AssertRe.side,
-                                                    scale: 4,
-                                                  ),
-                                                ),
-                                              ),
+                                        Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            settingData[index],
+                                            style: mulishbold.copyWith(
+                                              color: ColorRes.darkGrey,
+                                              fontSize: 16.41,
                                             ),
-                                          ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              if (index == 0) {
+                                                selectedIndex =
+                                                    selectedIndex == index
+                                                        ? -1
+                                                        : index;
+                                              } else {}
+                                            });
+                                          },
+                                          child: Container(
+                                            height: 30,
+                                            width: 30,
+                                            alignment: Alignment.center,
+                                            child: Image.asset(
+                                              selectedIndex == index
+                                                  ? AssertRe.down
+                                                  : AssertRe.side,
+                                              scale: 3,
+                                              color: ColorRes.appColor,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    selectedIndex == index
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 60),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EnterPersonalDataScreen(),
+                                                    ));
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        Strings.personal_info,
+                                                        style:
+                                                            mulishbold.copyWith(
+                                                          color: ColorRes.grey,
+                                                          fontSize: 13,
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      Image.asset(
+                                                        AssertRe.side,
+                                                        color: ColorRes.grey,
+                                                        scale: 4,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ChangePassword(),
+                                                    ));
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        Strings.change_password,
+                                                        style:
+                                                            mulishbold.copyWith(
+                                                                color: ColorRes
+                                                                    .grey,
+                                                                fontSize: 13),
+                                                      ),
+                                                      Spacer(),
+                                                      Image.asset(
+                                                        AssertRe.side,
+                                                        color: ColorRes.grey,
+                                                        scale: 4,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        : SizedBox(),
                                   ],
                                 ),
                               ),
@@ -742,24 +754,27 @@ class _ProfileState extends State<Profile> {
                                 (route) => false,
                               );
                             },
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(Strings.log_out,
-                                      style: mulishbold.copyWith(
-                                          color: ColorRes.darkGrey,
-                                          fontSize: 16.41)),
-                                  Spacer(),
-                                  Image.asset(
-                                    AssertRe.logout,
-                                    scale: 3,
-                                  )
-                                ],
-                              ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(Strings.log_out,
+                                    style: mulishbold.copyWith(
+                                        color: ColorRes.darkGrey,
+                                        fontSize: 16.41)),
+                                Spacer(),
+                                Image.asset(
+                                  AssertRe.logout,
+                                  scale: 3,
+                                  color: ColorRes.appColor,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                              ],
                             ),
                           )
                         ],

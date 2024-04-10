@@ -225,6 +225,7 @@ class _ChatState extends State<Chat> {
         backgroundColor: ColorRes.white,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
+          leading: Icon(Icons.arrow_back_ios,color: ColorRes.appColor,size: 18,),
           centerTitle: true,
           backgroundColor: ColorRes.white,
           title: Text(

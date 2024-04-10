@@ -1,4 +1,5 @@
 import 'package:date_madly_app/api/changePassword_api.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -195,8 +196,8 @@ class _ChangePasswordState extends State<ChangePassword> {
             ),
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.all(30),
-              child: GestureDetector(
-                onTap: () async {
+              child: CommonGradientButton(
+                ontap: () async {
                   FocusScope.of(context).unfocus();
                   body = {
                     "_id": PrefService.getString(PrefKeys.userId),
@@ -214,22 +215,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   }
                   // Navigator.pop(context);
                 },
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 11,
-                  width: MediaQuery.of(context).size.width / 1,
-                  decoration: BoxDecoration(
-                    color: ColorRes.appColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Center(
-                      child: Text(
-                    Strings.save,
-                    style: mulishbold.copyWith(
-                      fontSize: 16,
-                      color: ColorRes.white,
-                    ),
-                  )),
-                ),
               ),
             ),
           ),

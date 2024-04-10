@@ -70,7 +70,7 @@ class _MyMatchesState extends State<MyMatches> {
             children: [
               NewTextField(
                 controller: value.searchController,
-                hintText: Strings.search_massages,
+                hintText: Strings.search_matches,
                 prefix: AssertRe.Search_Icon,
                 onChange: (p0) {
                   searching(p0);
@@ -196,7 +196,14 @@ class _MyMatchesState extends State<MyMatches> {
                                 width: 30,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(50),
-                                  color: ColorRes.appColor,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xffED1E79,),
+                                      Color(0xffC1272D,),
+                                    ],
+                                  ),
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(7.0),

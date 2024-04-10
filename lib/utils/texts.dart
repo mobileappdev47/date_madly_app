@@ -189,6 +189,7 @@ class Strings {
 
   static const chat = "Chat";
   static const search_massages = "Search Massages";
+  static const search_matches = "Search Matches";
   static const new_matches = "New Matches";
   static const messages = "Messages";
   static const pm = "08:33 PM";
@@ -207,4 +208,15 @@ class Strings {
       "Almost all music genres I like, \n but what I like best is rock and roll music.";
 
   ///---------------------------------------- PhoneOTP ----------------------------------------///
+
+
+//--new screens
+
+static const signinwithapple ='SIGN IN WITH APPLE';
+static const signinwithfb ='SIGN IN WITH FACEBOOK';
+static const signinwithphonenumber ='SIGN IN WITH PHONE NUMBER';
+static const haveing ='Having trouble signing in ?';
+static const termsOf ='Terms Of Use Privacy Policy';
+static const aText ='A text with a verification code will be sent';
+  static const  byCLick = 'By clicking on Create Account or sign in, you agree to our terms & Conditions. Understand how we process your data in our Privacy Policy and Cookies Policy.';
 }

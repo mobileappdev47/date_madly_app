@@ -100,9 +100,13 @@ class _HomeMainState extends State<HomeMain> {
                             ? ColorRes.appColor.withOpacity(0.2)
                             : Colors.transparent,
                         shape: BoxShape.circle),
-                    child: Image.asset(
+                    child: currentIndex == 1? Image.asset(
+                      'assets/icons/active_chat.png',
+
+                      scale: 4,
+                    ) : Image.asset(
                       'assets/icons/Chat.png',
-                      color: currentIndex == 1 ? ColorRes.appColor : null,
+
                       scale: 4,
                     ),
                   ),
@@ -119,9 +123,13 @@ class _HomeMainState extends State<HomeMain> {
                             ? ColorRes.appColor.withOpacity(0.2)
                             : Colors.transparent,
                         shape: BoxShape.circle),
-                    child: Image.asset(
+                    child:currentIndex == 2 ?Image.asset(
+                      'assets/icons/Love Icon (2).png',
+
+                      scale: 4,
+                    ): Image.asset(
                       'assets/icons/Love.png',
-                      color: currentIndex == 2 ? ColorRes.appColor : null,
+
                       scale: 4,
                     ),
                   ),

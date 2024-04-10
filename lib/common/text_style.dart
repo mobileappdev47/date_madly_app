@@ -21,3 +21,13 @@ TextStyle poppins = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 21,
     fontFamily: Fonts.poppinsBold);
+TextStyle inter = TextStyle(
+    color: ColorRes.darkGrey,
+    fontWeight: FontWeight.w500,
+    fontSize: 21,
+    fontFamily: Fonts.interRegular);
+TextStyle interBold = TextStyle(
+    color: ColorRes.darkGrey,
+    fontWeight: FontWeight.w600,
+    fontSize: 21,
+    fontFamily: Fonts.interbold);

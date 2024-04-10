@@ -10,6 +10,7 @@ import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
+import 'package:date_madly_app/pages/login/new_signin_screen.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
 import 'package:date_madly_app/pages/login/signup/mobile_number_screen.dart';
@@ -237,29 +238,25 @@ class _SplashScreenState extends State<SplashScreen> {
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             alignment: Alignment.center,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+              image: AssetImage(
+                'assets/images/background.png',
+              ),
+              fit: BoxFit.cover,
+            )),
             child: Column(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
+           mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: MediaQuery.of(context).size.width / 1.5),
+
                 Image.asset(
-                  "assets/icons/logo.png",
-                  scale: 2,
+                  "assets/images/new_logo.png",
+                  scale: 3,
+
                 ),
-                Text(
-                  "Lovecircl",
-                  style: mulishbold.copyWith(
-                      fontSize: 40, color: ColorRes.appColor),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.width / 2.2),
-                const CircularProgressIndicator(
-                  color: ColorRes.appColor,
-                ),
-                Text(
-                  Strings.Made,
-                  style: mulishbold.copyWith(fontSize: 18),
-                ),
+
               ],
             ),
           ),

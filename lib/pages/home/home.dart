@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/additinal_details_api.dart';
 import 'package:date_madly_app/api/add_like_dislike.dart';
 import 'package:date_madly_app/api/filter_api.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/db/chatroom.dart';
 import 'package:date_madly_app/models/add_like_dislike_model.dart';
@@ -75,6 +76,7 @@ class _HomeState extends State<Home> {
   String locationData = '';
   String lat = '';
   String long = '';
+
   Future getCurrentLatLang() async {
     LocationPermission permission = await Geolocator.checkPermission();
 
@@ -234,6 +236,7 @@ class _HomeState extends State<Home> {
               return IconButton(
                 icon: Image.asset(
                   AssertRe.drawer,
+                  color: ColorRes.appColor,
                   scale: 3,
                 ),
                 onPressed: () {
@@ -259,16 +262,24 @@ class _HomeState extends State<Home> {
                 icon: Image.asset(
                   AssertRe.notification,
                   scale: 2.5,
+                  color: ColorRes.appColor,
                 ),
               ),
             ),
           ],
         ),
         drawer: Drawer(
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                topRight: Radius.circular(30),
+                bottomRight: Radius.circular(30)),
+          ),
             backgroundColor: Colors.white,
             child: Consumer<HomeMainProvider>(
               builder: (context, value, child) => Padding(
                 padding: const EdgeInsets.all(20),
+
                 child: Column(
                   children: [
                     SizedBox(
@@ -280,6 +291,7 @@ class _HomeState extends State<Home> {
                         Image.asset(
                           AssertRe.drawer,
                           scale: 3,
+                          color: ColorRes.appColor,
                         ),
                         Text(
                           Strings.filter,
@@ -321,7 +333,7 @@ class _HomeState extends State<Home> {
                                   child: Container(
                                     width: 120,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
+                                      borderRadius: BorderRadius.circular(65),
                                       border: Border.all(
                                           color: index == currentindex1
                                               ? ColorRes.appColor
@@ -366,7 +378,7 @@ class _HomeState extends State<Home> {
                       height: MediaQuery.of(context).size.height / 15,
                       width: MediaQuery.of(context).size.width / 1,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
+                          borderRadius: BorderRadius.circular(67),
                           border: Border.all(color: ColorRes.grey)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -412,6 +424,8 @@ class _HomeState extends State<Home> {
                           child: SfSliderTheme(
                             data: SfSliderThemeData(
                               tooltipBackgroundColor: ColorRes.appColor,
+                              thumbStrokeWidth: 2,
+                              thumbStrokeColor: ColorRes.white,
                             ),
                             child: SfSlider(
                               value: _currentSliderValue,
@@ -425,6 +439,7 @@ class _HomeState extends State<Home> {
                               thumbIcon: Image.asset(
                                 AssertRe.slidericon,
                                 scale: 2,
+                                color: ColorRes.appColor,
                               ),
                               activeColor: ColorRes.appColor.withOpacity(0.9),
                               inactiveColor: ColorRes.colorF1F2F2,
@@ -538,8 +553,54 @@ class _HomeState extends State<Home> {
                         height: MediaQuery.of(context).size.height / 30,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () async {
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     filterBody = {};
+                    //     print(filterBody);
+                    //     filterBody['latitude'] = lat;
+                    //     filterBody['longitude'] = long;
+                    //
+                    //     if (currentindex1 != -1) {
+                    //       filterBody['gender'] =
+                    //           currentindex1 == 0 ? 'Male' : "female";
+                    //     }
+                    //     if (_currentSliderValue != 0) {
+                    //       filterBody['distance'] =
+                    //           _currentSliderValue.toInt().toString();
+                    //     }
+                    //     print(values.end);
+                    //     if (values.start == 20 && values.end == 20) {
+                    //       print('no');
+                    //     } else {
+                    //       double minimumAge =
+                    //           double.parse(values.start.toString());
+                    //       double maximumAge =
+                    //           double.parse(values.end.toString());
+                    //
+                    //       filterBody['minAge'] = minimumAge.toInt().toString();
+                    //       filterBody['maxAge'] = maximumAge.toInt().toString();
+                    //     }
+                    //
+                    //     print(filterBody);
+                    //
+                    //     await filterApiCall(filterBody);
+                    //   },
+                    //   child: Container(
+                    //     height: 55,
+                    //     width: MediaQuery.of(context).size.width / 1.5,
+                    //     decoration: BoxDecoration(
+                    //         color: ColorRes.appColor,
+                    //         borderRadius: BorderRadius.circular(8)),
+                    //     child: Center(
+                    //         child: Text(
+                    //       Strings.COntinue,
+                    //       style: poppins.copyWith(
+                    //           fontSize: 16, color: Colors.white),
+                    //     )),
+                    //   ),
+                    // ),
+                    CommonGradientButton(
+                      ontap: () async {
                         filterBody = {};
                         print(filterBody);
                         filterBody['latitude'] = lat;
@@ -547,7 +608,7 @@ class _HomeState extends State<Home> {
 
                         if (currentindex1 != -1) {
                           filterBody['gender'] =
-                              currentindex1 == 0 ? 'Male' : "female";
+                          currentindex1 == 0 ? 'Male' : "female";
                         }
                         if (_currentSliderValue != 0) {
                           filterBody['distance'] =
@@ -558,9 +619,9 @@ class _HomeState extends State<Home> {
                           print('no');
                         } else {
                           double minimumAge =
-                              double.parse(values.start.toString());
+                          double.parse(values.start.toString());
                           double maximumAge =
-                              double.parse(values.end.toString());
+                          double.parse(values.end.toString());
 
                           filterBody['minAge'] = minimumAge.toInt().toString();
                           filterBody['maxAge'] = maximumAge.toInt().toString();
@@ -570,24 +631,9 @@ class _HomeState extends State<Home> {
 
                         await filterApiCall(filterBody);
                       },
-                      child: Container(
-                        height: MediaQuery.of(context).size.height / 11,
-                        width: MediaQuery.of(context).size.width / 1.5,
-                        decoration: BoxDecoration(
-                            color: ColorRes.appColor,
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Center(
-                            child: Text(
-                          Strings.COntinue,
-                          style: poppins.copyWith(
-                              fontSize: 16, color: Colors.white),
-                        )),
-                      ),
                     ),
-                    Expanded(
-                      child: SizedBox(
-                        height: MediaQuery.of(context).size.height / 30,
-                      ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 30,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -597,18 +643,19 @@ class _HomeState extends State<Home> {
                         setState(() {});
                       },
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 11,
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        height:55,
+                        width: MediaQuery.of(context).size.width ,
                         decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                  spreadRadius: 0,
-                                  offset: Offset(2, 2),
-                                  color: ColorRes.color939393.withOpacity(0.25),
-                                  blurRadius: 10)
+                                spreadRadius: 0,
+                                offset: Offset(2, 2),
+                                color: ColorRes.color939393.withOpacity(0.25),
+                                blurRadius: 10,
+                              ),
                             ],
                             color: Colors.white,
-                            borderRadius: BorderRadius.circular(8)),
+                            borderRadius: BorderRadius.circular(67)),
                         child: Center(
                             child: Text(
                           Strings.clear,

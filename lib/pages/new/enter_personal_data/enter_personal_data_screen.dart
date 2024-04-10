@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
@@ -377,13 +378,10 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 decoration: InputDecoration(
                                   hintText: Strings.dats,
                                   border: InputBorder.none,
-                                  suffixIcon: Padding(
-                                    padding: const EdgeInsets.only(right: 13.0),
-                                    child: Image.asset(
-                                      AssertRe.Date_Icon,
-                                      color: ColorRes.grey,
-                                      scale: 3,
-                                    ),
+                                  suffixIcon: Image.asset(
+                                    AssertRe.Date_Icon,
+                                    color: ColorRes.grey,
+                                    scale: 3,
                                   ),
                                 ),
                                 onChanged: ((value) => {print(value)}),
@@ -432,7 +430,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     child: Container(
                                       width: 145,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5),
+                                        borderRadius: BorderRadius.circular(67),
                                         border: Border.all(
                                           color: index == currentindex
                                               ? ColorRes.appColor
@@ -486,10 +484,13 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                           SizedBox(height: 30),
                           Text(Strings.Location, style: mulish14400),
                           SizedBox(height: 10),
-                          NewTextField(
-                            controller: value.locationController,
-                            hintText: Strings.ELocation,
-                            suffix: AssertRe.Location_Icon,
+                          SizedBox(
+                            height: 50,
+                            child: NewTextField(
+                              controller: value.locationController,
+                              hintText: Strings.ELocation,
+                              suffix: AssertRe.Location_Icon,
+                            ),
                           ),
                           value.locationError != ""
                               ? Align(
@@ -546,10 +547,13 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                           SizedBox(height: 30),
                           Text(Strings.college, style: mulish14400),
                           SizedBox(height: 10),
-                          NewTextField(
-                            controller: value.collegeController,
-                            hintText: Strings.enter_college,
-                            suffix: AssertRe.Education_Icon,
+                          SizedBox(
+                            height: 50,
+                            child: NewTextField(
+                              controller: value.collegeController,
+                              hintText: Strings.enter_college,
+                              suffix: AssertRe.Education_Icon,
+                            ),
                           ),
                           value.collegeError != ""
                               ? Align(
@@ -583,8 +587,10 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 horizontal: 20, vertical: 0),
                           ),
                           SizedBox(height: 20),
-                          GestureDetector(
-                            onTap: () async {
+
+
+                          CommonGradientButton(
+                            ontap: () async{
                               FocusScope.of(context).unfocus();
                               body = {
                                 "_id": PrefService.getString(PrefKeys.userId),
@@ -606,22 +612,6 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 //     ));
                               } // Call the API method
                             },
-                            child: Container(
-                              alignment: Alignment.center,
-                              height: 55,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: ColorRes.appColor,
-                              ),
-                              child: Text(
-                                Strings.Continue,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                            ),
                           ),
                           SizedBox(height: 20),
                         ],

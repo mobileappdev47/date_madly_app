@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ColorRes {
-  static const appColor = Color(0xffEF4765);
+  // static const appColor = Color(0xffEF4765);
+  static const appColor = Color(0xffC1272D);
   static const grey = Color(0xffACACAC);
 
   static const lgrey = Color(0xffece9e9);
@@ -18,4 +19,8 @@ class ColorRes {
   static const colorF4f4f4 = Color(0xffF4F4F4);
   static const colorF1F2F2 = Color(0xffF1F2F2);
   static const color939393 = Color(0xff939393);
+  static const color444142 = Color(0xff444142);
+  static const color828693 = Color(0xff828693);
+  static const colorACACAC = Color(0xffACACAC);
+  // static const color828693 = Color(0xff828693);
 }

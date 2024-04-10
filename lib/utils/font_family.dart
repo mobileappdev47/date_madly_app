@@ -8,4 +8,6 @@ class Fonts{
   static const poppinsBold='poppinsBold';
   static const poppins='Poppins';
   static const poppinsSemiBold='poppinsSemiBold';
+  static const interRegular='interRegular';
+  static const interbold='interBold';
 }

@@ -123,7 +123,7 @@ class NewTextField extends StatelessWidget {
           color: ColorRes.grey,
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(67),
       ),
       padding: EdgeInsets.only(left: prefix != null ? 10 : 15),
       child: TextField(

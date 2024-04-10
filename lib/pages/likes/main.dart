@@ -313,7 +313,14 @@ class _LikesState extends State<Likes> {
                                                   width: 50,
                                                   decoration: BoxDecoration(
                                                     shape: BoxShape.circle,
-                                                    color: ColorRes.appColor,
+                                                    gradient: LinearGradient(
+                                                      begin: Alignment.topCenter,
+                                                      end: Alignment.bottomCenter,
+                                                      colors: [
+                                                        Color(0xffED1E79,),
+                                                        Color(0xffC1272D,),
+                                                      ],
+                                                    ),
                                                   ),
                                                   child: Icon(
                                                     Icons.favorite_border,

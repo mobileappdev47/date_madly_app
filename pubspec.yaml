@@ -168,6 +168,12 @@ flutter:
      - family: MulishBlack
        fonts:
          - asset: assets/fonts/Mulish-Black.ttf
+     - family: interRegular
+       fonts:
+         - asset: assets/fonts/inter/Inter-Regular.ttf
+     - family: interBold
+       fonts:
+         - asset: assets/fonts/inter/Inter-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
