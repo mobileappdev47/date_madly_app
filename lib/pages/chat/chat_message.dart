@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/network/api.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
+import 'package:date_madly_app/pages/chat/video_call_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -46,6 +47,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   String userEmail = PrefService.getString(PrefKeys.email).toString();
+
   Widget build(BuildContext context) {
     print(userEmail);
     return Consumer<NewChatProvider>(
@@ -125,6 +127,39 @@ class _ChatScreenState extends State<ChatScreen> {
                         )
                       ],
                     ),
+                    actions: [
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Call(),
+                                ));
+                          },
+                          child: Image.asset(
+                            'assets/icons/Call.png',
+                            scale: 3,
+                          )),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                          onTap: () {
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => VideoCallScreen(),
+                                ),);
+                            },
+                          child: Image.asset(
+                            'assets/icons/Video Call.png',
+                            scale: 3,
+                          )),
+                      SizedBox(
+                        width: 20,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -132,71 +167,6 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
           body: Column(
             children: [
-              // Spacer(),
-              // Container(
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.end,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       CustomPaint(
-              //         painter: ChatBubblePainter(),
-              //         child: Container(
-              //           padding: EdgeInsets.all(10.0),
-              //           decoration: BoxDecoration(
-              //             color: ColorRes.colorFF9BAD,
-              //             borderRadius: BorderRadius.circular(10.0),
-              //           ),
-              //           child: Text(
-              //             Strings.hipatricia,
-              //             style: mulish14400.copyWith(
-              //               fontSize: 12,
-              //               color: ColorRes.darkGrey,
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       SizedBox(
-              //         width: 15,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 12,
-              // ),
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 0, left: 20),
-              //   child: Container(
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.start,
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         Container(
-              //           padding: EdgeInsets.all(10.0),
-              //           decoration: BoxDecoration(
-              //             color: ColorRes.white,
-              //             borderRadius: BorderRadius.only(
-              //                 topRight: Radius.circular(20),
-              //                 bottomLeft: Radius.circular(20),
-              //                 bottomRight: Radius.circular(20)),
-              //           ),
-              //           child: SizedBox(
-              //             child: Text(
-              //               Strings.almost_all,
-              //               style: mulishbold.copyWith(
-              //                 fontSize: 12,
-              //                 color: ColorRes.grey,
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
               Expanded(
                 child: StreamBuilder<QuerySnapshot>(
                   stream: FirebaseFirestore.instance
@@ -618,9 +588,24 @@ class _ChatScreenState extends State<ChatScreen> {
                       }
                       setState(() {});
                     },
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: ColorRes.appColor,
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(
+                              0xffED1E79,
+                            ),
+                            Color(
+                              0xffC1272D,
+                            ),
+                          ],
+                        ),
+                      ),
                       child: Image.asset(
                         AssertRe.Send,
                         scale: 4,

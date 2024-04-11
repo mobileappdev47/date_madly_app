@@ -1,5 +1,7 @@
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
+import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:flutter/material.dart';
 
@@ -56,72 +58,93 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
               SizedBox(
                 height: 14,
               ),
-Padding(
-  padding: const EdgeInsets.symmetric(horizontal: 27),
-  child: Column(
-    children: [
-      Container(
-        height: 55,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(67),
-          border: Border.all(
-            color: Colors.white,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          Strings.signinwithapple,
-          style: poppins.copyWith(
-              fontSize: 14.5, color: Colors.white, letterSpacing: 2),
-        ),
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Container(
-        height: 55,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(67),
-          border: Border.all(
-            color: Colors.white,
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          Strings.signinwithfb,
-          style: poppins.copyWith(
-              fontSize: 14.5, color: Colors.white, letterSpacing: 2),
-        ),
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      GestureDetector(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => NewMobileNumberScreen(),));
-        },
-        child: Container(
-          height: 55,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(67),
-            border: Border.all(
-              color: Colors.white,
-            ),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            Strings.signinwithphonenumber,
-            style: poppins.copyWith(
-                fontSize: 14.5, color: Colors.white, letterSpacing: 2),
-          ),
-        ),
-      ),
-    ],
-  ),
-),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 27),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                      },
+                      child: Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(67),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          Strings.sign_up.toUpperCase(),
+                          style: poppins.copyWith(
+                              fontSize: 14.5,
+                              color: Colors.white,
+                              letterSpacing: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+
+                      },
+                      child: Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(67),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          Strings.log_in.toUpperCase(),
+                          style: poppins.copyWith(
+                              fontSize: 14.5,
+                              color: Colors.white,
+                              letterSpacing: 2),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NewMobileNumberScreen(),
+                            ));
+                      },
+                      child: Container(
+                        height: 55,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(67),
+                          border: Border.all(
+                            color: Colors.white,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          Strings.signinwithphonenumber,
+                          style: poppins.copyWith(
+                              fontSize: 14.5,
+                              color: Colors.white,
+                              letterSpacing: 2),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(
                 height: 20,
               ),
@@ -133,7 +156,9 @@ Padding(
                     fontWeight: FontWeight.w500,
                     fontFamily: Fonts.poppins),
               ),
-              SizedBox(height: 30,),
+              SizedBox(
+                height: 30,
+              ),
             ],
           ),
         ),

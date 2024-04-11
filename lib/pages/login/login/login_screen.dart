@@ -1,142 +1,8 @@
-// import 'package:date_madly_app/common/text_feild_common.dart';
-// import 'package:date_madly_app/utils/colors.dart';
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-//
-// import '../../../common/text_style.dart';
-// import '../../../utils/font_family.dart';
-// import '../../../utils/texts.dart';
-//
-// class LoginScreen extends StatefulWidget {
-//   LoginScreen({super.key});
-//
-//   @override
-//   State<LoginScreen> createState() => _LoginScreenState();
-// }
-//
-// class _LoginScreenState extends State<LoginScreen> {
-//   TextEditingController emailcontroller = TextEditingController();
-//   TextEditingController passwordcontroller = TextEditingController();
-//   bool obscureText = true;
-//   String textPassword = '';
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: ColorRes.white,
-//       body: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               children: [
-//                 Text(
-//                   Strings.log_in,
-//                   style: mulish14400.copyWith(
-//                     fontSize: 24,
-//                     color: ColorRes.darkGrey,
-//                     fontFamily: Fonts.poppinsBold,
-//                   ),
-//                 ),
-//                 Spacer(),
-//                 Text(
-//                   Strings.cancle,
-//                   style: mulish14400.copyWith(
-//                     fontSize: 12,
-//                     color: ColorRes.appColor,
-//                   ),
-//                 )
-//               ],
-//             ),
-//             SizedBox(
-//               height: 30,
-//             ),
-//             Text(
-//               Strings.emails,
-//               style: TextStyle(color: ColorRes.grey),
-//             ),
-//             NewTextField(
-//               controller: emailcontroller,
-//               hintText: Strings.email,
-//             ),
-//             SizedBox(
-//               height: 20,
-//             ),
-//             Text(
-//               Strings.password,
-//               style: TextStyle(color: ColorRes.grey),
-//             ),
-//             TextField(
-//               controller: passwordcontroller,
-//               obscureText: obscureText,
-//               onChanged: (value) {
-//                 setState(() {
-//                   textPassword = value;
-//                 });
-//               },
-//               decoration: InputDecoration(
-//                 enabledBorder: UnderlineInputBorder(
-//                   borderSide: BorderSide(
-//                     color: ColorRes.colorE5E5E5,
-//                   ),
-//                 ),
-//                 disabledBorder: UnderlineInputBorder(
-//                   borderSide: BorderSide(
-//                     color: ColorRes.colorE5E5E5,
-//                   ),
-//                 ),
-//                 focusedBorder: UnderlineInputBorder(
-//                   borderSide: BorderSide(
-//                     color: ColorRes.colorE5E5E5,
-//                   ),
-//                 ),
-//                 labelText: Strings.password,
-//                 labelStyle: mulish14400.copyWith(
-//                     fontSize: 14, fontFamily: Fonts.poppins),
-//                 suffixIcon: IconButton(
-//                   icon: Icon(
-//                     !obscureText
-//                         ? Icons.visibility_outlined
-//                         : Icons.visibility_off_outlined,
-//                   ),
-//                   onPressed: () {
-//                     setState(() {
-//                       obscureText = !obscureText;
-//                     });
-//                   },
-//                 ),
-//               ),
-//             ),
-//
-//             SizedBox(
-//               height: 30,
-//             ),
-//             Container(
-//               height: MediaQuery.of(context).size.height / 13,
-//               width: MediaQuery.of(context).size.width / 1,
-//               child: CupertinoButton(
-//                 color: ColorRes.appColor,
-//                 child: Text(
-//                   Strings.log_in,
-//                   style: mulish14400.copyWith(
-//                       fontSize: 14,
-//                       color: ColorRes.white,
-//                       fontFamily: Fonts.poppinsBold),
-//                 ),
-//                 onPressed: () async {},
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+
 import 'package:date_madly_app/api/log_in_api.dart';
 import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/common_field.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
@@ -373,7 +239,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 11,
                       ),
-                      Container(
+                  /*    Container(
                         height: MediaQuery.of(context).size.height / 13,
                         width: MediaQuery.of(context).size.width / 1,
                         child: CupertinoButton(
@@ -398,7 +264,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                 await loginapi();
                               }
                             }),
+                      ),*/
+                      CommonGradientButton(
+                        text: Strings.log_in.toUpperCase(),
+                         ontap: () async {
+                           FocusScope.of(context).unfocus();
+                           String? token =
+                           await NotificationService.getToken();
+                           body = {
+                             "email": value.emailController.text,
+                             "password": value.passwordController.text,
+                             'newDeviceTokens': [token],
+                           };
+                           if (value.validation()) {
+                             await loginapi();
+                           }
+                         },
                       ),
+
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 11,
                       ),

@@ -82,9 +82,13 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       fontFamily: Fonts.poppins),
                 ),
                 const SizedBox(height: 30),
-                Image.asset(
-                  AssertRe.logo,
-                  scale: 2.5,
+                ClipOval(
+                  child: Image.asset(
+                   'assets/icons/newLogo.jpg',
+                    height: 50,
+                    width: 50,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(question,

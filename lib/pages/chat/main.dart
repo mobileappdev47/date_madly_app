@@ -10,6 +10,7 @@ import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/body_builder.dart';
+import 'package:date_madly_app/utils/dialogs.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -225,7 +226,12 @@ class _ChatState extends State<Chat> {
         backgroundColor: ColorRes.white,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
-          leading: Icon(Icons.arrow_back_ios,color: ColorRes.appColor,size: 18,),
+          leading: GestureDetector(
+
+              onTap: () {
+                Dialogs().showExitDialog(context);
+              },
+              child: Icon(Icons.arrow_back_ios,color: ColorRes.appColor,size: 18,)),
           centerTitle: true,
           backgroundColor: ColorRes.white,
           title: Text(

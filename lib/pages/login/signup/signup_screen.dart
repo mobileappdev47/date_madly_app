@@ -1,5 +1,6 @@
 import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/common_field.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
@@ -50,7 +51,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {});
     } catch (e) {
       loader = false;
-      setState(() {});
       print(e.toString());
     }
   }
@@ -58,6 +58,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String lat = '';
   String long = '';
   Future getCurrentLatLang() async {
+    loader= true ;
+    setState(() {
+
+    });
     LocationPermission permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.denied) {
@@ -74,6 +78,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       lat = position.latitude.toString();
       long = position.longitude.toString();
     }
+    loader= false ;
+    setState(() {
+
+    });
   }
 
   @override
@@ -357,7 +365,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 11,
                       ),
-                      Container(
+                    /*  Container(
                         height: MediaQuery.of(context).size.height / 13,
                         width: MediaQuery.of(context).size.width / 1,
                         child: CupertinoButton(
@@ -398,6 +406,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     value.passwordController.text);
                               }
                             }),
+                      ),*/
+                      CommonGradientButton(
+                  text: Strings.sign_up.toUpperCase(),
+                        ontap: () async{
+                          FocusScope.of(context).unfocus();
+
+                          if (value.validation()) {
+                            await getCurrentLatLang();
+                            body = {
+                              "name": value.nameController.text,
+                              "email": value.emailController.text,
+                              "password": value.passwordController.text,
+                              "dob": value.dobController.text,
+                              "type": "email",
+                              'longitude': long,
+                              'latitude': lat,
+                              "loc": {
+                                "type": "Point",
+                                "coordinates": [
+                                  double.parse(long),
+                                  double.parse(lat)
+                                ]
+                              },
+                              'device_tokens': [
+                                PrefService.getString(PrefKeys.deviceToken)
+                              ],
+                            };
+                            await signUpApiCall();
+
+                            await PrefService.setValue(PrefKeys.password,
+                                value.passwordController.text);
+                          }
+                        },
                       ),
                       GestureDetector(
                         onTap: () {

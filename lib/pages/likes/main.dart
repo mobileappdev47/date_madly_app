@@ -5,6 +5,7 @@ import 'package:date_madly_app/models/get_like_dislike_model.dart';
 import 'package:date_madly_app/models/update_request_status.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
+import 'package:date_madly_app/utils/dialogs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
@@ -74,19 +75,15 @@ class _LikesState extends State<Likes> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: ColorRes.white,
-          // leading: GestureDetector(
-          //   onTap: () {
-          //     Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //       builder: (context) {
-          //         return Profile();
-          //       },
-          //     ));
-          //   },
-          //   child: Icon(
-          //     Icons.arrow_back_ios_new_rounded,
-          //     color: ColorRes.appColor,
-          //   ),
-          // ),
+          leading: GestureDetector(
+            onTap: () {
+              Dialogs().showExitDialog(context);
+            },
+            child: Icon(
+              Icons.arrow_back_ios_new_rounded,
+              color: ColorRes.appColor,
+            ),
+          ),
           title: Text(
             Strings.Match_Request,
             style:

@@ -22,7 +22,7 @@ import '../utils/texts.dart';
 class HomeMainProvider with ChangeNotifier {
   bool male = false;
   bool female = false;
-
+  bool bottomSheetLoader = false ;
   double currentSliderValue = 0;
   List notificationList = [
     'assets/icons/Add Image (1).png',

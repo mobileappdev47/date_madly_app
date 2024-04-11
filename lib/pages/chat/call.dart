@@ -1,3 +1,4 @@
+import 'package:date_madly_app/utils/font_family.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -27,37 +28,36 @@ class _CallState extends State<Call> {
               Icons.arrow_back_ios_new_rounded,
               color: ColorRes.grey,
             )),
-        title: Text(
-          'Call',
-          style: appbarTitle().copyWith(color: ColorRes.grey),
-        ),
+
       ),
       body: Column(
         children: [
           SizedBox(
             height: 90,
           ),
-          Center(
-            child: Stack(
-              children: [
-                Image.asset(
-                  'assets/icons/Add Image (1).png',
-                  scale: 1.5,
+          Stack(
+            alignment: Alignment.bottomRight,
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  'assets/icons/Add Image_04.png',
+                 height: 120,
+                  width: 120,
                   fit: BoxFit.fill,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 80, left: 70),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5.0, right: 5),
+                child: CircleAvatar(
+                  radius: 11,
+                  backgroundColor: ColorRes.white,
                   child: CircleAvatar(
-                    radius: 11,
-                    backgroundColor: ColorRes.white,
-                    child: CircleAvatar(
-                      radius: 8,
-                      backgroundColor: ColorRes.green,
-                    ),
+                    radius: 8,
+                    backgroundColor: ColorRes.green,
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           SizedBox(
             height: 20,
@@ -66,7 +66,8 @@ class _CallState extends State<Call> {
             'Patricia',
             style: TextStyle(
                 color: ColorRes.darkGrey,
-                fontSize: 22,
+                fontSize: 28,
+                fontFamily: Fonts.mulishBold,
                 fontWeight: FontWeight.w700),
           ),
           SizedBox(
@@ -76,15 +77,33 @@ class _CallState extends State<Call> {
               style: TextStyle(
                   color: ColorRes.darkGrey,
                   fontSize: 12,
+                  fontFamily: Fonts.mulishRegular,
                   fontWeight: FontWeight.w400)),
           SizedBox(
             height: 170,
           ),
           Expanded(
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: ColorRes.appColor,
-              child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle
+                  ,
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xffED1E79,),
+                      Color(0xffC1272D,),
+                    ],
+                  ),
+                ),
+                child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
+              ),
             ),
           ),
           SizedBox(
@@ -172,7 +191,10 @@ class _CallState extends State<Call> {
                 ],
               ),
             ),
-          )
+          ),
+          SizedBox(
+            height: 20,
+          ),
         ],
       ),
     );

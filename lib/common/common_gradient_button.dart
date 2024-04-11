@@ -46,7 +46,7 @@ class _CommonGradientButtonState extends State<CommonGradientButton> {
         ),
         child: Center(
           child: Text(
-            'Continue'.toUpperCase(),
+            widget.text ??'Continue'.toUpperCase(),
             style: inter.copyWith(color: Colors.white, fontSize: 18.4),
           ),
         ),

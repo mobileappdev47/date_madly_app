@@ -38,6 +38,7 @@ class _HomeMainState extends State<HomeMain> {
     Profile()
     // ChangePassword()
   ];
+
   @override
   void initState() {
     super.initState();
@@ -155,7 +156,8 @@ class _HomeMainState extends State<HomeMain> {
                 ),
               ],
             ),
-          )),
+          ),
+      ),
     );
   }
 }

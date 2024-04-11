@@ -202,23 +202,29 @@ class _SplashScreenState extends State<SplashScreen> {
   initSharedPreference() async {
     sharedPreferences = await SharedPreferences.getInstance();
     if (PrefService.getString(PrefKeys.userId) == '') {
+      Navigator.pop(context);
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PhoneOTP(),
+            builder: (context) => NewSignInScreen(),
           ));
     } else if (PrefService.getBool(PrefKeys.isAdditional) == false) {
+      Navigator.pop(context);
+
       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => AdditionalDetails(pageNo: 1),
           ));
     } else {
+      Navigator.pop(context);
+
       Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => HomeMain(),
-          ));
+          ),
+      );
     }
   }
 

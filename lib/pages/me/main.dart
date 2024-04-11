@@ -7,6 +7,7 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
 import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/pages/login/Login_with_phone.dart';
+import 'package:date_madly_app/pages/login/new_signin_screen.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
@@ -749,7 +750,7 @@ class _ProfileState extends State<Profile> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => PhoneOTP(),
+                                  builder: (context) => NewSignInScreen(),
                                 ),
                                 (route) => false,
                               );

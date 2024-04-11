@@ -55,6 +55,7 @@ class User {
   String? location;
   String? type;
   String? profilePhoto;
+  int? likes;
   int? boy;
 
   User({
@@ -83,7 +84,9 @@ class User {
     this.location,
     this.type,
     this.profilePhoto,
+    this.likes,
     this.boy,
+
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -122,6 +125,7 @@ class User {
         location: json["location"],
         type: json["type"],
         profilePhoto: json["profilePhoto"],
+       likes: json["likes"],
         boy: json["boy"],
       );
 
@@ -155,6 +159,7 @@ class User {
         "location": location,
         "type": type,
         "profilePhoto": profilePhoto,
+        "likes": likes,
         "boy": boy,
       };
 }

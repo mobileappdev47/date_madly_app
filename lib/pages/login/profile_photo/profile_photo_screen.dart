@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/image_delete_api.dart';
 import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/api/upload_image_api.dart';
+import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/models/upload_image_model.dart';
@@ -123,14 +124,12 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
   editImage(imagePath, index) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imagePath,
-      aspectRatio:
-          CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       compressQuality: 100,
       compressFormat: ImageCompressFormat.jpg,
       maxHeight: 100,
       cropStyle: CropStyle.rectangle,
       maxWidth: 100,
-
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
         CropAspectRatioPreset.ratio3x2,
@@ -249,6 +248,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
 
   List<File> imageList = List.generate(30, (index) => File(''));
   List<File> newImageFile = [];
+
   @override
   void initState() {
     if (widget.from != null && widget.from == 'enter') {
@@ -262,7 +262,29 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
     return Scaffold(
       backgroundColor: ColorRes.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Container(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: CommonGradientButton(
+          ontap: () async {
+            FocusScope.of(context).unfocus();
+            if (validation()) {
+              if (widget.from != null && widget.from == 'enter') {
+                await uploadApifromUpdate();
+              } else {
+                await uploadApi();
+              }
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (c) => EnterPersonalDataScreen(),
+              //   ),
+              // );
+            }
+          },
+        ),
+      ),
+
+/*      Container(
         margin: EdgeInsets.symmetric(horizontal: 20),
         height: MediaQuery.of(context).size.height / 13,
         width: MediaQuery.of(context).size.width / 1,
@@ -285,7 +307,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                 // );
               }
             }),
-      ),
+      ),*/
       body: Stack(
         children: [
           SingleChildScrollView(
@@ -460,7 +482,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                           });
                         },
                         child: Stack(
-                          alignment: Alignment.topRight,
+                          alignment: Alignment.bottomRight,
                           children: [
                             Container(
                               height: MediaQuery.of(context).size.height / 5,
@@ -470,11 +492,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                 color: ColorRes.lightGrey,
                               ),
                               child: imageList[index].path.isEmpty
-                                  ? Image.asset(
-                                      AssertRe.gallary,
-                                      scale: 3,
-                                      //,
-                                    )
+                                  ? SizedBox()
                                   : ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image.file(
@@ -483,7 +501,196 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                       ),
                                     ),
                             ),
-                            widget.from != null &&
+                            /*widget.from != null &&
+                                    widget.from == 'enter' &&*/
+                                    imageList[index].path.isNotEmpty
+                                ? GestureDetector(
+                                    onTap: () {
+                                      imageList.removeAt(index);
+                                      setState(() {});
+                                      deleteImageApi(netWorkImageList[index]);
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 1,
+                                              blurRadius: 2,
+                                              offset: Offset(0,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ]),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: ColorRes.appColor,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  )
+                                : GestureDetector(
+                                    onTap: () {
+                                      showModalBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(20),
+                                            ),
+                                            height: MediaQuery.of(context).size.height / 3,
+                                            child: Center(
+                                              child: Padding(
+                                                padding: const EdgeInsets.symmetric(
+                                                    horizontal: 40),
+                                                child: Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                          15,
+                                                    ),
+                                                    Text(
+                                                      Strings.add_photos,
+                                                      style: mulish14400.copyWith(
+                                                        fontSize: 24,
+                                                        fontFamily: Fonts.poppinsSemiBold,
+                                                        color: ColorRes.darkGrey,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                          40,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        pickImage(
+                                                            index: index,
+                                                            source: ImageSource.gallery);
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: ColorRes.appColor,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                            50,
+                                                          ),
+                                                        ),
+                                                        height: MediaQuery.of(context)
+                                                            .size
+                                                            .height /
+                                                            13,
+                                                        width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                            1,
+                                                        child: Text(
+                                                          Strings.add_from_galary,
+                                                          style: mulish14400.copyWith(
+                                                            fontFamily: Fonts.poppins,
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        alignment: Alignment.center,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                          40,
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        pickImage(
+                                                            index: index,
+                                                            source: ImageSource.camera);
+                                                      },
+                                                      child: Container(
+                                                        decoration: BoxDecoration(
+                                                          color: ColorRes.appColor,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                            50,
+                                                          ),
+                                                        ),
+                                                        height: MediaQuery.of(context)
+                                                            .size
+                                                            .height /
+                                                            13,
+                                                        width: MediaQuery.of(context)
+                                                            .size
+                                                            .width /
+                                                            1,
+                                                        child: Text(
+                                                          Strings.use_camera,
+                                                          style: mulish14400.copyWith(
+                                                            fontFamily: Fonts.poppins,
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                        alignment: Alignment.center,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                      setState(() {
+                                        selectedindex == index;
+                                      });
+
+                                    },
+                                    child: Container(
+                                      height: 30,
+                                      width: 30,
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          gradient: LinearGradient(
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                            colors: [
+                                              Color(
+                                                0xffED1E79,
+                                              ),
+                                              Color(
+                                                0xffC1272D,
+                                              ),
+                                            ],
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color:
+                                                  Colors.grey.withOpacity(0.5),
+                                              spreadRadius: 1,
+                                              blurRadius: 2,
+                                              offset: Offset(0,
+                                                  3), // changes position of shadow
+                                            ),
+                                          ]),
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+
+                            /*         widget.from != null &&
                                     widget.from == 'enter' &&
                                     imageList[index].path.isNotEmpty
                                 ? GestureDetector(
@@ -502,7 +709,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                       ),
                                     ),
                                   )
-                                : SizedBox(),
+                                : SizedBox(),*/
                           ],
                         ),
                       );

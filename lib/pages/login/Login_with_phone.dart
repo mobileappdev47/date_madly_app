@@ -485,7 +485,8 @@ class _PhoneOTPState extends State<PhoneOTP> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => MobileNumberScreen(),
-                          ));
+                          ),
+                      );
                     },
                     child: Container(
                       alignment: Alignment.center,
