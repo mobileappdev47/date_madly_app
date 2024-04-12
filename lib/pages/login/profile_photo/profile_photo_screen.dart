@@ -482,11 +482,11 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                           });
                         },
                         child: Stack(
-                          alignment: Alignment.bottomRight,
+                          alignment: Alignment.topCenter,
                           children: [
                             Container(
-                              height: MediaQuery.of(context).size.height / 5,
-                              width: MediaQuery.of(context).size.width / 3,
+                              height: MediaQuery.of(context).size.height / 5.9,
+                              width: MediaQuery.of(context).size.width / 3.5,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: ColorRes.lightGrey,
@@ -501,194 +501,206 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                       ),
                                     ),
                             ),
-                            /*widget.from != null &&
-                                    widget.from == 'enter' &&*/
-                                    imageList[index].path.isNotEmpty
-                                ? GestureDetector(
-                                    onTap: () {
-                                      imageList.removeAt(index);
-                                      setState(() {});
-                                      deleteImageApi(netWorkImageList[index]);
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ]),
-                                      child: Icon(
-                                        Icons.close,
-                                        color: ColorRes.appColor,
-                                        size: 18,
-                                      ),
-                                    ),
-                                  )
-                                : GestureDetector(
-                                    onTap: () {
-                                      showModalBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.circular(20),
-                                            ),
-                                            height: MediaQuery.of(context).size.height / 3,
-                                            child: Center(
-                                              child: Padding(
-                                                padding: const EdgeInsets.symmetric(
-                                                    horizontal: 40),
-                                                child: Column(
-                                                  children: [
-                                                    SizedBox(
-                                                      height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                          15,
-                                                    ),
-                                                    Text(
-                                                      Strings.add_photos,
-                                                      style: mulish14400.copyWith(
-                                                        fontSize: 24,
-                                                        fontFamily: Fonts.poppinsSemiBold,
-                                                        color: ColorRes.darkGrey,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                          40,
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                        pickImage(
-                                                            index: index,
-                                                            source: ImageSource.gallery);
-                                                      },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          color: ColorRes.appColor,
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                            50,
-                                                          ),
-                                                        ),
-                                                        height: MediaQuery.of(context)
-                                                            .size
-                                                            .height /
-                                                            13,
-                                                        width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                            1,
-                                                        child: Text(
-                                                          Strings.add_from_galary,
-                                                          style: mulish14400.copyWith(
-                                                            fontFamily: Fonts.poppins,
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                        alignment: Alignment.center,
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      height: MediaQuery.of(context)
-                                                          .size
-                                                          .height /
-                                                          40,
-                                                    ),
-                                                    GestureDetector(
-                                                      onTap: () {
-                                                        Navigator.pop(context);
-                                                        pickImage(
-                                                            index: index,
-                                                            source: ImageSource.camera);
-                                                      },
-                                                      child: Container(
-                                                        decoration: BoxDecoration(
-                                                          color: ColorRes.appColor,
-                                                          borderRadius:
-                                                          BorderRadius.circular(
-                                                            50,
-                                                          ),
-                                                        ),
-                                                        height: MediaQuery.of(context)
-                                                            .size
-                                                            .height /
-                                                            13,
-                                                        width: MediaQuery.of(context)
-                                                            .size
-                                                            .width /
-                                                            1,
-                                                        child: Text(
-                                                          Strings.use_camera,
-                                                          style: mulish14400.copyWith(
-                                                            fontFamily: Fonts.poppins,
-                                                            color: Colors.white,
-                                                            fontSize: 15,
-                                                          ),
-                                                        ),
-                                                        alignment: Alignment.center,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      );
-                                      setState(() {
-                                        selectedindex == index;
-                                      });
+                            Stack(
+                              alignment: Alignment.bottomRight,
+                              children: [
+                                Container(        height: MediaQuery.of(context).size.height / 4,
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  color: Colors.transparent,
 
-                                    },
-                                    child: Container(
-                                      height: 30,
-                                      width: 30,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          gradient: LinearGradient(
-                                            begin: Alignment.topCenter,
-                                            end: Alignment.bottomCenter,
-                                            colors: [
-                                              Color(
-                                                0xffED1E79,
-                                              ),
-                                              Color(
-                                                0xffC1272D,
-                                              ),
-                                            ],
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color:
-                                                  Colors.grey.withOpacity(0.5),
-                                              spreadRadius: 1,
-                                              blurRadius: 2,
-                                              offset: Offset(0,
-                                                  3), // changes position of shadow
-                                            ),
-                                          ]),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
+                                ),
+                                /*widget.from != null &&
+                                    widget.from == 'enter' &&*/
+
+                             imageList[index].path.isNotEmpty
+                                 ? GestureDetector(
+                               onTap: () {
+                                 imageList.removeAt(index);
+                                 setState(() {});
+                                 deleteImageApi(netWorkImageList[index]);
+                               },
+                               child: Container(
+                                 height: 30,
+                                 width: 30,
+                                 decoration: BoxDecoration(
+                                     shape: BoxShape.circle,
+                                     color: Colors.white,
+                                     boxShadow: [
+                                       BoxShadow(
+                                         color:
+                                         Colors.grey.withOpacity(0.5),
+                                         spreadRadius: 1,
+                                         blurRadius: 2,
+                                         offset: Offset(0,
+                                             3), // changes position of shadow
+                                       ),
+                                     ]),
+                                 child: Icon(
+                                   Icons.close,
+                                   color: ColorRes.appColor,
+                                   size: 18,
+                                 ),
+                               ),
+                             )
+                                 : GestureDetector(
+                               onTap: () {
+                                 showModalBottomSheet(
+                                   context: context,
+                                   builder: (BuildContext context) {
+                                     return Container(
+                                       decoration: BoxDecoration(
+                                         color: Colors.white,
+                                         borderRadius: BorderRadius.circular(20),
+                                       ),
+                                       height: MediaQuery.of(context).size.height / 3,
+                                       child: Center(
+                                         child: Padding(
+                                           padding: const EdgeInsets.symmetric(
+                                               horizontal: 40),
+                                           child: Column(
+                                             children: [
+                                               SizedBox(
+                                                 height: MediaQuery.of(context)
+                                                     .size
+                                                     .height /
+                                                     15,
+                                               ),
+                                               Text(
+                                                 Strings.add_photos,
+                                                 style: mulish14400.copyWith(
+                                                   fontSize: 24,
+                                                   fontFamily: Fonts.poppinsSemiBold,
+                                                   color: ColorRes.darkGrey,
+                                                 ),
+                                               ),
+                                               SizedBox(
+                                                 height: MediaQuery.of(context)
+                                                     .size
+                                                     .height /
+                                                     40,
+                                               ),
+                                               GestureDetector(
+                                                 onTap: () {
+                                                   Navigator.pop(context);
+                                                   pickImage(
+                                                       index: index,
+                                                       source: ImageSource.gallery);
+                                                 },
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                     color: ColorRes.appColor,
+                                                     borderRadius:
+                                                     BorderRadius.circular(
+                                                       50,
+                                                     ),
+                                                   ),
+                                                   height: MediaQuery.of(context)
+                                                       .size
+                                                       .height /
+                                                       13,
+                                                   width: MediaQuery.of(context)
+                                                       .size
+                                                       .width /
+                                                       1,
+                                                   child: Text(
+                                                     Strings.add_from_galary,
+                                                     style: mulish14400.copyWith(
+                                                       fontFamily: Fonts.poppins,
+                                                       color: Colors.white,
+                                                       fontSize: 15,
+                                                     ),
+                                                   ),
+                                                   alignment: Alignment.center,
+                                                 ),
+                                               ),
+                                               SizedBox(
+                                                 height: MediaQuery.of(context)
+                                                     .size
+                                                     .height /
+                                                     40,
+                                               ),
+                                               GestureDetector(
+                                                 onTap: () {
+                                                   Navigator.pop(context);
+                                                   pickImage(
+                                                       index: index,
+                                                       source: ImageSource.camera);
+                                                 },
+                                                 child: Container(
+                                                   decoration: BoxDecoration(
+                                                     color: ColorRes.appColor,
+                                                     borderRadius:
+                                                     BorderRadius.circular(
+                                                       50,
+                                                     ),
+                                                   ),
+                                                   height: MediaQuery.of(context)
+                                                       .size
+                                                       .height /
+                                                       13,
+                                                   width: MediaQuery.of(context)
+                                                       .size
+                                                       .width /
+                                                       1,
+                                                   child: Text(
+                                                     Strings.use_camera,
+                                                     style: mulish14400.copyWith(
+                                                       fontFamily: Fonts.poppins,
+                                                       color: Colors.white,
+                                                       fontSize: 15,
+                                                     ),
+                                                   ),
+                                                   alignment: Alignment.center,
+                                                 ),
+                                               ),
+                                             ],
+                                           ),
+                                         ),
+                                       ),
+                                     );
+                                   },
+                                 );
+                                 setState(() {
+                                   selectedindex == index;
+                                 });
+
+                               },
+                               child: Container(
+                                 height: 30,
+                                 width: 30,
+                                 decoration: BoxDecoration(
+                                     shape: BoxShape.circle,
+                                     gradient: LinearGradient(
+                                       begin: Alignment.topCenter,
+                                       end: Alignment.bottomCenter,
+                                       colors: [
+                                         Color(
+                                           0xffED1E79,
+                                         ),
+                                         Color(
+                                           0xffC1272D,
+                                         ),
+                                       ],
+                                     ),
+                                     boxShadow: [
+                                       BoxShadow(
+                                         color:
+                                         Colors.grey.withOpacity(0.5),
+                                         spreadRadius: 1,
+                                         blurRadius: 2,
+                                         offset: Offset(0,
+                                             3), // changes position of shadow
+                                       ),
+                                     ]),
+                                 child: Icon(
+                                   Icons.add,
+                                   color: Colors.white,
+                                 ),
+                               ),
+                             ),
+                              ],
+                            ),
+
 
                             /*         widget.from != null &&
                                     widget.from == 'enter' &&

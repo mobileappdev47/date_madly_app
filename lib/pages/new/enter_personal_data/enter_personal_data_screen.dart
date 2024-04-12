@@ -592,10 +592,15 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                           CommonGradientButton(
                             ontap: () async{
                               FocusScope.of(context).unfocus();
+
+                              DateTime bdate = DateFormat("dd/MM/yyyy").parse( value.dobController.text);
+
+
+                              String formattedDate = DateFormat("yyyy-MM-dd").format(bdate);
                               body = {
                                 "_id": PrefService.getString(PrefKeys.userId),
                                 "name": value.nameController.text,
-                                "dob": value.dobController.text,
+                                "dob": formattedDate,
                                 "gender": value.gender,
                                 "location": value.locationController.text,
                                 "job": value.jobController.text,
