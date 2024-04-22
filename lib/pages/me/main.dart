@@ -465,12 +465,12 @@ class _ProfileState extends State<Profile> {
                                         onTap: () {
                                           Navigator.pop(context);
 
-                                          deleteImageApi(getSingleProfileModel
-                                                  .profile?[0].images?[index] ??
-                                              '');
-                                          getSingleProfileModel
-                                              .profile?[0].images
-                                              ?.removeAt(index);
+                                          // deleteImageApi(getSingleProfileModel
+                                          //         .profile?[0].images?[index] ??
+                                          //     '');
+                                          // getSingleProfileModel
+                                          //     .profile?[0].images
+                                          //     ?.removeAt(index);
                                         },
                                         child: Padding(
                                           padding: const EdgeInsets.only(

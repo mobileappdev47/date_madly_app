@@ -208,16 +208,16 @@ class _HomeState extends State<Home> {
   LikeDislikeapicall(String? id, int status) async {
     print('hy');
     try {
-      loder = true;
-      setState(() {});
+      // loder = true;
+      // setState(() {});
       addLikeDislikeModel =
           await AddLikedDislikeProfileApi.addLikedDislikeProfileapi(id, status);
 
-      loder = false;
-      setState(() {});
+      // loder = false;
+      // setState(() {});
     } catch (e) {
-      loder = false;
-      setState(() {});
+      // loder = false;
+      // setState(() {});
       print('==============>${e.toString()}');
     }
   }
@@ -639,8 +639,8 @@ class _HomeState extends State<Home> {
                     GestureDetector(
                       onTap: () {
                         currentindex1 = -1;
-                        // _currentSliderValue = 0;
-                        values = SfRangeValues(20, 40);
+                        _currentSliderValue = 0;
+                        values = SfRangeValues(20, 20);
                         setState(() {});
                       },
                       child: Container(
@@ -691,7 +691,7 @@ class _HomeState extends State<Home> {
                               setState(() {});
                               var index1 = currentIndex - 1;
                               if (direction == CardSwiperDirection.left) {
-                                await LikeDislikeapicall(
+                                 LikeDislikeapicall(
                                     remainingUsers[index1].id, 1);
 
                                 setState(() {
@@ -700,7 +700,7 @@ class _HomeState extends State<Home> {
                               }
                               else if (direction ==
                                   CardSwiperDirection.right) {
-                                await LikeDislikeapicall(
+                                 LikeDislikeapicall(
                                     remainingUsers[index1].id, 0);
                                 setState(() {});
                               } else {}
@@ -845,7 +845,7 @@ class _HomeState extends State<Home> {
                                                       children: [
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            await LikeDislikeapicall(
+                                                             LikeDislikeapicall(
                                                                 remainingUsers[cardIndex].id, 1);
                                                             cardSwiperController.swipeLeft();
                                                           },
@@ -873,7 +873,7 @@ class _HomeState extends State<Home> {
                                                         Spacer(),
                                                         GestureDetector(
                                                           onTap: () async {
-                                                            await LikeDislikeapicall(
+                                                             LikeDislikeapicall(
                                                                 remainingUsers[cardIndex].id, 0);
                                                             cardSwiperController.swipeRight();
                                                             setState(() {});
@@ -1306,7 +1306,7 @@ class _HomeState extends State<Home> {
                                                                             if(getAll.users?[index].id != null) {
 
                                                                               Navigator.pop(context);
-                                                                              await    LikeDislikeapicall(getAll.users![index].id, 1);
+                                                                                  LikeDislikeapicall(getAll.users![index].id, 1);
                                                                               cardSwiperController.swipeLeft();
                                                                             }
 
@@ -1344,7 +1344,7 @@ class _HomeState extends State<Home> {
                                                                           if(getAll.users?[index].id != null) {
 
                                                                             Navigator.pop(context);
-                                                                            await    LikeDislikeapicall(getAll.users![index].id, 0);
+                                                                                LikeDislikeapicall(getAll.users![index].id, 0);
                                                                            cardSwiperController.swipeRight();
                                                                           }
 

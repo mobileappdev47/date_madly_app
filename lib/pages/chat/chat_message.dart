@@ -223,30 +223,114 @@ class _ChatScreenState extends State<ChatScreen> {
                                             children: [
                                               documents[index]["type"] ==
                                                       "image"
-                                                  ? Container(
-                                                      height: 150,
-                                                      width: 150,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
+                                                  ? GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => Padding(
+                                                      padding: const EdgeInsets.symmetric(
+                                                          horizontal: 20, vertical: 80),
+                                                      child: Container(
+                                                        height: MediaQuery.of(context).size.height,
+                                                        width: MediaQuery.of(context).size.width - 40,
+                                                        child: Stack(
+                                                          alignment: Alignment.topRight,
+                                                          children: [
+                                                            ClipRRect(
+                                                              borderRadius: BorderRadius.circular(8),
+                                                              child: CachedNetworkImage(
+                                                                imageUrl: documents[index]
+                                                                ["content"],
+                                                                height: MediaQuery.of(context)
+                                                                    .size
+                                                                    .height,
+                                                                width: MediaQuery.of(context)
+                                                                    .size
+                                                                    .width -
+                                                                    40,
+                                                                fit: BoxFit.fill,
+                                                                placeholder: (context, url) =>
+                                                                    Image.asset(
+                                                                      'assets/images/image_placeholder.png',
+                                                                      // height: MediaQuery.of(context).size.width - 150,
+                                                                      width: MediaQuery.of(context)
+                                                                          .size
+                                                                          .width -
+                                                                          40,
+                                                                      height: MediaQuery.of(context)
+                                                                          .size
+                                                                          .height,
+                                                                      fit: BoxFit.fill,
+                                                                    ),
+                                                                errorWidget: (context, url, error) =>
+                                                                    Image.asset(
+                                                                      'assets/images/image_placeholder.png',
+                                                                      // height: MediaQuery.of(context).size.width - 150,
+                                                                      width: MediaQuery.of(context)
+                                                                          .size
+                                                                          .width -
+                                                                          40,
+                                                                      height: MediaQuery.of(context)
+                                                                          .size
+                                                                          .height,
+                                                                      fit: BoxFit.fill,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.pop(context);
+
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    right: 10, top: 10),
+                                                                child: Container(
+                                                                  height: 40,
+                                                                  width: 40,
+                                                                  decoration: BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    color: ColorRes.appColor,
+                                                                  ),
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    color: ColorRes.white,
+                                                                    size: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      child: CachedNetworkImage(
-                                                          imageUrl:
-                                                              documents[index]
-                                                                  ["content"],
-                                                          fit: BoxFit.fill,
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              Image.asset(
-                                                                  'assets/images/image_placeholder.png'),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Image.asset(
-                                                                  'assets/images/image_placeholder.png')),
-                                                    )
+                                                    ),
+                                                  );
+                                                },
+                                                    child: Container(
+                                                        height: 150,
+                                                        width: 150,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                        ),
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        child: CachedNetworkImage(
+                                                            imageUrl:
+                                                                documents[index]
+                                                                    ["content"],
+                                                            fit: BoxFit.fill,
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                Image.asset(
+                                                                    'assets/images/image_placeholder.png'),
+                                                            errorWidget: (context,
+                                                                    url, error) =>
+                                                                Image.asset(
+                                                                    'assets/images/image_placeholder.png')),
+                                                      ),
+                                                  )
                                                   : Padding(
                                                       padding:
                                                           const EdgeInsets.only(
@@ -359,30 +443,118 @@ class _ChatScreenState extends State<ChatScreen> {
                                             children: [
                                               documents[index]["type"] ==
                                                       "image"
-                                                  ? Container(
-                                                      height: 150,
-                                                      width: 150,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
+                                                  ? GestureDetector(
+
+
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) => Padding(
+                                                      padding: const EdgeInsets.symmetric(
+                                                          horizontal: 20, vertical: 80),
+                                                      child: Container(
+                                                        height: MediaQuery.of(context).size.height,
+                                                        width: MediaQuery.of(context).size.width - 40,
+                                                        child: Stack(
+                                                          alignment: Alignment.topRight,
+                                                          children: [
+                                                            ClipRRect(
+                                                              borderRadius: BorderRadius.circular(8),
+                                                              child: CachedNetworkImage(
+                                                                imageUrl: documents[index]
+                                                                ["content"],
+                                                                height: MediaQuery.of(context)
+                                                                    .size
+                                                                    .height,
+                                                                width: MediaQuery.of(context)
+                                                                    .size
+                                                                    .width -
+                                                                    40,
+                                                                fit: BoxFit.fill,
+                                                                placeholder: (context, url) =>
+                                                                    Image.asset(
+                                                                      'assets/images/image_placeholder.png',
+                                                                      // height: MediaQuery.of(context).size.width - 150,
+                                                                      width: MediaQuery.of(context)
+                                                                          .size
+                                                                          .width -
+                                                                          40,
+                                                                      height: MediaQuery.of(context)
+                                                                          .size
+                                                                          .height,
+                                                                      fit: BoxFit.fill,
+                                                                    ),
+                                                                errorWidget: (context, url, error) =>
+                                                                    Image.asset(
+                                                                      'assets/images/image_placeholder.png',
+                                                                      // height: MediaQuery.of(context).size.width - 150,
+                                                                      width: MediaQuery.of(context)
+                                                                          .size
+                                                                          .width -
+                                                                          40,
+                                                                      height: MediaQuery.of(context)
+                                                                          .size
+                                                                          .height,
+                                                                      fit: BoxFit.fill,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            GestureDetector(
+                                                              onTap: () {
+                                                                Navigator.pop(context);
+
+
+                                                              },
+                                                              child: Padding(
+                                                                padding: const EdgeInsets.only(
+                                                                    right: 10, top: 10),
+                                                                child: Container(
+                                                                  height: 40,
+                                                                  width: 40,
+                                                                  decoration: BoxDecoration(
+                                                                    shape: BoxShape.circle,
+                                                                    color: ColorRes.appColor,
+                                                                  ),
+                                                                  child: Icon(
+                                                                    Icons.close,
+                                                                    color: ColorRes.white,
+                                                                    size: 16,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      clipBehavior:
-                                                          Clip.hardEdge,
-                                                      child: CachedNetworkImage(
-                                                          imageUrl:
-                                                              documents[index]
-                                                                  ["content"],
-                                                          fit: BoxFit.fill,
-                                                          placeholder: (context,
-                                                                  url) =>
-                                                              Image.asset(
-                                                                  'assets/images/image_placeholder.png'),
-                                                          errorWidget: (context,
-                                                                  url, error) =>
-                                                              Image.asset(
-                                                                  'assets/images/image_placeholder.png')),
-                                                    )
+                                                    ),
+                                                  );
+                                                },
+
+                                                child: Container(
+                                                        height: 150,
+                                                        width: 150,
+                                                        decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                        ),
+                                                        clipBehavior:
+                                                            Clip.hardEdge,
+                                                        child: CachedNetworkImage(
+                                                            imageUrl:
+                                                                documents[index]
+                                                                    ["content"],
+                                                            fit: BoxFit.fill,
+                                                            placeholder: (context,
+                                                                    url) =>
+                                                                Image.asset(
+                                                                    'assets/images/image_placeholder.png'),
+                                                            errorWidget: (context,
+                                                                    url, error) =>
+                                                                Image.asset(
+                                                                    'assets/images/image_placeholder.png')),
+                                                      ),
+                                                  )
                                                   : Container(
                                                       child: Row(
                                                         mainAxisAlignment:

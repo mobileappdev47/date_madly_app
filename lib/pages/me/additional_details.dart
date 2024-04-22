@@ -84,7 +84,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                 const SizedBox(height: 30),
                 ClipOval(
                   child: Image.asset(
-                   'assets/icons/newLogo.jpg',
+                    'assets/icons/newLogo.jpg',
                     height: 50,
                     width: 50,
                     fit: BoxFit.fill,
@@ -132,34 +132,75 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 70, vertical: 5),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(),
-                              height: MediaQuery.of(context).size.height / 15,
-                              width: MediaQuery.of(context).size.width / 10,
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      color: di == index
-                                          ? ColorRes.appColor
-                                          : ColorRes.darkGrey),
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: di == index
-                                      ? ColorRes.appColor
-                                      : ColorRes.white),
-                              child: Center(
-                                child: Text(
-                                  array[index],
-                                  style: mulish14400.copyWith(
-                                      fontWeight: di == index
-                                          ? FontWeight.w600
-                                          : FontWeight.w300,
-                                      fontSize: 14,
-                                      color: di == index
-                                          ? ColorRes.white
-                                          : ColorRes.darkGrey,
-                                      fontFamily: Fonts.poppins),
-                                ),
-                              ),
-                            ),
+                            child: di == index
+                                ? Container(
+                                    padding: EdgeInsets.symmetric(),
+                                    height:
+                                        MediaQuery.of(context).size.height / 15,
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(colors: [
+                                        Color(0xffC1272D),
+                                        Color(0xffED1E79),
+                                      ]),
+                                      border: Border.all(
+                                          color: di == index
+                                              ? ColorRes.appColor
+                                              : ColorRes.darkGrey),
+                                      borderRadius: BorderRadius.circular(67),
+                                      // color:
+                                      //     di == index
+                                      //     ? ColorRes.appColor
+                                      //     : ColorRes.white
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        array[index],
+                                        style: mulish14400.copyWith(
+                                            fontWeight: di == index
+                                                ? FontWeight.w600
+                                                : FontWeight.w300,
+                                            fontSize: 14,
+                                            color: di == index
+                                                ? ColorRes.white
+                                                : ColorRes.darkGrey,
+                                            fontFamily: Fonts.poppins),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    padding: EdgeInsets.symmetric(),
+                                    height:
+                                        MediaQuery.of(context).size.height / 15,
+                                    width:
+                                        MediaQuery.of(context).size.width / 10,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: di == index
+                                              ? ColorRes.appColor
+                                              : ColorRes.darkGrey),
+                                      borderRadius: BorderRadius.circular(67),
+                                      // color:
+                                      //     di == index
+                                      //     ? ColorRes.appColor
+                                      //     : ColorRes.white
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        array[index],
+                                        style: mulish14400.copyWith(
+                                            fontWeight: di == index
+                                                ? FontWeight.w600
+                                                : FontWeight.w300,
+                                            fontSize: 14,
+                                            color: di == index
+                                                ? ColorRes.white
+                                                : ColorRes.darkGrey,
+                                            fontFamily: Fonts.poppins),
+                                      ),
+                                    ),
+                                  ),
                           ),
                         );
                       }),
@@ -177,11 +218,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(ColorRes.appColor)),
-                          onPressed: () async {
+                        GestureDetector(
+                          onTap: () async {
                             if (widget.pageNo == 1) {
                               Navigator.pop(context);
                             } else {
@@ -191,33 +229,45 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               setState(() {});
                             }
                           },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back,
-                                color: ColorRes.white,
-                                size: 20,
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                'Back',
-                                style: mulish14400.copyWith(
-                                  fontSize: 14,
+                          child: Container(
+                            height: 40,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xffC1272D),
+                                Color(0xffED1E79),
+                              ]),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.arrow_back,
                                   color: ColorRes.white,
-                                  fontFamily: Fonts.poppins,
+                                  size: 20,
                                 ),
-                              ),
-                            ],
+                                SizedBox(width: 5),
+                                Text(
+                                  'Back',
+                                  style: mulish14400.copyWith(
+                                    fontSize: 14,
+                                    color: ColorRes.white,
+                                    fontFamily: Fonts.poppins,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
                           width: 20,
                         ),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(ColorRes.appColor)),
-                          onPressed: () async {
+
+
+                        GestureDetector(
+
+                          onTap: () async{
                             if (di != -1) {
                               if (widget.pageNo == 10) {
                                 callApi();
@@ -248,23 +298,35 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               ));
                             }
                           },
-                          child: Row(
-                            children: [
-                              Text(
-                                'Next',
-                                style: mulish14400.copyWith(
-                                  fontSize: 14,
-                                  color: ColorRes.white,
-                                  fontFamily: Fonts.poppins,
+                          child: Container(
+                            height: 40,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Color(0xffC1272D),
+                                Color(0xffED1E79),
+                              ]),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child:Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Next',
+                                  style: mulish14400.copyWith(
+                                    fontSize: 14,
+                                    color: ColorRes.white,
+                                    fontFamily: Fonts.poppins,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                              Icon(
-                                Icons.arrow_forward_outlined,
-                                color: ColorRes.white,
-                                size: 20,
-                              ),
-                            ],
+                                SizedBox(width: 5),
+                                Icon(
+                                  Icons.arrow_forward_outlined,
+                                  color: ColorRes.white,
+                                  size: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

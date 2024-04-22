@@ -195,31 +195,37 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    initSharedPreference();
-    printFCMToken();
+    Future.delayed(
+      Duration(seconds: 3),
+          () {
+            initSharedPreference();
+            printFCMToken();
+      },
+    );
+
   }
 
   initSharedPreference() async {
     sharedPreferences = await SharedPreferences.getInstance();
     if (PrefService.getString(PrefKeys.userId) == '') {
-      Navigator.pop(context);
-      Navigator.push(
+
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => NewSignInScreen(),
           ));
     } else if (PrefService.getBool(PrefKeys.isAdditional) == false) {
-      Navigator.pop(context);
 
-      Navigator.push(
+
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => AdditionalDetails(pageNo: 1),
           ));
     } else {
-      Navigator.pop(context);
 
-      Navigator.push(
+
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => HomeMain(),

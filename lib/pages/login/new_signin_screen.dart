@@ -148,13 +148,33 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                Strings.haveing,
-                style: poppins.copyWith(
-                    fontSize: 14.5,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontFamily: Fonts.poppins),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    Strings.haveing,
+                    style: poppins.copyWith(
+                        fontSize: 14.5,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: Fonts.poppins),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                    },
+
+                    child: Text(
+                      Strings.sign_up,
+                      style: poppins.copyWith(
+                          fontSize: 14.5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: Fonts.poppins),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: 30,

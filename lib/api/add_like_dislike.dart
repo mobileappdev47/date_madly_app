@@ -27,7 +27,7 @@ class AddLikedDislikeProfileApi {
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();
-
+print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = (await response.stream.bytesToString());
         return addLikeDislikeModelFromJson(data);

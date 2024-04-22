@@ -215,7 +215,7 @@ class Strings {
 static const signinwithapple ='SIGN IN WITH APPLE';
 static const signinwithfb ='SIGN IN WITH FACEBOOK';
 static const signinwithphonenumber ='SIGN IN WITH PHONE NUMBER';
-static const haveing ='Having trouble signing in ?';
+static const haveing ='Having trouble signing in ? ';
 static const termsOf ='Terms Of Use Privacy Policy';
 static const aText ='A text with a verification code will be sent';
   static const  byCLick = 'By clicking on Create Account or sign in, you agree to our terms & Conditions. Understand how we process your data in our Privacy Policy and Cookies Policy.';

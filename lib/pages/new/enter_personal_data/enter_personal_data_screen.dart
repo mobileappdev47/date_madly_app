@@ -10,6 +10,8 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +44,9 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
   List genderIcon = ['assets/icons/Male.png', 'assets/icons/Female.png'];
   bool obscureText = true;
   bool confirmPass = true;
+  String lat ='';
+  String long='';
+  String locationData ='';
 
   Future<void> pickImage({required ImageSource source}) async {
     final picker = ImagePicker();
@@ -91,13 +96,51 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
     }
   }
 
+  Future getCurrentLatLang() async {
+    Updateprovider updateProvider =
+    Provider.of<Updateprovider>(context, listen: false);
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        double.parse(lat),
+        double.parse(long),
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks[0];
+        print(
+            'Place: ${place.name}, ${place.subThoroughfare}, ${place.thoroughfare}, ${place.subLocality}, ${place.locality}, ${place.administrativeArea}, ${place.country}');
+        locationData = place.administrativeArea! + ' , ' + place.country!;
+        updateProvider.locationController.text =place.administrativeArea! + ' , ' + place.country!;
+      } else {
+        print('No place found for the given coordinates.');
+      }
+    }
+  }
+
   @override
   void initState() {
     // Updateprovider updateProvider =
     //     Provider.of<Updateprovider>(context, listen: false);
     getSingleProfileApi();
+    getCurrentLatLang();
     super.initState();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -121,6 +164,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                     getSingleProfileModel.profile?[0].images ??
                                         []),
                           ));
+
                       // showModalBottomSheet(
                       //   context: context,
                       //   builder: (BuildContext context) {
@@ -525,7 +569,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 )
                               : SizedBox(),
                           SizedBox(height: 30),
-                          Text(Strings.company, style: mulish14400),
+            /*              Text(Strings.company, style: mulish14400),
                           SizedBox(height: 10),
                           NewTextField(
                             controller: value.companyController,
@@ -567,7 +611,7 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                   ),
                                 )
                               : SizedBox(),
-                          SizedBox(height: 30),
+                          SizedBox(height: 30),*/
                           Text(Strings.about_me, style: mulish14400),
                           SizedBox(height: 10),
                           Container(

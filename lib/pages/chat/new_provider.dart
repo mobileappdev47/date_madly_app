@@ -280,8 +280,21 @@ class NewChatProvider extends ChangeNotifier {
                         width: 90,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: ColorRes.appColor,
-                          borderRadius: BorderRadius.circular(10),
+
+
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(
+                                0xffED1E79,
+                              ),
+                              Color(
+                                0xffC1272D,
+                              ),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
                           "Cancel",
@@ -305,8 +318,20 @@ class NewChatProvider extends ChangeNotifier {
                         width: 90,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: ColorRes.appColor,
-                          borderRadius: BorderRadius.circular(10),
+
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color(
+                                0xffED1E79,
+                              ),
+                              Color(
+                                0xffC1272D,
+                              ),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: const Text(
                           "Send",

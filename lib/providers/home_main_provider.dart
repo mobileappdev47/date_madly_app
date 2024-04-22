@@ -60,274 +60,276 @@ class HomeMainProvider with ChangeNotifier {
                           bottomLeft: Radius.circular(30))),
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(
-                                Icons.arrow_back_ios_new_rounded,
-                                color: ColorRes.appColor,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Icon(
+                                  Icons.arrow_back_ios_new_rounded,
+                                  color: ColorRes.appColor,
+                                ),
                               ),
-                            ),
-                            Text(Strings.notification,
-                                style: mulishbold.copyWith(
-                                    fontSize: 18, color: ColorRes.appColor)),
+                              Text(Strings.notification,
+                                  style: mulishbold.copyWith(
+                                      fontSize: 18, color: ColorRes.appColor)),
 
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Stack(
-                                children: [
-                                  Image.asset(
-                                    AssertRe.notification,
-                                    scale: 3,
-                                    color: ColorRes.grey,
-                                  ),
-                                  CircleAvatar(
-                                    radius: 4,
-                                    backgroundColor: ColorRes.appColor,
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
-                        // Align(
-                        //     alignment: Alignment.centerLeft,
-                        //     child: Text(
-                        //       Strings.today,
-                        //       style: mulishbold.copyWith(
-                        //         color: ColorRes.darkGrey,
-                        //         fontSize: 16,
-                        //       ),
-                        //     )),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount:
-                              getNotificationModel.notifications?.length ?? 0,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  ClipOval(
-                                    child: CachedNetworkImage(
-                                      height: 50,
-                                      width: 50,
-                                      fit: BoxFit.cover,
-                                      imageUrl: getNotificationModel
-                                              .notifications?[index].imageUrl ??
-                                          '',
-                                      placeholder: (context, url) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.cover,
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        height: 50,
-                                        width: 50,
-                                        fit: BoxFit.cover,
-                                      ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Stack(
+                                  children: [
+                                    Image.asset(
+                                      AssertRe.notification,
+                                      scale: 3,
+                                      color: ColorRes.grey,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  SizedBox(
-                                    width: 150,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        // Text(
-                                        //   Strings.minago,
-                                        //   style: mulish14400,
-                                        // ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              getNotificationModel
-                                                      .notifications?[index]
-                                                      .title ??
-                                                  '',
-                                              style: mulishbold.copyWith(
-                                                color: ColorRes.darkGrey,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
+                                    CircleAvatar(
+                                      radius: 4,
+                                      backgroundColor: ColorRes.appColor,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
+                          // Align(
+                          //     alignment: Alignment.centerLeft,
+                          //     child: Text(
+                          //       Strings.today,
+                          //       style: mulishbold.copyWith(
+                          //         color: ColorRes.darkGrey,
+                          //         fontSize: 16,
+                          //       ),
+                          //     )),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount:
+                                getNotificationModel.notifications?.length ?? 0,
+                            itemBuilder: (context, index) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: Container(
+                                child: Row(
+                                  children: [
+                                    ClipOval(
+                                      child: CachedNetworkImage(
+                                        height: 50,
+                                        width: 50,
+                                        fit: BoxFit.cover,
+                                        imageUrl: getNotificationModel
+                                                .notifications?[index].imageUrl ??
+                                            '',
+                                        placeholder: (context, url) =>
                                             Image.asset(
-                                              AssertRe.notification,
-                                              scale: 5,
-                                              color: ColorRes.appColor,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              Strings.homeKM,
-                                              style: mulish14400,
-                                            ),
-                                          ],
+                                          'assets/images/image_placeholder.png',
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.cover,
                                         ),
-                                        Text(
-                                          getNotificationModel
-                                                  .notifications?[index].body ??
-                                              '',
-                                          maxLines: 2,
-                                          style: mulish14400.copyWith(
-                                              overflow: TextOverflow.ellipsis),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.cover,
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  Container(
-                                    height: 35,
-                                    width: 35,
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(50),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        colors: [
-                                          Color(0xffED1E79,),
-                                          Color(0xffC1272D,),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    SizedBox(
+                                      width: 150,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Text(
+                                          //   Strings.minago,
+                                          //   style: mulish14400,
+                                          // ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                getNotificationModel
+                                                        .notifications?[index]
+                                                        .title ??
+                                                    '',
+                                                style: mulishbold.copyWith(
+                                                  color: ColorRes.darkGrey,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Image.asset(
+                                                AssertRe.notification,
+                                                scale: 5,
+                                                color: ColorRes.appColor,
+                                              ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                Strings.homeKM,
+                                                style: mulish14400,
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            getNotificationModel
+                                                    .notifications?[index].body ??
+                                                '',
+                                            maxLines: 2,
+                                            style: mulish14400.copyWith(
+                                                overflow: TextOverflow.ellipsis),
+                                          ),
                                         ],
                                       ),
+                                    ),
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    Container(
+                                      height: 35,
+                                      width: 35,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(50),
+                                        gradient: LinearGradient(
+                                          begin: Alignment.topCenter,
+                                          end: Alignment.bottomCenter,
+                                          colors: [
+                                            Color(0xffED1E79,),
+                                            Color(0xffC1272D,),
+                                          ],
+                                        ),
 
 
+                                      ),
+                                      child: Icon(
+                                        Icons.favorite_border,
+                                        color: ColorRes.white,
+                                      ),
                                     ),
-                                    child: Icon(
-                                      Icons.favorite_border,
-                                      color: ColorRes.white,
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // Align(
-                        //   alignment: Alignment.centerLeft,
-                        //   child: Text(
-                        //     Strings.yesterday,
-                        //     style: mulishbold.copyWith(
-                        //       fontSize: 16,
-                        //       color: ColorRes.darkGrey,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(
-                        //   height: 20,
-                        // ),
-                        // Row(
-                        //   children: [
-                        //     Column(
-                        //       children: [
-                        //         Image.asset(
-                        //           AssertRe.notifiimage1,
-                        //           scale: 3,
-                        //         )
-                        //       ],
-                        //     ),
-                        //     SizedBox(
-                        //       width: 10,
-                        //     ),
-                        //     Column(
-                        //       mainAxisAlignment: MainAxisAlignment.start,
-                        //       crossAxisAlignment: CrossAxisAlignment.start,
-                        //       children: [
-                        //         Text(
-                        //           Strings.hourago,
-                        //           style: mulishbold.copyWith(
-                        //               fontSize: 12, color: ColorRes.grey),
-                        //         ),
-                        //         RichText(
-                        //           text: TextSpan(
-                        //             style: TextStyle(
-                        //               fontSize: 20.0,
-                        //               color: Colors.black,
-                        //             ),
-                        //             children: <TextSpan>[
-                        //               TextSpan(
-                        //                 text: Strings.patricia,
-                        //                 style: mulishbold.copyWith(
-                        //                   fontSize: 12,
-                        //                   color: ColorRes.darkGrey,
-                        //                 ),
-                        //               ),
-                        //               TextSpan(
-                        //                   text: Strings.likesyourphoto,
-                        //                   style: mulish14400),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
-                        // SizedBox(height: 10),
-                        // Stack(children: [
-                        //   Padding(
-                        //     padding: EdgeInsets.only(left: 50),
-                        //     child: Image.asset(
-                        //       AssertRe.notifiimage3,
-                        //       scale: 2.2,
-                        //     ),
-                        //   ),
-                        //   Padding(
-                        //     padding: const EdgeInsets.only(top: 110, left: 70),
-                        //     child: Column(
-                        //       mainAxisAlignment: MainAxisAlignment.start,
-                        //       crossAxisAlignment: CrossAxisAlignment.start,
-                        //       children: [
-                        //         Row(
-                        //           children: [
-                        //             Icon(Icons.favorite_border,
-                        //                 color: ColorRes.white, size: 25),
-                        //             Image.asset(
-                        //               AssertRe.comment,
-                        //               scale: 2.5,
-                        //             )
-                        //           ],
-                        //         ),
-                        //         Text(
-                        //           Strings.like,
-                        //           style: mulish14400.copyWith(
-                        //             color: Colors.white,
-                        //           ),
-                        //         )
-                        //       ],
-                        //     ),
-                        //   )
-                        // ])
-                      ],
+                          SizedBox(
+                            height: 20,
+                          ),
+                          // Align(
+                          //   alignment: Alignment.centerLeft,
+                          //   child: Text(
+                          //     Strings.yesterday,
+                          //     style: mulishbold.copyWith(
+                          //       fontSize: 16,
+                          //       color: ColorRes.darkGrey,
+                          //     ),
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
+                          // Row(
+                          //   children: [
+                          //     Column(
+                          //       children: [
+                          //         Image.asset(
+                          //           AssertRe.notifiimage1,
+                          //           scale: 3,
+                          //         )
+                          //       ],
+                          //     ),
+                          //     SizedBox(
+                          //       width: 10,
+                          //     ),
+                          //     Column(
+                          //       mainAxisAlignment: MainAxisAlignment.start,
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Text(
+                          //           Strings.hourago,
+                          //           style: mulishbold.copyWith(
+                          //               fontSize: 12, color: ColorRes.grey),
+                          //         ),
+                          //         RichText(
+                          //           text: TextSpan(
+                          //             style: TextStyle(
+                          //               fontSize: 20.0,
+                          //               color: Colors.black,
+                          //             ),
+                          //             children: <TextSpan>[
+                          //               TextSpan(
+                          //                 text: Strings.patricia,
+                          //                 style: mulishbold.copyWith(
+                          //                   fontSize: 12,
+                          //                   color: ColorRes.darkGrey,
+                          //                 ),
+                          //               ),
+                          //               TextSpan(
+                          //                   text: Strings.likesyourphoto,
+                          //                   style: mulish14400),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ],
+                          //     ),
+                          //   ],
+                          // ),
+                          // SizedBox(height: 10),
+                          // Stack(children: [
+                          //   Padding(
+                          //     padding: EdgeInsets.only(left: 50),
+                          //     child: Image.asset(
+                          //       AssertRe.notifiimage3,
+                          //       scale: 2.2,
+                          //     ),
+                          //   ),
+                          //   Padding(
+                          //     padding: const EdgeInsets.only(top: 110, left: 70),
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.start,
+                          //       crossAxisAlignment: CrossAxisAlignment.start,
+                          //       children: [
+                          //         Row(
+                          //           children: [
+                          //             Icon(Icons.favorite_border,
+                          //                 color: ColorRes.white, size: 25),
+                          //             Image.asset(
+                          //               AssertRe.comment,
+                          //               scale: 2.5,
+                          //             )
+                          //           ],
+                          //         ),
+                          //         Text(
+                          //           Strings.like,
+                          //           style: mulish14400.copyWith(
+                          //             color: Colors.white,
+                          //           ),
+                          //         )
+                          //       ],
+                          //     ),
+                          //   )
+                          // ])
+                        ],
+                      ),
                     ),
                   )),
             ),

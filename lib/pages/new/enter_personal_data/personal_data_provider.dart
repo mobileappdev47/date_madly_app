@@ -166,8 +166,8 @@ class Updateprovider extends ChangeNotifier {
         dobError == '' &&
         jobError == '' &&
         locationError == '' &&
-        companyError == '' &&
-        collegeError == '' &&
+        // companyError == '' &&
+        // collegeError == '' &&
         genderError == '') {
       return true;
     } else {

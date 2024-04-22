@@ -62,7 +62,10 @@ class _HomeMainState extends State<HomeMain> {
           bottomNavigationBar: Container(
             height: 60,
             decoration: BoxDecoration(
-                color: ColorRes.lightPink,
+              color: Colors.white,
+boxShadow: [
+  BoxShadow(color: ColorRes.color939393.withOpacity(0.25),blurRadius: 3,spreadRadius: 0),
+],
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20))),
@@ -82,7 +85,8 @@ class _HomeMainState extends State<HomeMain> {
                             ? ColorRes.appColor.withOpacity(0.2)
                             : Colors.transparent,
                         shape: BoxShape.circle),
-                    child: Image.asset(
+                    child:
+                    Image.asset(
                       'assets/icons/Home.png',
                       color: currentIndex == 0 ? ColorRes.appColor : null,
                       scale: 4,

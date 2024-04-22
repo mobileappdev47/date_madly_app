@@ -196,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: value.dobController,
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          color: ColorRes.appColor,
+                          color: ColorRes.black,
                         ),
                         onTap: () => value.selectDate(context),
                         decoration: InputDecoration(

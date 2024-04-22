@@ -405,10 +405,22 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: ColorRes.appColor,
+
                                               borderRadius:
                                                   BorderRadius.circular(
                                                 50,
+                                              ),
+                                              gradient: LinearGradient(
+
+                                                colors: [
+
+                                                  Color(
+                                                    0xffC1272D,
+                                                  ),
+                                                  Color(
+                                                    0xffED1E79,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             height: MediaQuery.of(context)
@@ -445,7 +457,18 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(
-                                              color: ColorRes.appColor,
+                                              gradient: LinearGradient(
+
+                                                colors: [
+
+                                                  Color(
+                                                    0xffC1272D,
+                                                  ),
+                                                  Color(
+                                                    0xffED1E79,
+                                                  ),
+                                                ],
+                                              ),
                                               borderRadius:
                                                   BorderRadius.circular(
                                                 50,
@@ -588,7 +611,18 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                                  },
                                                  child: Container(
                                                    decoration: BoxDecoration(
-                                                     color: ColorRes.appColor,
+                                                     gradient: LinearGradient(
+
+                                                       colors: [
+
+                                                         Color(
+                                                           0xffC1272D,
+                                                         ),
+                                                         Color(
+                                                           0xffED1E79,
+                                                         ),
+                                                       ],
+                                                     ),
                                                      borderRadius:
                                                      BorderRadius.circular(
                                                        50,
@@ -628,10 +662,22 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
                                                  },
                                                  child: Container(
                                                    decoration: BoxDecoration(
-                                                     color: ColorRes.appColor,
+
                                                      borderRadius:
                                                      BorderRadius.circular(
                                                        50,
+                                                     ),
+                                                     gradient: LinearGradient(
+
+                                                       colors: [
+
+                                                         Color(
+                                                           0xffC1272D,
+                                                         ),
+                                                         Color(
+                                                           0xffED1E79,
+                                                         ),
+                                                       ],
                                                      ),
                                                    ),
                                                    height: MediaQuery.of(context)

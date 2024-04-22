@@ -35,20 +35,50 @@ class Dialogs {
                       child: OutlinedButton(
                           child: Text('No'),
                           onPressed: () => Navigator.pop(context))),
-                  SizedBox(
-                    height: 40.0,
-                    width: 130.0,
-                    child: FilledButton(
-                      // style: ButtonStyle(
-                      //   shape: OutlinedBorder(
-                      //       borderRadius: BorderRadius.circular(5.0)),
-                      // ),
 
-                      onPressed: () => exit(0),
-                      // color: Theme.of(context).colorScheme.secondary,
-                      child: const Text('Yes'),
+                  GestureDetector(
+                    onTap: () =>  exit(0),
+
+                    child: Container(
+                      height: 40.0,
+                      width: 130.0,
+                      decoration: BoxDecoration(
+
+                        borderRadius: BorderRadius.circular(20,),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(
+                              0xffED1E79,
+                            ),
+                            Color(
+                              0xffC1272D,
+                            ),
+                          ],
+                        ),
+
+
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text('Yes',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),) ,
                     ),
                   ),
+                  // SizedBox(
+                  //
+                  //   child:
+                  //
+                  //   FilledButton(
+                  //     // style: ButtonStyle(
+                  //     //   shape: OutlinedBorder(
+                  //     //       borderRadius: BorderRadius.circular(5.0)),
+                  //     // ),
+                  //
+                  //     onPressed: () => exit(0),
+                  //     // color: Theme.of(context).colorScheme.secondary,
+                  //     child: const Text('Yes'),
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 20.0),
