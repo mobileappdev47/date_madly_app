@@ -99,6 +99,7 @@ class HomeMainProvider with ChangeNotifier {
                               )
                             ],
                           ),
+
                           // SizedBox(
                           //   height: 20,
                           // ),
@@ -111,9 +112,11 @@ class HomeMainProvider with ChangeNotifier {
                           //         fontSize: 16,
                           //       ),
                           //     )),
+
                           SizedBox(
                             height: 20,
                           ),
+
                           ListView.builder(
                             physics: NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
@@ -231,9 +234,11 @@ class HomeMainProvider with ChangeNotifier {
                               ),
                             ),
                           ),
+
                           SizedBox(
                             height: 20,
                           ),
+
                           // Align(
                           //   alignment: Alignment.centerLeft,
                           //   child: Text(

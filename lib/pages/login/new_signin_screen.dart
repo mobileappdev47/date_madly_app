@@ -3,7 +3,10 @@ import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/utils/font_family.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 import '../../utils/texts.dart';
 
@@ -15,6 +18,77 @@ class NewSignInScreen extends StatefulWidget {
 }
 
 class _NewSignInScreenState extends State<NewSignInScreen> {
+  onTapAppleSign({BuildContext? context, bool? value}) async {
+    try {
+      final user = await signInWithAppleSign(
+          scopes: [Scope.email, Scope.fullName],
+          context: context,
+          value: value);
+      debugPrint('uid: ${user.uid}');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  signInWithAppleSign(
+      {List<Scope> scopes = const [],
+      BuildContext? context,
+      bool? value}) async {
+    // loader.value = true;
+    final firebaseAuth = FirebaseAuth.instance;
+    final result = await TheAppleSignIn.performRequests(
+        [AppleIdRequest(requestedScopes: scopes)]);
+
+    switch (result.status) {
+      case AuthorizationStatus.authorized:
+        final appleIdCredential = result.credential;
+        final oAuthProvider = OAuthProvider('apple.com');
+        final credential = oAuthProvider.credential(
+          idToken: String.fromCharCodes(appleIdCredential!.identityToken!),
+          accessToken:
+              String.fromCharCodes(appleIdCredential.authorizationCode!),
+        );
+        final userCredential =
+            await firebaseAuth.signInWithCredential(credential);
+        final firebaseUser = userCredential.user;
+
+         print(userCredential.user!.email);
+
+/*        if (userCredential.user!.email!.isEmpty ||
+            userCredential.user?.email == null) {
+          showDialogBottomSheetTwitter(context!,
+              value: value, uid: userCredential.user?.uid, type: 'apple');
+        } else {
+          print(userCredential.user?.displayName);
+          socialLoginModel = await SocialLoginApi.socialLoginApi(
+              context: context,
+              socialType: "apple",
+              email: userCredential.user?.email,
+              idSocial: userCredential.user?.uid);
+        }*/
+
+        // loader.value = false;
+        return firebaseUser;
+      case AuthorizationStatus.error:
+        // loader.value = false;
+        throw PlatformException(
+          code: 'ERROR_AUTHORIZATION_DENIED',
+          message: result.error.toString(),
+        );
+
+      case AuthorizationStatus.cancelled:
+        // loader.value = false;
+        throw PlatformException(
+          code: 'ERROR_ABORTED_BY_USER',
+          message: 'Sign in aborted by user',
+        );
+
+      default:
+        // loader.value = false;
+        throw UnimplementedError();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +138,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
                       },
                       child: Container(
                         height: 55,
@@ -77,7 +151,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          Strings.sign_up.toUpperCase(),
+                          Strings.signinwithapple.toUpperCase(),
                           style: poppins.copyWith(
                               fontSize: 14.5,
                               color: Colors.white,
@@ -90,8 +164,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                       },
                       child: Container(
                         height: 55,
@@ -104,7 +177,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          Strings.log_in.toUpperCase(),
+                          Strings.signinwithfb.toUpperCase(),
                           style: poppins.copyWith(
                               fontSize: 14.5,
                               color: Colors.white,
@@ -162,9 +235,12 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignUpScreen(),
+                          ));
                     },
-
                     child: Text(
                       Strings.sign_up,
                       style: poppins.copyWith(
