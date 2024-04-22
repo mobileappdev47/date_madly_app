@@ -139,6 +139,8 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                     GestureDetector(
                       onTap: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+
+                        onTapAppleSign();
                       },
                       child: Container(
                         height: 55,
