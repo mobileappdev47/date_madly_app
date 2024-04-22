@@ -23,6 +23,10 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
   bool loader = false;
   FirebaseAuth auth = FirebaseAuth.instance;
 
+  phoneOtpAPi(){
+
+  }
+
 
   Future<void> verifyOTP() async {
     loader = true;
@@ -37,11 +41,14 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
 
       loader = false;
       setState(() {});
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeMain(),
-          ));
+
+
+
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //       builder: (context) => const HomeMain(),
+      //     ));
       print('Authentication successful');
     } catch (e) {
       loader = false;

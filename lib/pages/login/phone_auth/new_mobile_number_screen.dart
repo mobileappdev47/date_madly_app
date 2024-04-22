@@ -240,7 +240,9 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
                                   'Please enter mobile number',
                                   style: TextStyle(color: Colors.white),
                                 ),
+
                                 backgroundColor: Colors.red,
+
                               ),
                             );
                           } else {

@@ -54,7 +54,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
 
          print(userCredential.user!.email);
 
-/*        if (userCredential.user!.email!.isEmpty ||
+          /*        if (userCredential.user!.email!.isEmpty ||
             userCredential.user?.email == null) {
           showDialogBottomSheetTwitter(context!,
               value: value, uid: userCredential.user?.uid, type: 'apple');
