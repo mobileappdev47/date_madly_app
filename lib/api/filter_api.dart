@@ -28,6 +28,7 @@ class FilterApi {
         print(response.reasonPhrase);
       }
     } catch (e) {
+      print(e.toString());
       return null;
     }
   }

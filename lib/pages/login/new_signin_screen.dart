@@ -235,7 +235,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                         fontWeight: FontWeight.w500,
                         fontFamily: Fonts.poppins),
                   ),
-                  GestureDetector(
+                  /*GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -251,7 +251,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                           fontWeight: FontWeight.w500,
                           fontFamily: Fonts.poppins),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
               SizedBox(

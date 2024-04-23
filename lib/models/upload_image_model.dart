@@ -1,3 +1,4 @@
+/*
 // To parse this JSON data, do
 //
 //     final uploadImageModel = uploadImageModelFromJson(jsonString);
@@ -124,4 +125,114 @@ class Profile {
         "__v": v,
         "basic_Info": basicInfo,
       };
+}
+*/
+
+
+
+
+// To parse this JSON data, do
+//
+//     final uploadImageModel = uploadImageModelFromJson(jsonString);
+
+import 'dart:convert';
+
+UploadImageModel uploadImageModelFromJson(String str) => UploadImageModel.fromJson(json.decode(str));
+
+String uploadImageModelToJson(UploadImageModel data) => json.encode(data.toJson());
+
+class UploadImageModel {
+  String? message;
+  String? imageUrl;
+  Profile? profile;
+
+  UploadImageModel({
+    this.message,
+    this.imageUrl,
+    this.profile,
+  });
+
+  factory UploadImageModel.fromJson(Map<String, dynamic> json) => UploadImageModel(
+    message: json["message"],
+    imageUrl: json["imageUrl"],
+    profile: json["profile"] == null ? null : Profile.fromJson(json["profile"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "message": message,
+    "imageUrl": imageUrl,
+    "profile": profile?.toJson(),
+  };
+}
+
+class Profile {
+  String? id;
+  String? deviceTokens;
+  List<String>? images;
+  int? profileScore;
+  String? phoneNo;
+  int? likes;
+  double? latitude;
+  double? longitude;
+  List<dynamic>? describe;
+  int? visibility;
+  int? spark;
+  int? isOnline;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  int? v;
+
+  Profile({
+    this.id,
+    this.deviceTokens,
+    this.images,
+    this.profileScore,
+    this.phoneNo,
+    this.likes,
+    this.latitude,
+    this.longitude,
+    this.describe,
+    this.visibility,
+    this.spark,
+    this.isOnline,
+    this.createdAt,
+    this.updatedAt,
+    this.v,
+  });
+
+  factory Profile.fromJson(Map<String, dynamic> json) => Profile(
+    id: json["_id"],
+    deviceTokens: json["device_tokens"],
+    images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
+    profileScore: json["profileScore"],
+    phoneNo: json["phoneNo"],
+    likes: json["likes"],
+    latitude: json["latitude"]?.toDouble(),
+    longitude: json["longitude"]?.toDouble(),
+    describe: json["describe"] == null ? [] : List<dynamic>.from(json["describe"]!.map((x) => x)),
+    visibility: json["visibility"],
+    spark: json["spark"],
+    isOnline: json["isOnline"],
+    createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
+    updatedAt: json["updatedAt"] == null ? null : DateTime.parse(json["updatedAt"]),
+    v: json["__v"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "_id": id,
+    "device_tokens": deviceTokens,
+    "images": images == null ? [] : List<dynamic>.from(images!.map((x) => x)),
+    "profileScore": profileScore,
+    "phoneNo": phoneNo,
+    "likes": likes,
+    "latitude": latitude,
+    "longitude": longitude,
+    "describe": describe == null ? [] : List<dynamic>.from(describe!.map((x) => x)),
+    "visibility": visibility,
+    "spark": spark,
+    "isOnline": isOnline,
+    "createdAt": createdAt?.toIso8601String(),
+    "updatedAt": updatedAt?.toIso8601String(),
+    "__v": v,
+  };
 }

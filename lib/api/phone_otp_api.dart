@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/models/login_model.dart';
 import 'package:date_madly_app/models/phone_login_model.dart';
 import 'package:date_madly_app/pages/home/main.dart';
+import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -11,7 +12,7 @@ import 'package:http/http.dart' as http;
 import '../utils/endpoint.dart';
 
 class PhoneOtpApi {
-  static phoneOtp(Map<String, dynamic> body, context, password, lat, long) async {
+  static phoneOtp(Map<String, dynamic> body, context, lat, long) async {
     try {
       var headers = {'Content-Type': 'application/json'};
 
@@ -25,28 +26,44 @@ class PhoneOtpApi {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
             PrefKeys.userId, phoneLoginModelFromJson(data).user?.id ?? '');
-        PrefService.setValue(PrefKeys.password, password);
-        PrefService.setValue(PrefKeys.isAdditional, true);
+        // PrefService.setValue(PrefKeys.password, password);
 
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeMain(),
-            ));
-        await PrefService.setValue(PrefKeys.email, body['email']);
+
+        await PrefService.setValue(PrefKeys.email, body['phoneNo']);
 
         PrefService.setValue(PrefKeys.lat, lat);
         PrefService.setValue(PrefKeys.long, long);
 
-        getFirebaseCollection(body['email']);
+
+        if(phoneLoginModelFromJson(data).message=='User created successfully'){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdditionalDetails(pageNo: 1),
+              ));
+
+
+        }
+        else {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeMain(),
+              ));
+          PrefService.setValue(PrefKeys.isAdditional, true);
+
+        }
+
+        getFirebaseCollection(body['phoneNo']);
 
         return phoneLoginModelFromJson(data);
       } else {
         print(response.reasonPhrase);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please enter correct credentials!',style: TextStyle(
-              color: Colors.white
-          ),),
+          content: Text(
+            'Something went wrong',
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: Colors.red,
         ));
       }
@@ -66,9 +83,7 @@ class PhoneOtpApi {
           print('collection already exist');
           already = true;
           break;
-        } else {
-
-        }
+        } else {}
       }
 
       if (already == false) {

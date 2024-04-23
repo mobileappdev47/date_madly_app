@@ -1,19 +1,24 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:date_madly_app/api/phone_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
+import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/texts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class NewOtpScreen extends StatefulWidget {
   NewOtpScreen({super.key, required this.phone, required this.verificationId});
 
-  final String phone ;
-  final String verificationId ;
+  final String phone;
+
+  final String verificationId;
+
   @override
   State<NewOtpScreen> createState() => _NewOtpScreenState();
 }
@@ -22,15 +27,43 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
   TextEditingController otpController = TextEditingController();
   bool loader = false;
   FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String, dynamic> body = {};
 
-  phoneOtpAPi(){
-
+  phoneOtpAPi(body) async {
+    try {
+      await PhoneOtpApi.phoneOtp(body, context, lat, long);
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
+  String lat = '';
+  String long = '';
+
+  Future getCurrentLatLang() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+    }
+  }
 
   Future<void> verifyOTP() async {
     loader = true;
+
     setState(() {});
+    String? token =
+    await NotificationService.getToken();
     try {
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId,
@@ -38,11 +71,17 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       );
 
       await auth.signInWithCredential(credential);
+      body = {
 
+        "phoneNo": "${widget.phone}",
+        "device_token": token,
+        "latitude": lat,
+        "longitude": long
+
+      };
+      await phoneOtpAPi(body);
       loader = false;
       setState(() {});
-
-
 
       // Navigator.push(
       //     context,
@@ -53,11 +92,21 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     } catch (e) {
       loader = false;
       setState(() {});
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Verification failed!'),backgroundColor: Colors.red,));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Verification failed!'),
+        backgroundColor: Colors.red,
+      ));
       print('Verification failed: $e');
     }
   }
+
+  @override
+  void initState() {
+
+    getCurrentLatLang();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,8 +142,8 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
                       ),
                       Text(
                         'My code is',
-                        style:
-                            interBold.copyWith(fontSize: 38, color: Colors.black),
+                        style: interBold.copyWith(
+                            fontSize: 38, color: Colors.black),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.1,

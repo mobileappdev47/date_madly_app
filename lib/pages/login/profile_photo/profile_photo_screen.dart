@@ -183,7 +183,9 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
         if (imageList[i].path.isNotEmpty) {
           uploadImageModel =
               await UploadImageApi.uploadImageApi(imageList[i], context);
-        } else {}
+        } else {
+
+        }
       }
       if (uploadImageModel.profile != null &&
           uploadImageModel.profile!.images != null &&
