@@ -204,7 +204,7 @@ class _ChatState extends State<Chat> {
           // boolList = List.generate(myFirebaseList.length, (index) => false);
           // setState(() {});
         } else {
-          newChatProvider.gotoChatScreen(context, email, email, userImage);
+          newChatProvider.gotoChatScreen(context, email, email, userImage, map['name']);
         }
         getCollectionLength();
       } else {
@@ -363,7 +363,7 @@ class _ChatState extends State<Chat> {
                             getCollectionLength();
                             Map dataPass = {
                               'name': data.name ?? '',
-                              "Email": data.email ?? '',
+                              "Email": data.id ?? '',
                               "userImage":
                                   data.images != null && data.images!.isNotEmpty
                                       ? data.images![0]
@@ -373,7 +373,7 @@ class _ChatState extends State<Chat> {
                             };
                             otherUserMap = {
                               'name': data2.name ?? '',
-                              "Email": data2.email ?? '',
+                              "Email": data2.id ?? '',
                               "userImage": data2.images != null &&
                                       data2.images!.isNotEmpty
                                   ? data2.images![0]
@@ -383,10 +383,10 @@ class _ChatState extends State<Chat> {
                             };
                             if (data.images.isNotEmpty) {
                               await addDataInFirebase(
-                                  data.email ?? '', dataPass, data.images[0]);
+                                  data.id ?? '', dataPass, data.images[0]);
                             } else {
                               await addDataInFirebase(
-                                  data.email ?? '', dataPass, '');
+                                  data.id ?? '', dataPass, '');
                             }
                           },
                           child: ClipOval(
@@ -500,7 +500,12 @@ class _ChatState extends State<Chat> {
                                                           snapshot.data?[
                                                                   'ChatUserList']
                                                               [
-                                                              index]['userImage']);
+                                                              index]['userImage'],
+                                                        snapshot.data?[
+                                                        'ChatUserList']
+                                                        [index]['name'],
+
+                                                      );
                                                     },
                                                     onLongPress: () {
                                                       setState(() {
@@ -731,6 +736,8 @@ class _ChatState extends State<Chat> {
                                         value.filterList[index]['Email'],
                                         value.filterList[index]['Email'],
                                         value.filterList[index]['userImage'],
+                                        value.filterList[index]['name'],
+
                                       );
                                     },
                                     onLongPress: () {

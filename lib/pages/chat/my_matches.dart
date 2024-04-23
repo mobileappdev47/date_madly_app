@@ -102,23 +102,29 @@ class _MyMatchesState extends State<MyMatches> {
                             newChatProvider.gotoChatScreen(
                                 context,
                                 widget.chatUsers[index].participants?[1]
-                                        .email ??
+                                        .id ??
                                     '',
                                 widget.chatUsers[index].participants?[1]
-                                        .email ??
+                                        .id ??
                                     '',
                                 widget.chatUsers?[index].participants?[1]
-                                    .images?[0]);
+                                    .images?[0]
+
+                            ,
+                                widget.chatUsers[index].participants?[1].name??''
+                            );
                           } else {
                             newChatProvider.gotoChatScreen(
                                 context,
                                 widget.chatUsers[index].participants?[1]
-                                        .email ??
+                                        .id ??
                                     '',
                                 widget.chatUsers[index].participants?[1]
-                                        .email ??
+                                        .id ??
                                     '',
-                                '');
+                                '',
+                                widget.chatUsers[index].participants?[1].name??''
+                            );
                           }
                         },
                         child: Padding(
@@ -241,15 +247,20 @@ class _MyMatchesState extends State<MyMatches> {
                                   .isNotEmpty) {
                             newChatProvider.gotoChatScreen(
                                 context,
-                                filterList[index].participants?[1].email ?? '',
-                                filterList[index].participants?[1].email ?? '',
-                                filterList?[index].participants?[1].images?[0]);
-                          } else {
+                                filterList[index].participants?[1].id ?? '',
+                                filterList[index].participants?[1].id ?? '',
+                                filterList?[index].participants?[1].images?[0],
+                                filterList?[index].participants?[1].name,
+                            );
+                          }
+                                    else {
                             newChatProvider.gotoChatScreen(
                                 context,
-                                filterList[index].participants?[1].email ?? '',
-                                filterList[index].participants?[1].email ?? '',
-                                '');
+                                filterList[index].participants?[1].id ?? '',
+                                filterList[index].participants?[1].id ?? '',
+                                '',
+                              filterList?[index].participants?[1].name,
+                            );
                           }
                         },
                         child: Padding(

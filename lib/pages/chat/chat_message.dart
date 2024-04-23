@@ -28,6 +28,7 @@ class ChatScreen extends StatefulWidget {
   final String? otherEmail;
   final String? userEmail;
   final String? image;
+  final String? name;
 
   ChatScreen(
       {Key? key,
@@ -35,7 +36,7 @@ class ChatScreen extends StatefulWidget {
       this.userEmail,
       this.otherEmail,
       this.roomId,
-      this.image})
+      this.image, this.name})
       : super(key: key);
 
   @override
@@ -112,7 +113,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                widget.otherEmail.toString().split('@').first ??
+                                widget.name ??
                                     '',
                                 style: mulishbold.copyWith(
                                     fontSize: 20,

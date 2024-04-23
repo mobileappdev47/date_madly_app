@@ -109,7 +109,7 @@ class NewChatProvider extends ChangeNotifier {
 
   int deleteIndex = 0;
   void gotoChatScreen(
-      BuildContext context, String otherUid, email, userImage) async {
+      BuildContext context, String otherUid, email, userImage,otherUsername) async {
     await getRoomId(otherUid);
     // Navigator.push(
     //     context,
@@ -127,7 +127,9 @@ class NewChatProvider extends ChangeNotifier {
                 roomId: roomId,
                 email: email,
                 otherEmail: otherUid,
-                userEmail: userEmail)));
+                userEmail: userEmail,
+            name: otherUsername,
+            )));
   }
 
   void sendMessage(String roomId, otherUid) async {

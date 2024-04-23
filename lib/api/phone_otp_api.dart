@@ -29,7 +29,7 @@ class PhoneOtpApi {
         // PrefService.setValue(PrefKeys.password, password);
 
 
-        await PrefService.setValue(PrefKeys.email, body['phoneNo']);
+        await PrefService.setValue(PrefKeys.email, phoneLoginModelFromJson(data).user?.id ?? '');
 
         PrefService.setValue(PrefKeys.lat, lat);
         PrefService.setValue(PrefKeys.long, long);
@@ -54,7 +54,7 @@ class PhoneOtpApi {
 
         }
 
-        getFirebaseCollection(body['phoneNo']);
+        getFirebaseCollection(phoneLoginModelFromJson(data).user?.id ?? '');
 
         return phoneLoginModelFromJson(data);
       } else {
