@@ -2,6 +2,7 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
+import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,15 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
           scopes: [Scope.email, Scope.fullName],
           context: context,
           value: value);
+
       debugPrint('uid: ${user.uid}');
+      print("My user =====>>>> ${user.uid}");
+
+      if(user!= null){
+
+        Navigator.push(context!, MaterialPageRoute(builder: (context) => AdditionalDetails(pageNo: 1) ,));
+
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -140,7 +149,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                       onTap: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
 
-                        onTapAppleSign();
+                        onTapAppleSign(context: context,value: true,);
                       },
                       child: Container(
                         height: 55,

@@ -16,8 +16,8 @@ class NewMobileNumberScreen extends StatefulWidget {
 }
 
 class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
-  String countryName = 'IN';
-  String countryCode = '91';
+  String countryName = 'GB';
+  String countryCode = '44';
   TextEditingController phoneController = TextEditingController();
 
   bool loader = false;
@@ -168,7 +168,7 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
                                           );
                                         },
                                         child: Text(
-                                          '${countryName} +${countryCode}',
+                                          countryName!='GB' ?  '${countryName} +${countryCode}' : 'UK +${countryCode}',
                                           style: inter.copyWith(
                                               fontSize: 20,
                                               fontWeight: FontWeight.w400,
