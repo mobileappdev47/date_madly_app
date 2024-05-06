@@ -526,6 +526,71 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                                 )
                               : SizedBox(),
                           SizedBox(height: 30),
+
+                      PrefService.getString(PrefKeys.loginType)=='socialEmail'?    Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Phone', style: mulish14400),
+                              SizedBox(height: 10),
+                              SizedBox(
+                                height: 50,
+                                child: NewTextField(
+                                  controller: value.phoneController,
+                                  hintText: Strings.enter_phone,
+                               textInputType: TextInputType.number,
+
+                                ),
+                              ),
+                              value.phoneError != ""
+                                  ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.phoneError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
+                              SizedBox(height: 30),
+                            ],
+                          ) :
+
+
+
+
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Email', style: mulish14400),
+                              SizedBox(height: 10),
+                              SizedBox(
+                                height: 50,
+                                child: NewTextField(
+                                  controller: value.emailController,
+                                  hintText: Strings.enter_email,
+
+
+                                ),
+                              ),
+                              value.emailError != ""
+                                  ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.emailError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
+                              SizedBox(height: 30),
+                            ],
+                          ),
+
+
                           Text(Strings.Location, style: mulish14400),
                           SizedBox(height: 10),
                           SizedBox(
@@ -644,6 +709,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                               body = {
                                 "_id": PrefService.getString(PrefKeys.userId),
                                 "name": value.nameController.text,
+                                'email':value.emailController.text,
+                                'phoneNo':value.phoneController.text,
                                 "dob": formattedDate,
                                 "gender": value.gender,
                                 "location": value.locationController.text,

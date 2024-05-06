@@ -7,4 +7,5 @@ class PrefKeys {
   static const lat = 'latitude';
   static const long = 'longitude';
   static const deviceToken = 'deviceToken';
+  static const loginType = 'loginType';
 }

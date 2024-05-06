@@ -28,6 +28,8 @@ class GetSingleProfileApi {
 
         updateProvider.nameController.text =
             getSingleProfileModelFromJson(data).profile?[0].name ?? '';
+        updateProvider.phoneController.text= getSingleProfileModelFromJson(data).profile?[0].phoneNo??"";
+        updateProvider.emailController.text=  getSingleProfileModelFromJson(data).profile?[0].email??"";
         updateProvider.locationController.text =
             getSingleProfileModelFromJson(data).profile?[0].location ?? '';
         updateProvider.jobController.text =

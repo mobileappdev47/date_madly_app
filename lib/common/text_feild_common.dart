@@ -136,6 +136,7 @@ class NewTextField extends StatelessWidget {
           fontWeight: FontWeight.w600,
           color: ColorRes.darkGrey,
         ),
+        keyboardType: textInputType??TextInputType.text,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText ?? '',

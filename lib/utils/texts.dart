@@ -181,6 +181,8 @@ class Strings {
   static const college = "College";
   static const company = "Company";
   static const enter_college = "Enter college";
+  static const enter_phone = "Enter Phone";
+  static const enter_email = "Enter Email";
   static const Continue = "Continue";
   static const when_you =
       "I'm here when you need a sunny day, something good We can sing together on the beach and burn bonfires at night with the moonlight.";

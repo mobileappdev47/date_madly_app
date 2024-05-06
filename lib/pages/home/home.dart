@@ -142,14 +142,12 @@ class _HomeState extends State<Home> {
       getAll = await GetAllApi.getallApi();
       if (getAll.users != null) {
         for (int i = 0; i < getAll.users!.length; i++) {
-          if (getAll.users![i].loc != null &&
-              getAll.users![i].loc!.coordinates != null &&
-              getAll.users![i].loc!.coordinates!.isNotEmpty) {
+          if (getAll.users![i].latitude != null && getAll.users![i].longitude != null) {
             double distance = calculateDistance(
               double.parse(PrefService.getString(PrefKeys.lat)),
               double.parse(PrefService.getString(PrefKeys.long)),
-              double.parse(getAll.users![i].loc!.coordinates!.first.toString()),
-              double.parse(getAll.users![i].loc!.coordinates!.last.toString()),
+              double.parse(getAll.users![i].latitude.toString()),
+              double.parse(getAll.users![i].longitude.toString()),
             );
             distanceList.add(distance.toStringAsFixed(0).toString() + ' KM ');
           } else {

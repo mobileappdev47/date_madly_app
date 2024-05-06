@@ -103,7 +103,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
   Future<void> pickImage(
       {required ImageSource source, required int index}) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: source, imageQuality: 50);
+    final pickedFile = await picker.pickImage(source: source);
 
     if (pickedFile != null) {
       setState(() {
@@ -127,9 +127,9 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
       aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
       compressQuality: 100,
       compressFormat: ImageCompressFormat.jpg,
-      maxHeight: 100,
+      maxHeight: 2000,
       cropStyle: CropStyle.rectangle,
-      maxWidth: 100,
+      maxWidth: 2000,
       aspectRatioPresets: [
         CropAspectRatioPreset.square,
         CropAspectRatioPreset.ratio3x2,

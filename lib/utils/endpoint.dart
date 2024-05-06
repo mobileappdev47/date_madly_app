@@ -18,4 +18,5 @@ class EndPoints {
   static const getAllChatApi = baseUrl + 'api/getAllChatRoom';
   static const deleteImageApi = baseUrl + 'api/deleteImage';
   static const phoneApi = baseUrl + 'api/createUserByPhone';
+  static const socialLoginApi = baseUrl + 'api/createUserByFirebase';
 }

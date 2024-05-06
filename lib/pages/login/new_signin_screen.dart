@@ -1,12 +1,17 @@
+import 'package:date_madly_app/api/social_login_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
+import 'package:date_madly_app/service/notification_service.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/font_family.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 import '../../utils/texts.dart';
@@ -19,6 +24,59 @@ class NewSignInScreen extends StatefulWidget {
 }
 
 class _NewSignInScreenState extends State<NewSignInScreen> {
+  bool loader = false ;
+  Map<String,dynamic> body ={};
+  String lat = '';
+  String long = '';
+   String token ='';
+
+  Future getCurrentLatLang() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+
+    if (permission == LocationPermission.denied) {
+      LocationPermission result = await Geolocator.requestPermission();
+      if (result == LocationPermission.always ||
+          result == LocationPermission.whileInUse) {
+        getCurrentLatLang();
+      }
+    } else {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      lat = position.latitude.toString();
+      long = position.longitude.toString();
+    }
+  }
+
+  socialLoginApi(body) async {
+     token =
+    (await NotificationService.getToken())!;
+    try{
+      loader = true ;
+      setState(() {
+
+      });
+
+      await  SocialLoginApi.socialLogin(body, context, lat, long);
+
+      loader= false ;
+      setState(() {
+
+      });
+
+       }
+        catch(e){
+      print(e.toString());
+loader= false ;
+setState(() {
+
+});
+        }
+
+
+
+  }
+
   onTapAppleSign({BuildContext? context, bool? value}) async {
     try {
       final user = await signInWithAppleSign(
@@ -30,8 +88,18 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
       print("My user =====>>>> ${user.uid}");
 
       if(user!= null){
+        print(user.email);
+        print(FirebaseAuth.instance.currentUser?.email??'');
+        body = {
+          "email": "${user.email}",
+          "device_token": token ?? '',
+          "latitude": lat,
+          "longitude": long
+        };
 
-        Navigator.push(context!, MaterialPageRoute(builder: (context) => AdditionalDetails(pageNo: 1) ,));
+       await  socialLoginApi(body);
+
+        // Navigator.push(context!, MaterialPageRoute(builder: (context) => AdditionalDetails(pageNo: 1) ,));
 
       }
     } catch (e) {
@@ -63,18 +131,7 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
 
          print(userCredential.user!.email);
 
-          /*        if (userCredential.user!.email!.isEmpty ||
-            userCredential.user?.email == null) {
-          showDialogBottomSheetTwitter(context!,
-              value: value, uid: userCredential.user?.uid, type: 'apple');
-        } else {
-          print(userCredential.user?.displayName);
-          socialLoginModel = await SocialLoginApi.socialLoginApi(
-              context: context,
-              socialType: "apple",
-              email: userCredential.user?.email,
-              idSocial: userCredential.user?.uid);
-        }*/
+
 
         // loader.value = false;
         return firebaseUser;
@@ -97,6 +154,14 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
         throw UnimplementedError();
     }
   }
+
+
+    @override
+    void initState() {
+    getCurrentLatLang();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -149,6 +214,8 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                       onTap: () {
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
 
+                        PrefService.setValue(PrefKeys.loginType, 'socialEmail');
+
                         onTapAppleSign(context: context,value: true,);
                       },
                       child: Container(
@@ -175,6 +242,8 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
+
+                        PrefService.setValue(PrefKeys.loginType, 'socialEmail');
                         // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                       },
                       child: Container(
@@ -201,6 +270,8 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
+
+                        PrefService.setValue(PrefKeys.loginType, 'Phone');
                         Navigator.push(
                             context,
                             MaterialPageRoute(

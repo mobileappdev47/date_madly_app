@@ -15,6 +15,8 @@ class Updateprovider extends ChangeNotifier {
   TextEditingController companyController = TextEditingController();
   TextEditingController collegeController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
 
   String name = '';
@@ -28,6 +30,8 @@ class Updateprovider extends ChangeNotifier {
   String nameError = '';
   String dobError = '';
   String locationError = '';
+  String emailError = '';
+  String phoneError = '';
   String jobError = '';
   String companyError = '';
   String collegeError = '';
@@ -87,6 +91,46 @@ class Updateprovider extends ChangeNotifier {
       locationError = '';
       notifyListeners();
       return true;
+    }
+  }
+
+
+  phoneValidation() {
+    if (phoneController.text.trim() == "") {
+      phoneError = 'Enter the phone';
+      notifyListeners();
+      return false;
+    } else {
+      phoneError = '';
+      notifyListeners();
+      return true;
+    }
+  }
+  emailValidation() {
+    if (emailController.text.trim() == "") {
+
+      emailError = 'Enter the Email Address';
+
+      notifyListeners();
+      return false;
+    } else {
+      if (RegExp(
+          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+          .hasMatch(emailController.text)) {
+
+        emailError = '';
+        notifyListeners();
+
+
+        return true;
+      } else {
+
+        emailError = 'Enter valid Email Address';
+        notifyListeners();
+
+
+        return false;
+      }
     }
   }
 
@@ -158,14 +202,20 @@ class Updateprovider extends ChangeNotifier {
     companyValidation();
     collegeValidation();
     genderValidation();
+  PrefService.getString(PrefKeys.loginType) =='socialEmail'?   phoneValidation():emailValidation();
+
   }
 
   validation() {
+
+    PrefService.getString(PrefKeys.loginType) =='socialEmail'? emailError='': phoneError='';
     val();
     if (nameError == '' &&
         dobError == '' &&
         jobError == '' &&
         locationError == '' &&
+        emailError == '' &&
+        phoneError == '' &&
         // companyError == '' &&
         // collegeError == '' &&
         genderError == '') {
