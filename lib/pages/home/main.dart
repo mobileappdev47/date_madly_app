@@ -86,11 +86,12 @@ boxShadow: [
                             : Colors.transparent,
                         shape: BoxShape.circle),
                     child:
-                    Image.asset(
-                      'assets/icons/Home.png',
-                      color: currentIndex == 0 ? ColorRes.appColor : null,
-                      scale: 4,
-                    ),
+                    // Image.asset(
+                    //   'assets/icons/Home.png',
+                    //   color: currentIndex == 0 ? ColorRes.appColor : null,
+                    //   scale: 4,
+                    // ),
+                    Icon(Icons.location_pin,size: 25,color: currentIndex == 0 ? ColorRes.appColor : ColorRes.grey,)
                   ),
                 ),
                 GestureDetector(

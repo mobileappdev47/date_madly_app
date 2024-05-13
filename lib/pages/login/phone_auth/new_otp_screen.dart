@@ -1,5 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/api/phone_otp_api.dart';
+import 'package:date_madly_app/api/verify_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/main.dart';
@@ -28,6 +29,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
   bool loader = false;
   FirebaseAuth auth = FirebaseAuth.instance;
   Map<String, dynamic> body = {};
+  Map<String, dynamic> body2 = {};
 
   phoneOtpAPi(body) async {
     try {
@@ -58,7 +60,7 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
     }
   }
 
-  Future<void> verifyOTP() async {
+  Future<void> verifyOTPFirebase() async {
     loader = true;
 
     setState(() {});
@@ -99,6 +101,39 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
       print('Verification failed: $e');
     }
   }
+
+  Future<void>   verifyOtpApi() async {
+    String? token =
+    await NotificationService.getToken();
+
+    body2 = {
+
+      "phoneNo": "${widget.phone}",
+      "otp": otpController.text,
+      "device_token": token,
+      "latitude": lat,
+      "longitude": long
+
+    };;
+    try{
+      loader = true ;
+      setState(() {
+
+      });
+      await VerifyOtpApi.verifyOtpApi(body2, context, lat, long);
+      loader = false ;
+      setState(() {
+
+      });
+    }catch(e){
+      loader = false ;
+      setState(() {
+      });
+      print(e.toString());
+    }
+
+  }
+
 
   @override
   void initState() {
@@ -210,7 +245,9 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
                               ),
                             );
                           } else {
-                            await verifyOTP();
+                            // await verifyOTPFirebase();
+
+                            await verifyOtpApi();
                           }
                         },
                       ),

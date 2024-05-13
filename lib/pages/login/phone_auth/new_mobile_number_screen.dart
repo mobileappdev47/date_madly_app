@@ -1,4 +1,5 @@
 import 'package:country_picker/country_picker.dart';
+import 'package:date_madly_app/api/send_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
@@ -70,15 +71,41 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
             MaterialPageRoute(
               builder: (context) => NewOtpScreen(
                   verificationId: verificationId,
-                  phone: '$countryCode$phoneNumber'),
+                  phone: '$countryCode$phoneNumber'
+              ),
             ));
       },
       codeAutoRetrievalTimeout: (String verificationId) {
+
         loader = false;
         setState(() {});
         print('koko');
+
+
       },
     );
+  }
+
+
+  Future<void>sendOtpApi1()async{
+
+    try{
+      loader = true ;
+      setState(() {
+
+      });
+      await SendOtpApi.sendOtpApi(phoneNumber: '+${countryCode}${phoneController.text}', context: context);
+      loader = false ;
+      setState(() {
+
+      });
+    }catch(e){
+      loader = false ;
+      setState(() {
+
+      });
+print(e.toString());
+    }
   }
 
   @override
@@ -232,7 +259,7 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
                         height: 37,
                       ),
                       CommonGradientButton(
-                        ontap: () {
+                        ontap: () async {
                           if (phoneController.text.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -246,7 +273,9 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
                               ),
                             );
                           } else {
-                            verifyPhoneNumber(countryCode: '+${countryCode}',phoneNumber: phoneController.text);
+                            // verifyPhoneNumber(countryCode: '+${countryCode}',phoneNumber: phoneController.text);
+
+                           await sendOtpApi1();
                           }
                         },
                       ),
