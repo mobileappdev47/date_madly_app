@@ -112,6 +112,8 @@ class _HomeState extends State<Home> {
   }
 
   filterApiCall(filterBody) async {
+remainingUsers.clear();
+
     Navigator.pop(context);
     try {
       loder = true;
@@ -505,6 +507,7 @@ class _HomeState extends State<Home> {
                               tooltipBackgroundColor: ColorRes.appColor,
                               thumbStrokeWidth: 2,
                               thumbStrokeColor: ColorRes.white,
+
                             ),
                             child: SfRangeSlider(
                               inactiveColor: ColorRes.colorF1F2F2,
@@ -674,10 +677,20 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  remainingUsers.isNotEmpty && remainingUsers.length > 1
-                      ? Expanded(
+                     remainingUsers.isNotEmpty && remainingUsers.length > 1
+                      ?
+
+                     Expanded(
                           child: CardSwiper(
+
                             controller: cardSwiperController,
+
+                            // onEnd: () {
+                            //   remainingUsers.clear();
+                            //   setState(() {
+                            //
+                            //   });
+                            // },
                             isDisabled: false,
                             backCardOffset: const Offset(10, 0),
                             initialIndex: 0,
@@ -685,23 +698,25 @@ class _HomeState extends State<Home> {
                             cardsCount: remainingUsers.length,
                             onSwipe:
                                 (previousIndex, currentIndex, direction) async {
-                              cardIndex = currentIndex!;
-                              setState(() {});
-                              var index1 = currentIndex - 1;
-                              if (direction == CardSwiperDirection.left) {
-                                 LikeDislikeapicall(
-                                    remainingUsers[index1].id, 1);
+                     if(currentIndex!=null){
+                       cardIndex = currentIndex!;
+                       setState(() {});
+                       var index1 = currentIndex - 1;
+                       if (direction == CardSwiperDirection.left) {
+                         LikeDislikeapicall(
+                             remainingUsers[index1].id, 1);
 
-                                setState(() {
+                         setState(() {
 
-                                });
-                              }
-                              else if (direction ==
-                                  CardSwiperDirection.right) {
-                                 LikeDislikeapicall(
-                                    remainingUsers[index1].id, 0);
-                                setState(() {});
-                              } else {}
+                         });
+                       }
+                       else if (direction ==
+                           CardSwiperDirection.right) {
+                         LikeDislikeapicall(
+                             remainingUsers[index1].id, 0);
+                         setState(() {});
+                       } else {}
+                     }
                               return true;
                             },
                             cardBuilder: (context,
@@ -1451,67 +1466,7 @@ class _HomeState extends State<Home> {
                           ),
                         )
                       : SizedBox(),
-                        /*       remainingUsers.isNotEmpty &&
-                          getAll.users != null &&
-                          getAll.users!.length > 2
-                      ? Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  await LikeDislikeapicall(
-                                      remainingUsers[cardIndex].id, 1);
-                                  cardSwiperController.swipeLeft();
-                                },
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 1,
-                                          blurRadius: 2,
-                                          offset: Offset(0,
-                                              3), // changes position of shadow
-                                        ),
-                                      ],
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: Colors.grey.shade50),
-                                  child: Icon(
-                                    Icons.close,
-                                    color: ColorRes.darkGrey,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              GestureDetector(
-                                onTap: () async {
-                                  await LikeDislikeapicall(
-                                      remainingUsers[cardIndex].id, 0);
-                                  cardSwiperController.swipeRight();
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(50),
-                                      color: ColorRes.appColor),
-                                  child: Icon(
-                                    Icons.favorite_border,
-                                    color: ColorRes.white,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : SizedBox(),*/
+
                 ],
               ),
               loder == true
