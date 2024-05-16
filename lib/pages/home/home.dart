@@ -141,14 +141,15 @@ remainingUsers.clear();
       distanceList.clear();
       loder = true;
       setState(() {});
+
       // getAll = await GetAllApi.getallApi();
+
       getAll = await FilterApi.filterApi({
 
         'distance': 10,
         "userId": PrefService.getString(PrefKeys.userId),
         "latitude": lat,
         "longitude": long,
-
 
       }, context);
 

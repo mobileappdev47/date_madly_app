@@ -214,20 +214,19 @@ class _ChatState extends State<Chat> {
             .set({
           'ChatUserList': [map]
         });
-
         getCollectionLength();
       }
     });
   }
 
   Widget build(BuildContext context) {
+
     return Consumer<NewChatProvider>(
       builder: (context, value, child) => Scaffold(
         backgroundColor: ColorRes.white,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           leading: GestureDetector(
-
               onTap: () {
                 Dialogs().showExitDialog(context);
               },
@@ -340,12 +339,13 @@ class _ChatState extends State<Chat> {
                         width: 20,
                       ),
                       scrollDirection: Axis.horizontal,
+
                       itemCount: getAllChatRoom.chatRoom?.length ?? 0,
                       itemBuilder: (context, index) {
                         var data;
                         var data2;
                         if (getAllChatRoom
-                                .chatRoom![index].participants![1].email ==
+                                .chatRoom![index].participants![1].id ==
                             PrefService.getString(PrefKeys.email)) {
                           data =
                               getAllChatRoom.chatRoom![index].participants![0];

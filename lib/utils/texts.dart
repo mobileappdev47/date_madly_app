@@ -1,6 +1,9 @@
 class Strings {
   ///---------------------------------------- Drawer ----------------------------------------
 
+
+  static const APP_ID= 'd47f99c3a3ff4c639a78ae664d4df40b';
+
   static const Made = "Made with ❤️";
   static const Lovecirc = "Lovecirc";
   static const filter = "Filter";

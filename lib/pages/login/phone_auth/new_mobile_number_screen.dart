@@ -2,6 +2,8 @@ import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/api/send_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
+import 'package:date_madly_app/pages/calling/call_utils.dart';
+import 'package:date_madly_app/pages/calling/lovecirco_user.dart';
 import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_otp_screen.dart';
 import 'package:date_madly_app/utils/colors.dart';
@@ -133,6 +135,35 @@ print(e.toString());
                     ),
                   ),
                 ),
+
+                // ElevatedButton(onPressed: () {
+                //
+                //
+                //   CallUtils.dialOneToOneVoiceCall(
+                //     context: context,
+                //     from: LoveCircoUser(
+                //       name: 'janki',
+                //       displayName: 'janu',
+                //       email: 'janki.brainbinary@gmail.com',
+                //       playerId: '123',
+                //       uid: 'janki123',
+                //       status: 'done',
+                //       state: 1,
+                //       profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                //       coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                //     ),
+                //     to:  LoveCircoUser(  name: 'niyati',
+                //       displayName: 'niyu',
+                //       email: 'niyati.brainbinary@gmail.com',
+                //       playerId: '456',
+                //       uid: 'niayti123',
+                //       status: 'done',
+                //       state: 1,
+                //       profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                //       coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',),
+                //   );
+                // }, child: Text('pRe3ss')),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: Column(

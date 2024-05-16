@@ -1,8 +1,14 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/network/api.dart';
+import 'package:date_madly_app/pages/calling/call_utils.dart';
+import 'package:date_madly_app/pages/calling/lovecirco_user.dart';
+import 'package:date_madly_app/pages/calling/pick_up_screen.dart';
+import 'package:date_madly_app/pages/calling/test_call.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/video_call_screen.dart';
+import 'package:date_madly_app/pages/home/home.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -11,6 +17,7 @@ import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:timeago/timeago.dart' as timeago;
@@ -46,14 +53,230 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController searchController = TextEditingController();
 
+  String channelName = '';
+  String token = "";
+
+  int uid = 0; // uid of the local user
+
+  int? _remoteUid; // uid of the remote user
+  bool _isJoined = false; // Indicates if the local user has joined the channel
+  late RtcEngine agoraEngine; // Agora engine instance
+
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey
+  = GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
+
+  showMessage(String message) {
+
+    scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
+      content: Text(message),
+    ));
+
+  }
+  Widget _status(){
+    String statusText;
+
+    if (!_isJoined){
+      
+      statusText = 'Join a channel';
+      
+    }
+    else if (_remoteUid == null){
+      statusText = 'Waiting for a remote user to join...';
+      // Navigator.push(context,MaterialPageRoute(builder: (context) =>   Call(),));
+    }
+    else{
+      statusText = 'Connected to remote user, uid:$_remoteUid';
+      // Navigator.pop(context);
+
+
+    }
+    return Text(
+      statusText,
+    );
+  }
+
+  void  join() async {
+    // Set channel options including the client role and channel profile
+    ChannelMediaOptions options = const ChannelMediaOptions(
+      clientRoleType: ClientRoleType.clientRoleBroadcaster,
+      channelProfile: ChannelProfileType.channelProfileCommunication,
+    );
+
+    await agoraEngine.joinChannel(
+      token: token,
+      channelId: channelName,
+      options: options,
+      uid: uid,
+    );
+
+
+  }
+
+  void leave() {
+    setState(() {
+      _isJoined = false;
+      _remoteUid = null;
+    });
+    agoraEngine.leaveChannel();
+
+deleteCallCollection();
+  }
+
+  deleteCallCollection() async {
+
+    await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
+
+
+  }
+
+
+  // @override
+  // void dispose() async {
+  //   await agoraEngine.leaveChannel();
+  //   super.dispose();
+  // }
+  @override
+  void initState() {
+    super.initState();
+    setupVoiceSDKEngine();
+
+
+
+  }
+
+  void initiateCall(
+      {required String callerId,required String receiverId,required String  channelName}) async {
+    // await FirebaseFirestore.instance.collection('Auth').doc(PrefService.getString(PrefKeys.userId)).collection('calls').doc(channelName).set({
+    //   'callerId': callerId,
+    //   'receiverId': receiverId,
+    //   'callActive': false,
+    //   'channelName': channelName,
+    // });
+
+
+
+  await   FirebaseFirestore.instance
+        .collection('calls').doc(channelName).get().then((value) async {
+
+          print('-----------------------------------888888888888888888888888888888${value.data()}');
+
+          if(value.data()!=null && value.data()!.isNotEmpty){
+
+            await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
+              'callerId': receiverId,
+              'receiverId': callerId,
+              'callActive': true,
+              'channelName': channelName,
+            }).then((value) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(),));
+            });
+
+          }
+          else {
+            await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
+              'callerId': callerId,
+              'receiverId': receiverId,
+              'callActive': false,
+              'channelName': channelName,
+            }).then((value) {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(),));
+            });
+
+
+          }
+
+    });
+
+
+  }
+  Future<void> setupVoiceSDKEngine() async {
+    // retrieve or request microphone permission
+    await Permission.microphone.request();
+
+    //create an instance of the Agora engine
+    agoraEngine = createAgoraRtcEngine();
+    await agoraEngine.initialize(const RtcEngineContext(
+        appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
+
+    ));
+
+    // Register the event handler
+    agoraEngine.registerEventHandler(
+
+      RtcEngineEventHandler(
+
+        onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
+          showMessage("Local user uid:${connection.localUid} joined the channel");
+          setState(() {
+
+            _isJoined = true;
+
+
+            initiateCall(callerId: PrefService.getString(PrefKeys.userId),channelName: channelName,receiverId: widget.otherEmail! );
+
+
+          });
+        },
+        onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
+          showMessage("Remote user uid:$remoteUid joined the channel");
+          setState(() {
+            _remoteUid = remoteUid;
+
+            // Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => Call(),
+            //     ));
+
+          });
+        },
+        onUserOffline: (RtcConnection connection, int remoteUid,
+            UserOfflineReasonType reason) {
+          showMessage("Remote user uid:$remoteUid left the channel");
+          setState(() {
+            _remoteUid = null;
+          });
+        },
+
+      ),
+    );
+  }
+
   @override
   String userEmail = PrefService.getString(PrefKeys.email).toString();
-
+bool isOnce = false;
   Widget build(BuildContext context) {
     print(userEmail);
-    return Consumer<NewChatProvider>(
+    print(widget.otherEmail);
+
+
+
+   channelName= "${widget.roomId}";
+   if(isOnce==false){
+     FirebaseFirestore.instance
+         .collection('calls')
+         .where('receiverId', isEqualTo: PrefService.getString(PrefKeys.userId))
+         .where('callActive', isEqualTo: false)
+         .snapshots()
+         .listen((snapshot) {
+       if (snapshot.docs.isNotEmpty) {
+         var callData = snapshot.docs.first.data();
+         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(),));
+         isOnce= true ;
+       }
+     });
+   }
+
+
+    return
+
+      Consumer<NewChatProvider>(
       builder: (context, value, child) {
-        return Scaffold(
+
+
+        return
+
+          Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: ColorRes.lgrey,
           appBar: PreferredSize(
@@ -131,11 +354,44 @@ class _ChatScreenState extends State<ChatScreen> {
                     actions: [
                       GestureDetector(
                           onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Call(),
-                                ));
+
+                           channelName = widget.roomId??"";
+
+                              join();
+
+
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => Call(),
+                            //     ));
+
+                              // CallUtils.dialOneToOneVoiceCall(
+                              //   context: context,
+                              //   from: LoveCircoUser(
+                              //     name: 'janki',
+                              //     displayName: 'janu',
+                              //     email: 'janki.brainbinary@gmail.com',
+                              //     playerId: '123',
+                              //     uid: PrefService.getString(PrefKeys.userId),
+                              //     status: 'done',
+                              //     state: 1,
+                              //     profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                              //     coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                              //   ),
+                              //   chanelID: channelName,
+                              //   to:  LoveCircoUser(
+                              //     name: 'niyati',
+                              //     displayName: 'niyu',
+                              //     email: 'niyati.brainbinary@gmail.com',
+                              //     playerId: '456',
+                              //     uid: widget.otherEmail,
+                              //     status: 'done',
+                              //     state: 1,
+                              //     profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
+                              //     coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',),
+                              // );
+
                           },
                           child: Image.asset(
                             'assets/icons/Call.png',
@@ -152,7 +408,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                 MaterialPageRoute(
                                   builder: (context) => VideoCallScreen(),
                                 ),);
-                            },
+                          },
+
                           child: Image.asset(
                             'assets/icons/Video Call.png',
                             scale: 3,
@@ -166,635 +423,700 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
             ),
           ),
-          body: Column(
+          body: Stack(
+            alignment: Alignment.center,
             children: [
-              Expanded(
-                child: StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection("chats")
-                      .doc(widget.roomId)
-                      .collection(widget.roomId!)
-                      .orderBy("time", descending: true)
-                      .limit(1000)
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    }
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return const SizedBox();
-                      default:
-                        List<DocumentSnapshot> documents = snapshot.data!.docs;
-                        return ListView.builder(
-                          controller: value.listScrollController,
-                          reverse: true,
-                          itemCount: documents.length,
-                          itemBuilder: (context, index) {
-                            // Check for the end of the list to load more
-                            if (index >= documents.length - 1) {
-                              // Load more items
-                            }
-                            Map<String, dynamic>? data = documents[index].data()
-                                as Map<String, dynamic>?;
-                            if (data == null) {
-                              return const SizedBox();
-                            } else {
-                              if (data['read'] != true &&
-                                  data['senderUid'].toString() !=
-                                      widget.email) {
-                                value.setReadTrue(
-                                  documents[index].id,
-                                );
-                                // setState(() {});
-                              }
 
-                              return documents[index]["senderUid"] != userEmail
-                                  ? Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const SizedBox(width: 10),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              documents[index]["type"] ==
-                                                      "image"
-                                                  ? GestureDetector(
-                                                onTap: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) => Padding(
-                                                      padding: const EdgeInsets.symmetric(
-                                                          horizontal: 20, vertical: 80),
-                                                      child: Container(
-                                                        height: MediaQuery.of(context).size.height,
-                                                        width: MediaQuery.of(context).size.width - 40,
-                                                        child: Stack(
-                                                          alignment: Alignment.topRight,
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              child: CachedNetworkImage(
-                                                                imageUrl: documents[index]
-                                                                ["content"],
-                                                                height: MediaQuery.of(context)
-                                                                    .size
-                                                                    .height,
-                                                                width: MediaQuery.of(context)
-                                                                    .size
-                                                                    .width -
-                                                                    40,
-                                                                fit: BoxFit.fill,
-                                                                placeholder: (context, url) =>
-                                                                    Image.asset(
-                                                                      'assets/images/image_placeholder.png',
-                                                                      // height: MediaQuery.of(context).size.width - 150,
-                                                                      width: MediaQuery.of(context)
-                                                                          .size
-                                                                          .width -
-                                                                          40,
-                                                                      height: MediaQuery.of(context)
-                                                                          .size
-                                                                          .height,
-                                                                      fit: BoxFit.fill,
-                                                                    ),
-                                                                errorWidget: (context, url, error) =>
-                                                                    Image.asset(
-                                                                      'assets/images/image_placeholder.png',
-                                                                      // height: MediaQuery.of(context).size.width - 150,
-                                                                      width: MediaQuery.of(context)
-                                                                          .size
-                                                                          .width -
-                                                                          40,
-                                                                      height: MediaQuery.of(context)
-                                                                          .size
-                                                                          .height,
-                                                                      fit: BoxFit.fill,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.pop(context);
+              Column(
+                children: [
+                  _status(),
+                  ElevatedButton(
+                    child: const Text("Leave"),
+                    onPressed: () => {leave()},
+                  ),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("chats")
+                          .doc(widget.roomId)
+                          .collection(widget.roomId!)
+                          .orderBy("time", descending: true)
+                          .limit(1000)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return const SizedBox();
+                          default:
+                            List<DocumentSnapshot> documents = snapshot.data!.docs;
+                            return ListView.builder(
+                              controller: value.listScrollController,
+                              reverse: true,
+                              itemCount: documents.length,
+                              itemBuilder: (context, index) {
+                                // Check for the end of the list to load more
+                                if (index >= documents.length - 1) {
+                                  // Load more items
+                                }
+                                Map<String, dynamic>? data = documents[index].data()
+                                    as Map<String, dynamic>?;
+                                if (data == null) {
+                                  return const SizedBox();
+                                } else {
+                                  if (data['read'] != true &&
+                                      data['senderUid'].toString() !=
+                                          widget.email) {
+                                    value.setReadTrue(
+                                      documents[index].id,
+                                    );
+                                    // setState(() {});
+                                  }
 
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(
-                                                                    right: 10, top: 10),
-                                                                child: Container(
-                                                                  height: 40,
-                                                                  width: 40,
-                                                                  decoration: BoxDecoration(
-                                                                    shape: BoxShape.circle,
-                                                                    color: ColorRes.appColor,
-                                                                  ),
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color: ColorRes.white,
-                                                                    size: 16,
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                                    child: Container(
-                                                        height: 150,
-                                                        width: 150,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                        ),
-                                                        clipBehavior:
-                                                            Clip.hardEdge,
-                                                        child: CachedNetworkImage(
-                                                            imageUrl:
-                                                                documents[index]
-                                                                    ["content"],
-                                                            fit: BoxFit.fill,
-                                                            placeholder: (context,
-                                                                    url) =>
-                                                                Image.asset(
-                                                                    'assets/images/image_placeholder.png'),
-                                                            errorWidget: (context,
-                                                                    url, error) =>
-                                                                Image.asset(
-                                                                    'assets/images/image_placeholder.png')),
-                                                      ),
-                                                  )
-                                                  : Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              right: 0,
-                                                              left: 20),
-                                                      child: Container(
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            IntrinsicWidth(
-                                                              child: Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                  horizontal: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.05,
-                                                                  vertical: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width *
-                                                                      0.03,
-                                                                ),
-                                                                margin:
-                                                                    const EdgeInsets
-                                                                        .only(
-                                                                        bottom:
-                                                                            5),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color: ColorRes
-                                                                      .white,
-                                                                  borderRadius: BorderRadius.only(
-                                                                      topRight:
-                                                                          Radius.circular(
-                                                                              20),
-                                                                      bottomLeft:
-                                                                          Radius.circular(
-                                                                              20),
-                                                                      bottomRight:
-                                                                          Radius.circular(
-                                                                              20)),
-                                                                ),
-                                                                alignment:
-                                                                    Alignment
-                                                                        .center,
-                                                                constraints:
-                                                                    BoxConstraints(
-                                                                  maxWidth: MediaQuery.of(
-                                                                              context)
-                                                                          .size
-                                                                          .width /
-                                                                      1.5,
-                                                                ),
-                                                                child: SizedBox(
-                                                                  child: Text(
-                                                                    documents[
-                                                                            index]
-                                                                        [
-                                                                        "content"],
-                                                                    style: mulishbold
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          12,
-                                                                      color: ColorRes
-                                                                          .black,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              Text(
-                                                DateFormat("hh:mm aa").format(
-                                                    (documents[index]["time"]
-                                                        .toDate())),
-                                                style: const TextStyle(
-                                                    color: ColorRes.black,
-                                                    fontSize: 8),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  : Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Column(
+                                  return documents[index]["senderUid"] != userEmail
+                                      ? Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              documents[index]["type"] ==
-                                                      "image"
-                                                  ? GestureDetector(
-
-
-                                                onTap: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) => Padding(
-                                                      padding: const EdgeInsets.symmetric(
-                                                          horizontal: 20, vertical: 80),
-                                                      child: Container(
-                                                        height: MediaQuery.of(context).size.height,
-                                                        width: MediaQuery.of(context).size.width - 40,
-                                                        child: Stack(
-                                                          alignment: Alignment.topRight,
-                                                          children: [
-                                                            ClipRRect(
-                                                              borderRadius: BorderRadius.circular(8),
-                                                              child: CachedNetworkImage(
-                                                                imageUrl: documents[index]
-                                                                ["content"],
-                                                                height: MediaQuery.of(context)
-                                                                    .size
-                                                                    .height,
-                                                                width: MediaQuery.of(context)
-                                                                    .size
-                                                                    .width -
-                                                                    40,
-                                                                fit: BoxFit.fill,
-                                                                placeholder: (context, url) =>
-                                                                    Image.asset(
-                                                                      'assets/images/image_placeholder.png',
-                                                                      // height: MediaQuery.of(context).size.width - 150,
-                                                                      width: MediaQuery.of(context)
-                                                                          .size
-                                                                          .width -
-                                                                          40,
-                                                                      height: MediaQuery.of(context)
-                                                                          .size
-                                                                          .height,
-                                                                      fit: BoxFit.fill,
-                                                                    ),
-                                                                errorWidget: (context, url, error) =>
-                                                                    Image.asset(
-                                                                      'assets/images/image_placeholder.png',
-                                                                      // height: MediaQuery.of(context).size.width - 150,
-                                                                      width: MediaQuery.of(context)
-                                                                          .size
-                                                                          .width -
-                                                                          40,
-                                                                      height: MediaQuery.of(context)
-                                                                          .size
-                                                                          .height,
-                                                                      fit: BoxFit.fill,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            GestureDetector(
-                                                              onTap: () {
-                                                                Navigator.pop(context);
-
-
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.only(
-                                                                    right: 10, top: 10),
-                                                                child: Container(
-                                                                  height: 40,
-                                                                  width: 40,
-                                                                  decoration: BoxDecoration(
-                                                                    shape: BoxShape.circle,
-                                                                    color: ColorRes.appColor,
-                                                                  ),
-                                                                  child: Icon(
-                                                                    Icons.close,
-                                                                    color: ColorRes.white,
-                                                                    size: 16,
+                                              const SizedBox(width: 10),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  documents[index]["type"] ==
+                                                          "image"
+                                                      ? GestureDetector(
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) => Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 20, vertical: 80),
+                                                          child: Container(
+                                                            height: MediaQuery.of(context).size.height,
+                                                            width: MediaQuery.of(context).size.width - 40,
+                                                            child: Stack(
+                                                              alignment: Alignment.topRight,
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  child: CachedNetworkImage(
+                                                                    imageUrl: documents[index]
+                                                                    ["content"],
+                                                                    height: MediaQuery.of(context)
+                                                                        .size
+                                                                        .height,
+                                                                    width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width -
+                                                                        40,
+                                                                    fit: BoxFit.fill,
+                                                                    placeholder: (context, url) =>
+                                                                        Image.asset(
+                                                                          'assets/images/image_placeholder.png',
+                                                                          // height: MediaQuery.of(context).size.width - 150,
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width -
+                                                                              40,
+                                                                          height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height,
+                                                                          fit: BoxFit.fill,
+                                                                        ),
+                                                                    errorWidget: (context, url, error) =>
+                                                                        Image.asset(
+                                                                          'assets/images/image_placeholder.png',
+                                                                          // height: MediaQuery.of(context).size.width - 150,
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width -
+                                                                              40,
+                                                                          height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height,
+                                                                          fit: BoxFit.fill,
+                                                                        ),
                                                                   ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Navigator.pop(context);
 
-                                                child: Container(
-                                                        height: 150,
-                                                        width: 150,
-                                                        decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(15),
-                                                        ),
-                                                        clipBehavior:
-                                                            Clip.hardEdge,
-                                                        child: CachedNetworkImage(
-                                                            imageUrl:
-                                                                documents[index]
-                                                                    ["content"],
-                                                            fit: BoxFit.fill,
-                                                            placeholder: (context,
-                                                                    url) =>
-                                                                Image.asset(
-                                                                    'assets/images/image_placeholder.png'),
-                                                            errorWidget: (context,
-                                                                    url, error) =>
-                                                                Image.asset(
-                                                                    'assets/images/image_placeholder.png')),
-                                                      ),
-                                                  )
-                                                  : Container(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .end,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          IntrinsicWidth(
-                                                            child: Container(
-                                                              margin:
-                                                                  const EdgeInsets
-                                                                      .only(
-                                                                      bottom:
-                                                                          5),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: ColorRes
-                                                                    .appColor,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10),
-                                                              ),
-                                                              alignment:
-                                                                  Alignment
-                                                                      .center,
-                                                              constraints:
-                                                                  BoxConstraints(
-                                                                maxWidth: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width /
-                                                                    1.5,
-                                                              ),
-                                                              child:
-                                                                  CustomPaint(
-                                                                painter:
-                                                                    ChatBubblePainter(),
-                                                                child:
-                                                                    Container(
-                                                                  padding:
-                                                                      EdgeInsets
-                                                                          .all(
-                                                                              10.0),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: ColorRes
-                                                                        .colorFF9BAD,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10.0),
+                                                                  },
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        right: 10, top: 10),
+                                                                    child: Container(
+                                                                      height: 40,
+                                                                      width: 40,
+                                                                      decoration: BoxDecoration(
+                                                                        shape: BoxShape.circle,
+                                                                        color: ColorRes.appColor,
+                                                                      ),
+                                                                      child: Icon(
+                                                                        Icons.close,
+                                                                        color: ColorRes.white,
+                                                                        size: 16,
+                                                                      ),
+                                                                    ),
                                                                   ),
-                                                                  child: Text(
-                                                                    documents[
-                                                                            index]
-                                                                        [
-                                                                        "content"],
-                                                                    style: mulish14400
-                                                                        .copyWith(
-                                                                      fontSize:
-                                                                          12,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                        child: Container(
+                                                            height: 150,
+                                                            width: 150,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(15),
+                                                            ),
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            child: CachedNetworkImage(
+                                                                imageUrl:
+                                                                    documents[index]
+                                                                        ["content"],
+                                                                fit: BoxFit.fill,
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    Image.asset(
+                                                                        'assets/images/image_placeholder.png'),
+                                                                errorWidget: (context,
+                                                                        url, error) =>
+                                                                    Image.asset(
+                                                                        'assets/images/image_placeholder.png')),
+                                                          ),
+                                                      )
+                                                      : Padding(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                  right: 0,
+                                                                  left: 20),
+                                                          child: Container(
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                IntrinsicWidth(
+                                                                  child: Container(
+                                                                    padding: EdgeInsets
+                                                                        .symmetric(
+                                                                      horizontal: MediaQuery.of(
+                                                                                  context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.05,
+                                                                      vertical: MediaQuery.of(
+                                                                                  context)
+                                                                              .size
+                                                                              .width *
+                                                                          0.03,
+                                                                    ),
+                                                                    margin:
+                                                                        const EdgeInsets
+                                                                            .only(
+                                                                            bottom:
+                                                                                5),
+                                                                    decoration:
+                                                                        BoxDecoration(
                                                                       color: ColorRes
                                                                           .white,
+                                                                      borderRadius: BorderRadius.only(
+                                                                          topRight:
+                                                                              Radius.circular(
+                                                                                  20),
+                                                                          bottomLeft:
+                                                                              Radius.circular(
+                                                                                  20),
+                                                                          bottomRight:
+                                                                              Radius.circular(
+                                                                                  20)),
+                                                                    ),
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    constraints:
+                                                                        BoxConstraints(
+                                                                      maxWidth: MediaQuery.of(
+                                                                                  context)
+                                                                              .size
+                                                                              .width /
+                                                                          1.5,
+                                                                    ),
+                                                                    child: SizedBox(
+                                                                      child: Text(
+                                                                        documents[
+                                                                                index]
+                                                                            [
+                                                                            "content"],
+                                                                        style: mulishbold
+                                                                            .copyWith(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: ColorRes
+                                                                              .black,
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ),
-                                                              ),
+                                                              ],
                                                             ),
                                                           ),
-                                                          SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                              const SizedBox(
-                                                height: 3,
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  DateFormat("hh:mm aa").format(
-                                                      documents[index]["time"]
-                                                          .toDate()),
-                                                  style: const TextStyle(
-                                                      color: ColorRes.black,
-                                                      fontSize: 8),
-                                                ),
+                                                        ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Text(
+                                                    DateFormat("hh:mm aa").format(
+                                                        (documents[index]["time"]
+                                                            .toDate())),
+                                                    style: const TextStyle(
+                                                        color: ColorRes.black,
+                                                        fontSize: 8),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                          const SizedBox(width: 10),
-                                          /*      Container(
-                                              height: Get.height * 0.05,
-                                              width: Get.height * 0.05,
-                                              decoration: const BoxDecoration(
-                                                  color: Colors.white,
-                                                  shape: BoxShape.circle),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: SizedBox(
-                                                  height: 35,
-                                                  width: 35,
-                                                  child: CachedNetworkImage(
-                                                      imageUrl: myName ?? "", fit: BoxFit.cover,
-                                                      placeholder: (context, url) => Image.asset(AssetRes.user),
-                                                      errorWidget: (context, url, error) => Image.asset(AssetRes.user))),
-                                            ),*/
-                                        ],
-                                      ),
-                                    );
-                            }
-                          },
-                        );
-                    }
-                  },
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    width: 300,
-                    child: TextField(
-                      controller: value.msController,
-                      // keyboardType: TextInputType.phone,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: ColorRes.white,
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide(color: Colors.transparent),
-                        ),
-                        hintText: Strings.write_a_message,
-                        border: InputBorder.none,
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 13.0),
-                          child: Image.asset(
-                            AssertRe.Emoticon,
-                            color: ColorRes.grey,
-                            scale: 3,
-                          ),
-                        ),
-                        suffixIcon: GestureDetector(
-                          onTap: () {
-                            value.pickImage(context, value.roomId);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 13.0),
-                            child: Image.asset(
-                              AssertRe.Camera2,
-                              color: ColorRes.grey,
-                              scale: 3,
-                            ),
-                          ),
-                        ),
-                      ),
+                                        )
+                                      : Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 10),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  documents[index]["type"] ==
+                                                          "image"
+                                                      ? GestureDetector(
 
-                      onTap: () {},
-                      onChanged: ((value) => {print(value)}),
+
+                                                    onTap: () {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) => Padding(
+                                                          padding: const EdgeInsets.symmetric(
+                                                              horizontal: 20, vertical: 80),
+                                                          child: Container(
+                                                            height: MediaQuery.of(context).size.height,
+                                                            width: MediaQuery.of(context).size.width - 40,
+                                                            child: Stack(
+                                                              alignment: Alignment.topRight,
+                                                              children: [
+                                                                ClipRRect(
+                                                                  borderRadius: BorderRadius.circular(8),
+                                                                  child: CachedNetworkImage(
+                                                                    imageUrl: documents[index]
+                                                                    ["content"],
+                                                                    height: MediaQuery.of(context)
+                                                                        .size
+                                                                        .height,
+                                                                    width: MediaQuery.of(context)
+                                                                        .size
+                                                                        .width -
+                                                                        40,
+                                                                    fit: BoxFit.fill,
+                                                                    placeholder: (context, url) =>
+                                                                        Image.asset(
+                                                                          'assets/images/image_placeholder.png',
+                                                                          // height: MediaQuery.of(context).size.width - 150,
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width -
+                                                                              40,
+                                                                          height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height,
+                                                                          fit: BoxFit.fill,
+                                                                        ),
+                                                                    errorWidget: (context, url, error) =>
+                                                                        Image.asset(
+                                                                          'assets/images/image_placeholder.png',
+                                                                          // height: MediaQuery.of(context).size.width - 150,
+                                                                          width: MediaQuery.of(context)
+                                                                              .size
+                                                                              .width -
+                                                                              40,
+                                                                          height: MediaQuery.of(context)
+                                                                              .size
+                                                                              .height,
+                                                                          fit: BoxFit.fill,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                                GestureDetector(
+                                                                  onTap: () {
+                                                                    Navigator.pop(context);
+
+
+                                                                  },
+                                                                  child: Padding(
+                                                                    padding: const EdgeInsets.only(
+                                                                        right: 10, top: 10),
+                                                                    child: Container(
+                                                                      height: 40,
+                                                                      width: 40,
+                                                                      decoration: BoxDecoration(
+                                                                        shape: BoxShape.circle,
+                                                                        color: ColorRes.appColor,
+                                                                      ),
+                                                                      child: Icon(
+                                                                        Icons.close,
+                                                                        color: ColorRes.white,
+                                                                        size: 16,
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+
+                                                    child: Container(
+                                                            height: 150,
+                                                            width: 150,
+                                                            decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(15),
+                                                            ),
+                                                            clipBehavior:
+                                                                Clip.hardEdge,
+                                                            child: CachedNetworkImage(
+                                                                imageUrl:
+                                                                    documents[index]
+                                                                        ["content"],
+                                                                fit: BoxFit.fill,
+                                                                placeholder: (context,
+                                                                        url) =>
+                                                                    Image.asset(
+                                                                        'assets/images/image_placeholder.png'),
+                                                                errorWidget: (context,
+                                                                        url, error) =>
+                                                                    Image.asset(
+                                                                        'assets/images/image_placeholder.png')),
+                                                          ),
+                                                      )
+                                                      : Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .end,
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              IntrinsicWidth(
+                                                                child: Container(
+                                                                  margin:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          bottom:
+                                                                              5),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: ColorRes
+                                                                        .appColor,
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                10),
+                                                                  ),
+                                                                  alignment:
+                                                                      Alignment
+                                                                          .center,
+                                                                  constraints:
+                                                                      BoxConstraints(
+                                                                    maxWidth: MediaQuery.of(
+                                                                                context)
+                                                                            .size
+                                                                            .width /
+                                                                        1.5,
+                                                                  ),
+                                                                  child:
+                                                                      CustomPaint(
+                                                                    painter:
+                                                                        ChatBubblePainter(),
+                                                                    child:
+                                                                        Container(
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .all(
+                                                                                  10.0),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: ColorRes
+                                                                            .colorFF9BAD,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                                10.0),
+                                                                      ),
+                                                                      child: Text(
+                                                                        documents[
+                                                                                index]
+                                                                            [
+                                                                            "content"],
+                                                                        style: mulish14400
+                                                                            .copyWith(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color: ColorRes
+                                                                              .white,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 15,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                  const SizedBox(
+                                                    height: 3,
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        Alignment.centerRight,
+                                                    child: Text(
+                                                      DateFormat("hh:mm aa").format(
+                                                          documents[index]["time"]
+                                                              .toDate()),
+                                                      style: const TextStyle(
+                                                          color: ColorRes.black,
+                                                          fontSize: 8),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(width: 10),
+                                              /*      Container(
+                                                  height: Get.height * 0.05,
+                                                  width: Get.height * 0.05,
+                                                  decoration: const BoxDecoration(
+                                                      color: Colors.white,
+                                                      shape: BoxShape.circle),
+                                                  clipBehavior: Clip.hardEdge,
+                                                  child: SizedBox(
+                                                      height: 35,
+                                                      width: 35,
+                                                      child: CachedNetworkImage(
+                                                          imageUrl: myName ?? "", fit: BoxFit.cover,
+                                                          placeholder: (context, url) => Image.asset(AssetRes.user),
+                                                          errorWidget: (context, url, error) => Image.asset(AssetRes.user))),
+                                                ),*/
+                                            ],
+                                          ),
+                                        );
+                                }
+                              },
+                            );
+                        }
+                      },
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      if (value.msController.text.isNotEmpty) {
-                        value.sendMessage(
-                          widget.roomId.toString(),
-                          widget.otherEmail,
-                        );
-
-                        FocusScope.of(context).unfocus();
-
-                        final FirebaseFirestore fireStore =
-                            FirebaseFirestore.instance;
-                        fireStore.collection("Auth").get().then((value) async {
-                          var list = (value.docs);
-                          bool already = false;
-
-                          for (int i = 0; i < list.length; i++) {
-                            if (list[i].id == widget.otherEmail) {
-                              print('collection already exist');
-                              already = true;
-                              break;
-                            } else {}
-                          }
-
-                          if (already == false) {
-                            await fireStore
-                                .collection("Auth")
-                                .doc(widget.otherEmail)
-                                .set({'ChatUserList': []});
-                          } else {
-                            print('done');
-                          }
-                        });
-                      }
-                      setState(() {});
-                    },
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color(
-                              0xffED1E79,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        width: 300,
+                        child: TextField(
+                          controller: value.msController,
+                          // keyboardType: TextInputType.phone,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: ColorRes.white,
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Colors.transparent),
                             ),
-                            Color(
-                              0xffC1272D,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Colors.transparent),
                             ),
-                          ],
+                            hintText: Strings.write_a_message,
+                            border: InputBorder.none,
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.only(right: 13.0),
+                              child: Image.asset(
+                                AssertRe.Emoticon,
+                                color: ColorRes.grey,
+                                scale: 3,
+                              ),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                value.pickImage(context, value.roomId);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 13.0),
+                                child: Image.asset(
+                                  AssertRe.Camera2,
+                                  color: ColorRes.grey,
+                                  scale: 3,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          onTap: () {},
+                          onChanged: ((value) => {print(value)}),
                         ),
                       ),
-                      child: Image.asset(
-                        AssertRe.Send,
-                        scale: 4,
-                      ),
-                    ),
-                  )
+                      GestureDetector(
+                        onTap: () {
+                          if (value.msController.text.isNotEmpty) {
+                            value.sendMessage(
+                              widget.roomId.toString(),
+                              widget.otherEmail,
+                            );
+
+                            FocusScope.of(context).unfocus();
+
+                            final FirebaseFirestore fireStore =
+                                FirebaseFirestore.instance;
+                            fireStore.collection("Auth").get().then((value) async {
+                              var list = (value.docs);
+                              bool already = false;
+
+                              for (int i = 0; i < list.length; i++) {
+                                if (list[i].id == widget.otherEmail) {
+                                  print('collection already exist');
+                                  already = true;
+                                  break;
+                                } else {}
+                              }
+
+                              if (already == false) {
+                                await fireStore
+                                    .collection("Auth")
+                                    .doc(widget.otherEmail)
+                                    .set({'ChatUserList': []});
+                              } else {
+                                print('done');
+                              }
+                            });
+                          }
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(
+                                  0xffED1E79,
+                                ),
+                                Color(
+                                  0xffC1272D,
+                                ),
+                              ],
+                            ),
+                          ),
+                          child: Image.asset(
+                            AssertRe.Send,
+                            scale: 4,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 15,
-              ),
+
+
+              StreamBuilder<QuerySnapshot>(
+                stream:     FirebaseFirestore.instance
+                  .collection('calls').where(FieldPath.documentId,isEqualTo: channelName)
+                  .snapshots(), builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Text('No calls found');
+                }
+  var documentSnapshot = snapshot.data!.docs.first;
+  Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
+
+  print(map);
+
+  if(map['receiverId'] == PrefService.getString(PrefKeys.userId)){
+
+  // Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+    return
+      Column(
+           mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+              onPressed: () {
+            join();
+
+          }, child: Text('incoming')),
+          Text('Incoming CAll'),
+        ],
+      );
+
+
+
+  }
+
+
+  else {
+    return Text('OurGoing CAll');
+  }
+
+
+
+
+                  },)
             ],
           ),
         );
       },
     );
+
+
+
   }
 }
 
