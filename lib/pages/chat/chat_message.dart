@@ -28,7 +28,47 @@ import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
 import '../../utils/texts.dart';
 import 'call.dart';
+String channelName = '';
+String token = "";
 
+int uid = 0; // uid of the local user
+
+int? _remoteUid; // uid of the remote user
+bool _isJoined = false; // Indicates if the local user has joined the channel
+late RtcEngine agoraEngine; // Agora engine instance
+void  join() async {
+  // Set channel options including the client role and channel profile
+  ChannelMediaOptions options = const ChannelMediaOptions(
+    clientRoleType: ClientRoleType.clientRoleBroadcaster,
+    channelProfile: ChannelProfileType.channelProfileCommunication,
+  );
+
+  await agoraEngine.joinChannel(
+    token: token,
+    channelId: channelName,
+    options: options,
+    uid: uid,
+  );
+
+
+}
+void leave() {
+
+    _isJoined = false;
+    _remoteUid = null;
+
+
+  agoraEngine.leaveChannel();
+
+  deleteCallCollection();
+}
+
+deleteCallCollection() async {
+
+  await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
+
+
+}
 class ChatScreen extends StatefulWidget {
   final String? email;
   final String? roomId;
@@ -53,14 +93,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   TextEditingController searchController = TextEditingController();
 
-  String channelName = '';
-  String token = "";
 
-  int uid = 0; // uid of the local user
-
-  int? _remoteUid; // uid of the remote user
-  bool _isJoined = false; // Indicates if the local user has joined the channel
-  late RtcEngine agoraEngine; // Agora engine instance
 
   final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey
   = GlobalKey<ScaffoldMessengerState>(); // Global key to access the scaffold
@@ -76,9 +109,9 @@ class _ChatScreenState extends State<ChatScreen> {
     String statusText;
 
     if (!_isJoined){
-      
+
       statusText = 'Join a channel';
-      
+
     }
     else if (_remoteUid == null){
       statusText = 'Waiting for a remote user to join...';
@@ -95,39 +128,9 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  void  join() async {
-    // Set channel options including the client role and channel profile
-    ChannelMediaOptions options = const ChannelMediaOptions(
-      clientRoleType: ClientRoleType.clientRoleBroadcaster,
-      channelProfile: ChannelProfileType.channelProfileCommunication,
-    );
-
-    await agoraEngine.joinChannel(
-      token: token,
-      channelId: channelName,
-      options: options,
-      uid: uid,
-    );
 
 
-  }
 
-  void leave() {
-    setState(() {
-      _isJoined = false;
-      _remoteUid = null;
-    });
-    agoraEngine.leaveChannel();
-
-deleteCallCollection();
-  }
-
-  deleteCallCollection() async {
-
-    await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
-
-
-  }
 
 
   // @override
@@ -168,9 +171,8 @@ deleteCallCollection();
               'callActive': true,
               'channelName': channelName,
             }).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
             });
-
           }
           else {
             await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
@@ -179,9 +181,8 @@ deleteCallCollection();
               'callActive': false,
               'channelName': channelName,
             }).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(),));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
             });
-
 
           }
 
@@ -261,7 +262,7 @@ bool isOnce = false;
          .listen((snapshot) {
        if (snapshot.docs.isNotEmpty) {
          var callData = snapshot.docs.first.data();
-         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(),));
+         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(otherEmail: widget.otherEmail!),));
          isOnce= true ;
        }
      });
@@ -273,9 +274,7 @@ bool isOnce = false;
       Consumer<NewChatProvider>(
       builder: (context, value, child) {
 
-
         return
-
           Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: ColorRes.lgrey,
@@ -354,17 +353,17 @@ bool isOnce = false;
                     actions: [
                       GestureDetector(
                           onTap: () {
+                           //
+                           // channelName = widget.roomId??"";
+                           //
+                           //    join();
 
-                           channelName = widget.roomId??"";
 
-                              join();
-
-
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //       builder: (context) => Call(),
-                            //     ));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Call(callerName: widget.name!,photo: widget.image!),
+                                ));
 
                               // CallUtils.dialOneToOneVoiceCall(
                               //   context: context,
@@ -429,11 +428,11 @@ bool isOnce = false;
 
               Column(
                 children: [
-                  _status(),
-                  ElevatedButton(
-                    child: const Text("Leave"),
-                    onPressed: () => {leave()},
-                  ),
+                  // _status(),
+                  // ElevatedButton(
+                  //   child: const Text("Leave"),
+                  //   onPressed: () => {leave()},
+                  // ),
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -1060,55 +1059,55 @@ bool isOnce = false;
               ),
 
 
-              StreamBuilder<QuerySnapshot>(
-                stream:     FirebaseFirestore.instance
-                  .collection('calls').where(FieldPath.documentId,isEqualTo: channelName)
-                  .snapshots(), builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator();
-                }
-
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  return Text('No calls found');
-                }
-  var documentSnapshot = snapshot.data!.docs.first;
-  Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
-
-  print(map);
-
-  if(map['receiverId'] == PrefService.getString(PrefKeys.userId)){
-
-  // Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
-    return
-      Column(
-           mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-              onPressed: () {
-            join();
-
-          }, child: Text('incoming')),
-          Text('Incoming CAll'),
-        ],
-      );
-
-
-
-  }
-
-
-  else {
-    return Text('OurGoing CAll');
-  }
-
-
-
-
-                  },)
+  //             StreamBuilder<QuerySnapshot>(
+  //               stream:     FirebaseFirestore.instance
+  //                 .collection('calls').where(FieldPath.documentId,isEqualTo: channelName)
+  //                 .snapshots(), builder: (context, snapshot) {
+  //               if (snapshot.connectionState == ConnectionState.waiting) {
+  //                 return CircularProgressIndicator();
+  //               }
+  //
+  //               if (snapshot.hasError) {
+  //                 return Text('Error: ${snapshot.error}');
+  //               }
+  //
+  //               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+  //                 return Text('No calls found');
+  //               }
+  // var documentSnapshot = snapshot.data!.docs.first;
+  // Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
+  //
+  // print(map);
+  //
+  // if(map['receiverId'] == PrefService.getString(PrefKeys.userId)){
+  //
+  // // Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
+  //   return
+  //     Column(
+  //          mainAxisAlignment: MainAxisAlignment.center,
+  //       children: [
+  //         ElevatedButton(
+  //             onPressed: () {
+  //           join();
+  //
+  //         }, child: Text('incoming')),
+  //         Text('Incoming CAll'),
+  //       ],
+  //     );
+  //
+  //
+  //
+  // }
+  //
+  //
+  // else {
+  //   return Text('OurGoing CAll');
+  // }
+  //
+  //
+  //
+  //
+  //                 },)
             ],
           ),
         );

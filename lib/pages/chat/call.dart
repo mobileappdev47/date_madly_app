@@ -1,3 +1,4 @@
+import 'package:date_madly_app/pages/chat/chat_message.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,9 @@ import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
 
 class Call extends StatefulWidget {
-  const Call({super.key});
-
+   Call({super.key, required this.callerName, required this.photo});
+final String callerName ;
+final String photo ;
   @override
   State<Call> createState() => _CallState();
 }
@@ -39,8 +41,8 @@ class _CallState extends State<Call> {
             alignment: Alignment.bottomRight,
             children: [
               ClipOval(
-                child: Image.asset(
-                  'assets/icons/Add Image_04.png',
+                child: Image.network(
+                widget.photo,
                  height: 120,
                   width: 120,
                   fit: BoxFit.fill,
@@ -63,7 +65,7 @@ class _CallState extends State<Call> {
             height: 20,
           ),
           Text(
-            'Patricia',
+            widget.callerName,
             style: TextStyle(
                 color: ColorRes.darkGrey,
                 fontSize: 28,
@@ -85,6 +87,7 @@ class _CallState extends State<Call> {
           Expanded(
             child: GestureDetector(
               onTap: () {
+                leave();
                 Navigator.pop(context);
               },
               child: Container(
