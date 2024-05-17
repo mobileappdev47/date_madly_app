@@ -11,6 +11,7 @@ import 'package:date_madly_app/pages/login/new_signin_screen.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/pages/me/edit_profile.dart';
 import 'package:date_madly_app/pages/me/personal_info.dart';
+import 'package:date_madly_app/pages/me/widgets/terms_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
@@ -33,6 +34,7 @@ import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
 import 'widgets/ChangePassword/change_password.dart';
 import 'my_gallery.dart';
+import 'widgets/privacy_policy_screen.dart';
 
 class Profile extends StatefulWidget {
   Profile({super.key, this.userId});
@@ -606,15 +608,21 @@ class _ProfileState extends State<Profile> {
                                     homeMainProvider
                                         .showNotificationContainer(context);
                                   } else if (index == 2) {
-                                    if (!await launchUrl(
-                                        Uri.parse('https://www.google.com/'))) {
-                                      throw Exception('Could not launch');
-                                    }
+                                    // if (!await launchUrl(
+                                    //     Uri.parse('https://www.google.com/'))) {
+                                    //   throw Exception('Could not launch');
+                                    // }
+
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PolicyScreen(),));
+
+
+
                                   } else if (index == 3) {
-                                    if (!await launchUrl(
-                                        Uri.parse('https://www.google.com/'))) {
-                                      throw Exception('Could not launch');
-                                    }
+                                    // if (!await launchUrl(
+                                    //     Uri.parse('https://www.google.com/'))) {
+                                    //   throw Exception('Could not launch');
+                                    // }
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen(),));
                                   } else {}
                                   setState(() {});
                                 },

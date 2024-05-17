@@ -10,7 +10,7 @@ class Strings {
   static const gender = "Gender";
   static const Jakarta = "Jakarta, Indonesia";
   static const distance = "Distance";
-  static const distancerange = "50 KM";
+  static const distancerange = "800 KM";
   static const age = "Age";
   static const agerange = "20-70";
   static const COntinue = "Continue";

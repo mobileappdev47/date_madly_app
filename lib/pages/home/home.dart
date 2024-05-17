@@ -136,6 +136,8 @@ remainingUsers.clear();
   var currentindex1 = -1;
   List distanceList = [];
 
+  bool isAllAcross =false;
+
   getallapicall() async {
     try {
       distanceList.clear();
@@ -443,12 +445,15 @@ remainingUsers.clear();
                             child: SfSlider(
                               value: _currentSliderValue,
                               onChanged: (value) {
-                                setState(() {
-                                  _currentSliderValue = value;
-                                });
+                                if(isAllAcross== false){
+                                  setState(() {
+                                    _currentSliderValue = value;
+                                  });
+                                }
+
                               },
                               min: 0,
-                              max: 50,
+                              max: 800,
                               thumbIcon: Image.asset(
                                 AssertRe.slidericon,
                                 scale: 2,
@@ -474,8 +479,35 @@ remainingUsers.clear();
                         ),
                       ],
                     ),
+
+
+                    Row(children: [
+                      SizedBox(
+                        height: 20,width: 20,
+                        child: Checkbox(
+
+
+                          value: isAllAcross, onChanged: (value) {
+  if(isAllAcross== true){
+  isAllAcross= false ;
+  }
+  else {
+  isAllAcross = true ;
+  _currentSliderValue=0;
+  }
+                setState(() {});
+                        },),
+
+
+
+                      ),
+                      SizedBox(width: 10,),
+                      Text('All Across Global',),
+                    ]),
+
+
                     SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
+                      height:10,
                     ),
                     Align(
                         alignment: Alignment.centerLeft,
@@ -629,6 +661,9 @@ remainingUsers.clear();
                           filterBody['distance'] =
                               _currentSliderValue.toInt().toString();
                         }
+                        if(isAllAcross==true ){
+                          filterBody['distance'] ='5000000';
+                        }
                         print(values.end);
                         if (values.start == 20 && values.end == 20) {
                           print('no');
@@ -688,7 +723,7 @@ remainingUsers.clear();
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                      remainingUsers.isNotEmpty /*&& remainingUsers.length > 1*/
                       ?remainingUsers.length == 1?
@@ -736,7 +771,8 @@ remainingUsers.clear();
                              index,
                              horizontalOffsetPercentage,
                              verticalOffsetPercentage) {
-                           if(index == 0){          final user = remainingUsers[index];
+                           if(index == 0){
+                             final user = remainingUsers[index];
 
                            return Column(
                              children: [
@@ -1474,7 +1510,8 @@ remainingUsers.clear();
                                ),
 
                              ],
-                           );}
+                           );
+                           }
                            else {
                              return SizedBox();
                            }
@@ -1482,7 +1519,6 @@ remainingUsers.clear();
                          },
                        ),
                      )
-
                          :
                         Expanded(
                           child:
@@ -2265,7 +2301,12 @@ remainingUsers.clear();
                             },
                           ),
                         )
-                      : SizedBox(),
+                      : Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(child: Text('No profile found!',style: TextStyle(color: ColorRes.appColor,fontSize: 18))),
+                        ],
+                      ),
 
                 ],
               ),

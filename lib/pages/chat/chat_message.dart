@@ -1,6 +1,7 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_madly_app/db/chat.dart';
 import 'package:date_madly_app/network/api.dart';
 import 'package:date_madly_app/pages/calling/call_utils.dart';
 import 'package:date_madly_app/pages/calling/lovecirco_user.dart';
@@ -9,6 +10,7 @@ import 'package:date_madly_app/pages/calling/test_call.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/video_call_screen.dart';
 import 'package:date_madly_app/pages/home/home.dart';
+import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -50,17 +52,16 @@ void  join() async {
     uid: uid,
   );
 
-
 }
-void leave() {
+void leave(BuildContext context) {
 
     _isJoined = false;
     _remoteUid = null;
+   agoraEngine.leaveChannel();
+   deleteCallCollection();
 
+  // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomeMain() ),(route) => false,);
 
-  agoraEngine.leaveChannel();
-
-  deleteCallCollection();
 }
 
 deleteCallCollection() async {
@@ -105,6 +106,8 @@ class _ChatScreenState extends State<ChatScreen> {
     ));
 
   }
+
+
   Widget _status(){
     String statusText;
 
@@ -127,9 +130,6 @@ class _ChatScreenState extends State<ChatScreen> {
       statusText,
     );
   }
-
-
-
 
 
 
@@ -156,8 +156,6 @@ class _ChatScreenState extends State<ChatScreen> {
     //   'channelName': channelName,
     // });
 
-
-
   await   FirebaseFirestore.instance
         .collection('calls').doc(channelName).get().then((value) async {
 
@@ -171,6 +169,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'callActive': true,
               'channelName': channelName,
             }).then((value) {
+              Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
             });
           }
@@ -238,19 +237,23 @@ class _ChatScreenState extends State<ChatScreen> {
             _remoteUid = null;
           });
         },
+        onConnectionLost: (connection) {
+          print('conection lost......66.....66....66........66......66....8877');
+        },
+        onLeaveChannel: (connection, stats) {
+          print('Chanel leave----***----****------***--------***--------');
+        },
 
       ),
     );
   }
-
-  @override
   String userEmail = PrefService.getString(PrefKeys.email).toString();
-bool isOnce = false;
+  bool isOnce = false;
+  @override
+
   Widget build(BuildContext context) {
     print(userEmail);
     print(widget.otherEmail);
-
-
 
    channelName= "${widget.roomId}";
    if(isOnce==false){
@@ -262,7 +265,7 @@ bool isOnce = false;
          .listen((snapshot) {
        if (snapshot.docs.isNotEmpty) {
          var callData = snapshot.docs.first.data();
-         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(otherEmail: widget.otherEmail!),));
+         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(otherEmail: widget.otherEmail!,photo:widget.image! ,callerName:widget.name! ),));
          isOnce= true ;
        }
      });
@@ -353,7 +356,7 @@ bool isOnce = false;
                     actions: [
                       GestureDetector(
                           onTap: () {
-                           //
+
                            // channelName = widget.roomId??"";
                            //
                            //    join();
@@ -412,7 +415,7 @@ bool isOnce = false;
                           child: Image.asset(
                             'assets/icons/Video Call.png',
                             scale: 3,
-                          )),
+                          ),),
                       SizedBox(
                         width: 20,
                       ),
@@ -941,116 +944,122 @@ bool isOnce = false;
                       },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        height: 50,
-                        width: 300,
-                        child: TextField(
-                          controller: value.msController,
-                          // keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: ColorRes.white,
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            hintText: Strings.write_a_message,
-                            border: InputBorder.none,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.only(right: 13.0),
-                              child: Image.asset(
-                                AssertRe.Emoticon,
-                                color: ColorRes.grey,
-                                scale: 3,
-                              ),
-                            ),
-                            suffixIcon: GestureDetector(
-                              onTap: () {
-                                value.pickImage(context, value.roomId);
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(right: 13.0),
-                                child: Image.asset(
-                                  AssertRe.Camera2,
-                                  color: ColorRes.grey,
-                                  scale: 3,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 40,
+                            child: TextField(
+                              controller: value.msController,
+                              // keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                filled: true,
+                                contentPadding: EdgeInsets.only(top: 10),
+                                fillColor: ColorRes.white,
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: Colors.transparent),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(color: Colors.transparent),
+                                ),
+                                hintText: Strings.write_a_message,
+                                border: InputBorder.none,
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.only(right: 13.0),
+                                  child: Image.asset(
+                                    AssertRe.Emoticon,
+                                    color: ColorRes.grey,
+                                    scale: 3,
+                                  ),
+                                ),
+                                suffixIcon: GestureDetector(
+                                  onTap: () {
+                                    value.pickImage(context, value.roomId);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 13.0),
+                                    child: Image.asset(
+                                      AssertRe.Camera2,
+                                      color: ColorRes.grey,
+                                      scale: 3,
+                                    ),
+                                  ),
                                 ),
                               ),
+
+                              onTap: () {},
+                              onChanged: ((value) => {print(value)}),
                             ),
                           ),
-
-                          onTap: () {},
-                          onChanged: ((value) => {print(value)}),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          if (value.msController.text.isNotEmpty) {
-                            value.sendMessage(
-                              widget.roomId.toString(),
-                              widget.otherEmail,
-                            );
+                        SizedBox(width: 10,),
+                        GestureDetector(
+                          onTap: () {
+                            if (value.msController.text.isNotEmpty) {
+                              value.sendMessage(
+                                widget.roomId.toString(),
+                                widget.otherEmail,
+                              );
 
-                            FocusScope.of(context).unfocus();
+                              FocusScope.of(context).unfocus();
 
-                            final FirebaseFirestore fireStore =
-                                FirebaseFirestore.instance;
-                            fireStore.collection("Auth").get().then((value) async {
-                              var list = (value.docs);
-                              bool already = false;
+                              final FirebaseFirestore fireStore =
+                                  FirebaseFirestore.instance;
+                              fireStore.collection("Auth").get().then((value) async {
+                                var list = (value.docs);
+                                bool already = false;
 
-                              for (int i = 0; i < list.length; i++) {
-                                if (list[i].id == widget.otherEmail) {
-                                  print('collection already exist');
-                                  already = true;
-                                  break;
-                                } else {}
-                              }
+                                for (int i = 0; i < list.length; i++) {
+                                  if (list[i].id == widget.otherEmail) {
+                                    print('collection already exist');
+                                    already = true;
+                                    break;
+                                  } else {}
+                                }
 
-                              if (already == false) {
-                                await fireStore
-                                    .collection("Auth")
-                                    .doc(widget.otherEmail)
-                                    .set({'ChatUserList': []});
-                              } else {
-                                print('done');
-                              }
-                            });
-                          }
-                          setState(() {});
-                        },
-                        child: Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(
-                                  0xffED1E79,
-                                ),
-                                Color(
-                                  0xffC1272D,
-                                ),
-                              ],
+                                if (already == false) {
+                                  await fireStore
+                                      .collection("Auth")
+                                      .doc(widget.otherEmail)
+                                      .set({'ChatUserList': []});
+                                } else {
+                                  print('done');
+                                }
+                              });
+                            }
+                            setState(() {});
+                          },
+                          child: Container(
+                            height: 50,
+                            width: 50,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Color(
+                                    0xffED1E79,
+                                  ),
+                                  Color(
+                                    0xffC1272D,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            child: Image.asset(
+                              AssertRe.Send,
+                              scale: 4,
                             ),
                           ),
-                          child: Image.asset(
-                            AssertRe.Send,
-                            scale: 4,
-                          ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 15,
