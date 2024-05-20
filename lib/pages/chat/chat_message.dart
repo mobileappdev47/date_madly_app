@@ -33,13 +33,14 @@ import 'call.dart';
 String channelName = '';
 String token = "";
 
-int uid = 0; // uid of the local user
+int uid = 0;
 
-int? _remoteUid; // uid of the remote user
-bool _isJoined = false; // Indicates if the local user has joined the channel
-late RtcEngine agoraEngine; // Agora engine instance
+int? _remoteUid;
+bool _isJoined = false;
+late RtcEngine agoraEngine;
+
 void  join() async {
-  // Set channel options including the client role and channel profile
+
   ChannelMediaOptions options = const ChannelMediaOptions(
     clientRoleType: ClientRoleType.clientRoleBroadcaster,
     channelProfile: ChannelProfileType.channelProfileCommunication,
@@ -51,8 +52,8 @@ void  join() async {
     options: options,
     uid: uid,
   );
-
 }
+
 void leave(BuildContext context) {
 
     _isJoined = false;
@@ -156,7 +157,7 @@ class _ChatScreenState extends State<ChatScreen> {
     //   'channelName': channelName,
     // });
 
-  await   FirebaseFirestore.instance
+  await  FirebaseFirestore.instance
         .collection('calls').doc(channelName).get().then((value) async {
 
           print('-----------------------------------888888888888888888888888888888${value.data()}');
@@ -180,7 +181,10 @@ class _ChatScreenState extends State<ChatScreen> {
               'callActive': false,
               'channelName': channelName,
             }).then((value) {
+
+
               Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
+
             });
 
           }
@@ -207,15 +211,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage("Local user uid:${connection.localUid} joined the channel");
-          setState(() {
+          // setState(() {
 
             _isJoined = true;
 
-
             initiateCall(callerId: PrefService.getString(PrefKeys.userId),channelName: channelName,receiverId: widget.otherEmail! );
 
-
-          });
+          // });
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
@@ -358,15 +360,14 @@ class _ChatScreenState extends State<ChatScreen> {
                           onTap: () {
 
                            // channelName = widget.roomId??"";
-                           //
                            //    join();
 
-
+/*
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Call(callerName: widget.name!,photo: widget.image!),
-                                ));
+                                ));*/
 
                               // CallUtils.dialOneToOneVoiceCall(
                               //   context: context,
@@ -404,18 +405,17 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                       GestureDetector(
                           onTap: () {
-
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => VideoCallScreen(),
                                 ),);
                           },
-
                           child: Image.asset(
                             'assets/icons/Video Call.png',
                             scale: 3,
-                          ),),
+                          ),
+                      ),
                       SizedBox(
                         width: 20,
                       ),

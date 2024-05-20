@@ -335,6 +335,7 @@ class _CallState extends State<Call> {
               Expanded(
                 child: GestureDetector(
                   onTap: () {
+
                     leave(context);
 
                   },
@@ -342,8 +343,7 @@ class _CallState extends State<Call> {
                     height: 80,
                     width: 80,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle
-                      ,
+                      shape: BoxShape.circle,
                       gradient: LinearGradient(
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
@@ -457,9 +457,6 @@ class _CallState extends State<Call> {
 
       return SizedBox();
     }
-
-
-
 
                     },);
   }

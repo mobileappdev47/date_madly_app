@@ -45,6 +45,7 @@ class _TermsScreenState extends State<TermsScreen> {
               '* Individual user terms ',
               style: TextStyle(fontSize: 20, color: ColorRes.appColor),
             ),
+            SizedBox(height: 10,),
             Text(
               '1) Acceptance of Terms of Use Agreement',
               style: TextStyle(
@@ -52,6 +53,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'a)  This Agreement is an electronic contract that establishes the legally binding terms you must accept to use the Service. This Agreement includes the Company’s Privacy Policy and terms disclosed and agreed to by you if you purchase or accept additional features, products, or services we offer on the Service.\nb)  We may, at any time and for any reason make changes to this Agreement. We may do this for a variety of reasons including to reflect changes in or requirements of the law, new features, or changes in business practices. The most recent version of this Agreement will be posted on the Services under Settings and on Lovecirco.co.uk and you should regularly check for the most recent version. The most recent version is the version that applies. If the changes include material changes that affect your rights or obligations, we will notify you of the changes by reasonable means, which could include notification through the Services or via email. If you continue to use the Services after the changes become effective, then you shall be deemed to have accepted those changes. If you don’t agree to these changes, you must end your relationship with us by ceasing to use the Services and terminating your profile and subscription with Lovecirco Dating App.',
               style: TextStyle(
@@ -59,6 +61,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '2) Eligibility',
               style: TextStyle(
@@ -66,6 +69,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'You must be at least 18 years of age to create an account on Lovecirco and use the Service. By creating an account and using the Service, you represent and warrant that you can form a binding contract with Lovecirco, you are not a person who is barred from using the Service under the laws of the United Kingdom or any other applicable jurisdiction–or face any other similar prohibition, and you will comply with this Agreement and all applicable laws and regulations.',
               style: TextStyle(
@@ -73,6 +77,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '3) Creating an Account on Lovecirco',
               style: TextStyle(
@@ -80,6 +85,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'In order to use Now, you must have or create a Facebook account and sign in using your Facebook login. If you do so, you authorise us to access and use certain Facebook account information, including your public Facebook profile, email and personal information. For more information regarding the information we collect from you and how we use it, please consult our Privacy Policy.',
               style: TextStyle(
@@ -87,6 +93,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '4) Terms for Lovecirco',
               style: TextStyle(
@@ -94,6 +101,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'a)  Our service allows users to meet other users using your geo location and Matchmaking, (our services providing relevant meeting point venue). In providing details in your ‘set up profile’ such as, photo, occupation, about me, you hereby declare all information is truthful. In the event that it is determined that any of the information you have provided is misleading or inaccurate, we reserve the right to terminate your account.',
               style: TextStyle(
@@ -108,6 +116,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '5) Non-commercial Use by Users',
               style: TextStyle(
@@ -115,6 +124,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'The Service is for personal use only. Users may not use the Service or any content contained in the Service (including, but not limited to, content of other users, designs, text, graphics, images, video, logos, software, and computer code) in connection with any commercial endeavours, such as advertising or soliciting any user to buy or sell any products or services not offered by the Company. Users of the Service may not use any information obtained from the Service to contact, advertise to, solicit, or sell to any other user without his or her prior explicit consent. Organisations, companies, and/or businesses may not use the Service for any purpose except with Now’s express consent (such as for promoted profiles or other advertisements), which Lovecircomay provide or deny in its sole discretion. The Company may investigate and take any available legal action in response to illegal and/or unauthorised uses of the Service.',
               style: TextStyle(
@@ -122,6 +132,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '6) Account Security',
               style: TextStyle(
@@ -129,6 +140,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'a) You are responsible for maintaining the confidentiality of your Facebook login credentials or other login means that you use to sign up for Lovecirco, and you are solely responsible for all activities that occur under those credentials',
               style: TextStyle(
@@ -143,6 +155,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '7) Your Interactions, and personal safety with Other Users',
               style: TextStyle(
@@ -150,6 +163,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'a) You are solely responsible for your interactions with other users. You understand that the company currently does not conduct criminal background checks on its users. The company also does not verify the statements of its users. The company makes no representations or warranties as to the conduct of users or their compatibility with any current or future users. The company reserves the right to conduct any criminal background check or other screenings (such as sex offender register searches), at any time and using available public records to the extent permitted by law.',
               style: TextStyle(
@@ -164,6 +178,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '8) PURCHASES AND AUTOMATICALLY RENEWING SUBSCRIPTIONS'
                   .toLowerCase(),
@@ -172,6 +187,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'You will have the opportunity to purchase subscription services from Lovecirco. If you purchase a subscription, it will automatically renew - and you will be charged - until you cancel.',
               style: TextStyle(
@@ -200,6 +216,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '8a.) INTERNAL PURCHASES AND SUBSCRIPTIONS'.toLowerCase(),
               style: TextStyle(
@@ -207,6 +224,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'Internal Purchases, including subscriptions, are processed using the Payment Method you provide on the Website or App. Subscriptions automatically renew until you cancel.',
               style: TextStyle(
@@ -235,6 +253,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '8b). REFUNDS'.toLowerCase(),
               style: TextStyle(
@@ -242,6 +261,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'Generally, all purchases are nonrefundable. Special terms for refunds apply in the EU, EEA, UK, Switzerland, Korea, and Israel. Special terms for refunds also apply in Arizona, California, Colorado, Connecticut, Illinois, Iowa, Minnesota, New York, North Carolina, Ohio, Rhode Island, and Wisconsin.',
               style: TextStyle(
@@ -263,6 +283,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
             Text(
               '9) Content Posted by You in the Service'.toLowerCase(),
               style: TextStyle(
@@ -270,6 +291,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
+            SizedBox(height: 10,),
             Text(
               'a) You are solely responsible for the content and information that you post, upload, publish, link to, transmit, record, display or otherwise make available (collectively, “post”) on the Service or transmit to other users. You may not post as part of the Service, or transmit to the Company or any other user (either on or off the Service), any offensive, inaccurate, incomplete, abusive, obscene, profane, threatening, intimidating, harassing, racially offensive, or illegal material, or any material that infringes or violates another person’s rights (including intellectual property rights, and rights of privacy and publicity). You represent and warrant that;',
               style: TextStyle(
@@ -369,7 +391,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w500),
             ),
 
-
+            SizedBox(height: 10,),
             Text(
               '10) Prohibited Activities',
               style: TextStyle(
@@ -378,7 +400,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w600),
             ),
 
-
+            SizedBox(height: 10,),
             Text(
               'The Company reserves the right to investigate, suspend and/or terminate your account if you have misused the Service or behaved in a way the Company regards as inappropriate or unlawful, including actions or communications the occur off the Service but involve users you meet through the Service. The following is a partial list of the type of actions that you may not engage in with respect to the Service. You will not;',
               style: TextStyle(
@@ -483,7 +505,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w500),
             ),
 
-
+            SizedBox(height: 10,),
 
             Text(
               '11) Customer Service',
@@ -493,7 +515,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w600),
             ),
 
-
+            SizedBox(height: 10,),
 
 
             Text(
@@ -503,7 +525,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
-
+            SizedBox(height: 10,),
             Text(
               '12) In App Purchases',
               style: TextStyle(
@@ -512,7 +534,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w600),
             ),
 
-
+            SizedBox(height: 10,),
             Text(
               'If you choose to make an in app purchase, you will be prompted to enter details for your account with the mobile platform you are using (e.g., Apple, Android, etc.) (“your IAP Account”), and your IAP Account will be charged for the in app purchase in accordance with the terms disclosed to you at the time of purchase as well as the general terms for in app purchases that apply to your IAP Account. You will not be charged re-occurring payments. Please refer to the terms of your application platform which apply to yourin app purchases.',
               style: TextStyle(
@@ -520,7 +542,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
-
+            SizedBox(height: 10,),
             Text(
               '13) Modifications to Service',
               style: TextStyle(
@@ -528,7 +550,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
-
+            SizedBox(height: 10,),
             Text(
               'The Company reserves the right at any time to modify or discontinue, temporarily or permanently, the Service (or any part thereof) with or without notice. You agree that the Company shall not be liable to you or to any third party for any modification, suspension, or discontinuance of the Service. To protect the integrity of the Service, the Company reserves the right at any time in its sole discretion to block users from certain IP addresses from accessing the Service.',
               style: TextStyle(
@@ -536,7 +558,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
-
+            SizedBox(height: 10,),
             Text(
               '14) Proprietary Rights',
               style: TextStyle(
@@ -544,7 +566,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
-
+            SizedBox(height: 10,),
 
 
 
@@ -554,7 +576,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontSize: 14,
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
-            ),
+            ),       SizedBox(height: 10,),
 
             Text(
               '15) Copyright',
@@ -563,7 +585,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w600),
             ),
-
+            SizedBox(height: 10,),
 
             Text(
               'a)  You may not post, distribute, or reproduce in any way any copyrighted material, trademarks, or other proprietary information without obtaining the prior written consent of the owner of such proprietary rights. If you believe that your work has been copied and posted on the Service in a way that constitutes copyright infringement, please provide LoveCirco Dating App with the following information:',
@@ -614,7 +636,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
-
+            SizedBox(height: 10,),
 
             Text(
               '16) Disclaimers',
@@ -624,7 +646,7 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontWeight: FontWeight.w600),
             ),
 
-
+            SizedBox(height: 10,),
 
             Text(
               'a) You acknowledge and agree that neither the Company nor its affiliates and third-party partners are responsible for and shall not have any liability, directly or indirectly, for any loss or damage, including personal injury or death, as a result of or alleged to be the result of;',
@@ -662,79 +684,112 @@ class _TermsScreenState extends State<TermsScreen> {
                   fontSize: 14,
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
-            ),Text(
-              '',
+            ),
+            Text(
+              'b) To the maximum extent allowed by applicable law, the company provides the service on an “as is” and “as available” basis and grants no warranties of any kind, whether express, implied, statutory or otherwise with respect to the service (including all content contained therein), including (without limitation) any implied warranties of satisfactory quality, merchantability, fitness for a particular purpose or non- infringement. The company does not represent or warrant that the service will be uninterrupted or error free, secure or that any defects or errors in the service will be corrected.',
               style: TextStyle(
                   fontSize: 14,
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
-              style: TextStyle(
-                  fontSize: 14,
-                  color: ColorRes.black,
-                  fontWeight: FontWeight.w500),
-            ),Text(
-              '',
+              'c)  Any material downloaded or otherwise obtained through the use of the service is accessed at your own discretion and risk, and you will be solely responsible for and hereby waive any and all claims and causes of action with respect to any damage to your device, computer system, internet access, download or display device, or loss or corruption of data that results or may result from the download of any such material. If you do not accept this limitation of liability, you are not authorised to download or obtain any material through the service.',
               style: TextStyle(
                   fontSize: 14,
                   color: ColorRes.black,
                   fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: 10,),
+            Text(
+              '17) Limitation on Liability',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w600),
+            ),
+
+            SizedBox(height: 10,),
+
+            Text(
+              'To the fullest extent allowed by applicable law, in no event will the company, its affiliates, business partners, licensors or service providers be liable to you or any third person for any indirect, reliance, consequential, exemplary, incidental, special or punitive damages, including, without limitation, loss of profits, loss of goodwill, damages for loss, corruption or breaches of data or programs, service interruptions and procurement of substitute services, even if the company has been advised of the possibility of such damages. Notwithstanding anything to the contrary contained herein, the company’s liability to you for any cause whatsoever, and regardless of the form of the action, will at all times be limited to the amount paid, if any, by you to the company for the service while you have an account.',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w500),
+            ),       SizedBox(height: 10,),
+            Text(
+              '18) Indemnity by You',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 10,),
+
+
+            Text(
+              'You agree to indemnify and hold the Company, its subsidiaries, and affiliates, and its and their officers, agents, partners and employees, harmless from any loss, liability, claim, or demand, including reasonable attorney’s fees, made by any third party due to or arising out of your breach of or failure to comply with this Agreement (including any breach of your representations and warranties contained herein), any postings or Content you post in the Service, and the violation of any law or regulation by you. The Company reserves the right to assume the exclusive defence and control of any matter otherwise subject to indemnification by you, in which event you will fully cooperate with the Company in connection therewith',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              '19) Notice',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w600),
+            ),
+
+            SizedBox(height: 10,),
+            Text(
+              'The Company may provide you with notices, including those regarding changes to this Agreement, using any reasonable means, which may include email or postings in the Service. Such notices may not be received if you violate this Agreement by accessing the Service in an unauthorised manner. You agree that you are deemed to have received all notices that would have been delivered had you accessed the Service in an authorised manner.',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              '20) Entire Agreement',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 10,),
+
+            Text(
+              'This Agreement, with the Privacy Policy and any specific guidelines or rules that are separately posted for particular services or offers in the Service, contains the entire agreement between you and the Company regarding the use of the Service. If any provision of this Agreement is held invalid, the remainder of this Agreement shall continue in full force and effect. The failure of the Company to exercise or enforce any right or provision of this Agreement shall not constitute a waiver of such right or provision. You agree that your Lovecircoaccount is non-transferable and all of your rights to your profile or contents within your Lovecircoaccount terminate upon your death. No agency, partnership, joint venture or employment is created as a result of this Agreement and you may not make any representations or bind the Company in any manner.',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w500),
+            ),
+            SizedBox(height: 10,),
+            Text(
+              '21) Applicable law',
+              style: TextStyle(
+                  fontSize: 17,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w600),
+            ),
+
+
+            SizedBox(height: 10,),
+
+
+            Text(
+              'This Agreement, its subject matter and its formation, are governed by English law. You and we both agree to that the courts of England and Wales will have non-exclusive jurisdiction. However, if you are a resident of Northern Ireland you may also bring proceedings in Northern Ireland, and if you are resident of Scotland, you may also bring proceedings in Scotland.',
+              style: TextStyle(
+                  fontSize: 14,
+                  color: ColorRes.black,
+                  fontWeight: FontWeight.w500),
+            ),
+
+            SizedBox(height: 20,),
+
           ],
         ),
       ),
