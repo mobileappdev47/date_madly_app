@@ -17,7 +17,7 @@ class SendOtpApi {
       String url = EndPoints.sendOtpApi;
       print('API URL: $url');
      Map<String ,dynamic> body={
-      "phoneNumber": phoneNumber
+      "phoneNo": phoneNumber
      };
 
       http.Response? response = await HttpService.postApi(url: url, body: body);

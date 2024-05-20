@@ -362,7 +362,7 @@ class _ChatScreenState extends State<ChatScreen> {
                            // channelName = widget.roomId??"";
                            //    join();
 
-/*
+                            /*
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -394,6 +394,7 @@ class _ChatScreenState extends State<ChatScreen> {
                               //     profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
                               //     coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',),
                               // );
+
 
                           },
                           child: Image.asset(
