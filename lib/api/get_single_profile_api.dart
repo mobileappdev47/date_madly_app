@@ -42,7 +42,7 @@ class GetSingleProfileApi {
             getSingleProfileModelFromJson(data).profile?[0].about ?? '';
 
         if (getSingleProfileModelFromJson(data).profile?[0].dob.toString() !=
-                null &&
+                'null' &&
             getSingleProfileModelFromJson(data).profile?[0].dob.toString() !=
                 '') {
           DateTime originalDate = DateTime.parse(

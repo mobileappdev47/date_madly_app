@@ -87,7 +87,8 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
       setState(() {});
       getSingleProfileModel = await GetSingleProfileApi.getSingleProfileApi(
           context, PrefService.getString(PrefKeys.userId));
-
+print(getSingleProfileModel.profile![0].images![0])
+;
       loader = false;
       setState(() {});
     } catch (e) {
@@ -702,24 +703,25 @@ class _EnterPersonalDataScreenState extends State<EnterPersonalDataScreen> {
                             ontap: () async{
                               FocusScope.of(context).unfocus();
 
-                              DateTime bdate = DateFormat("dd/MM/yyyy").parse( value.dobController.text);
-
-
-                              String formattedDate = DateFormat("yyyy-MM-dd").format(bdate);
-                              body = {
-                                "_id": PrefService.getString(PrefKeys.userId),
-                                "name": value.nameController.text,
-                                'email':value.emailController.text,
-                                'phoneNo':value.phoneController.text,
-                                "dob": formattedDate,
-                                "gender": value.gender,
-                                "location": value.locationController.text,
-                                "job": value.jobController.text,
-                                "company": value.companyController.text,
-                                "college": value.collegeController.text,
-                                "about": value.aboutController.text,
-                              };
                               if (value.validation()) {
+
+                                DateTime bdate = DateFormat("dd/MM/yyyy").parse( value.dobController.text);
+
+
+                                String formattedDate = DateFormat("yyyy-MM-dd").format(bdate);
+                                body = {
+                                  "_id": PrefService.getString(PrefKeys.userId),
+                                  "name": value.nameController.text,
+                                  'email':value.emailController.text,
+                                  'phoneNo':value.phoneController.text,
+                                  "dob": formattedDate,
+                                  "gender": value.gender,
+                                  "location": value.locationController.text,
+                                  "job": value.jobController.text,
+                                  "company": value.companyController.text,
+                                  "college": value.collegeController.text,
+                                  "about": value.aboutController.text,
+                                };
                                 await updateApiCall(context);
                                 // Navigator.push(
                                 //     context,
