@@ -19,6 +19,6 @@ class EndPoints {
   static const deleteImageApi = baseUrl + 'api/deleteImage';
   static const phoneApi = baseUrl + 'api/createUserByPhone';
   static const socialLoginApi = baseUrl + 'api/createUserByFirebase';
-  static const sendOtpApi = baseUrl + 'api/sendOtp';
+  static const sendOtpApi = baseUrl + 'api/send-otp';
   static const verifyOtpApi = baseUrl + 'api/verifyOTPLogin';
 }

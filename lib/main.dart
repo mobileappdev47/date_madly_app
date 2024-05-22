@@ -195,6 +195,12 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    // PrefService.setValue(PrefKeys.userId, '66472c50e8b32c7aea389d1e');
+    // PrefService.setValue(PrefKeys.isAdditional, true);
+    // PrefService.setValue(PrefKeys.email, '66472c50e8b32c7aea389d1e');
+    // PrefService.setValue(PrefKeys.lat, '21.2371913');
+    // PrefService.setValue(PrefKeys.long,'72.885641');
+    // PrefService.setValue(PrefKeys.email, '66472c50e8b32c7aea389d1e');
     Future.delayed(
       Duration(seconds: 3),
           () {
@@ -213,7 +219,8 @@ class _SplashScreenState extends State<SplashScreen> {
           context,
           MaterialPageRoute(
             builder: (context) => NewSignInScreen(),
-          ));
+          )
+      );
     } else if (PrefService.getBool(PrefKeys.isAdditional) == false) {
 
 
