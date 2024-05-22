@@ -132,7 +132,7 @@ class MyApp extends StatelessWidget {
               MediaQuery.of(context).platformBrightness == Brightness.dark
                   ? ThemeMode.dark
                   : appProvider.theme == ThemeConfig.lightTheme
-                      ? ThemeMode.light
+                  ? ThemeMode.light
                       : ThemeMode.dark,
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
@@ -141,6 +141,11 @@ class MyApp extends StatelessWidget {
         );
       });
     });
+
+
+
+
+
   }
 }
 
@@ -205,7 +210,16 @@ class _SplashScreenState extends State<SplashScreen> {
       Duration(seconds: 3),
           () {
             initSharedPreference();
-            printFCMToken();
+
+
+            if(Platform.isIOS){
+              printAPNSToken();
+            }
+            else {
+              printFCMToken();
+
+            }
+
       },
     );
 
@@ -247,7 +261,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
     await PrefService.setValue(PrefKeys.deviceToken, token);
   }
+  void printAPNSToken() async {
+    String? token = await NotificationService.getAPNSToken().then((value) {
+      printFCMToken();
+    });
+    print("APNS Token: ===================================>$token");
 
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

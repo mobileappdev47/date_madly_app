@@ -815,6 +815,52 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
+  - agora_rtc_engine (6.3.1):
+    - AgoraIrisRTC_iOS (= 4.3.1-build.1)
+    - AgoraRtcEngine_iOS (= 4.3.1)
+    - Flutter
+  - agora_rtm (1.5.9):
+    - AgoraRtm_iOS (= 1.5.1)
+    - Flutter
+  - agora_uikit (0.0.1):
+    - Flutter
+  - AgoraIrisRTC_iOS (4.3.1-build.1)
+  - AgoraRtcEngine_iOS (4.3.1):
+    - AgoraRtcEngine_iOS/AIAEC (= 4.3.1)
+    - AgoraRtcEngine_iOS/AINS (= 4.3.1)
+    - AgoraRtcEngine_iOS/AudioBeauty (= 4.3.1)
+    - AgoraRtcEngine_iOS/ClearVision (= 4.3.1)
+    - AgoraRtcEngine_iOS/ContentInspect (= 4.3.1)
+    - AgoraRtcEngine_iOS/FaceCapture (= 4.3.1)
+    - AgoraRtcEngine_iOS/FaceDetection (= 4.3.1)
+    - AgoraRtcEngine_iOS/LipSync (= 4.3.1)
+    - AgoraRtcEngine_iOS/ReplayKit (= 4.3.1)
+    - AgoraRtcEngine_iOS/RtcBasic (= 4.3.1)
+    - AgoraRtcEngine_iOS/SpatialAudio (= 4.3.1)
+    - AgoraRtcEngine_iOS/VideoAv1CodecDec (= 4.3.1)
+    - AgoraRtcEngine_iOS/VideoAv1CodecEnc (= 4.3.1)
+    - AgoraRtcEngine_iOS/VideoCodecDec (= 4.3.1)
+    - AgoraRtcEngine_iOS/VideoCodecEnc (= 4.3.1)
+    - AgoraRtcEngine_iOS/VirtualBackground (= 4.3.1)
+    - AgoraRtcEngine_iOS/VQA (= 4.3.1)
+  - AgoraRtcEngine_iOS/AIAEC (4.3.1)
+  - AgoraRtcEngine_iOS/AINS (4.3.1)
+  - AgoraRtcEngine_iOS/AudioBeauty (4.3.1)
+  - AgoraRtcEngine_iOS/ClearVision (4.3.1)
+  - AgoraRtcEngine_iOS/ContentInspect (4.3.1)
+  - AgoraRtcEngine_iOS/FaceCapture (4.3.1)
+  - AgoraRtcEngine_iOS/FaceDetection (4.3.1)
+  - AgoraRtcEngine_iOS/LipSync (4.3.1)
+  - AgoraRtcEngine_iOS/ReplayKit (4.3.1)
+  - AgoraRtcEngine_iOS/RtcBasic (4.3.1)
+  - AgoraRtcEngine_iOS/SpatialAudio (4.3.1)
+  - AgoraRtcEngine_iOS/VideoAv1CodecDec (4.3.1)
+  - AgoraRtcEngine_iOS/VideoAv1CodecEnc (4.3.1)
+  - AgoraRtcEngine_iOS/VideoCodecDec (4.3.1)
+  - AgoraRtcEngine_iOS/VideoCodecEnc (4.3.1)
+  - AgoraRtcEngine_iOS/VirtualBackground (4.3.1)
+  - AgoraRtcEngine_iOS/VQA (4.3.1)
+  - AgoraRtm_iOS (1.5.1)
   - AppAuth (1.7.3):
     - AppAuth/Core (= 1.7.3)
     - AppAuth/ExternalUserAgent (= 1.7.3)
@@ -1086,6 +1132,8 @@ PODS:
     - TOCropViewController (~> 2.6.1)
   - image_picker_ios (0.0.1):
     - Flutter
+  - iris_method_channel (0.0.1):
+    - Flutter
   - isar_flutter_libs (1.0.0):
     - Flutter
   - leveldb-library (1.22.4)
@@ -1097,16 +1145,22 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - permission_handler_apple (9.3.0):
+    - Flutter
   - PromisesObjC (2.4.0)
   - RecaptchaInterop (100.0.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - sign_in_with_apple (0.0.1):
+    - Flutter
   - smart_auth (0.0.1):
     - Flutter
   - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
+  - the_apple_sign_in (1.0.0):
+    - Flutter
   - TOCropViewController (2.6.1)
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -1114,6 +1168,9 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - agora_rtc_engine (from `.symlinks/plugins/agora_rtc_engine/ios`)
+  - agora_rtm (from `.symlinks/plugins/agora_rtm/ios`)
+  - agora_uikit (from `.symlinks/plugins/agora_uikit/ios`)
   - audioplayers_darwin (from `.symlinks/plugins/audioplayers_darwin/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - country_codes (from `.symlinks/plugins/country_codes/ios`)
@@ -1135,17 +1192,24 @@ DEPENDENCIES:
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - iris_method_channel (from `.symlinks/plugins/iris_method_channel/ios`)
   - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - smart_auth (from `.symlinks/plugins/smart_auth/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/darwin`)
+  - the_apple_sign_in (from `.symlinks/plugins/the_apple_sign_in/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - vibration (from `.symlinks/plugins/vibration/ios`)
 
 SPEC REPOS:
   trunk:
     - abseil
+    - AgoraIrisRTC_iOS
+    - AgoraRtcEngine_iOS
+    - AgoraRtm_iOS
     - AppAuth
     - AppCheckCore
     - BoringSSL-GRPC
@@ -1181,6 +1245,12 @@ SPEC REPOS:
     - TOCropViewController
 
 EXTERNAL SOURCES:
+  agora_rtc_engine:
+    :path: ".symlinks/plugins/agora_rtc_engine/ios"
+  agora_rtm:
+    :path: ".symlinks/plugins/agora_rtm/ios"
+  agora_uikit:
+    :path: ".symlinks/plugins/agora_uikit/ios"
   audioplayers_darwin:
     :path: ".symlinks/plugins/audioplayers_darwin/ios"
   cloud_firestore:
@@ -1221,16 +1291,24 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_cropper/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
+  iris_method_channel:
+    :path: ".symlinks/plugins/iris_method_channel/ios"
   isar_flutter_libs:
     :path: ".symlinks/plugins/isar_flutter_libs/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
   shared_preferences_foundation:
     :path: ".symlinks/plugins/shared_preferences_foundation/darwin"
+  sign_in_with_apple:
+    :path: ".symlinks/plugins/sign_in_with_apple/ios"
   smart_auth:
     :path: ".symlinks/plugins/smart_auth/ios"
   sqflite:
     :path: ".symlinks/plugins/sqflite/darwin"
+  the_apple_sign_in:
+    :path: ".symlinks/plugins/the_apple_sign_in/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   vibration:
@@ -1238,6 +1316,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   abseil: ebec4f56469dd7ce9ab08683c0319a68aa0ad86e
+  agora_rtc_engine: 6753fa324d39ac0e7f65f2b67ea5003a4442e370
+  agora_rtm: 51b5cef21d9d664563b9a420f2c59531b1ad3e4c
+  agora_uikit: ca47b21e2af19474ddd8ec153670c2dc8cf3a9e8
+  AgoraIrisRTC_iOS: 7710d853202eca4900c2916aefc44abd5a139d4e
+  AgoraRtcEngine_iOS: f64be00fdda786bb7edd84ab461c31b7b4c93534
+  AgoraRtm_iOS: 595a9fa33a409831e6183396ea8f8bc563918403
   AppAuth: a13994980c1ec792f7e2e665acd4d4aa6be43240
   AppCheckCore: ef7a5f4ae432941d2835c7c9ba14131028aa33bd
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
@@ -1286,15 +1370,19 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 0e876eea9782ec6462e91ab872711c357322c94f
   image_cropper: a3291c624a953049bc6a02e1f8c8ceb162a24b25
   image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
+  iris_method_channel: 0617c689164d8154c020c50f63ca79f92b8a7b9d
   isar_flutter_libs: b69f437aeab9c521821c3f376198c4371fa21073
   leveldb-library: 06a69cc7582d64b29424a63e085e683cc188230a
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
   shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
+  sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   smart_auth: 4bedbc118723912d0e45a07e8ab34039c19e04f2
   sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
+  the_apple_sign_in: 2e78c83cdb09eba07bb16dcc1f3bc12fcdc8263d
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   url_launcher_ios: bbd758c6e7f9fd7b5b1d4cde34d2b95fcce5e812
   vibration: 7d883d141656a1c1a6d8d238616b2042a51a1241
