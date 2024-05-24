@@ -112,9 +112,15 @@ class VerifyOtpApi {
     try {
       var headers = {'Content-Type': 'application/json'};
 
+
       var request = http.Request('POST', Uri.parse(EndPoints.verifyOtpApi
       ));
+
+
       request.body = json.encode(body);
+
+      print(body);
+
       request.headers.addAll(headers);
 
       http.StreamedResponse response = await request.send();

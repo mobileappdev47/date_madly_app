@@ -25,6 +25,8 @@ class SocialLoginApi {
 
       if (response.statusCode == 200) {
         var data = await response.stream.bytesToString();
+        
+        print ('my social login data ---------->>>>>>>>>>>>>>>>>>>$data');
         PrefService.setValue(
             PrefKeys.userId, socialLoginModelFromJson(data).user?.id ?? '');
         // PrefService.setValue(PrefKeys.password, password);
@@ -35,16 +37,8 @@ class SocialLoginApi {
         PrefService.setValue(PrefKeys.long, long);
 
 
-        if(socialLoginModelFromJson(data).message=='User created successfully'){
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => AdditionalDetails(pageNo: 1),
-              ));
+        if(socialLoginModelFromJson(data).message=='User already registered'){
 
-
-        }
-        else {
           Navigator.push(
               context,
               MaterialPageRoute(
@@ -53,11 +47,20 @@ class SocialLoginApi {
           PrefService.setValue(PrefKeys.isAdditional, true);
 
         }
+        else {
+
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AdditionalDetails(pageNo: 1),
+              ));
+        }
 
         getFirebaseCollection(socialLoginModelFromJson(data).user?.id ?? '');
 
         return socialLoginModelFromJson(data);
       } else {
+        print('social login status code not correctly set...............................${response}');
         print(response.reasonPhrase);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(

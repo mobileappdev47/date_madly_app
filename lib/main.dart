@@ -213,7 +213,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
             if(Platform.isIOS){
-              printAPNSToken();
+             printAPNSToken();
+              // printFCMToken();
             }
             else {
               printFCMToken();
@@ -263,9 +264,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   void printAPNSToken() async {
     String? token = await NotificationService.getAPNSToken().then((value) {
+      print("APNS Token: ===================================>$value");
       printFCMToken();
     });
-    print("APNS Token: ===================================>$token");
+
 
 
   }

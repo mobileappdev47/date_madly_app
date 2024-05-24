@@ -1,11 +1,14 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:date_madly_app/pages/login/phone_auth/new_otp_screen.dart';
 import 'package:date_madly_app/service/http_services.dart';
+import 'package:date_madly_app/service/notification_service.dart';
 
 import 'package:date_madly_app/utils/endpoint.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -14,8 +17,16 @@ import 'package:http/http.dart' as http;
 
 class SendOtpApi {
   static Future sendOtpApi(
+
       {required String phoneNumber, required BuildContext context}) async {
     try {
+      if(Platform.isIOS){
+      await   FirebaseMessaging.instance.getAPNSToken();
+        print('yes---------IOS');
+      }
+      String? newToken= await NotificationService.getToken();
+
+      print('new----tokwn----is$newToken');
       var headers = {
         'Content-Type': 'application/json'
       };

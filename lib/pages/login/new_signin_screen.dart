@@ -51,19 +51,17 @@ class _NewSignInScreenState extends State<NewSignInScreen> {
   }
 
   socialLoginApi(body) async {
-     token =
-    (await NotificationService.getToken())!;
+     // token =
+    // (await NotificationService.getToken())!;
     try{
       loader = true ;
       setState(() {
-
       });
 
       await  SocialLoginApi.socialLogin(body, context, lat, long);
 
       loader= false ;
       setState(() {
-
       });
 
        }

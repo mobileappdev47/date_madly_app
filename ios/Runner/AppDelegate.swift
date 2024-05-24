@@ -18,7 +18,7 @@ import flutter_background_service_ios
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UserDefaults.standard.set(true, forKey: "Notification")
     }
-    GeneratedPluginRegistrant.register(with: self)
+      GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
