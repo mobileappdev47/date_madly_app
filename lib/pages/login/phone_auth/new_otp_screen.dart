@@ -1,3 +1,7 @@
+
+
+import 'dart:io';
+
 import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/api/phone_otp_api.dart';
 import 'package:date_madly_app/api/verify_otp_api.dart';
@@ -6,7 +10,9 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/service/notification_service.dart';
+import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/colors.dart';
+import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:date_madly_app/utils/texts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -103,14 +109,23 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
   }
 
   Future<void>   verifyOtpApi() async {
+    
+
+    if(Platform.isIOS){
+      await  NotificationService.getAPNSToken();
+      print('yes---------IOS');
+    }
+    String? newToken= await NotificationService.getToken();
+
+    
     String? token =
-    await NotificationService.getToken();
+    PrefService.getString(PrefKeys.deviceToken);
 
     body2 = {
 
       "phoneNo": "${widget.phone}",
-      "otp": otpController.text,
-      "device_token": token,
+      "otp": otpController.text??'',
+      "device_token": newToken,
       "latitude": lat,
       "longitude": long
 
