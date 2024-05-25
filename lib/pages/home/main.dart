@@ -57,115 +57,157 @@ class _HomeMainState extends State<HomeMain> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => Dialogs().showExitDialog(context),
-      child: Scaffold(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        body: _widgetOptions.elementAt(currentIndex),
-        bottomNavigationBar: Container(
-          height: 60,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: ColorRes.color939393.withOpacity(0.25),blurRadius: 3,spreadRadius: 0),
-              ],
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20))),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  nextPage(0);
-                },
-                child: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                        color: currentIndex == 0
-                            ? ColorRes.appColor.withOpacity(0.2)
-                            : Colors.transparent,
-                        shape: BoxShape.circle),
-                    child:
-                    // Image.asset(
-                    //   'assets/icons/Home.png',
-                    //   color: currentIndex == 0 ? ColorRes.appColor : null,
-                    //   scale: 4,
-                    // ),
-                    Icon(Icons.location_pin,size: 25,color: currentIndex == 0 ? ColorRes.appColor : ColorRes.grey,)
+    // Reference to the collection
+    final CollectionReference callsCollection = FirebaseFirestore.instance.collection('calls');
+
+    // Create a stream to check if documents contain the userName
+    Stream<QuerySnapshot> userStream = callsCollection.snapshots().map((snapshot) {
+      // Filter documents to see if any contain the userName
+      snapshot.docs.where((doc) => doc.id.contains(PrefService.getString(PrefKeys.userId)));
+      return snapshot;
+    });
+
+
+    return StreamBuilder<QuerySnapshot>(
+      stream: userStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('Something went wrong'));
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Scaffold(backgroundColor:Colors.white,body: SizedBox(),);
+        }
+
+        // Check if any document contains the userName
+        bool userExists = snapshot.data!.docs.any((doc) => doc.id.contains(PrefService.getString(PrefKeys.userId)));
+
+
+
+        if (userExists ) {
+          var userDocuments = snapshot.data!.docs.where((doc) => doc.id.contains(PrefService.getString(PrefKeys.userId))).toList();
+
+          var receiverData = userDocuments.map((doc) => doc['receiverId']);
+          print('receiver id----$receiverData');
+
+          return
+
+            Scaffold(body:     Center(child: Text('Incoming')) ,);
+
+
+        } else {
+          return WillPopScope(
+            onWillPop: () => Dialogs().showExitDialog(context),
+            child: Scaffold(
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              body: _widgetOptions.elementAt(currentIndex),
+              bottomNavigationBar: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(color: ColorRes.color939393.withOpacity(0.25),blurRadius: 3,spreadRadius: 0),
+                    ],
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20))),
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        nextPage(0);
+                      },
+                      child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              color: currentIndex == 0
+                                  ? ColorRes.appColor.withOpacity(0.2)
+                                  : Colors.transparent,
+                              shape: BoxShape.circle),
+                          child:
+                          // Image.asset(
+                          //   'assets/icons/Home.png',
+                          //   color: currentIndex == 0 ? ColorRes.appColor : null,
+                          //   scale: 4,
+                          // ),
+                          Icon(Icons.location_pin,size: 25,color: currentIndex == 0 ? ColorRes.appColor : ColorRes.grey,)
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        nextPage(1);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: currentIndex == 1
+                                ? ColorRes.appColor.withOpacity(0.2)
+                                : Colors.transparent,
+                            shape: BoxShape.circle),
+                        child: currentIndex == 1? Image.asset(
+                          'assets/icons/active_chat.png',
+
+                          scale: 4,
+                        ) : Image.asset(
+                          'assets/icons/Chat.png',
+
+                          scale: 4,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        nextPage(2);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: currentIndex == 2
+                                ? ColorRes.appColor.withOpacity(0.2)
+                                : Colors.transparent,
+                            shape: BoxShape.circle),
+                        child:currentIndex == 2 ?Image.asset(
+                          'assets/icons/Love Icon (2).png',
+
+                          scale: 4,
+                        ): Image.asset(
+                          'assets/icons/Love.png',
+
+                          scale: 4,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        nextPage(3);
+                      },
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: currentIndex == 3
+                                ? ColorRes.appColor.withOpacity(0.2)
+                                : Colors.transparent,
+                            shape: BoxShape.circle),
+                        child: Image.asset(
+                          'assets/icons/Profile.png',
+                          color: currentIndex == 3 ? ColorRes.appColor : null,
+                          scale: 4,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  nextPage(1);
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: currentIndex == 1
-                          ? ColorRes.appColor.withOpacity(0.2)
-                          : Colors.transparent,
-                      shape: BoxShape.circle),
-                  child: currentIndex == 1? Image.asset(
-                    'assets/icons/active_chat.png',
-
-                    scale: 4,
-                  ) : Image.asset(
-                    'assets/icons/Chat.png',
-
-                    scale: 4,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  nextPage(2);
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: currentIndex == 2
-                          ? ColorRes.appColor.withOpacity(0.2)
-                          : Colors.transparent,
-                      shape: BoxShape.circle),
-                  child:currentIndex == 2 ?Image.asset(
-                    'assets/icons/Love Icon (2).png',
-
-                    scale: 4,
-                  ): Image.asset(
-                    'assets/icons/Love.png',
-
-                    scale: 4,
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  nextPage(3);
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: currentIndex == 3
-                          ? ColorRes.appColor.withOpacity(0.2)
-                          : Colors.transparent,
-                      shape: BoxShape.circle),
-                  child: Image.asset(
-                    'assets/icons/Profile.png',
-                    color: currentIndex == 3 ? ColorRes.appColor : null,
-                    scale: 4,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        }
+      },
     );
 
   }
