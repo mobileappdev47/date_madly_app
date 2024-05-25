@@ -13,6 +13,7 @@ import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
@@ -76,6 +77,67 @@ setState(() {
 
 
   }
+
+
+  onTapFacebookLogin({BuildContext? context}) {
+    signInWithFacebookLogin(context: context);
+  }
+
+  signInWithFacebookLogin({BuildContext? context}) async {
+    try {
+
+      final LoginResult loginResult = await FacebookAuth.instance
+          .login(permissions: ["email", "public_profile"],loginBehavior: LoginBehavior.nativeWithFallback);
+
+      await FacebookAuth.instance.getUserData();
+
+      loader= true;
+      setState(() {
+
+      });
+
+      final OAuthCredential facebookAuthCredential =
+      FacebookAuthProvider.credential(
+        loginResult.accessToken!.token,
+      );
+
+      UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
+      final User? user = userCredential.user;
+      debugPrint(user.toString());
+
+      if (userCredential.user!.email == null ||
+          userCredential.user!.email!.isEmpty) {
+           print('user not found for facebook');
+      } else {
+        print('user data get');
+
+        Map<String ,dynamic>facebookBody= {
+
+        "email": "${userCredential.user!.email }",
+        "device_token": token ?? '',
+        "latitude": lat,
+        "longitude": long
+
+        };
+
+
+        socialLoginApi(facebookBody);
+
+         ////API
+      }
+
+
+    } catch (e) {
+loader= false;
+setState(() {
+
+});
+      debugPrint(e.toString());
+    }
+  }
+
+
 
   onTapAppleSign({BuildContext? context, bool? value}) async {
     try {
@@ -166,181 +228,190 @@ setState(() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage(
-              'assets/images/background.png',
-            ),
-            fit: BoxFit.cover,
-          )),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
+      body:
+      Stack(
 
-              Image.asset(
-                "assets/images/new_logo.png",
-                scale: 3,
-              ),
-              SizedBox(
-                height: 50,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                child: Text(
-                  Strings.byCLick,
-                  textAlign: TextAlign.center,
-                  style: poppins.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 12.2,
-                    fontFamily: Fonts.poppins,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 14,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 27),
-                child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
-
-                        PrefService.setValue(PrefKeys.loginType, 'socialEmail');
-
-                        onTapAppleSign(context: context,value: true,);
-                      },
-                      child: Container(
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(67),
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          Strings.signinwithapple.toUpperCase(),
-                          style: poppins.copyWith(
-                              fontSize: 14.5,
-                              color: Colors.white,
-                              letterSpacing: 2),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-
-                        PrefService.setValue(PrefKeys.loginType, 'socialEmail');
-                        // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
-                      },
-                      child: Container(
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(67),
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          Strings.signinwithfb.toUpperCase(),
-                          style: poppins.copyWith(
-                              fontSize: 14.5,
-                              color: Colors.white,
-                              letterSpacing: 2),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-
-                        PrefService.setValue(PrefKeys.loginType, 'Phone');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NewMobileNumberScreen(),
-                            ));
-                      },
-                      child: Container(
-                        height: 55,
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(67),
-                          border: Border.all(
-                            color: Colors.white,
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          Strings.signinwithphonenumber,
-                          style: poppins.copyWith(
-                              fontSize: 14.5,
-                              color: Colors.white,
-                              letterSpacing: 2),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+        alignment: Alignment.center,
                 children: [
-                  Text(
-                    Strings.haveing,
-                    style: poppins.copyWith(
-                        fontSize: 14.5,
+          Center(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: AssetImage(
+                  'assets/images/background.png',
+                ),
+                fit: BoxFit.cover,
+              )),
+              child: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+
+                  Image.asset(
+                    "assets/images/new_logo.png",
+                    scale: 3,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35.0),
+                    child: Text(
+                      Strings.byCLick,
+                      textAlign: TextAlign.center,
+                      style: poppins.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
-                        fontFamily: Fonts.poppins),
-                  ),
-                  /*GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SignUpScreen(),
-                          ));
-                    },
-                    child: Text(
-                      Strings.sign_up,
-                      style: poppins.copyWith(
-                          fontSize: 14.5,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontFamily: Fonts.poppins),
+                        fontSize: 12.2,
+                        fontFamily: Fonts.poppins,
+                      ),
                     ),
-                  ),*/
+                  ),
+                  SizedBox(
+                    height: 14,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 27),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpScreen(),));
+
+                            PrefService.setValue(PrefKeys.loginType, 'socialEmail');
+
+                            onTapAppleSign(context: context,value: true,);
+                          },
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(67),
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              Strings.signinwithapple.toUpperCase(),
+                              style: poppins.copyWith(
+                                  fontSize: 14.5,
+                                  color: Colors.white,
+                                  letterSpacing: 2),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+
+                            PrefService.setValue(PrefKeys.loginType, 'socialEmail');
+                            onTapFacebookLogin(context: context);
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
+                          },
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(67),
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              Strings.signinwithfb.toUpperCase(),
+                              style: poppins.copyWith(
+                                  fontSize: 14.5,
+                                  color: Colors.white,
+                                  letterSpacing: 2),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+
+                            PrefService.setValue(PrefKeys.loginType, 'Phone');
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NewMobileNumberScreen(),
+                                ));
+                          },
+                          child: Container(
+                            height: 55,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(67),
+                              border: Border.all(
+                                color: Colors.white,
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              Strings.signinwithphonenumber,
+                              style: poppins.copyWith(
+                                  fontSize: 14.5,
+                                  color: Colors.white,
+                                  letterSpacing: 2),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        Strings.haveing,
+                        style: poppins.copyWith(
+                            fontSize: 14.5,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                            fontFamily: Fonts.poppins),
+                      ),
+                      /*GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ));
+                        },
+                        child: Text(
+                          Strings.sign_up,
+                          style: poppins.copyWith(
+                              fontSize: 14.5,
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: Fonts.poppins),
+                        ),
+                      ),*/
+                    ],
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
-            ],
+            ),
           ),
-        ),
+          loader== true ? CircularProgressIndicator(): SizedBox(),
+        ],
       ),
     );
   }

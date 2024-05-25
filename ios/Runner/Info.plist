@@ -46,13 +46,19 @@
 				<string>app-1-914912403564-ios-576ff814a78fba0320f849</string>
 			</array>
 		</dict>
+		 <dict>
+          <key>CFBundleURLSchemes</key>
+          <array>
+            <string>fb1012607937044667</string>
+          </array>
+          </dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>12</string>
 	<key>FacebookAppID</key>
-	<string></string>
+	<string>1012607937044667</string>
 	<key>FacebookClientToken</key>
-	<string></string>
+	<string>15918619177fdb1e6ae62419c5b83cbd</string>
 	<key>FacebookDisplayName</key>
 	<string>Lovecirco</string>
 	<key>FirebaseMessagingAutoInitEnabled</key>

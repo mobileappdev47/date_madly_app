@@ -69,7 +69,6 @@ deleteCallCollection() async {
 
   await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
 
-
 }
 class ChatScreen extends StatefulWidget {
   final String? email;
@@ -163,7 +162,6 @@ class _ChatScreenState extends State<ChatScreen> {
           print('-----------------------------------888888888888888888888888888888${value.data()}');
 
           if(value.data()!=null && value.data()!.isNotEmpty){
-
             await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
               'callerId': receiverId,
               'receiverId': callerId,
@@ -181,10 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
               'callActive': false,
               'channelName': channelName,
             }).then((value) {
-
-
               Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
-
             });
 
           }
@@ -359,8 +354,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       GestureDetector(
                           onTap: () {
 
-                           // channelName = widget.roomId??"";
-                           //    join();
+                           channelName = widget.roomId??"";
+                              join();
 
                             /*
                             Navigator.push(
