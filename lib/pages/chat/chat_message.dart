@@ -1,35 +1,25 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_madly_app/db/chat.dart';
-import 'package:date_madly_app/network/api.dart';
-import 'package:date_madly_app/pages/calling/call_utils.dart';
-import 'package:date_madly_app/pages/calling/lovecirco_user.dart';
-import 'package:date_madly_app/pages/calling/pick_up_screen.dart';
-import 'package:date_madly_app/pages/calling/test_call.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/video_call_screen.dart';
-import 'package:date_madly_app/pages/home/home.dart';
-import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
-import 'package:flutter/foundation.dart' as foundation;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 // import 'package:timeago/timeago.dart' as timeago;
-import '../../common/text_feild_common.dart';
 import '../../common/text_style.dart';
-import '../../providers/chat_provider.dart';
-import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
 import '../../utils/texts.dart';
 import 'call.dart';
+
+
+
+
 String channelName = '';
 String token = "";
 
@@ -39,7 +29,8 @@ int? _remoteUid;
 bool _isJoined = false;
 late RtcEngine agoraEngine;
 
-void  join() async {
+Future<void>  join({required String reciverId})
+async {
 
   ChannelMediaOptions options = const ChannelMediaOptions(
     clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -54,26 +45,26 @@ void  join() async {
   );
 }
 
-void leave(BuildContext context) {
+Future<void> leave(BuildContext context) async {
 
     _isJoined = false;
     _remoteUid = null;
    agoraEngine.leaveChannel();
-   deleteCallCollection();
+    // await deleteCollection(context);
 
   // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomeMain() ),(route) => false,);
 
 }
 
-deleteCallCollection() async {
-
-  await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
-
-}
+// deleteCallCollection() async {
+//
+//   await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
+//
+// }
 class ChatScreen extends StatefulWidget {
   final String? email;
   final String? roomId;
-  final String? otherEmail;
+  final String? otherUid;
   final String? userEmail;
   final String? image;
   final String? name;
@@ -82,7 +73,7 @@ class ChatScreen extends StatefulWidget {
       {Key? key,
       this.email,
       this.userEmail,
-      this.otherEmail,
+      this.otherUid,
       this.roomId,
       this.image, this.name})
       : super(key: key);
@@ -108,83 +99,27 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 
-  Widget _status(){
-    String statusText;
-
-    if (!_isJoined){
-
-      statusText = 'Join a channel';
-
-    }
-    else if (_remoteUid == null){
-      statusText = 'Waiting for a remote user to join...';
-      // Navigator.push(context,MaterialPageRoute(builder: (context) =>   Call(),));
-    }
-    else{
-      statusText = 'Connected to remote user, uid:$_remoteUid';
-      // Navigator.pop(context);
-
-
-    }
-    return Text(
-      statusText,
-    );
-  }
-
-
-
-  // @override
-  // void dispose() async {
-  //   await agoraEngine.leaveChannel();
-  //   super.dispose();
-  // }
   @override
   void initState() {
     super.initState();
     setupVoiceSDKEngine();
-
-
-
   }
 
   void initiateCall(
       {required String callerId,required String receiverId,required String  channelName}) async {
-    // await FirebaseFirestore.instance.collection('Auth').doc(PrefService.getString(PrefKeys.userId)).collection('calls').doc(channelName).set({
-    //   'callerId': callerId,
-    //   'receiverId': receiverId,
-    //   'callActive': false,
-    //   'channelName': channelName,
-    // });
 
   await  FirebaseFirestore.instance
         .collection('calls').doc(channelName).get().then((value) async {
-
           print('-----------------------------------888888888888888888888888888888${value.data()}');
-
-          if(value.data()!=null && value.data()!.isNotEmpty){
-            await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
-              'callerId': receiverId,
-              'receiverId': callerId,
-              'callActive': true,
-              'channelName': channelName,
-            }).then((value) {
-              Navigator.pop(context);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
-            });
-          }
-          else {
-            await FirebaseFirestore.instance.collection('calls').doc(channelName).set({
-              'callerId': callerId,
-              'receiverId': receiverId,
-              'callActive': false,
-              'channelName': channelName,
-            }).then((value) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),));
-            });
-
-          }
-
-    });
+          await FirebaseFirestore.instance.collection('calls').add({
+            'callerId': PrefService.getString(PrefKeys.userId),
+            'receiverId': receiverId,
+            'channelId': channelName,
+            'timestamp': FieldValue.serverTimestamp(),
+            'status': 'calling',
+            'active': true,
+          }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),)));
+  });
 
 
   }
@@ -192,39 +127,21 @@ class _ChatScreenState extends State<ChatScreen> {
     // retrieve or request microphone permission
     await Permission.microphone.request();
 
-    //create an instance of the Agora engine
     agoraEngine = createAgoraRtcEngine();
     await agoraEngine.initialize(const RtcEngineContext(
         appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
-
     ));
 
-    // Register the event handler
     agoraEngine.registerEventHandler(
-
       RtcEngineEventHandler(
-
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
           showMessage("Local user uid:${connection.localUid} joined the channel");
-          // setState(() {
-
             _isJoined = true;
-
-            initiateCall(callerId: PrefService.getString(PrefKeys.userId),channelName: channelName,receiverId: widget.otherEmail! );
-
-          // });
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           showMessage("Remote user uid:$remoteUid joined the channel");
           setState(() {
             _remoteUid = remoteUid;
-
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => Call(),
-            //     ));
-
           });
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
@@ -240,7 +157,6 @@ class _ChatScreenState extends State<ChatScreen> {
         onLeaveChannel: (connection, stats) {
           print('Chanel leave----***----****------***--------***--------');
         },
-
       ),
     );
   }
@@ -250,32 +166,13 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget build(BuildContext context) {
     print(userEmail);
-    print(widget.otherEmail);
-
-   channelName= "${widget.roomId}";
-   if(isOnce==false){
-     FirebaseFirestore.instance
-         .collection('calls')
-         .where('receiverId', isEqualTo: PrefService.getString(PrefKeys.userId))
-         .where('callActive', isEqualTo: false)
-         .snapshots()
-         .listen((snapshot) {
-       if (snapshot.docs.isNotEmpty) {
-         var callData = snapshot.docs.first.data();
-         Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(otherEmail: widget.otherEmail!,photo:widget.image! ,callerName:widget.name! ),));
-         isOnce= true ;
-       }
-     });
-   }
+    print(widget.otherUid);
 
 
     return
-
       Consumer<NewChatProvider>(
       builder: (context, value, child) {
-
-        return
-          Scaffold(
+        return Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: ColorRes.lgrey,
           appBar: PreferredSize(
@@ -352,44 +249,11 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                     actions: [
                       GestureDetector(
-                          onTap: () {
+                          onTap: () async{
 
                            channelName = widget.roomId??"";
-                              join();
-
-                            /*
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Call(callerName: widget.name!,photo: widget.image!),
-                                ));*/
-
-                              // CallUtils.dialOneToOneVoiceCall(
-                              //   context: context,
-                              //   from: LoveCircoUser(
-                              //     name: 'janki',
-                              //     displayName: 'janu',
-                              //     email: 'janki.brainbinary@gmail.com',
-                              //     playerId: '123',
-                              //     uid: PrefService.getString(PrefKeys.userId),
-                              //     status: 'done',
-                              //     state: 1,
-                              //     profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
-                              //     coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
-                              //   ),
-                              //   chanelID: channelName,
-                              //   to:  LoveCircoUser(
-                              //     name: 'niyati',
-                              //     displayName: 'niyu',
-                              //     email: 'niyati.brainbinary@gmail.com',
-                              //     playerId: '456',
-                              //     uid: widget.otherEmail,
-                              //     status: 'done',
-                              //     state: 1,
-                              //     profilePhoto: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',
-                              //     coverImage: 'https://st4.depositphotos.com/1000423/23971/i/450/depositphotos_239719906-stock-photo-networking-as-global-concept.jpg',),
-                              // );
-
+                              await join(reciverId:widget.otherUid ??"");
+                           await addCollectionAndNavigateToCallScreen(reciverId: widget.otherUid ??"");
 
                           },
                           child: Image.asset(
@@ -427,11 +291,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
               Column(
                 children: [
-                  // _status(),
-                  // ElevatedButton(
-                  //   child: const Text("Leave"),
-                  //   onPressed: () => {leave()},
-                  // ),
                   Expanded(
                     child: StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance
@@ -915,21 +774,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                                 ],
                                               ),
                                               const SizedBox(width: 10),
-                                              /*      Container(
-                                                  height: Get.height * 0.05,
-                                                  width: Get.height * 0.05,
-                                                  decoration: const BoxDecoration(
-                                                      color: Colors.white,
-                                                      shape: BoxShape.circle),
-                                                  clipBehavior: Clip.hardEdge,
-                                                  child: SizedBox(
-                                                      height: 35,
-                                                      width: 35,
-                                                      child: CachedNetworkImage(
-                                                          imageUrl: myName ?? "", fit: BoxFit.cover,
-                                                          placeholder: (context, url) => Image.asset(AssetRes.user),
-                                                          errorWidget: (context, url, error) => Image.asset(AssetRes.user))),
-                                                ),*/
                                             ],
                                           ),
                                         );
@@ -999,7 +843,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             if (value.msController.text.isNotEmpty) {
                               value.sendMessage(
                                 widget.roomId.toString(),
-                                widget.otherEmail,
+                                widget.otherUid,
                               );
 
                               FocusScope.of(context).unfocus();
@@ -1011,7 +855,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 bool already = false;
 
                                 for (int i = 0; i < list.length; i++) {
-                                  if (list[i].id == widget.otherEmail) {
+                                  if (list[i].id == widget.otherUid) {
                                     print('collection already exist');
                                     already = true;
                                     break;
@@ -1021,7 +865,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 if (already == false) {
                                   await fireStore
                                       .collection("Auth")
-                                      .doc(widget.otherEmail)
+                                      .doc(widget.otherUid)
                                       .set({'ChatUserList': []});
                                 } else {
                                   print('done');
@@ -1063,65 +907,37 @@ class _ChatScreenState extends State<ChatScreen> {
                 ],
               ),
 
-
-  //             StreamBuilder<QuerySnapshot>(
-  //               stream:     FirebaseFirestore.instance
-  //                 .collection('calls').where(FieldPath.documentId,isEqualTo: channelName)
-  //                 .snapshots(), builder: (context, snapshot) {
-  //               if (snapshot.connectionState == ConnectionState.waiting) {
-  //                 return CircularProgressIndicator();
-  //               }
-  //
-  //               if (snapshot.hasError) {
-  //                 return Text('Error: ${snapshot.error}');
-  //               }
-  //
-  //               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-  //                 return Text('No calls found');
-  //               }
-  // var documentSnapshot = snapshot.data!.docs.first;
-  // Map<String, dynamic> map = documentSnapshot.data() as Map<String, dynamic>;
-  //
-  // print(map);
-  //
-  // if(map['receiverId'] == PrefService.getString(PrefKeys.userId)){
-  //
-  // // Navigator.push(context, MaterialPageRoute(builder: (context) => Home(),));
-  //   return
-  //     Column(
-  //          mainAxisAlignment: MainAxisAlignment.center,
-  //       children: [
-  //         ElevatedButton(
-  //             onPressed: () {
-  //           join();
-  //
-  //         }, child: Text('incoming')),
-  //         Text('Incoming CAll'),
-  //       ],
-  //     );
-  //
-  //
-  //
-  // }
-  //
-  //
-  // else {
-  //   return Text('OurGoing CAll');
-  // }
-  //
-  //
-  //
-  //
-  //                 },)
             ],
           ),
         );
       },
     );
 
+  }
 
+
+
+  Future<void> addCollectionAndNavigateToCallScreen({required String reciverId}) async{
+
+    await FirebaseFirestore.instance.collection('calls').add({
+      'callerId': PrefService.getString(PrefKeys.userId),
+      'receiverId': reciverId,
+      'channelId': channelName,
+      'image':widget.image ?? "",
+      'name':widget.name ?? "",
+      'timestamp': FieldValue.serverTimestamp(),
+      'status': 'calling',
+      'active': true,
+    });
+
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Call(callerName: widget.name ?? "",photo: widget.image ?? ""),
+        ));
 
   }
+
 }
 
 class ChatBubblePainter extends CustomPainter {
@@ -1146,372 +962,4 @@ class ChatBubblePainter extends CustomPainter {
   }
 }
 
-/*
-class ChatMessageScreen extends StatefulWidget {
-  const ChatMessageScreen(
-      {super.key,
-      required this.targetUserName,
-      required this.targetImage,
-      required this.targetID,
-      required this.chatroomID,
-      required this.updatedAt});
 
-  final String targetUserName;
-  final String chatroomID;
-  final String targetID;
-  final String updatedAt;
-  final String targetImage;
-
-  @override
-  State<ChatMessageScreen> createState() => _ChatMessageScreenState();
-}
-
-class _ChatMessageScreenState extends State<ChatMessageScreen> {
-  var chatProvider;
-
-  @override
-  void initState() {
-    SchedulerBinding.instance.addPostFrameCallback((_) =>
-        Provider.of<ChatProvider>(context, listen: false)
-            .getSingleChat(widget.chatroomID, widget.targetID));
-
-    chatProvider = context.read<ChatProvider>();
-    chatProvider.scrollcontroller.addListener(chatProvider.pagination);
-    chatProvider.targetIDs = widget.targetID;
-    //unsubscribe to chatroom for updates
-    // chatProvider.subscribeToChatRoom(widget.targetID);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    //unsubscribe to chatroom for updates
-    // chatProvider.unsubscribeToChatRoom(widget.targetID);
-    chatProvider.scrollcontroller.removeListener(chatProvider.pagination);
-    chatProvider.targetIDs = "";
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // var time =
-    //     timeago.format(DateTime.parse(widget.updatedAt), locale: 'en_short');
-    // var time = Jiffy.parse(widget.updatedAt).format(pattern: 'hh:mm a');
-    var time =
-        DateFormat('jm').format(DateTime.parse(widget.updatedAt).toLocal());
-    return Consumer<ChatProvider>(
-      builder:
-          (BuildContext context, ChatProvider chatProvider, Widget? child) {
-        return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: WillPopScope(
-            onWillPop: () {
-              if (showEmoji) {
-                setState(() {
-                  showEmoji = !showEmoji;
-                });
-                return Future.value(false);
-              } else {
-                if (chatProvider.refresh) chatProvider.getAllChatRoom(true);
-                setState(() {});
-                return Future.value(true);
-              }
-            },
-            child: Scaffold(
-              backgroundColor: Theme.of(context).colorScheme.surface,
-              appBar: AppBar(
-                title: Row(
-                  children: [
-                    CircleAvatar(
-                        radius: 20,
-                        backgroundImage:
-                            NetworkImage(Api.cloudFrontImageURL + widget.targetImage)),
-                    const SizedBox(width: 10),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.targetUserName),
-                        // const SizedBox(height: 5),
-                        // Text(
-                        //     widget.isOnline == 1
-                        //         ? "Online"
-                        //         : "last seen at $time",
-                        //     style: const TextStyle(
-                        //         fontSize: 12, color: Colors.grey))
-                      ],
-                    )
-                  ],
-                ),
-                // actions: const [
-                //   Icon(Icons.call),
-                //   SizedBox(width: 5),
-                //   Icon(Icons.more_vert),
-                //   SizedBox(width: 5),
-                // ],
-              ),
-              body: _buildBody(chatProvider),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  _buildBody(ChatProvider chatProvider) {
-    return BodyBuilder(
-        apiRequestStatus: chatProvider.apiRequestStatus,
-        child: _buildBodyList(chatProvider),
-        reload: () =>
-            chatProvider.getSingleChat(widget.chatroomID, widget.targetID));
-  }
-
-  bool showEmoji = false;
-
-  _buildBodyList(ChatProvider chatProvider) {
-    var brightness = MediaQuery.of(context).platformBrightness;
-    if (chatProvider.chats.chat == null) {
-      return const SizedBox();
-    }
-    bool isDarkMode = brightness == Brightness.dark;
-
-    return SafeArea(
-        child: Container(
-      child: Column(
-        children: [
-          Expanded(
-              child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: ListView.builder(
-                controller: chatProvider.scrollcontroller,
-                reverse: true,
-                itemCount: chatProvider.chats.chat?.length,
-                physics: const BouncingScrollPhysics(),
-                itemBuilder: (context, index) {
-                  var chat = chatProvider.chats.chat?[index];
-                  var sameUser = chatProvider.chats.chat?[index].senderID ==
-                      chatProvider.id;
-                  var senderTime = DateFormat('jm').format(
-                      DateTime.parse(chatProvider.chats.chat![index].createdAt!)
-                          .toLocal());
-                  String newDate;
-                  bool isSameDate = false;
-                  if (index == 0 && chatProvider.chats.chat!.length == 1) {
-                    newDate = chatProvider
-                        .groupMessageDateAndTime(chatProvider
-                            .chats.chat![index].createdAt
-                            .toString())
-                        .toString();
-                  } else if (index == chatProvider.chats.chat!.length - 1) {
-                    newDate = chatProvider
-                        .groupMessageDateAndTime(chatProvider
-                            .chats.chat![index].createdAt
-                            .toString())
-                        .toString();
-                  } else {
-                    final DateTime date = chatProvider.returnDateAndTimeFormat(
-                        chatProvider.chats.chat![index].createdAt.toString());
-                    final DateTime prevDate =
-                        chatProvider.returnDateAndTimeFormat(chatProvider
-                            .chats.chat![index + 1].createdAt
-                            .toString());
-                    isSameDate = date.isAtSameMomentAs(prevDate);
-                    newDate = isSameDate
-                        ? ''
-                        : chatProvider
-                            .groupMessageDateAndTime(chatProvider
-                                .chats.chat![index].createdAt
-                                .toString())
-                            .toString();
-                  }
-                  return Column(
-                    children: [
-                      if (index == chatProvider.chats.chat!.length - 1 &&
-                          chatProvider.showLoadNewChat)
-                        const Padding(
-                            padding: EdgeInsets.only(top: 25),
-                            child: CircularProgressIndicator()),
-                      if (index == chatProvider.chats.chat!.length - 1 &&
-                          chatProvider.showLoadNewChat == false)
-                        const SizedBox(height: 40),
-                      if (newDate != "")
-                        Card(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(newDate),
-                        )),
-                      if (newDate != "") const SizedBox(height: 2),
-                      Row(
-                        mainAxisAlignment: sameUser
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            constraints: BoxConstraints(
-                                // minWidth: 50,
-                                maxWidth:
-                                    MediaQuery.of(context).size.width / 1.55),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 22, vertical: 12),
-                            margin: const EdgeInsets.symmetric(vertical: 2),
-                            decoration: BoxDecoration(
-                                color: sameUser
-                                    ? isDarkMode
-                                        ? Colors.blue[700]
-                                        : Colors.blue[200]
-                                    : isDarkMode
-                                        ? Colors.grey[800]
-                                        : Colors.grey[400],
-                                borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(20),
-                                    topRight: const Radius.circular(20),
-                                    bottomLeft: sameUser
-                                        ? const Radius.circular(20)
-                                        : const Radius.circular(0),
-                                    bottomRight: sameUser
-                                        ? const Radius.circular(0)
-                                        : const Radius.circular(20))),
-                            child: Stack(
-                              // mainAxisAlignment: MainAxisAlignment.end,
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                    chatProvider.chats.chat != null
-                                        ? chatProvider.chats.chat![index].msg!
-                                            .toString()
-                                        : "",
-                                    maxLines: 100000,
-                                    softWrap: false,
-                                    style: const TextStyle(fontSize: 18),
-                                    overflow: TextOverflow.ellipsis),
-
-                                // Text(senderTime.toString(),
-                                //     style: const TextStyle(fontSize: 12))
-                              ],
-                            ),
-                          ),
-
-                          // const SizedBox(width: 10)
-                        ],
-                      ),
-
-                      const SizedBox(height: 2),
-
-                      Row(
-                        mainAxisAlignment: sameUser
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.start,
-                        children: [
-                          Text(senderTime.toString(),
-                              style: const TextStyle(fontSize: 12)),
-                          const SizedBox(width: 5),
-                          sameUser
-                              ? chat!.status == 'SENT'
-                                  ? const Icon(Icons.done_sharp, size: 18)
-                                  : chat.status == 'DELIVERED'
-                                      ? const Icon(Icons.done_all, size: 18)
-                                      : chat.status == 'SEEN'
-                                          ? const Icon(Icons.done_all,
-                                              size: 18, color: Colors.blue)
-                                          : const Icon(Icons.send, size: 18)
-                              : const SizedBox(),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      // Text(Jiffy.parse(chatProvider.chats.chat![index].updatedAt.toString()).fromNow())
-                    ],
-                  );
-                }),
-          )),
-          Row(
-            children: [
-              Expanded(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Row(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            Future.delayed(const Duration(milliseconds: 250),
-                                () async {
-                              setState(() {
-                                showEmoji = !showEmoji;
-                              });
-                            });
-                          },
-                          icon: const Icon(Icons.emoji_emotions)),
-                      Expanded(
-                        child: Container(
-                            constraints: BoxConstraints(
-                                // minWidth: 50,
-                                maxHeight:
-                                    MediaQuery.of(context).size.width / 2.2),
-                            child: TextField(
-                                keyboardType: TextInputType.multiline,
-                                controller: chatProvider.messageController,
-                                maxLines: null,
-                                onTap: () {
-                                  if (showEmoji) {
-                                    setState(() => showEmoji = !showEmoji);
-                                  }
-                                },
-                                decoration: const InputDecoration(
-                                    hintText: "Enter Message",
-                                    border: InputBorder.none))),
-                      ),
-                      IconButton(
-                          onPressed: () => print("hello"),
-                          icon: const Icon(Icons.image)),
-                      IconButton(
-                          onPressed: () => print("hello"),
-                          icon: const Icon(Icons.camera_alt)),
-                      const SizedBox(width: 5)
-                      // IconButton(
-                      //     onPressed: () => chatProvider
-                      //         .sendMessageFromChat(widget.chatroomID),
-                      //     icon: const Icon(Icons.send, color: Colors.blue))
-                    ],
-                  ),
-                ),
-              ),
-              MaterialButton(
-                // onPressed: () {
-                //   print(chatProvider.messageController.text);
-                // },
-                onPressed: () => chatProvider.sendMessageFromChat(
-                    widget.chatroomID, widget.targetID),
-                minWidth: 0,
-                padding: const EdgeInsets.only(
-                    top: 12, bottom: 12, right: 6, left: 12),
-                shape: const CircleBorder(),
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: const Icon(Icons.send, color: Colors.white, size: 28),
-              ),
-              const SizedBox(width: 5)
-            ],
-          ),
-          if (showEmoji)
-            SizedBox(
-              height: MediaQuery.of(context).size.height * .35,
-              child: EmojiPicker(
-                textEditingController: chatProvider.messageController,
-                // pass here the same [TextEditingController] that is connected to your input field, usually a [TextFormField]
-                config: Config(
-                  bgColor: Theme.of(context).colorScheme.secondaryContainer,
-                  enableSkinTones: true,
-                  columns: 8,
-                  emojiSizeMax: 32 *
-                      (foundation.defaultTargetPlatform == TargetPlatform.iOS
-                          ? 1.30
-                          : 1.0), // Issue: https://github.com/flutter/flutter/issues/28894
-                ),
-              ),
-            ),
-        ],
-      ),
-    ));
-  }
-}
-*/

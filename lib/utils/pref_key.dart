@@ -8,4 +8,5 @@ class PrefKeys {
   static const long = 'longitude';
   static const deviceToken = 'deviceToken';
   static const loginType = 'loginType';
+  static const currentUserImage='currentUserImage';
 }

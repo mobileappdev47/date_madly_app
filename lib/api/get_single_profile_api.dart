@@ -51,6 +51,18 @@ class GetSingleProfileApi {
               DateFormat('dd/MM/yyyy').format(originalDate);
         } else {}
 
+
+
+        if(   getSingleProfileModelFromJson(data).profile?[0].images != null &&
+            getSingleProfileModelFromJson(data)
+                .profile![0].images!.isNotEmpty){
+
+          PrefService.setValue(PrefKeys.currentUserImage,getSingleProfileModelFromJson(data)
+              .profile![0].images![0] );
+
+        }
+        else {
+        }
         return getSingleProfileModelFromJson(data);
       } else {
         print(response.reasonPhrase);

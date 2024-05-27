@@ -126,7 +126,7 @@ class NewChatProvider extends ChangeNotifier {
                 image: userImage,
                 roomId: roomId,
                 email: email,
-                otherEmail: otherUid,
+                otherUid: otherUid,
                 userEmail: userEmail,
             name: otherUsername,
             )));
