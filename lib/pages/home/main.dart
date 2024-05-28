@@ -4,6 +4,7 @@ import 'package:animations/animations.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/api/get_single_profile_api.dart';
 import 'package:date_madly_app/pages/calling/pick_up_screen.dart';
+import 'package:date_madly_app/pages/calling/video_call.dart';
 import 'package:date_madly_app/pages/me/widgets/ChangePassword/change_password.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
@@ -36,19 +37,19 @@ class _HomeMainState extends State<HomeMain> {
 
   getProfileImage  ()
   {
-      GetSingleProfileApi.getSingleProfileApi(context, PrefService.getString(PrefKeys.userId));
-  }
 
+    if(PrefService.getString(PrefKeys.userName).isEmpty){
+    GetSingleProfileApi.getSingleProfileApi(context, PrefService.getString(PrefKeys.userId));
+    }
+  }
 
   PageController pageController =
       PageController(initialPage: 0, keepPage: true);
   static List<Widget> _widgetOptions = <Widget>[
-
     Home(),
     Chat(),
     Likes(),
     Profile()
-
     // ChangePassword()
   ];
   late StreamSubscription<QuerySnapshot> callSubscription;
@@ -71,7 +72,12 @@ class _HomeMainState extends State<HomeMain> {
         .listen((snapshot) {
       if (snapshot.docs.isNotEmpty && !isCallActive) {
         final callData = snapshot.docs.first.data();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(photo: 'https://e7.pngegg.com/pngimages/887/118/png-clipart-laptop-illustration-laptop-user-computer-icons-user-s-blue-computer-network-thumbnail.png', callerName: 'Test Janki', channelId: callData["channelId"]),));
+
+
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(photo: 'https://e7.pngegg.com/pngimages/887/118/png-clipart-laptop-illustration-laptop-user-computer-icons-user-s-blue-computer-network-thumbnail.png', callerName: 'Test Janki', channelId: callData["channelId"]),));
+
+
       }
     });
   }
@@ -122,7 +128,6 @@ class _HomeMainState extends State<HomeMain> {
                     //   scale: 4,
                     // ),
                     Icon(Icons.location_pin,size: 25,color: currentIndex == 0 ? ColorRes.appColor : ColorRes.grey,)
-
                 ),
               ),
               GestureDetector(

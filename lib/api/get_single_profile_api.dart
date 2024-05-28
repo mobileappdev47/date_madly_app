@@ -50,9 +50,6 @@ class GetSingleProfileApi {
           updateProvider.dobController.text =
               DateFormat('dd/MM/yyyy').format(originalDate);
         } else {}
-
-
-
         if(   getSingleProfileModelFromJson(data).profile?[0].images != null &&
             getSingleProfileModelFromJson(data)
                 .profile![0].images!.isNotEmpty){
@@ -63,6 +60,8 @@ class GetSingleProfileApi {
         }
         else {
         }
+
+        PrefService.setValue(PrefKeys.userName,  getSingleProfileModelFromJson(data).profile?[0].name ?? '');
         return getSingleProfileModelFromJson(data);
       } else {
         print(response.reasonPhrase);

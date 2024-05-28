@@ -1,10 +1,13 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_madly_app/pages/calling/video_call.dart';
 import 'package:date_madly_app/pages/chat/chat_message.dart';
+import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class PickUpScreen extends StatefulWidget {
   PickUpScreen({super.key,required this.photo, required this.callerName, required this.channelId});
@@ -17,25 +20,28 @@ class PickUpScreen extends StatefulWidget {
 }
 
 class _PickUpScreenState extends State<PickUpScreen> {
-  late final RtcEngine _engine;
-
+  late  RtcEngine agoraCallEngine;
+  bool muted = false ;
+  bool speaker = false;
   @override
   void initState() {
     super.initState();
-    setupVoiceSDKEngine();
+    final chatProvider = Provider.of<NewChatProvider>(context,listen: false);
+
+    setupVoiceSDKEngine(chatProvider);
   }
 
 
-  Future<void> setupVoiceSDKEngine() async {
+  Future<void> setupVoiceSDKEngine(NewChatProvider chatProvider) async {
     await Permission.microphone.request();
 
-    agoraEngine = createAgoraRtcEngine();
-    await agoraEngine.initialize(const RtcEngineContext(
+    agoraCallEngine = createAgoraRtcEngine();
+    await agoraCallEngine.initialize(const RtcEngineContext(
         appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
 
     ));
 
-    agoraEngine.registerEventHandler(
+    agoraCallEngine.registerEventHandler(
       RtcEngineEventHandler(
 
         onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
@@ -43,24 +49,46 @@ class _PickUpScreenState extends State<PickUpScreen> {
         },
         onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
           print("Remote user uid:$remoteUid joined the channel");
-
+          chatProvider.startTimer();
         },
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
+          chatProvider.stopTimer();
           print("Remote user uid:$remoteUid left the channel");
         },
         onConnectionLost: (connection) {
           print('conection lost......66.....66....66........66......66....8877');
+          chatProvider.stopTimer();
         },
         onLeaveChannel: (connection, stats) {
           print('Chanel leave----***----****------***--------***--------');
+          chatProvider.stopTimer();
         },
 
       ),
     );
   }
 
+  void _onToggleMute() {
+    setState(() {
+      muted = !muted;
+    });
+    agoraCallEngine.muteLocalAudioStream(muted);
+  }
 
+  void _onSwitchSpeaker() async {
+    if (speaker) {
+      agoraCallEngine.setEnableSpeakerphone(false);
+      setState(() {
+        speaker = false;
+      });
+    } else {
+      agoraCallEngine.setEnableSpeakerphone(true);
+      setState(() {
+        speaker = true;
+      });
+    }
+  }
 
 
 
@@ -95,10 +123,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    isCutYou  ?
-                    null :
-                    Navigator.pop(context) ;
+                  WidgetsBinding.instance.addPostFrameCallback((_) async {
+                    // isCutYou  ? null : Navigator.pop(context) ;
+                    // isCutYou  ? null : Navigator.pop(context) ;
+                    await agoraCallEngine.leaveChannel();
+                    await agoraCallEngine.release();
+                    isCutYou  ? null : Navigator.pop(context) ;
                   });
                   return Container(
                     child: Center(),
@@ -151,22 +181,37 @@ class _PickUpScreenState extends State<PickUpScreen> {
                       SizedBox(
                         height: 4,
                       ),
-                      Text(data['status'] == "calling" ?
-                      'Incoming Call.......' : "00:00",
-                          style: TextStyle(
-                              color: ColorRes.darkGrey,
-                              fontSize: 12,
-                              fontFamily: Fonts.mulishRegular,
-                              fontWeight: FontWeight.w400)),
+
+                      Consumer<NewChatProvider>(
+
+                        builder: (BuildContext context, value, Widget? child) {
+                          return Text(
+                              data['status'] == "calling" ? 'Incoming Call.......' : "${value.formattedTime}",
+                              style: TextStyle(
+                                  color: ColorRes.darkGrey,
+                                  fontSize: 13,
+                                  fontFamily: Fonts.mulishRegular,
+                                  fontWeight: FontWeight.w400));
+                        },
+
+                      ),
+
                       SizedBox(
                         height: 170,
                       ),
-                      Row(
+                      data['status'] == "calling"?   Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
                             onTap: () async{
-                              await join();
+
+                              if(data['isVideoCall']== true ){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) =>     VideoCallSmit(channel: data['channelId']),));
+                              }
+                              else {
+                                await join();
+                              }
+
                             },
                             child: Container(
                               height: 80,
@@ -203,7 +248,107 @@ class _PickUpScreenState extends State<PickUpScreen> {
                             ),
                           ),
                         ],
-                      ),
+                      ) :SizedBox(),
+                      data['status'] == "calling"? SizedBox() : Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _onSwitchSpeaker();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: ColorRes.white,
+                                  child: speaker== true ?Icon(Icons.volume_up,color: ColorRes.grey,):Icon(Icons.volume_off,color: ColorRes.grey,),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async{
+                                await leave(context);
+                              },
+                              child: Container(
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xffED1E79,),
+                                      Color(0xffC1272D,),
+                                    ],
+                                  ),
+                                ),
+                                child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
+                              ),
+                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.white,
+                            //     borderRadius: BorderRadius.circular(80),
+                            //     boxShadow: [
+                            //       BoxShadow(
+                            //         color: Colors.grey.withOpacity(0.5),
+                            //         spreadRadius: 1,
+                            //         blurRadius: 2,
+                            //         offset: Offset(
+                            //             0, 3), // changes position of shadow
+                            //       ),
+                            //     ],
+                            //   ),
+                            //   child: CircleAvatar(
+                            //     radius: 30,
+                            //     backgroundColor: ColorRes.white,
+                            //     child: Image.asset('assets/icons/Video Call.png',
+                            //         scale: 4),
+                            //   ),
+                            // ),
+                            GestureDetector(
+                              onTap: () {
+                                _onToggleMute();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 30,
+                                  backgroundColor: ColorRes.white,
+                                  child: muted== true ?Icon(Icons.mic_off,color: ColorRes.grey,):Icon(Icons.mic,color: ColorRes.grey,),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ) ,
 
                     ],
                   );
@@ -236,7 +381,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
         .update({'status': 'accepted'});
 
 
-    await agoraEngine.joinChannel(
+    await agoraCallEngine.joinChannel(
       token: token,
       channelId: widget.channelId,
       options: options,
@@ -261,6 +406,7 @@ bool isCutYou = false;
         .collection('calls')
         .doc(id)
         .delete();
-    agoraEngine.leaveChannel();
+    agoraCallEngine.leaveChannel();
+    agoraCallEngine.release();
   }
 }

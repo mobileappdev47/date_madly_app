@@ -6,7 +6,7 @@ import '../../common/text_style.dart';
 import '../../utils/colors.dart';
 import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import '../chat/call.dart';
+import '../calling/call.dart';
 import 'edit_profile.dart';
 import 'main.dart';
 

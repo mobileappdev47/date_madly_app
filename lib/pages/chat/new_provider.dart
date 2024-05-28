@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -15,6 +16,37 @@ class NewChatProvider extends ChangeNotifier {
   String? roomId;
   DateTime lastMsg = DateTime.now();
   String otherEmail = '';
+  Timer? timer;
+  int _counter = 0;
+
+
+  int get counter => _counter;
+
+
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _counter++;
+      notifyListeners();
+      print("-=-=-=-=-=-=-: ${_counter}");
+    });
+  }
+
+  void stopTimer() {
+    timer?.cancel();
+    _counter = 0;
+    notifyListeners();
+  }
+  String get formattedTime {
+    final minutes = (_counter ~/ 60).toString().padLeft(2, '0');
+    final seconds = (_counter % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
 
   TextEditingController msController = TextEditingController();
   final ScrollController listScrollController = ScrollController();

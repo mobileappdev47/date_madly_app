@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:country_codes/country_codes.dart';
+import 'package:date_madly_app/pages/calling/video_call.dart';
 
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 
@@ -268,8 +269,6 @@ class _SplashScreenState extends State<SplashScreen> {
       printFCMToken();
     });
 
-
-
   }
   @override
   Widget build(BuildContext context) {
@@ -292,10 +291,13 @@ class _SplashScreenState extends State<SplashScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
            mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
                 Image.asset(
                   "assets/images/new_logo.png",
                   scale: 3,
+
                 ),
+
               ],
             ),
           ),

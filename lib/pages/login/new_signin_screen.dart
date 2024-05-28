@@ -1,7 +1,5 @@
 import 'package:date_madly_app/api/social_login_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/calling/call_utils.dart';
-import 'package:date_madly_app/pages/calling/lovecirco_user.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
@@ -16,7 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
-
 import '../../utils/texts.dart';
 
 class NewSignInScreen extends StatefulWidget {

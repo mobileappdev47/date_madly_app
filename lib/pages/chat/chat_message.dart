@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 import '../../common/text_style.dart';
 import '../../utils/colors.dart';
 import '../../utils/texts.dart';
-import 'call.dart';
+import '../calling/call.dart';
 
 
 
@@ -27,40 +27,42 @@ int uid = 0;
 
 int? _remoteUid;
 bool _isJoined = false;
-late RtcEngine agoraEngine;
 
-Future<void>  join({required String reciverId})
-async {
+// late RtcEngine agoraEngine;
 
-  ChannelMediaOptions options = const ChannelMediaOptions(
-    clientRoleType: ClientRoleType.clientRoleBroadcaster,
-    channelProfile: ChannelProfileType.channelProfileCommunication,
-  );
+// Future<void>  join({required String reciverId})
+// async {
+//
+//   ChannelMediaOptions options = const ChannelMediaOptions(
+//     clientRoleType: ClientRoleType.clientRoleBroadcaster,
+//     channelProfile: ChannelProfileType.channelProfileCommunication,
+//   );
+//
+//   await agoraEngine.joinChannel(
+//     token: token,
+//     channelId: channelName,
+//     options: options,
+//     uid: uid,
+//   );
+// }
 
-  await agoraEngine.joinChannel(
-    token: token,
-    channelId: channelName,
-    options: options,
-    uid: uid,
-  );
-}
-
-Future<void> leave(BuildContext context) async {
-
-    _isJoined = false;
-    _remoteUid = null;
-   agoraEngine.leaveChannel();
-    // await deleteCollection(context);
-
-  // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomeMain() ),(route) => false,);
-
-}
+// Future<void> leave(BuildContext context) async {
+//
+//     _isJoined = false;
+//     _remoteUid = null;
+//    agoraEngine.leaveChannel();
+//     // await deleteCollection(context);
+//
+//   // Navigator.pushAndRemoveUntil(context,MaterialPageRoute(builder: (context) => HomeMain() ),(route) => false,);
+//
+// }
 
 // deleteCallCollection() async {
 //
 //   await FirebaseFirestore.instance.collection('calls').doc(channelName).delete();
 //
 // }
+
 class ChatScreen extends StatefulWidget {
   final String? email;
   final String? roomId;
@@ -99,11 +101,11 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
 
-  @override
-  void initState() {
-    super.initState();
-    setupVoiceSDKEngine();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   setupVoiceSDKEngine();
+  // }
 
   void initiateCall(
       {required String callerId,required String receiverId,required String  channelName}) async {
@@ -118,48 +120,48 @@ class _ChatScreenState extends State<ChatScreen> {
             'timestamp': FieldValue.serverTimestamp(),
             'status': 'calling',
             'active': true,
-          }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!),)));
+          }).then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => Call(callerName: widget.name!,photo: widget.image!, otherUid: '',),)));
   });
 
 
   }
-  Future<void> setupVoiceSDKEngine() async {
-    // retrieve or request microphone permission
-    await Permission.microphone.request();
-
-    agoraEngine = createAgoraRtcEngine();
-    await agoraEngine.initialize(const RtcEngineContext(
-        appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
-    ));
-
-    agoraEngine.registerEventHandler(
-      RtcEngineEventHandler(
-        onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
-          showMessage("Local user uid:${connection.localUid} joined the channel");
-            _isJoined = true;
-        },
-        onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
-          showMessage("Remote user uid:$remoteUid joined the channel");
-          setState(() {
-            _remoteUid = remoteUid;
-          });
-        },
-        onUserOffline: (RtcConnection connection, int remoteUid,
-            UserOfflineReasonType reason) {
-          showMessage("Remote user uid:$remoteUid left the channel");
-          setState(() {
-            _remoteUid = null;
-          });
-        },
-        onConnectionLost: (connection) {
-          print('conection lost......66.....66....66........66......66....8877');
-        },
-        onLeaveChannel: (connection, stats) {
-          print('Chanel leave----***----****------***--------***--------');
-        },
-      ),
-    );
-  }
+  // Future<void> setupVoiceSDKEngine() async {
+  //   // retrieve or request microphone permission
+  //   await Permission.microphone.request();
+  //
+  //   agoraEngine = createAgoraRtcEngine();
+  //   await agoraEngine.initialize(const RtcEngineContext(
+  //       appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
+  //   ));
+  //
+  //   agoraEngine.registerEventHandler(
+  //     RtcEngineEventHandler(
+  //       onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
+  //         showMessage("Local user uid:${connection.localUid} joined the channel");
+  //           _isJoined = true;
+  //       },
+  //       onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
+  //         showMessage("Remote user uid:$remoteUid joined the channel");
+  //         setState(() {
+  //           _remoteUid = remoteUid;
+  //         });
+  //       },
+  //       onUserOffline: (RtcConnection connection, int remoteUid,
+  //           UserOfflineReasonType reason) {
+  //         showMessage("Remote user uid:$remoteUid left the channel");
+  //         setState(() {
+  //           _remoteUid = null;
+  //         });
+  //       },
+  //       onConnectionLost: (connection) {
+  //         print('conection lost......66.....66....66........66......66....8877');
+  //       },
+  //       onLeaveChannel: (connection, stats) {
+  //         print('Chanel leave----***----****------***--------***--------');
+  //       },
+  //     ),
+  //   );
+  // }
   String userEmail = PrefService.getString(PrefKeys.email).toString();
   bool isOnce = false;
   @override
@@ -252,8 +254,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           onTap: () async{
 
                            channelName = widget.roomId??"";
-                              await join(reciverId:widget.otherUid ??"");
-                           await addCollectionAndNavigateToCallScreen(reciverId: widget.otherUid ??"");
+                              // await join(reciverId:widget.otherUid ??"");
+                           await addCollectionAndNavigateToCallScreen(reciverId: widget.otherUid ??"",isVideoCall: false);
 
                           },
                           child: Image.asset(
@@ -264,12 +266,14 @@ class _ChatScreenState extends State<ChatScreen> {
                         width: 10,
                       ),
                       GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => VideoCallScreen(),
-                                ),);
+                          onTap: () async {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //       builder: (context) => VideoCallScreen(),
+                            //     ),);
+                            await addCollectionAndNavigateToCallScreen(reciverId: widget.otherUid ??"",isVideoCall: true);
+
                           },
                           child: Image.asset(
                             'assets/icons/Video Call.png',
@@ -917,23 +921,27 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
 
-  Future<void> addCollectionAndNavigateToCallScreen({required String reciverId}) async{
+  Future<void> addCollectionAndNavigateToCallScreen({required String reciverId,required bool isVideoCall}) async{
+
 
     await FirebaseFirestore.instance.collection('calls').add({
       'callerId': PrefService.getString(PrefKeys.userId),
       'receiverId': reciverId,
       'channelId': channelName,
-      'image':widget.image ?? "",
-      'name':widget.name ?? "",
+      'image':PrefService.getString(PrefKeys.currentUserImage),
+      'name':PrefService.getString(PrefKeys.userName),
       'timestamp': FieldValue.serverTimestamp(),
       'status': 'calling',
       'active': true,
+      'isVideoCall': isVideoCall,
     });
+
+
 
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Call(callerName: widget.name ?? "",photo: widget.image ?? ""),
+          builder: (context) => Call(callerName: widget.name ?? "",photo: widget.image ?? "", otherUid: reciverId),
         ));
 
   }
