@@ -24,6 +24,9 @@ import 'package:date_madly_app/pages/me/additional_details.dart';
 
 import 'package:date_madly_app/pages/me/widgets/ChangePassword/changepassword_provider.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
+import 'package:date_madly_app/pages/revenu_cat_demo/apis/fetch_offers_api.dart';
+import 'package:date_madly_app/pages/revenu_cat_demo/provider/revenuecat.dart';
+import 'package:date_madly_app/pages/revenu_cat_demo/revenue_cat_home_screen.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/providers/city_provider.dart';
@@ -46,6 +49,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,8 +94,11 @@ Future<void> main() async {
     appleProvider: AppleProvider.appAttest,
   );
   NotificationService.init();
+  await PurchaseApis.init();
   await CountryCodes.init();
 
+  // Stripe.publishableKey = 'pk_test_51PM1MuBjDzSDuEdDp3I0aiacovzss106S0zcRxooyCHIGoIpCsupYQqzsMMn7x8NsNzTFaNGNbkc4M2VgTo0T4tO00pofCxim9';
+   // await Stripe.instance.applySettings();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AppProvider()),
     ChangeNotifierProvider(create: (_) => SignUpProvider()),
@@ -108,6 +115,7 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => LoginProvider()),
     ChangeNotifierProvider(create: (_) => NewChatProvider()),
     ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
+    ChangeNotifierProvider(create: (_) => RevenueCatProvider()),
   ], child: const MyApp()));
 }
 
@@ -137,7 +145,7 @@ class MyApp extends StatelessWidget {
                       : ThemeMode.dark,
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: SplashScreen(),
+            child: RevenueCatScreen(),
           ),
         );
       });

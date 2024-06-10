@@ -11,26 +11,25 @@ const appId = "d47f99c3a3ff4c639a78ae664d4df40b";
 
 
 
-class VideoCallSmit extends StatefulWidget {
-   VideoCallSmit({Key? key, required this.channel}) : super(key: key);
+class VideoCall extends StatefulWidget {
+   VideoCall({Key? key, required this.channel}) : super(key: key);
    final String channel ;
 
   @override
-  State<VideoCallSmit> createState() => _VideoCallSmitState();
+  State<VideoCall> createState() => _VideoCallState();
 }
 
-class _VideoCallSmitState extends State<VideoCallSmit> {
+class _VideoCallState extends State<VideoCall> {
   int? _remoteUid;
   bool _localUserJoined = false;
   String token = "";
   late RtcEngine _engine;
-  AgoraClient client = AgoraClient(agoraConnectionData: AgoraConnectionData(appId: "d47f99c3a3ff4c639a78ae664d4df40b", channelName:"423423424"));
+  AgoraClient client = AgoraClient(agoraConnectionData: AgoraConnectionData(appId: "d47f99c3a3ff4c639a78ae664d4df40b", channelName:'1234'));
   @override
   void initState() {
     super.initState();
 
     initAgora();
-
     // initAgoraView();
   }
 
@@ -38,7 +37,7 @@ class _VideoCallSmitState extends State<VideoCallSmit> {
     await [Permission.microphone, Permission.camera].request();
 
     _engine = createAgoraRtcEngine();
-    await _engine.initialize(const RtcEngineContext(
+     await _engine.initialize(const RtcEngineContext(
       appId: appId,
       channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
     ));

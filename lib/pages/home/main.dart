@@ -75,7 +75,7 @@ class _HomeMainState extends State<HomeMain> {
 
 
 
-          Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(photo: 'https://e7.pngegg.com/pngimages/887/118/png-clipart-laptop-illustration-laptop-user-computer-icons-user-s-blue-computer-network-thumbnail.png', callerName: 'Test Janki', channelId: callData["channelId"]),));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => PickUpScreen(photo: 'https://e7.pngegg.com/pngimages/887/118/png-clipart-laptop-illustration-laptop-user-computer-icons-user-s-blue-computer-network-thumbnail.png', callerName: 'Test Janki', channelId: callData["channelId"],isVideoCall: callData['isVideoCall']==true ?true:false),));
 
 
       }

@@ -140,6 +140,8 @@ class NewChatProvider extends ChangeNotifier {
   }
 
   int deleteIndex = 0;
+
+  bool isEnterChatScreen = false ;
   void gotoChatScreen(
       BuildContext context, String otherUid, email, userImage,otherUsername) async {
     await getRoomId(otherUid);

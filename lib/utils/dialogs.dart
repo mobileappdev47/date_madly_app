@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_madly_app/pages/login/new_signin_screen.dart';
+import 'package:date_madly_app/service/pref_service.dart';
+import 'package:date_madly_app/utils/asset.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +40,10 @@ class Dialogs {
                           onPressed: () => Navigator.pop(context))),
 
                   GestureDetector(
+
                     onTap: () =>  exit(0),
+
+
 
                     child: Container(
                       height: 40.0,
@@ -88,7 +94,86 @@ class Dialogs {
       ),
     );
   }
+  showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => CustomAlert(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const SizedBox(height: 15.0),
+              Text(Constants.appName,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 24)),
+              const SizedBox(height: 25.0),
+              Image.asset('assets/icons/logout.png',height: 50,width: 50,color:ColorRes.appColor ),
+              const SizedBox(height: 25.0),
+              const Text('Are you sure you want to logout?',
+                  style:
+                  TextStyle(fontWeight: FontWeight.w500, fontSize: 14.0)),
+              const SizedBox(height: 40.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  SizedBox(
+                      height: 40.0,
+                      width: 130.0,
+                      child: OutlinedButton(
+                          child: Text('No'),
+                          onPressed: () => Navigator.pop(context))),
 
+                  GestureDetector(
+                    onTap: () {
+                      PrefService.clear();
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => NewSignInScreen(),
+                        ),
+                            (route) => false,
+                      );
+
+                    },
+
+                    child: Container(
+                      height: 40.0,
+                      width: 130.0,
+                      decoration: BoxDecoration(
+
+                        borderRadius: BorderRadius.circular(20,),
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color(
+                              0xffED1E79,
+                            ),
+                            Color(
+                              0xffC1272D,
+                            ),
+                          ],
+                        ),
+
+
+                      ),
+                      alignment: Alignment.center,
+                      child: const Text('Yes',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600),) ,
+                    ),
+                  ),
+
+                ],
+              ),
+              const SizedBox(height: 20.0),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   showPurchaseDialog(BuildContext context, Function openCheckout) {
     showDialog(
         context: context,

@@ -77,7 +77,7 @@ class _LikesState extends State<Likes> {
           backgroundColor: ColorRes.white,
           leading: GestureDetector(
             onTap: () {
-              Dialogs().showExitDialog(context);
+              Dialogs().showLogoutDialog(context);
             },
             child: Icon(
               Icons.arrow_back_ios_new_rounded,

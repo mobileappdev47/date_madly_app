@@ -264,7 +264,7 @@ remainingUsers.clear();
             },
           ),
           title: Text(
-            'Near By',
+            'People Nearby',
             style: mulishbold.copyWith(
               fontSize: 18.75,
               color: ColorRes.appColor,

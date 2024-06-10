@@ -1,6 +1,6 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:agora_uikit/agora_uikit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_madly_app/pages/calling/video_call.dart';
 import 'package:date_madly_app/pages/chat/chat_message.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/utils/colors.dart';
@@ -10,27 +10,119 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class PickUpScreen extends StatefulWidget {
-  PickUpScreen({super.key,required this.photo, required this.callerName, required this.channelId});
+  PickUpScreen({super.key,required this.photo, required this.callerName, required this.channelId, required this.isVideoCall});
   final String channelId;
   final String photo;
   final String callerName;
+  final bool isVideoCall;
 
   @override
   State<PickUpScreen> createState() => _PickUpScreenState();
 }
 
 class _PickUpScreenState extends State<PickUpScreen> {
-  late  RtcEngine agoraCallEngine;
-  bool muted = false ;
+  late RtcEngine agoraCallEngine;
+  bool muted = false;
+
   bool speaker = false;
+  bool isCamera = true;
+  int? _remoteUid;
+  bool _localUserJoined = false;
+  String token = "";
+  AgoraClient client = AgoraClient(agoraConnectionData: AgoraConnectionData(
+      appId: "d47f99c3a3ff4c639a78ae664d4df40b", channelName: channelName));
+
+  Widget _remoteVideo(String name) {
+    if (_remoteUid != null) {
+      return
+        AgoraVideoView(
+          controller: VideoViewController.remote(
+            rtcEngine: agoraCallEngine,
+            canvas: VideoCanvas(uid: _remoteUid),
+            connection: RtcConnection(channelId: channelName),
+          ),
+        );
+    } else {
+      return  Text(
+        'Please wait...',
+        textAlign: TextAlign.center,
+      );
+    }
+  }
+
+  Future<void> initAgora() async {
+    await [Permission.microphone, Permission.camera].request();
+
+    agoraCallEngine = createAgoraRtcEngine();
+    await agoraCallEngine.initialize(const RtcEngineContext(
+      appId: 'd47f99c3a3ff4c639a78ae664d4df40b',
+      channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
+    ));
+
+    agoraCallEngine.registerEventHandler(
+      RtcEngineEventHandler(
+        onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
+          debugPrint("local user ${connection.localUid} joined");
+          setState(() {
+            _localUserJoined = true;
+          });
+        },
+        onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
+          debugPrint("remote user $remoteUid joined");
+          setState(() {
+            _remoteUid = remoteUid;
+          });
+        },
+        onUserOffline: (RtcConnection connection, int remoteUid,
+            UserOfflineReasonType reason) {
+          debugPrint("remote user $remoteUid left channel");
+          setState(() {
+            _remoteUid = null;
+          });
+        },
+        onTokenPrivilegeWillExpire: (RtcConnection connection, String token) {
+          debugPrint(
+              '[onTokenPrivilegeWillExpire] connection: ${connection
+                  .toJson()}, token: $token');
+        },
+      ),
+    );
+
+    await agoraCallEngine.setClientRole(
+        role: ClientRoleType.clientRoleBroadcaster);
+    await agoraCallEngine.enableVideo();
+    await agoraCallEngine.startPreview();
+
+
+    // await agoraCallEngine.joinChannel(
+    //   token: token,
+    //   channelId: channelName,
+    //   uid: 0,
+    //   options: const ChannelMediaOptions(),
+    // );
+  }
+
+
   @override
   void initState() {
     super.initState();
-    final chatProvider = Provider.of<NewChatProvider>(context,listen: false);
-
-    setupVoiceSDKEngine(chatProvider);
+    final chatProvider = Provider.of<NewChatProvider>(context, listen: false);
+    if (widget.isVideoCall == true) {
+      initAgora();
+    }
+    else {
+      setupVoiceSDKEngine(chatProvider);
+    }
   }
 
+  @override
+  void dispose() {
+    agoraCallEngine.leaveChannel();
+    agoraCallEngine.release();
+    client.engine.leaveChannel();
+    client.engine.release();
+    super.dispose();
+  }
 
   Future<void> setupVoiceSDKEngine(NewChatProvider chatProvider) async {
     await Permission.microphone.request();
@@ -38,7 +130,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
     agoraCallEngine = createAgoraRtcEngine();
     await agoraCallEngine.initialize(const RtcEngineContext(
         appId: 'd47f99c3a3ff4c639a78ae664d4df40b'
-
     ));
 
     agoraCallEngine.registerEventHandler(
@@ -57,14 +148,11 @@ class _PickUpScreenState extends State<PickUpScreen> {
           print("Remote user uid:$remoteUid left the channel");
         },
         onConnectionLost: (connection) {
-          print('conection lost......66.....66....66........66......66....8877');
           chatProvider.stopTimer();
         },
         onLeaveChannel: (connection, stats) {
-          print('Chanel leave----***----****------***--------***--------');
           chatProvider.stopTimer();
         },
-
       ),
     );
   }
@@ -90,55 +178,240 @@ class _PickUpScreenState extends State<PickUpScreen> {
     }
   }
 
+  void _onSwitchCamera() {
+    agoraCallEngine.switchCamera();
+  }
+
+  void _toggleLocalCamera() async {
 
 
+    if (isCamera) {
+      await agoraCallEngine.enableLocalVideo(false);
+      setState(() {
+        isCamera = false;
+      });
+    } else {
+      await agoraCallEngine.enableLocalVideo(true);
+      setState(() {
+        isCamera = true;
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
-      return
-        WillPopScope(
-          onWillPop: () async{
-            await leave(context);
-            return false;
-          },
-          child: Scaffold(
-            backgroundColor: ColorRes.white,
-            appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: ColorRes.white,
-              leading: GestureDetector(
-                  onTap: () async{
-                    await leave(context);
-                  },
-                  child: Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: ColorRes.grey,
-                  )),
+    return
+      WillPopScope(
+        onWillPop: () async{
+          await leave(context);
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: ColorRes.white,
 
-            ),
-            body: StreamBuilder(
-              stream: FirebaseFirestore.instance.collection('calls').where("channelId",isEqualTo: widget.channelId).snapshots(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) async {
-                    // isCutYou  ? null : Navigator.pop(context) ;
-                    // isCutYou  ? null : Navigator.pop(context) ;
-                    await agoraCallEngine.leaveChannel();
-                    await agoraCallEngine.release();
-                    isCutYou  ? null : Navigator.pop(context) ;
-                  });
-                  return Container(
-                    child: Center(),
+          body: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection('calls').where("channelId",isEqualTo: widget.channelId).snapshots(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              // if (snapshot.connectionState == ConnectionState.waiting) {
+              //   return Center(child: CircularProgressIndicator());
+              // }
+              if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                WidgetsBinding.instance.addPostFrameCallback((_) async {
+                  await client.engine.leaveChannel();
+                  await client.engine.release();
+                  await agoraCallEngine.leaveChannel();
+                  await agoraCallEngine.release();
+
+                  isCutYou ? null : Navigator.pop(context);
+                });
+                return Container(
+                  child: Center(),
+                );
+              }
+              if (snapshot.hasError) {
+                 client.engine.leaveChannel();
+                 client.engine.release();
+                 agoraCallEngine.leaveChannel();
+                 agoraCallEngine.release();
+
+                return Center(child: Text('Error: ${snapshot.error}'));
+              }
+              Map<String, dynamic> data = snapshot.data!.docs[0]
+                  .data() as Map<String, dynamic>;
+
+              if(data['isVideoCall']==true && data['status'] == 'accepted'){
+                return
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Center(
+                        child: _remoteVideo(data['name']),
+                      ),
+
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: SizedBox(
+                          width: 100,
+                          height: 150,
+                          child: Center(
+                            child: _localUserJoined
+                                ? AgoraVideoView(
+                              controller: VideoViewController(
+                                rtcEngine: agoraCallEngine,
+                                canvas: const VideoCanvas(uid: 0),
+                              ),
+                            )
+                                : const CircularProgressIndicator(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 130,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _onSwitchSpeaker();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: ColorRes.white,
+                                  child: speaker == true ?
+                                  Icon(Icons.volume_up,color: ColorRes.grey,):Icon(Icons.volume_off,color: ColorRes.grey,),
+                                ),
+                              ),
+                            ),
+
+                            GestureDetector(
+                              onTap: () {
+                                 _onSwitchCamera();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: ColorRes.white,
+                                  child:
+                                  Icon(Icons.cameraswitch_rounded,color: ColorRes.grey,),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async{
+                                await leave(context);
+                              },
+                              child: Container(
+                                height: 75,
+                                width: 75,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Color(0xffED1E79),
+                                      Color(0xffC1272D),
+                                    ],
+                                  ),
+                                ),
+                                child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _toggleLocalCamera();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: ColorRes.white,
+                                  child:isCamera == true?
+                                  Icon(Icons.camera_alt,color: ColorRes.grey,): Icon(Icons.not_interested),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _onToggleMute();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(80),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 1,
+                                      blurRadius: 2,
+                                      offset: Offset(
+                                          0, 3), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: CircleAvatar(
+                                  radius: 25,
+                                  backgroundColor: ColorRes.white,
+                                  child: muted== true ?Icon(Icons.mic_off,color: ColorRes.grey,):Icon(Icons.mic,color: ColorRes.grey,),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      // AgoraVideoButtons(
+                      //
+                      //   onDisconnect: () async {
+                      //    await leave(context);
+                      //   },
+                      //   client: client,
+                      //   addScreenSharing: false,
+                      // ),
+                    ],
                   );
-                }
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                }
-                  Map<String,dynamic> data = snapshot.data!.docs[0].data() as Map<String,dynamic>;
-                  return Column(
+              }
+              else {
+                return
+                  Column(
                     children: [
                       SizedBox(
                         height: 90,
@@ -164,7 +437,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                 backgroundColor: ColorRes.green,
                               ),
                             ),
-                          )
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -205,12 +478,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                           GestureDetector(
                             onTap: () async{
 
-                              if(data['isVideoCall']== true ){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) =>     VideoCallSmit(channel: data['channelId']),));
-                              }
-                              else {
                                 await join();
-                              }
 
                             },
                             child: Container(
@@ -275,7 +543,8 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                 child: CircleAvatar(
                                   radius: 30,
                                   backgroundColor: ColorRes.white,
-                                  child: speaker== true ?Icon(Icons.volume_up,color: ColorRes.grey,):Icon(Icons.volume_off,color: ColorRes.grey,),
+                                  child: speaker == true ?
+                                  Icon(Icons.volume_up,color: ColorRes.grey,):Icon(Icons.volume_off,color: ColorRes.grey,),
                                 ),
                               ),
                             ),
@@ -292,35 +561,15 @@ class _PickUpScreenState extends State<PickUpScreen> {
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                     colors: [
-                                      Color(0xffED1E79,),
-                                      Color(0xffC1272D,),
+                                      Color(0xffED1E79),
+                                      Color(0xffC1272D),
                                     ],
                                   ),
                                 ),
                                 child: Image.asset('assets/icons/Call_hangUp.png', scale: 3.5),
                               ),
                             ),
-                            // Container(
-                            //   decoration: BoxDecoration(
-                            //     color: Colors.white,
-                            //     borderRadius: BorderRadius.circular(80),
-                            //     boxShadow: [
-                            //       BoxShadow(
-                            //         color: Colors.grey.withOpacity(0.5),
-                            //         spreadRadius: 1,
-                            //         blurRadius: 2,
-                            //         offset: Offset(
-                            //             0, 3), // changes position of shadow
-                            //       ),
-                            //     ],
-                            //   ),
-                            //   child: CircleAvatar(
-                            //     radius: 30,
-                            //     backgroundColor: ColorRes.white,
-                            //     child: Image.asset('assets/icons/Video Call.png',
-                            //         scale: 4),
-                            //   ),
-                            // ),
+
                             GestureDetector(
                               onTap: () {
                                 _onToggleMute();
@@ -352,11 +601,12 @@ class _PickUpScreenState extends State<PickUpScreen> {
 
                     ],
                   );
-              },
+              }
+            },
 
-            ),
           ),
-        );
+        ),
+      );
 
 
   }
@@ -380,6 +630,9 @@ class _PickUpScreenState extends State<PickUpScreen> {
         .doc(id)
         .update({'status': 'accepted'});
 
+    await agoraCallEngine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
+    await agoraCallEngine.enableVideo();
+    await agoraCallEngine.startPreview();
 
     await agoraCallEngine.joinChannel(
       token: token,
@@ -391,10 +644,14 @@ class _PickUpScreenState extends State<PickUpScreen> {
   }
 
 
-bool isCutYou = false;
+  bool isCutYou = false;
   Future<void> leave(BuildContext context) async{
     FirebaseFirestore firestore = FirebaseFirestore.instance;
     isCutYou = true;
+    agoraCallEngine.leaveChannel();
+    agoraCallEngine.release();
+    client.engine.leaveChannel();
+    client.engine.release();
     Navigator.pop(context);
 
     QuerySnapshot querySnapshot = await firestore
@@ -406,7 +663,51 @@ bool isCutYou = false;
         .collection('calls')
         .doc(id)
         .delete();
-    agoraCallEngine.leaveChannel();
-    agoraCallEngine.release();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
