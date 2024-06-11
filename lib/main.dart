@@ -145,7 +145,7 @@ class MyApp extends StatelessWidget {
                       : ThemeMode.dark,
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
-            child: RevenueCatScreen(),
+            child: SplashScreen(),
           ),
         );
       });
@@ -222,8 +222,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
 
             if(Platform.isIOS){
-             printAPNSToken();
-              // printFCMToken();
+             // printAPNSToken();
+              printFCMToken();
             }
             else {
               printFCMToken();

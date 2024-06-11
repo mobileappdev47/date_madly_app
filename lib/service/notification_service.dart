@@ -97,9 +97,10 @@ class NotificationService {
   }
   static Future<String?> getAPNSToken() async {
     try {
-      return await FirebaseMessaging.instance.getAPNSToken();
+      String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      return apnsToken;
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('------SOOOOMEEEEE thing WENNTTTTT WRong=======${e.toString()}');
       return null;
     }
   }

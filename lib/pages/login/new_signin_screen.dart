@@ -109,15 +109,21 @@ loader= false ;
       } else {
         print('user data get');
 
+
+
+        // String? token =
+        // PrefService.getString(PrefKeys.deviceToken);
+        String? newToken= await NotificationService.getToken();
+
         Map<String ,dynamic>facebookBody= {
 
         "email": "${userCredential.user!.email }",
-        "device_token": token ?? '',
+        "device_token": newToken ?? '',
         "latitude": lat,
         "longitude": long
 
         };
-
+        print('facebook login body--${facebookBody}');
 
         socialLoginApi(facebookBody);
 
@@ -145,17 +151,22 @@ setState(() {
 
       debugPrint('uid: ${user.uid}');
       print("My user =====>>>> ${user.uid}");
+      // String? token =
+      // PrefService.getString(PrefKeys.deviceToken);
 
+
+      String? newToken= await NotificationService.getToken();
       if(user!= null){
         print(user.email);
         print(FirebaseAuth.instance.currentUser?.email??'');
+
         body = {
           "email": "${user.email}",
-          "device_token": token ?? '',
+          "device_token": newToken ?? '',
           "latitude": lat,
           "longitude": long
         };
-
+        print('apple login body--${body}');
        await  socialLoginApi(body);
 
         // Navigator.push(context!, MaterialPageRoute(builder: (context) => AdditionalDetails(pageNo: 1) ,));

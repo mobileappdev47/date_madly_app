@@ -8,8 +8,6 @@
 	</array>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
-	<key>FLTEnableImpeller</key>
-    <false/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -46,15 +44,17 @@
 				<string>app-1-914912403564-ios-576ff814a78fba0320f849</string>
 			</array>
 		</dict>
-		 <dict>
-          <key>CFBundleURLSchemes</key>
-          <array>
-            <string>fb1012607937044667</string>
-          </array>
-          </dict>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1012607937044667</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>12</string>
+	<string>24</string>
+	<key>FLTEnableImpeller</key>
+	<false/>
 	<key>FacebookAppID</key>
 	<string>1012607937044667</string>
 	<key>FacebookClientToken</key>

@@ -111,21 +111,21 @@ class _NewOtpScreenState extends State<NewOtpScreen> {
   Future<void>   verifyOtpApi() async {
     
 
-    if(Platform.isIOS){
-      await  NotificationService.getAPNSToken();
-      print('yes---------IOS');
-    }
-    String? newToken= await NotificationService.getToken();
+    // if(Platform.isIOS){
+    //   await  NotificationService.getAPNSToken();
+    //   print('yes---------IOS');
+    // }
+    // String? newToken= await NotificationService.getToken();
 
     
-    String? token =
-    PrefService.getString(PrefKeys.deviceToken);
-
+    // String? token =
+    // PrefService.getString(PrefKeys.deviceToken);
+    String? token = await NotificationService.getToken();
     body2 = {
 
       "phoneNo": "${widget.phone}",
       "otp": otpController.text??'',
-      "device_token": newToken,
+      "device_token": token,
       "latitude": lat,
       "longitude": long
 
