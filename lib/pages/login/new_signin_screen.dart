@@ -146,6 +146,7 @@ setState(() {
     try {
       final user = await signInWithAppleSign(
           scopes: [Scope.email, Scope.fullName],
+
           context: context,
           value: value);
 
@@ -200,8 +201,6 @@ setState(() {
         final firebaseUser = userCredential.user;
 
          print(userCredential.user!.email);
-
-
 
         // loader.value = false;
         return firebaseUser;
