@@ -528,7 +528,9 @@ print(getSingleProfileModel.profile![0].images![0])
                               : SizedBox(),
                           SizedBox(height: 30),
 
-                      PrefService.getString(PrefKeys.loginType)=='socialEmail'?    Column(
+                      PrefService.getString(PrefKeys.loginType)=='socialEmail'?
+
+                      Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text('Phone', style: mulish14400),
@@ -555,11 +557,36 @@ print(getSingleProfileModel.profile![0].images![0])
                               )
                                   : SizedBox(),
                               SizedBox(height: 30),
+
+
+
+                              Text('Email', style: mulish14400),
+                              SizedBox(height: 10),
+                              SizedBox(
+                                height: 50,
+                                child: NewTextField(
+                                  controller: value.emailController,
+                                  hintText: Strings.enter_email,
+
+
+                                ),
+                              ),
+                              value.emailError != ""
+                                  ? Align(
+                                alignment: Alignment.centerLeft,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 3),
+                                  child: Text(
+                                    value.emailError,
+                                    style: errorText(),
+                                  ),
+                                ),
+                              )
+                                  : SizedBox(),
+                              SizedBox(height: 30),
+
                             ],
                           ) :
-
-
-
 
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
