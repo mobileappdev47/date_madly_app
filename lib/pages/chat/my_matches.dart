@@ -24,11 +24,18 @@ class _MyMatchesState extends State<MyMatches> {
   List filterList = [];
 
   void searching(value) {
-    filterList = (widget.chatUsers.where((element) {
-      return element.participants![1].name
-          .toString()
-          .toLowerCase()
-          .contains(value.toString().toLowerCase());
+    filterList = (
+        widget.chatUsers.where((element) {
+
+          if(element.participants.length == 2){
+            return element.participants![1].name
+                .toString()
+                .toLowerCase()
+                .contains(value.toString().toLowerCase());
+          }
+          else {
+            return false;
+          }
     }).toList());
     setState(() {});
     print(filterList);
@@ -82,159 +89,188 @@ class _MyMatchesState extends State<MyMatches> {
               value.searchController.text.isEmpty
                   ? ListView.separated(
                       separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 20,
-                        );
+
+    if( widget.chatUsers[index].participants?.length == 2 ){
+      return SizedBox(
+        height: 20,
+      );
+    }
+    else {
+      return SizedBox(
+        height: 0,
+      );
+    }
+
+
                       },
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: widget.chatUsers.length,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {
-                          NewChatProvider newChatProvider =
-                              Provider.of<NewChatProvider>(context,
-                                  listen: false);
-                          if (widget.chatUsers?[index].participants?[1]
-                                      .images !=
-                                  null &&
-                              widget.chatUsers![index].participants![1].images!
-                                  .isNotEmpty) {
-                            newChatProvider.gotoChatScreen(
-                                context,
-                                widget.chatUsers[index].participants?[1]
-                                        .id ??
-                                    '',
-                                widget.chatUsers[index].participants?[1]
-                                        .id ??
-                                    '',
-                                widget.chatUsers?[index].participants?[1]
-                                    .images?[0]
+                      itemBuilder: (context, index) {
+                       if( widget.chatUsers[index].participants?.length == 2 ){
+                         return
 
-                            ,
-                                widget.chatUsers[index].participants?[1].name??''
-                            );
-                          } else {
-                            newChatProvider.gotoChatScreen(
-                                context,
-                                widget.chatUsers[index].participants?[1]
-                                        .id ??
-                                    '',
-                                widget.chatUsers[index].participants?[1]
-                                        .id ??
-                                    '',
-                                '',
-                                widget.chatUsers[index].participants?[1].name??''
-                            );
-                          }
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Row(
-                            children: [
-                              ClipOval(
-                                child: widget.chatUsers?[index].participants?[1]
-                                                .images !=
-                                            null &&
-                                        widget.chatUsers![index]
-                                            .participants![1].images!.isNotEmpty
-                                    ? CachedNetworkImage(
-                                        imageUrl: widget.chatUsers?[index]
-                                                .participants?[1].images?[0] ??
-                                            '',
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.fill,
-                                        placeholder: (context, url) =>
-                                            Image.asset(
-                                              'assets/images/image_placeholder.png',
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.fill,
-                                            ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                              'assets/images/image_placeholder.png',
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.fill,
-                                            ))
-                                    : CachedNetworkImage(
-                                        imageUrl: '',
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.fill,
-                                        placeholder: (context, url) =>
-                                            Image.asset(
-                                              'assets/images/image_placeholder.png',
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.fill,
-                                            ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                              'assets/images/image_placeholder.png',
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.fill,
-                                            )),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    widget.chatUsers[index].participants?[1]
-                                            .name ??
-                                        '',
-                                    style: mulishbold.copyWith(
-                                      fontSize: 15,
-                                      color: ColorRes.darkGrey,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Spacer(),
-                              Container(
-                                height: 30,
-                                width: 30,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Color(0xffED1E79,),
-                                      Color(0xffC1272D,),
-                                    ],
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(7.0),
-                                  child: Image.asset(
-                                    AssertRe.chat,
-                                    color: ColorRes.white,
-                                    height: 14,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                           InkWell(
+                             onTap: () {
+                               NewChatProvider newChatProvider =
+                               Provider.of<NewChatProvider>(context,
+                                   listen: false);
+                               if (widget.chatUsers?[index].participants?[1]
+                                   .images !=
+                                   null &&
+                                   widget.chatUsers![index].participants![1].images!
+                                       .isNotEmpty) {
+                                 newChatProvider.gotoChatScreen(
+                                     context,
+                                     widget.chatUsers[index].participants?[1]
+                                         .id ??
+                                         '',
+                                     widget.chatUsers[index].participants?[1]
+                                         .id ??
+                                         '',
+                                     widget.chatUsers?[index].participants?[1]
+                                         .images?[0]
+
+                                     ,
+                                     widget.chatUsers[index].participants?[1].name??''
+                                 );
+                               } else {
+                                 newChatProvider.gotoChatScreen(
+                                     context,
+                                     widget.chatUsers[index].participants?[1]
+                                         .id ??
+                                         '',
+                                     widget.chatUsers[index].participants?[1]
+                                         .id ??
+                                         '',
+                                     '',
+                                     widget.chatUsers[index].participants?[1].name??''
+                                 );
+                               }
+                             },
+                             child: Padding(
+                               padding: const EdgeInsets.only(top: 5),
+                               child: Row(
+                                 children: [
+                                   ClipOval(
+                                     child:widget.chatUsers?[index].participants?.length ==2 &&widget.chatUsers?[index].participants?[1]
+                                         .images !=
+                                         null &&
+                                         widget.chatUsers![index]
+                                             .participants![1].images!.isNotEmpty
+                                         ? CachedNetworkImage(
+                                         imageUrl: widget.chatUsers?[index]
+                                             .participants?[1].images?[0] ??
+                                             '',
+                                         height: 60,
+                                         width: 60,
+                                         fit: BoxFit.fill,
+                                         placeholder: (context, url) =>
+                                             Image.asset(
+                                               'assets/images/image_placeholder.png',
+                                               height: 60,
+                                               width: 60,
+                                               fit: BoxFit.fill,
+                                             ),
+                                         errorWidget: (context, url, error) =>
+                                             Image.asset(
+                                               'assets/images/image_placeholder.png',
+                                               height: 60,
+                                               width: 60,
+                                               fit: BoxFit.fill,
+                                             ))
+                                         : CachedNetworkImage(
+                                         imageUrl: '',
+                                         height: 60,
+                                         width: 60,
+                                         fit: BoxFit.fill,
+                                         placeholder: (context, url) =>
+                                             Image.asset(
+                                               'assets/images/image_placeholder.png',
+                                               height: 60,
+                                               width: 60,
+                                               fit: BoxFit.fill,
+                                             ),
+                                         errorWidget: (context, url, error) =>
+                                             Image.asset(
+                                               'assets/images/image_placeholder.png',
+                                               height: 60,
+                                               width: 60,
+                                               fit: BoxFit.fill,
+                                             )),
+                                   ),
+                                   SizedBox(
+                                     width: 10,
+                                   ),
+                                   Column(
+                                     mainAxisAlignment: MainAxisAlignment.start,
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     children: [
+                                       Text(
+                                         widget.chatUsers[index].participants?[1]
+                                             .name ??
+                                             '',
+                                         style: mulishbold.copyWith(
+                                           fontSize: 15,
+                                           color: ColorRes.darkGrey,
+                                         ),
+                                       ),
+                                     ],
+                                   ),
+                                   Spacer(),
+                                   Container(
+                                     height: 30,
+                                     width: 30,
+                                     decoration: BoxDecoration(
+                                       borderRadius: BorderRadius.circular(50),
+                                       gradient: LinearGradient(
+                                         begin: Alignment.topCenter,
+                                         end: Alignment.bottomCenter,
+                                         colors: [
+                                           Color(0xffED1E79,),
+                                           Color(0xffC1272D,),
+                                         ],
+                                       ),
+                                     ),
+                                     child: Padding(
+                                       padding: const EdgeInsets.all(7.0),
+                                       child: Image.asset(
+                                         AssertRe.chat,
+                                         color: ColorRes.white,
+                                         height: 14,
+                                       ),
+                                     ),
+                                   ),
+                                 ],
+                               ),
+                             ),
+                           );
+                       }
+                       else {
+                         return SizedBox();                       }
+
+
+  }
                     )
                   : ListView.separated(
                       separatorBuilder: (context, index) {
-                        return SizedBox(
-                          height: 20,
-                        );
+                        if( filterList[index].participants?.length == 2 ){
+                          return SizedBox(
+                            height: 20,
+                          );
+                        }
+                        else {
+                          return SizedBox(
+                            height: 0,
+                          );
+                        }
                       },
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: filterList.length,
-                      itemBuilder: (context, index) => InkWell(
+                      itemBuilder: (context, index) {
+
+                        return  InkWell(
                         onTap: () {
                           NewChatProvider newChatProvider =
                               Provider.of<NewChatProvider>(context,
@@ -355,7 +391,8 @@ class _MyMatchesState extends State<MyMatches> {
                             ],
                           ),
                         ),
-                      ),
+                      )
+    ;}
                     ),
             ],
           ),

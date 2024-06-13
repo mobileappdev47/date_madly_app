@@ -202,14 +202,26 @@ class Updateprovider extends ChangeNotifier {
     companyValidation();
     collegeValidation();
     genderValidation();
-  PrefService.getString(PrefKeys.loginType) =='socialEmail'?   phoneValidation():emailValidation();
+    phoneValidation();
+    emailValidation();
+
+  // PrefService.getString(PrefKeys.loginType) =='socialEmail'?   phoneValidation():emailValidation();
 
   }
 
   validation() {
 
-    PrefService.getString(PrefKeys.loginType) =='socialEmail'? emailError='': phoneError='';
+    // PrefService.getString(PrefKeys.loginType) =='socialEmail'? emailError='': phoneError='';
+
+
+
     val();
+
+
+    if(PrefService.getString(PrefKeys.loginType) =='Phone'){
+      phoneError='';
+    }
+
     if (nameError == '' &&
         dobError == '' &&
         jobError == '' &&

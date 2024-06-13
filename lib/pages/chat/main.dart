@@ -230,7 +230,8 @@ class _ChatState extends State<Chat> {
                 onTap: () {
                   Dialogs().showLogoutDialog(context);
                 },
-                child: Icon(Icons.arrow_back_ios,color: ColorRes.appColor,size: 18,)),
+                child: Icon(Icons.arrow_back_ios,color: ColorRes.appColor,size: 18,)
+            ),
             centerTitle: true,
             backgroundColor: ColorRes.white,
             title: Text(
@@ -299,7 +300,9 @@ class _ChatState extends State<Chat> {
                             color: ColorRes.darkGrey,
                           ),
                         ),
+
                         Spacer(),
+
                         TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -329,15 +332,14 @@ class _ChatState extends State<Chat> {
                             ],
                           ),
                         ),
+                        
                       ],
                     ),
                     SizedBox(
                       height: 60,
-                      child: ListView.separated(
+                      child: ListView.builder(
                         padding: EdgeInsets.symmetric(horizontal: 20),
-                        separatorBuilder: (context, index) => SizedBox(
-                          width: 20,
-                        ),
+
                         scrollDirection: Axis.horizontal,
 
                         itemCount: getAllChatRoom.chatRoom?.length ?? 0,
@@ -345,19 +347,31 @@ class _ChatState extends State<Chat> {
                           var data;
                           var data2;
                           if (getAllChatRoom
+                              .chatRoom![index].participants!.length ==2&&getAllChatRoom
                               .chatRoom![index].participants![1].id ==
                               PrefService.getString(PrefKeys.email)) {
                             data =
                             getAllChatRoom.chatRoom![index].participants![0];
                             data2 =
                             getAllChatRoom.chatRoom![index].participants![1];
-                          } else {
-                            data =
-                            getAllChatRoom.chatRoom![index].participants![1];
-                            data2 =
-                            getAllChatRoom.chatRoom![index].participants![0];
-                          }
 
+                          } else {
+                            if(getAllChatRoom
+                                .chatRoom![index].participants!.length ==2){
+                              data =
+                              getAllChatRoom.chatRoom![index].participants![1];
+                              data2 =
+                              getAllChatRoom.chatRoom![index].participants![0];
+
+                            }
+                            else {
+                              data =
+                              getAllChatRoom.chatRoom![index].participants![0];
+                              data2 =
+                              getAllChatRoom.chatRoom![index].participants![0];
+                              return SizedBox();
+                            }
+                          }
                           return GestureDetector(
                             onTap: () async {
                               getCollectionLength();
@@ -389,47 +403,51 @@ class _ChatState extends State<Chat> {
                                     data.id ?? '', dataPass, '');
                               }
                             },
-                            child: ClipOval(
-                              child: data.images != null &&
-                                  data.images!.isNotEmpty
-                                  ? CachedNetworkImage(
-                                  imageUrl: data.images?[0] ?? '',
-                                  height: 60,
-                                  width: 60,
-                                  fit: BoxFit.fill,
-                                  placeholder: (context, url) => Image.asset(
-                                    'assets/images/image_placeholder.png',
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: ClipOval(
+                                child: data.images != null &&
+                                    data.images!.isNotEmpty
+                                    ? CachedNetworkImage(
+                                    imageUrl: data.images?[0] ?? '',
                                     height: 60,
                                     width: 60,
                                     fit: BoxFit.fill,
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.fill,
-                                      ))
-                                  : CachedNetworkImage(
-                                  imageUrl: '',
-                                  height: 60,
-                                  width: 60,
-                                  fit: BoxFit.fill,
-                                  placeholder: (context, url) => Image.asset(
-                                    'assets/images/image_placeholder.png',
+                                    placeholder: (context, url) => Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        ))
+                                    : CachedNetworkImage(
+                                    imageUrl: '',
                                     height: 60,
                                     width: 60,
                                     fit: BoxFit.fill,
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                        'assets/images/image_placeholder.png',
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.fill,
-                                      )),
+                                    placeholder: (context, url) => Image.asset(
+                                      'assets/images/image_placeholder.png',
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.fill,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                          'assets/images/image_placeholder.png',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.fill,
+                                        )),
+                              ),
                             ),
                           );
+
                         },
                       ),
                     ),
@@ -728,6 +746,7 @@ class _ChatState extends State<Chat> {
                         },
                       ),
                     )
+
                         : SizedBox(
                       height: 350,
                       child: ListView.builder(
@@ -876,7 +895,8 @@ class _ChatState extends State<Chat> {
                               );
                             }
                           }),
-                    )
+                    ),
+                    SizedBox(height: 50,),
                   ],
                 ),
               ),
