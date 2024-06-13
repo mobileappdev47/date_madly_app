@@ -157,20 +157,44 @@ setState(() {
 
       String? newToken= await NotificationService.getToken();
       if(user!= null){
+
         print(user.email);
+
+        print('Apple login user information ==========+++++++++++++++++^^^^^^^^^^^^^^^${user}');
         print(FirebaseAuth.instance.currentUser?.email??'');
 
-        body = {
-          "email": "${user.email}",
-          "device_token": newToken ?? '',
-          "latitude": lat,
-          "longitude": long
-        };
-        print('apple login body--${body}');
-       await  socialLoginApi(body);
 
-        // Navigator.push(context!, MaterialPageRoute(builder: (context) => AdditionalDetails(pageNo: 1) ,));
-
+        // if(user.email== null){
+        //
+        //
+        //   if(user.phoneNumber != null){
+        //     body = {
+        //       "phoneNo": "${user.phoneNumber}",
+        //       "device_token": newToken ?? '',
+        //       "latitude": lat,
+        //       "longitude": long
+        //     };
+        //     print('apple login body--${body}');
+        //     await  socialLoginApi(body);
+        //   }
+        //   else {
+        //     ScaffoldMessenger.of(context!).showSnackBar(SnackBar(content: Text('Apple ID not found!')));
+        //   }
+        //
+        // }
+        if(user.uid== null){
+          ScaffoldMessenger.of(context!).showSnackBar(SnackBar(content: Text('Apple ID UID not found!')));
+        }
+        else {
+          body = {
+            "uid": "${user.uid}",
+            "device_token": newToken ?? '',
+            "latitude": lat,
+            "longitude": long
+          };
+          print('apple login body--${body}');
+          await  socialLoginApi(body);
+        }
       }
     } catch (e) {
       debugPrint(e.toString());

@@ -135,14 +135,14 @@ class MyApp extends StatelessWidget {
           title: 'Lovecirco',
           theme: themeData(appProvider.theme, appProvider.lightColorScheme,
               appProvider.lightCustomColors),
-          darkTheme: themeData(ThemeConfig.darkTheme,
-              appProvider.darkColorScheme, appProvider.darkCustomColors),
-          themeMode:
-              MediaQuery.of(context).platformBrightness == Brightness.dark
-                  ? ThemeMode.dark
-                  : appProvider.theme == ThemeConfig.lightTheme
-                  ? ThemeMode.light
-                      : ThemeMode.dark,
+          // darkTheme: themeData(ThemeConfig.darkTheme,
+          //     appProvider.darkColorScheme, appProvider.darkCustomColors),
+          // themeMode:
+          //     MediaQuery.of(context).platformBrightness == Brightness.dark
+          //         ? ThemeMode.dark
+          //         : appProvider.theme == ThemeConfig.lightTheme
+          //         ? ThemeMode.light
+          //             : ThemeMode.dark,
           home: ChangeNotifierProvider(
             create: (context) => PhoneAuthProvider(),
             child: SplashScreen(),

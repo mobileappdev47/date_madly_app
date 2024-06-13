@@ -307,6 +307,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     Expanded(
                       child: StreamBuilder<QuerySnapshot>(
+
                         stream: FirebaseFirestore.instance
                             .collection("chats")
                             .doc(widget.roomId)
@@ -324,6 +325,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             default:
                               List<DocumentSnapshot> documents = snapshot.data!.docs;
                               return ListView.builder(
+                                padding: EdgeInsets.zero,
                                 controller: value.listScrollController,
                                 reverse: true,
                                 itemCount: documents.length,
