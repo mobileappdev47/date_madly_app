@@ -419,6 +419,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                                                   ),
                                                                   GestureDetector(
                                                                     onTap: () {
+
                                                                       Navigator.pop(context);
 
                                                                     },

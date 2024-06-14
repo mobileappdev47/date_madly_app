@@ -662,7 +662,8 @@ print(getSingleProfileModel.profile![0].images![0])
                                 )
                               : SizedBox(),
                           SizedBox(height: 30),
-            /*              Text(Strings.company, style: mulish14400),
+            /*
+                       Text(Strings.company, style: mulish14400),
                           SizedBox(height: 10),
                           NewTextField(
                             controller: value.companyController,
@@ -748,7 +749,7 @@ print(getSingleProfileModel.profile![0].images![0])
                                   "company": value.companyController.text,
                                   "college": value.collegeController.text,
                                   "about": value.aboutController.text,
-                                };
+                                  };
                                 await updateApiCall(context);
                                 // Navigator.push(
                                 //     context,
