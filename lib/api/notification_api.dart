@@ -27,9 +27,11 @@ class NotificationApi {
       if (response.statusCode == 200) {
         var data = (await response.stream.bytesToString());
         return getNotificationModelFromJson(data);
-      } else {
+      }
+      else {
         print(response.reasonPhrase);
       }
+
     } catch (e) {
       return null;
     }

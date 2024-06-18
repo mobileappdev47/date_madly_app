@@ -672,15 +672,14 @@ class _ProfileState extends State<Profile> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: 10,
+                                        height: 3,
                                       ),
                                       selectedIndex == index
                                           ? Padding(
                                         padding:
                                         const EdgeInsets.only(left: 60),
                                         child: Column(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
+
                                           crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                           children: [
@@ -714,39 +713,39 @@ class _ProfileState extends State<Profile> {
                                                 ],
                                               ),
                                             ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ChangePassword(),
-                                                ));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    Strings.change_password,
-                                                    style:
-                                                    mulishbold.copyWith(
-                                                        color: ColorRes
-                                                            .grey,
-                                                        fontSize: 13),
-                                                  ),
-                                                  Spacer(),
-                                                  Image.asset(
-                                                    AssertRe.side,
-                                                    color: ColorRes.grey,
-                                                    scale: 4,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                ],
-                                              ),
-                                            )
+                                            // SizedBox(
+                                            //   height: 10,
+                                            // ),
+                                            // GestureDetector(
+                                            //   onTap: () {
+                                            //     Navigator.of(context)
+                                            //         .push(MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           ChangePassword(),
+                                            //     ));
+                                            //   },
+                                            //   child: Row(
+                                            //     children: [
+                                            //       Text(
+                                            //         Strings.change_password,
+                                            //         style:
+                                            //         mulishbold.copyWith(
+                                            //             color: ColorRes
+                                            //                 .grey,
+                                            //             fontSize: 13),
+                                            //       ),
+                                            //       Spacer(),
+                                            //       Image.asset(
+                                            //         AssertRe.side,
+                                            //         color: ColorRes.grey,
+                                            //         scale: 4,
+                                            //       ),
+                                            //       SizedBox(
+                                            //         width: 10,
+                                            //       ),
+                                            //     ],
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       )

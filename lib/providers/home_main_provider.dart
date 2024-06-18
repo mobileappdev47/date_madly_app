@@ -133,7 +133,7 @@ class HomeMainProvider with ChangeNotifier {
                                         width: 50,
                                         fit: BoxFit.cover,
                                         imageUrl: getNotificationModel
-                                                .notifications?[index].imageUrl ??
+                                                .notifications?[index].likedId?.profilephoto ??
                                             '',
                                         placeholder: (context, url) =>
                                             Image.asset(
