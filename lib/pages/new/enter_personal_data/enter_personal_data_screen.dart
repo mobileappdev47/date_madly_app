@@ -347,7 +347,7 @@ print(getSingleProfileModel.profile![0].images![0])
                             height: 42,
                           ),
                           Text(
-                            Strings.name,
+                            Strings.userName,
                             style: mulish14400,
                           ),
                           SizedBox(
@@ -374,7 +374,7 @@ print(getSingleProfileModel.profile![0].images![0])
                             height: 30,
                           ),
                           Text(
-                            Strings.birthday,
+                            Strings.date_of_birth,
                             style: mulish14400,
                           ),
                           SizedBox(
@@ -642,7 +642,7 @@ print(getSingleProfileModel.profile![0].images![0])
                                 )
                               : SizedBox(),
                           SizedBox(height: 30),
-                          Text(Strings.job, style: mulish14400),
+                          Text(Strings.occupation, style: mulish14400),
                           SizedBox(height: 10),
                           NewTextField(
                             controller: value.jobController,

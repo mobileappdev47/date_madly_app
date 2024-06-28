@@ -8,6 +8,7 @@ class EndPoints {
   static const addLikedDislikeProfile = baseUrl + "api/addLikeDislikeProfile";
   static const uploadImage = baseUrl + 'api/uploadImage';
   static const getSingleProfile = baseUrl + 'api/getSingleProfile';
+  static const getUserProfile = baseUrl + 'api/getUser';
   static const getProfile = baseUrl + 'api/getProfile';
   static const getLikedDislikeProfiles = baseUrl + 'api/getLikedDislikeProfile';
   static const commentApi = baseUrl + 'api/addComment';
@@ -21,4 +22,5 @@ class EndPoints {
   static const socialLoginApi = baseUrl + 'api/createUserByFirebase';
   static const sendOtpApi = baseUrl + 'api/send-otp';
   static const verifyOtpApi = baseUrl + 'api/verifyOTPLogin';
+  static const membershipSubscribe = baseUrl + 'api/membership-subscribe';
 }

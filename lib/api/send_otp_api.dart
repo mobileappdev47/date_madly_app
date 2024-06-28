@@ -41,6 +41,8 @@ class SendOtpApi {
       http.StreamedResponse response = await request.send();
 
        if (response.statusCode == 200) {
+         print("responseresponse ${await response.stream.bytesToString()}");
+         // print("responseresponse ${response.stream.toString()}");
 
          print(response.statusCode);
          Navigator.push(context, MaterialPageRoute(builder: (context) => NewOtpScreen(phone: phoneNumber, verificationId: ''),));

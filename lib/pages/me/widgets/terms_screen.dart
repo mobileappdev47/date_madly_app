@@ -87,7 +87,7 @@ class _TermsScreenState extends State<TermsScreen> {
             ),
             SizedBox(height: 10,),
             Text(
-              'In order to use Now, you must have or create a Facebook account and sign in using your Facebook login. If you do so, you authorise us to access and use certain Facebook account information, including your public Facebook profile, email and personal information. For more information regarding the information we collect from you and how we use it, please consult our Privacy Policy.',
+              'In order to use Lovecirco, you must have or create a Facebook account and sign in using your Facebook login. If you do so, you authorise us to access and use certain Facebook account information, including your public Facebook profile, email and personal information. For more information regarding the information we collect from you and how we use it, please consult our Privacy Policy.',
               style: TextStyle(
                   fontSize: 14,
                   color: ColorRes.black,

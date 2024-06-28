@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:convert';
+import 'dart:developer' as develop;
 import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -123,6 +124,7 @@ remainingUsers.clear();
       getAll = await FilterApi.filterApi(filterBody, context);
 
       remainingUsers = getAll.users ?? [];
+      develop.log("remainingUsers ${jsonEncode(remainingUsers.first.toJson())}");
       loder = false;
       setState(() {});
     } catch (e) {
@@ -174,6 +176,7 @@ remainingUsers.clear();
       }
 
       remainingUsers = getAll.users ?? [];
+      develop.log("remainingUsers first ${jsonEncode(remainingUsers.first.toJson())}");
       loder = false;
 
       setState(() {});
@@ -275,7 +278,7 @@ remainingUsers.clear();
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: IconButton(
                 onPressed: () {
-                  value.showNotificationContainer(context);
+                  value.showNotificationContainer(context,remainingUsers: remainingUsers);
                 },
                 icon: Image.asset(
                   AssertRe.notification,
@@ -1288,7 +1291,7 @@ remainingUsers.clear();
                                                                           Navigator.push(
                                                                               context,
                                                                               MaterialPageRoute(
-                                                                                builder: (context) => Profile(
+                                                                                builder: (context) => Profiles(
                                                                                     userId:
                                                                                     getAll.users?[index].id ??
                                                                                         ''),
@@ -1536,7 +1539,7 @@ remainingUsers.clear();
                       onSwipe:
                           (previousIndex, currentIndex, direction) async {
                         if(currentIndex!=null){
-                          cardIndex = currentIndex!;
+                          cardIndex = currentIndex;
                           setState(() {});
                           var index1 = currentIndex - 1;
                           if (direction == CardSwiperDirection.left) {
@@ -2075,7 +2078,7 @@ remainingUsers.clear();
                                                                         Navigator.push(
                                                                             context,
                                                                             MaterialPageRoute(
-                                                                              builder: (context) => Profile(
+                                                                              builder: (context) => Profiles(
                                                                                   userId:
                                                                                   getAll.users?[index].id ??
                                                                                       ''),
@@ -2623,7 +2626,7 @@ ladyBottomSheetUI(BuildContext context, GetAllUser getAll, int index) {
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => Profile(
+                                              builder: (context) => Profiles(
                                                   userId:
                                                   getAll.users?[index].id ??
                                                       ''),

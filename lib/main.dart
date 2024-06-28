@@ -35,6 +35,7 @@ import 'package:date_madly_app/providers/edit_profile_provider.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:date_madly_app/providers/likes_provider.dart';
 import 'package:date_madly_app/providers/upload_image_provider.dart';
+import 'package:date_madly_app/purchase_setup/store_config.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/theme/theme_config.dart';
@@ -56,6 +57,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'common/text_style.dart';
 import 'providers/app_provider.dart';
+import 'purchase_setup/purchase_api.dart';
+import 'purchase_setup/store_config.dart' as config;
+import 'purchase_setup/subscritpion_provider.dart';
 import 'utils/firebase_options.dart';
 
 @pragma('vm:entry-point')
@@ -94,8 +98,19 @@ Future<void> main() async {
     appleProvider: AppleProvider.appAttest,
   );
   NotificationService.init();
-  await PurchaseApis.init();
+  // await PurchaseApis.init();
   await CountryCodes.init();
+  if (Platform.isIOS) {
+    StoreConfig(
+      store: config.Store.appleStore,
+      apiKey: appleApiKey,
+    );
+  } else if (Platform.isAndroid) {
+    StoreConfig(
+      store: config.Store.googlePlay,
+      apiKey: googleApiKey,
+    );
+  }
 
   // Stripe.publishableKey = 'pk_test_51PM1MuBjDzSDuEdDp3I0aiacovzss106S0zcRxooyCHIGoIpCsupYQqzsMMn7x8NsNzTFaNGNbkc4M2VgTo0T4tO00pofCxim9';
    // await Stripe.instance.applySettings();
@@ -116,6 +131,8 @@ Future<void> main() async {
     ChangeNotifierProvider(create: (_) => NewChatProvider()),
     ChangeNotifierProvider(create: (_) => ChangePasswordProvider()),
     ChangeNotifierProvider(create: (_) => RevenueCatProvider()),
+    // ChangeNotifierProvider<UpdateList>(create: (_) => UpdateList()),
+    ChangeNotifierProvider<SubscriptionProvider>(create: (_) => SubscriptionProvider()),
   ], child: const MyApp()));
 }
 

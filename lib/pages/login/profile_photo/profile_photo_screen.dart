@@ -248,7 +248,7 @@ class _ProfilePhotoScreenState extends State<ProfilePhotoScreen> {
     }
   }
 
-  List<File> imageList = List.generate(30, (index) => File(''));
+  List<File> imageList = List.generate(15, (index) => File(''));
   List<File> newImageFile = [];
 
   @override

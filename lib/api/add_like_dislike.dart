@@ -19,6 +19,11 @@ class AddLikedDislikeProfileApi {
       var headers = {'Content-Type': 'application/json'};
       var request =
           http.Request('POST', Uri.parse(EndPoints.addLikedDislikeProfile));
+      print({
+        "userID": PrefService.getString(PrefKeys.userId),
+        "likedID": likeid.toString(),
+        "status": status.toString(),
+      });
       request.body = json.encode({
         "userID": PrefService.getString(PrefKeys.userId),
         "likedID": likeid.toString(),

@@ -94,6 +94,7 @@
 //   }
 // }
 import 'dart:convert';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/models/login_model.dart';
 import 'package:date_madly_app/models/phone_login_model.dart';
@@ -129,6 +130,9 @@ class VerifyOtpApi {
         var data = await response.stream.bytesToString();
         PrefService.setValue(
             PrefKeys.userId, verifyOtpModelFromJson(data).user?.id ?? '');
+
+        log("datadatadatadatadata ${jsonDecode(data)}");
+        log("datadatadatadatadata ${data}");
         // PrefService.setValue(PrefKeys.password, password);
 
 

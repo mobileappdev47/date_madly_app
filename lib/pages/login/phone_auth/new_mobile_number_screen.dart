@@ -23,68 +23,68 @@ class _NewMobileNumberScreenState extends State<NewMobileNumberScreen> {
 
   bool loader = false;
   FirebaseAuth auth = FirebaseAuth.instance;
-  Future<void> verifyPhoneNumber(
-      {required String countryCode, required String phoneNumber}) async {
-    loader = true;
-    setState(() {});
-    // auth.setSettings().setAppVerificationDisabledForTesting(true);
-    await auth.verifyPhoneNumber(
-      phoneNumber: '$countryCode$phoneNumber',
-      timeout: const Duration(seconds: 10),
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        try {
-          final UserCredential userCredential =
-          await auth.signInWithCredential(credential);
-          if (userCredential.user != null) {
-            // TODO: Navigate to the desired screen upon successful verification
-            loader = false;
-            setState(() {});
-          }
-        } catch (e) {
-          loader = false;
-          setState(() {});
-          print("======================> ${e.toString()}");
-        }
-      },
-      verificationFailed: (FirebaseAuthException e) {
-
-        print("Phone verification failed--${e.toString()}");
-        loader = false;
-        setState(() {});
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              'Phone verification failed',
-              style: TextStyle(
-                color: ColorRes.white,
-              ),
-            )));
-
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        // TODO: Navigate to the screen where the user can enter the OTP
-        loader = false;
-        setState(() {});
-        print("Otp sent successfully");
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NewOtpScreen(
-                  verificationId: verificationId,
-                  phone: '$countryCode$phoneNumber'
-              ),
-            ));
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-
-        loader = false;
-        setState(() {});
-        print('koko');
-
-
-      },
-    );
-  }
+  // Future<void> verifyPhoneNumber(
+  //     {required String countryCode, required String phoneNumber}) async {
+  //   loader = true;
+  //   setState(() {});
+  //   // auth.setSettings().setAppVerificationDisabledForTesting(true);
+  //   await auth.verifyPhoneNumber(
+  //     phoneNumber: '$countryCode$phoneNumber',
+  //     timeout: const Duration(seconds: 10),
+  //     verificationCompleted: (PhoneAuthCredential credential) async {
+  //       try {
+  //         final UserCredential userCredential =
+  //         await auth.signInWithCredential(credential);
+  //         if (userCredential.user != null) {
+  //           // TODO: Navigate to the desired screen upon successful verification
+  //           loader = false;
+  //           setState(() {});
+  //         }
+  //       } catch (e) {
+  //         loader = false;
+  //         setState(() {});
+  //         print("======================> ${e.toString()}");
+  //       }
+  //     },
+  //     verificationFailed: (FirebaseAuthException e) {
+  //
+  //       print("Phone verification failed--${e.toString()}");
+  //       loader = false;
+  //       setState(() {});
+  //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //           backgroundColor: Colors.red,
+  //           content: Text(
+  //             'Phone verification failed',
+  //             style: TextStyle(
+  //               color: ColorRes.white,
+  //             ),
+  //           )));
+  //
+  //     },
+  //     codeSent: (String verificationId, int? resendToken) async {
+  //       // TODO: Navigate to the screen where the user can enter the OTP
+  //       loader = false;
+  //       setState(() {});
+  //       print("Otp sent successfully");
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //             builder: (context) => NewOtpScreen(
+  //                 verificationId: verificationId,
+  //                 phone: '$countryCode$phoneNumber'
+  //             ),
+  //           ));
+  //     },
+  //     codeAutoRetrievalTimeout: (String verificationId) {
+  //
+  //       loader = false;
+  //       setState(() {});
+  //       print('koko');
+  //
+  //
+  //     },
+  //   );
+  // }
 
 
   Future<void>sendOtpApi1()async{

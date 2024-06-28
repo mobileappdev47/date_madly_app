@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:date_madly_app/service/http_services.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/endpoint.dart';
@@ -52,18 +54,26 @@ class AdditinalDetail {
       {required Map<String, dynamic> body, bool? isLastQuestion}) async {
     try {
       String url = EndPoints.adddetail;
-      print('API URL: $url');
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse(url));
+      request.body = json.encode(body);
+      request.headers.addAll(headers);
 
-      print('Request Body: $body');
-      http.Response? response = await HttpService.postApi(url: url, body: body);
-      print("Status Code: ${response!.statusCode}");
+      http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        print(response.statusCode);
+        print(await response.stream.bytesToString());
+        print("Status Code: ${response!.statusCode}");
+        // print("response body: ${response.body}");
         if (isLastQuestion == true) {
           PrefService.setValue(PrefKeys.isAdditional, true);
         }
-      } else {}
+      }
+      else {
+        print(response.reasonPhrase);
+      }
     } catch (e) {
       print('Exception: $e');
       return null;

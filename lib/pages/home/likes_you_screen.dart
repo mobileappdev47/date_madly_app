@@ -49,7 +49,7 @@ class _LikesYouScreenState extends State<LikesYouScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: IconButton(
                 onPressed: () {
-                  value.showNotificationContainer(context);
+                  value.showNotificationContainer(context,remainingUsers: []);
                 },
                 icon: Image.asset(
                   AssertRe.notification,

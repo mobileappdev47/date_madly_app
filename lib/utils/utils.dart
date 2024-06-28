@@ -63,6 +63,19 @@ class Utils {
     "Accountant"
   ];
   static var income = ["<10", "10-20", "20-50", "50+", "Private"];
+  static var genderAnswer = ["Male", "Female", "Transgender"];
+  static var  hobbiesAnswer = [
+    'Traveling',
+    'Exercise',
+    'Going to the theater',
+    'Dancing',
+    'Cooking',
+    'Outdoors',
+    'Politics',
+    'Pets',
+    'Photography',
+    'Sports'
+  ];
   static var sunSign = [
     "Aries",
     "Taurus",
@@ -76,6 +89,13 @@ class Utils {
     "Capricorn",
     "Aquarius",
     "Pisces"
+  ];
+  static var lookingForAnswer = [
+    "Relationship",
+    "Casual Date",
+    "Friendship",
+    "All of the above",
+    "Don't know yet"
   ];
   static var cusine = [
     "Italian",
@@ -101,7 +121,7 @@ class Utils {
     "Others"
   ];
   static var lookingFor = ["Relationship", "Casual", "Both", "Don't know"];
-  static var personality = ["Introvert", "Extrovert", "Ambivert"];
+  static var personalityAnswer = ["Introvert", "Extrovert", "Ambivert"];
   static var firstDate = [
     "Coffee Date",
     "Dinner Date",
@@ -110,6 +130,11 @@ class Utils {
   ];
   static var drink = ["Socially", "Frequently", "Never"];
   static var smoke = ["Socially", "Frequently", "Never"];
+  static var definesYouAnswer1 = ["Social smokers", "Frequent Smokers", "I don't Smoke"];
+  static var definesYouAnswer2 = ["Social drinker", "Frequent drinker", "I don't drink"];
+  static var idealDateAnswer = ["Coffee Date", "Dinner date", "The Sightseeing Date","Movie Date","Bar Date"];
+  static var preferredRelationShipAnswer = ["Long", "Short"];
+
   static var religion = [
     "Atheist",
     "Agnostic",

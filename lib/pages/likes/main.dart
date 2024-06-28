@@ -75,15 +75,15 @@ class _LikesState extends State<Likes> {
           automaticallyImplyLeading: false,
           centerTitle: true,
           backgroundColor: ColorRes.white,
-          leading: GestureDetector(
-            onTap: () {
-              Dialogs().showLogoutDialog(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: ColorRes.appColor,
-            ),
-          ),
+          // leading: GestureDetector(
+          //   onTap: () {
+          //     Dialogs().showLogoutDialog(context);
+          //   },
+          //   child: Icon(
+          //     Icons.arrow_back_ios_new_rounded,
+          //     color: ColorRes.appColor,
+          //   ),
+          // ),
           title: Text(
             Strings.Match_Request,
             style:

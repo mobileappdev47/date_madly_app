@@ -5,11 +5,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/notification_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_notification_model.dart';
+import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../api/get_single_profile_api.dart';
 import '../models/fetch_liked_dislike_profile.dart';
 import '../models/profile_model.dart';
 import '../models/user_model.dart';
@@ -22,7 +24,8 @@ import '../utils/texts.dart';
 class HomeMainProvider with ChangeNotifier {
   bool male = false;
   bool female = false;
-  bool bottomSheetLoader = false ;
+  bool bottomSheetLoader = false;
+
   double currentSliderValue = 0;
   List notificationList = [
     'assets/icons/Add Image (1).png',
@@ -36,12 +39,15 @@ class HomeMainProvider with ChangeNotifier {
   getNotification(context) async {
     try {
       getNotificationModel = await NotificationApi.notificationApi(context);
+      print("getNotificationModel ${getNotificationModel.toJson()}");
     } catch (e) {
       print(e.toString());
     }
   }
 
-  void showNotificationContainer(BuildContext context) {
+  void showNotificationContainer(BuildContext context,
+      {List<User>? remainingUsers}) {
+    remainingUsers ??= [];
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -78,7 +84,6 @@ class HomeMainProvider with ChangeNotifier {
                               Text(Strings.notification,
                                   style: mulishbold.copyWith(
                                       fontSize: 18, color: ColorRes.appColor)),
-
                               GestureDetector(
                                 onTap: () {
                                   Navigator.pop(context);
@@ -124,7 +129,27 @@ class HomeMainProvider with ChangeNotifier {
                                 getNotificationModel.notifications?.length ?? 0,
                             itemBuilder: (context, index) => Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10),
-                              child: Container(
+                              child: InkWell(
+                                onTap: () async {
+                                  print(
+                                      "remainingUsers ${remainingUsers?.length}");
+
+                                  User user = await GetSingleProfileApi
+                                      .getOtherUserProfileApi(
+                                          context,
+                                          getNotificationModel
+                                              .notifications?[index].likedId?.id);
+
+                                  if (remainingUsers?.first.id != user.id) {
+                                    remainingUsers?.insert(0, user);
+                                  }
+                                  print(
+                                      "remainingUsers ${remainingUsers?.first.toJson()}");
+                                  print(
+                                      "remainingUsers ${remainingUsers?.length}");
+                                  notifyListeners();
+                                  Navigator.pop(context);
+                                },
                                 child: Row(
                                   children: [
                                     ClipOval(
@@ -133,7 +158,9 @@ class HomeMainProvider with ChangeNotifier {
                                         width: 50,
                                         fit: BoxFit.cover,
                                         imageUrl: getNotificationModel
-                                                .notifications?[index].likedId?.profilephoto ??
+                                                .notifications?[index]
+                                                .likedId
+                                                ?.profilephoto ??
                                             '',
                                         placeholder: (context, url) =>
                                             Image.asset(
@@ -196,11 +223,13 @@ class HomeMainProvider with ChangeNotifier {
                                           ),
                                           Text(
                                             getNotificationModel
-                                                    .notifications?[index].body ??
+                                                    .notifications?[index]
+                                                    .body ??
                                                 '',
                                             maxLines: 2,
                                             style: mulish14400.copyWith(
-                                                overflow: TextOverflow.ellipsis),
+                                                overflow:
+                                                    TextOverflow.ellipsis),
                                           ),
                                         ],
                                       ),
@@ -212,17 +241,19 @@ class HomeMainProvider with ChangeNotifier {
                                       height: 35,
                                       width: 35,
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(50),
+                                        borderRadius: BorderRadius.circular(50),
                                         gradient: LinearGradient(
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                           colors: [
-                                            Color(0xffED1E79,),
-                                            Color(0xffC1272D,),
+                                            Color(
+                                              0xffED1E79,
+                                            ),
+                                            Color(
+                                              0xffC1272D,
+                                            ),
                                           ],
                                         ),
-
-
                                       ),
                                       child: Icon(
                                         Icons.favorite_border,

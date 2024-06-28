@@ -24,28 +24,34 @@ import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../providers/app_provider.dart';
+import '../../purchase_setup/purchase_api.dart';
 import '../../theme/theme_config.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_alert.dart';
 import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
+import '../chat/new_provider.dart';
 import 'widgets/ChangePassword/change_password.dart';
 import 'my_gallery.dart';
+import 'widgets/blind_date_screen.dart';
+import 'widgets/delete_account_screen.dart';
 import 'widgets/privacy_policy_screen.dart';
 
-class Profile extends StatefulWidget {
-  Profile({super.key, this.userId});
+class Profiles extends StatefulWidget {
+  Profiles({super.key, this.userId});
 
   final String? userId;
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<Profiles> createState() => _ProfilesState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfilesState extends State<Profiles> {
   Future<String?> getEmail() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString('email');
@@ -220,63 +226,69 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width* 0.4,
-                  child: Row(
-                    children: [
-                      getSingleProfileModel.profile?[0].job != null &&
-                          getSingleProfileModel.profile?[0].job != ''
-                          ? Image.asset(
-                        'assets/icons/Worrk_Icon.png',
-                        height: 18,
-                        width: 18,
-                        fit: BoxFit.contain,
-                      )
-                          : SizedBox(),
                       SizedBox(
-                        width: 1.5,
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Row(
+                          children: [
+                            getSingleProfileModel.profile?[0].job != null &&
+                                    getSingleProfileModel.profile?[0].job != ''
+                                ? Image.asset(
+                                    'assets/icons/Worrk_Icon.png',
+                                    height: 18,
+                                    width: 18,
+                                    fit: BoxFit.contain,
+                                  )
+                                : SizedBox(),
+                            SizedBox(
+                              width: 1.5,
+                            ),
+                            Expanded(
+                              child: Text(
+                                getSingleProfileModel.profile?[0].job ?? '',
+                                style: TextStyle(
+                                    color: ColorRes.grey,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
                       ),
                       Expanded(
-                        child: Text(
-                          getSingleProfileModel.profile?[0].job ?? '',
-                          style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
-
-
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Row(
+                            children: [
+                              getSingleProfileModel.profile?[0].college !=
+                                          null &&
+                                      getSingleProfileModel
+                                              .profile?[0].college !=
+                                          ''
+                                  ? Image.asset(
+                                      'assets/icons/Education_Icon.png',
+                                      height: 18,
+                                      width: 18,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : SizedBox(),
+                              SizedBox(
+                                width: 1.5,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  getSingleProfileModel.profile?[0].college ??
+                                      '',
+                                  style: TextStyle(
+                                      color: ColorRes.grey,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(width: 7,),
-                Expanded(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width* 0.4,
-                    child: Row(
-                      children: [
-                  
-                        getSingleProfileModel.profile?[0].college != null &&
-                            getSingleProfileModel.profile?[0].college != ''
-                            ? Image.asset(
-                          'assets/icons/Education_Icon.png',
-                          height: 18,
-                          width: 18,
-                          fit: BoxFit.contain,
-                        )
-                            : SizedBox(),
-                        SizedBox(
-                          width: 1.5,
-                        ),
-                        Expanded(
-                          child: Text(
-                            getSingleProfileModel.profile?[0].college ?? '',
-                            style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
-
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
                     ],
                   ),
                   SizedBox(
@@ -284,61 +296,72 @@ class _ProfileState extends State<Profile> {
                   ),
                   Row(
                     children: [
-                 SizedBox(
-                   width: MediaQuery.of(context).size.width* 0.4,
-
-                   child:
-                   Row(
-                     children: [
-                       getSingleProfileModel.profile?[0].location != null &&
-                           getSingleProfileModel.profile?[0].location != ''
-                           ? Image.asset(
-                         'assets/icons/Location_Icon.png',
-                         height: 20,
-                         width: 18,
-                         fit: BoxFit.contain,
-                       )
-                           : SizedBox(),
-                       SizedBox(
-                         width: 1.5,
-                       ),
-                       Expanded(
-                         child: Text(
-                           getSingleProfileModel.profile?[0].location ?? '',
-                           style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
-                         ),
-                       ),
-                     ],
-                   ),
-                 ),
-                    SizedBox(width: 7,),
-                     Expanded(
-                       child: SizedBox(
-                         child: 
-                         Row(
-                           children: [
-                             getSingleProfileModel.profile?[0].company != null &&
-                                 getSingleProfileModel.profile?[0].company != ''
-                                 ? Image.asset(
-                               'assets/icons/Company.png',
-                               height: 18,
-                               width: 18,
-                               fit: BoxFit.contain,
-                             )
-                                 : SizedBox(),
-                             SizedBox(
-                               width: 1.5,
-                             ),
-                             Expanded(
-                               child: Text(
-                                 getSingleProfileModel.profile?[0].company ?? '',
-                                 style: TextStyle(color: ColorRes.grey,overflow: TextOverflow.ellipsis),
-                               ),
-                             ),
-                           ],
-                         ),
-                       ),
-                     ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Row(
+                          children: [
+                            getSingleProfileModel.profile?[0].location !=
+                                        null &&
+                                    getSingleProfileModel
+                                            .profile?[0].location !=
+                                        ''
+                                ? Image.asset(
+                                    'assets/icons/Location_Icon.png',
+                                    height: 20,
+                                    width: 18,
+                                    fit: BoxFit.contain,
+                                  )
+                                : SizedBox(),
+                            SizedBox(
+                              width: 1.5,
+                            ),
+                            Expanded(
+                              child: Text(
+                                getSingleProfileModel.profile?[0].location ??
+                                    '',
+                                style: TextStyle(
+                                    color: ColorRes.grey,
+                                    overflow: TextOverflow.ellipsis),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          child: Row(
+                            children: [
+                              getSingleProfileModel.profile?[0].company !=
+                                          null &&
+                                      getSingleProfileModel
+                                              .profile?[0].company !=
+                                          ''
+                                  ? Image.asset(
+                                      'assets/icons/Company.png',
+                                      height: 18,
+                                      width: 18,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : SizedBox(),
+                              SizedBox(
+                                width: 1.5,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  getSingleProfileModel.profile?[0].company ??
+                                      '',
+                                  style: TextStyle(
+                                      color: ColorRes.grey,
+                                      overflow: TextOverflow.ellipsis),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(
@@ -599,163 +622,427 @@ class _ProfileState extends State<Profile> {
                               padding: EdgeInsets.symmetric(horizontal: 1),
                               itemCount: settingData.length,
                               itemBuilder: (context, index) {
-                                return
-
-                                  index==1?SizedBox():
-                                  GestureDetector(
-                                  onTap: () async {
-                                    if (index == 0) {
-                                      selectedIndex =
-                                      selectedIndex == index ? -1 : index;
-                                    } else if (index == 1) {
-                                      Navigator.of(context).pop();
-                                      homeMainProvider
-                                          .showNotificationContainer(context);
-                                    } else if (index == 2) {
-                                      // if (!await launchUrl(
-                                      //     Uri.parse('https://www.google.com/'))) {
-                                      //   throw Exception('Could not launch');
-                                      // }
-
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PolicyScreen(),));
-
-
-
-                                    } else if (index == 3) {
-                                      // if (!await launchUrl(
-                                      //     Uri.parse('https://www.google.com/'))) {
-                                      //   throw Exception('Could not launch');
-                                      // }
-                                      Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen(),));
-                                    } else {}
-                                    setState(() {});
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              settingData[index],
-                                              style: mulishbold.copyWith(
-                                                color: ColorRes.darkGrey,
-                                                fontSize: 16.41,
-                                              ),
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                if (index == 0) {
-                                                  selectedIndex =
-                                                  selectedIndex == index
-                                                      ? -1
-                                                      : index;
-                                                } else {}
-                                              });
-                                            },
-                                            child: Container(
-                                              height: 30,
-                                              width: 30,
-                                              alignment: Alignment.center,
-                                              child: Image.asset(
+                                return index == 1
+                                    ? SizedBox()
+                                    : GestureDetector(
+                                        onTap: () async {
+                                          if (index == 0) {
+                                            selectedIndex =
                                                 selectedIndex == index
-                                                    ? AssertRe.down
-                                                    : AssertRe.side,
-                                                scale: 3,
-                                                color: ColorRes.appColor,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        height: 3,
-                                      ),
-                                      selectedIndex == index
-                                          ? Padding(
-                                        padding:
-                                        const EdgeInsets.only(left: 60),
-                                        child: Column(
+                                                    ? -1
+                                                    : index;
+                                          } else if (index == 1) {
+                                            Navigator.of(context).pop();
+                                            homeMainProvider
+                                                .showNotificationContainer(
+                                                    context,
+                                                    remainingUsers: []);
+                                          } else if (index == 2) {
+                                            // if (!await launchUrl(
+                                            //     Uri.parse('https://www.google.com/'))) {
+                                            //   throw Exception('Could not launch');
+                                            // }
 
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.of(context)
-                                                    .push(MaterialPageRoute(
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EnterPersonalDataScreen(),
+                                                      PolicyScreen(),
                                                 ));
-                                              },
-                                              child: Row(
-                                                children: [
-                                                  Text(
-                                                    Strings.personal_info,
-                                                    style:
-                                                    mulishbold.copyWith(
-                                                      color: ColorRes.grey,
-                                                      fontSize: 13,
+                                          } else if (index == 3) {
+                                            // if (!await launchUrl(
+                                            //     Uri.parse('https://www.google.com/'))) {
+                                            //   throw Exception('Could not launch');
+                                            // }
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TermsScreen(),
+                                                ));
+                                          } else if (index == 4) {
+                                            print("entitlementID ${entitlementID}");
+                                            if(entitlementID.value=="lovecirco_premium_v2:lovecirco-premium-v1") {
+                                              Navigator.push(context, MaterialPageRoute(builder: (context) => BlindDateScreen(),));
+                                            }else{
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) => CustomAlert(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.all(
+                                                        20.0),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: <Widget>[
+                                                        const SizedBox(
+                                                            height: 15.0),
+                                                        Text(Constants.appName,
+                                                            style:
+                                                                const TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        24)),
+                                                        const SizedBox(
+                                                            height: 25.0),
+                                                        const Text(
+                                                          'Purchase premium to Access Blind Data Feature',
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight.w500,
+                                                              fontSize: 14.0),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 40.0),
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: <Widget>[
+                                                            SizedBox(
+                                                                height: 40.0,
+                                                                width: 130.0,
+                                                                child: OutlinedButton(
+                                                                    child: Text(
+                                                                        'Cancel'),
+                                                                    onPressed: () =>
+                                                                        Navigator.pop(
+                                                                            context))),
+                                                            GestureDetector(
+                                                              onTap: () async {
+                                                                NewChatProvider
+                                                                    newChatProvider =
+                                                                    Provider.of<
+                                                                            NewChatProvider>(
+                                                                        context,
+                                                                        listen:
+                                                                            false);
+                                                                Package?
+                                                                    selectedProduct;
+
+                                                                newChatProvider
+                                                                    .myProductList
+                                                                    .forEach(
+                                                                        (element) {
+                                                                  if (element
+                                                                          .storeProduct
+                                                                          .identifier ==
+                                                                      "lovecirco_premium_v2:lovecirco-premium-v1") {
+                                                                    selectedProduct =
+                                                                        element;
+                                                                  }
+                                                                });
+
+                                                                showDialog(context: context, builder: (context) {
+                                                                  return AlertDialog(
+                                                                    backgroundColor: Colors.transparent,
+                                                                    elevation: 0,
+                                                                    content: Center(child: CircularProgressIndicator()),
+                                                                  );
+                                                                },);
+
+
+                                                                try {
+                                                                  CustomerInfo
+                                                                      customerInfo =
+                                                                      await Purchases
+                                                                          .purchasePackage(
+                                                                              selectedProduct!);
+
+                                                                  await newChatProvider
+                                                                      .membershipSubscribeApi({
+                                                                    "planName": selectedProduct
+                                                                        ?.storeProduct.identifier,
+                                                                    "planPrice": selectedProduct?.storeProduct
+                                                                        .price,
+                                                                    "planDuration": 60,
+                                                                    "blindDate": true,
+                                                                    "userId": PrefService.getString(
+                                                                        PrefKeys.userId)
+                                                                  }, context);
+
+                                                                  entitlementID.value=selectedProduct!.storeProduct
+                                                                      .identifier;
+                                                                  setState((){});
+                                                                  ScaffoldMessenger.of(context)
+                                                                      .showSnackBar(SnackBar(
+                                                                      content:
+                                                                      Text('Purchase successful')));
+
+                                                                }  catch (e) {
+                                                                  ScaffoldMessenger.of(context)
+                                                                      .showSnackBar(SnackBar(
+                                                                      content:
+                                                                      Text('Purchase failed')));
+                                                                }finally {
+                                                                  Navigator.pop(context);
+                                                                  Navigator.pop(context);
+                                                                  Navigator.pop(context);
+                                                                }
+
+                                                              },
+                                                              child: Container(
+                                                                height: 40.0,
+                                                                width: 130.0,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                    20,
+                                                                  ),
+                                                                  gradient:
+                                                                      LinearGradient(
+                                                                    begin: Alignment
+                                                                        .topCenter,
+                                                                    end: Alignment
+                                                                        .bottomCenter,
+                                                                    colors: [
+                                                                      Color(
+                                                                        0xffED1E79,
+                                                                      ),
+                                                                      Color(
+                                                                        0xffC1272D,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                alignment:
+                                                                    Alignment
+                                                                        .center,
+                                                                child: const Text(
+                                                                  'Buy',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 20.0),
+                                                      ],
                                                     ),
                                                   ),
-                                                  Spacer(),
-                                                  Image.asset(
-                                                    AssertRe.side,
-                                                    color: ColorRes.grey,
-                                                    scale: 4,
+                                                ),
+                                              );
+
+                                            }
+                                          } else {}
+                                          setState(() {});
+                                        },
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child: Text(
+                                                    settingData[index],
+                                                    style: mulishbold.copyWith(
+                                                      color: ColorRes.darkGrey,
+                                                      fontSize: 16.41,
+                                                    ),
                                                   ),
-                                                  SizedBox(
-                                                    width: 10,
+                                                ),
+                                                Spacer(),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (index == 0) {
+                                                        selectedIndex =
+                                                            selectedIndex ==
+                                                                    index
+                                                                ? -1
+                                                                : index;
+                                                      } else {}
+                                                    });
+                                                  },
+                                                  child: entitlementID.value=="lovecirco_premium_v2:lovecirco-premium-v1"? Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    alignment: Alignment.center,
+                                                    child: Image.asset(
+                                                      selectedIndex ==
+                                                          index
+                                                          ? AssertRe.down
+                                                          : AssertRe.side,
+                                                      scale: 3,
+                                                      color: ColorRes
+                                                          .appColor,
+                                                    ),
+                                                  ):Container(
+                                                    height: 30,
+                                                    width: 30,
+                                                    alignment: Alignment.center,
+                                                    child: settingData[index] ==
+                                                            "Blind Date"
+                                                        ? Padding(
+                                                          padding: const EdgeInsets.only(right: 20),
+                                                          child: IconButton(
+                                                              onPressed: () {},
+                                                              icon: Icon(
+                                                                Icons.lock,
+                                                                color: ColorRes
+                                                                    .appColor,
+                                                              )),
+                                                        )
+                                                        : Image.asset(
+                                                            selectedIndex ==
+                                                                    index
+                                                                ? AssertRe.down
+                                                                : AssertRe.side,
+                                                            scale: 3,
+                                                            color: ColorRes
+                                                                .appColor,
+                                                          ),
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                            // SizedBox(
-                                            //   height: 10,
-                                            // ),
-                                            // GestureDetector(
-                                            //   onTap: () {
-                                            //     Navigator.of(context)
-                                            //         .push(MaterialPageRoute(
-                                            //       builder: (context) =>
-                                            //           ChangePassword(),
-                                            //     ));
-                                            //   },
-                                            //   child: Row(
-                                            //     children: [
-                                            //       Text(
-                                            //         Strings.change_password,
-                                            //         style:
-                                            //         mulishbold.copyWith(
-                                            //             color: ColorRes
-                                            //                 .grey,
-                                            //             fontSize: 13),
-                                            //       ),
-                                            //       Spacer(),
-                                            //       Image.asset(
-                                            //         AssertRe.side,
-                                            //         color: ColorRes.grey,
-                                            //         scale: 4,
-                                            //       ),
-                                            //       SizedBox(
-                                            //         width: 10,
-                                            //       ),
-                                            //     ],
-                                            //   ),
-                                            // ),
+                                            SizedBox(
+                                              height: 3,
+                                            ),
+                                            selectedIndex == index
+                                                ? Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 60),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                                    MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  EnterPersonalDataScreen(),
+                                                            ));
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                Strings
+                                                                    .personal_info,
+                                                                style: mulishbold
+                                                                    .copyWith(
+                                                                  color:
+                                                                      ColorRes
+                                                                          .grey,
+                                                                  fontSize: 13,
+                                                                ),
+                                                              ),
+                                                              Spacer(),
+                                                              Image.asset(
+                                                                AssertRe.side,
+                                                                color: ColorRes
+                                                                    .grey,
+                                                                scale: 4,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10,
+                                                        ),
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .push(
+                                                                    MaterialPageRoute(
+                                                              builder: (context) =>
+                                                                  DeleteAccountScreen(),
+                                                            ));
+                                                          },
+                                                          child: Row(
+                                                            children: [
+                                                              Text(
+                                                                Strings
+                                                                    .delete_account,
+                                                                style: mulishbold
+                                                                    .copyWith(
+                                                                        color: ColorRes
+                                                                            .grey,
+                                                                        fontSize:
+                                                                            13),
+                                                              ),
+                                                              Spacer(),
+                                                              Image.asset(
+                                                                AssertRe.side,
+                                                                color: ColorRes
+                                                                    .grey,
+                                                                scale: 4,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                        // SizedBox(
+                                                        //   height: 10,
+                                                        // ),
+                                                        // GestureDetector(
+                                                        //   onTap: () {
+                                                        //     Navigator.of(context)
+                                                        //         .push(MaterialPageRoute(
+                                                        //       builder: (context) =>
+                                                        //           ChangePassword(),
+                                                        //     ));
+                                                        //   },
+                                                        //   child: Row(
+                                                        //     children: [
+                                                        //       Text(
+                                                        //         Strings.change_password,
+                                                        //         style:
+                                                        //         mulishbold.copyWith(
+                                                        //             color: ColorRes
+                                                        //                 .grey,
+                                                        //             fontSize: 13),
+                                                        //       ),
+                                                        //       Spacer(),
+                                                        //       Image.asset(
+                                                        //         AssertRe.side,
+                                                        //         color: ColorRes.grey,
+                                                        //         scale: 4,
+                                                        //       ),
+                                                        //       SizedBox(
+                                                        //         width: 10,
+                                                        //       ),
+                                                        //     ],
+                                                        //   ),
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  )
+                                                : SizedBox(),
                                           ],
                                         ),
-                                      )
-                                          : SizedBox(),
-                                    ],
-                                  ),
-                                );
+                                      );
                               },
-
-
                             ),
                           ),
                           GestureDetector(
@@ -808,7 +1095,8 @@ List settingData = [
   'My Account',
   'Notifications',
   'Privacy Policy',
-  'Terms And Conditions'
+  'Terms And Conditions',
+  'Blind Date'
 ];
 
 List profilePic = [

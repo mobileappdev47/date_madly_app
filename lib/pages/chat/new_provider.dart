@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
@@ -10,6 +11,10 @@ import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+
+import '../../utils/endpoint.dart';
+import 'package:http/http.dart' as http;
 
 class NewChatProvider extends ChangeNotifier {
   String userEmail = PrefService.getString(PrefKeys.email).toString();
@@ -422,4 +427,96 @@ class NewChatProvider extends ChangeNotifier {
       imageUrl,
     );
   }
+
+  Future membershipSubscribeApi(Map<String, dynamic> body, context) async {
+    try {
+
+      var headers = {
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse(EndPoints.membershipSubscribe));
+      request.body = json.encode(body);
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var data = await response.stream.bytesToString();
+        print("datadatadata ${data}");
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+  List<bool> selectedBoolValue = [];
+  List<Package> myProductList = [];
+  List<Package> selectedProduct = [];
+
+  selectedPlanList() {
+    selectedBoolValue = List<bool>.generate(3, (index) {
+      if (index == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    });
+  }
+
+  updatedPlanList(int index, bool value) {
+    selectedBoolValue = List<bool>.generate(3, (index) {
+      return false;
+    });
+    selectedBoolValue[index] = value;
+    notifyListeners();
+  }
+
+  productData(Package productData) {
+    selectedProduct.clear();
+    selectedProduct.add(productData);
+    notifyListeners();
+  }
+//
+// addPlanEventToFirebase(String identifier) {
+//   if (identifier == 'face26_1y_3999') {
+//     FirebaseAnalyticsService().logEvent(AnalyticsEvent.purchaseOneYearPlan,
+//         parameters: {'uniqueId': uniqueId});
+//   } else if (identifier == 'face26_1m_899') {
+//     FirebaseAnalyticsService().logEvent(AnalyticsEvent.purchaseOneMonthPlan,
+//         parameters: {'uniqueId': uniqueId});
+//   } else if (identifier == 'face26_1m_free_899') {
+//     FirebaseAnalyticsService().logEvent(AnalyticsEvent.purchaseFreeTrailPlan,
+//         parameters: {'uniqueId': uniqueId});
+//   } else {
+//     FirebaseAnalyticsService().logEvent(AnalyticsEvent.purchaseOneYearPlan,
+//         parameters: {'uniqueId': uniqueId});
+//   }
+// }
+//
+// activeSubscriptionDetail(String identifier) async {
+//   ActiveSubscriptionDetail subscriptionDetail;
+//   if (identifier == 'face26_1y_3999') {
+//     subscriptionDetail = ActiveSubscriptionDetail(
+//         myProductList[1].storeProduct.description.toString());
+//     box.put(activeSubscription, subscriptionDetail);
+//   } else if (identifier == 'face26_1m_899') {
+//     subscriptionDetail = ActiveSubscriptionDetail(
+//         myProductList[0].storeProduct.description.toString());
+//     box.put(activeSubscription, subscriptionDetail);
+//   } else if (identifier == 'face26_1m_free_899') {
+//     subscriptionDetail = ActiveSubscriptionDetail(
+//         myProductList[2].storeProduct.description.toString());
+//     box.put(activeSubscription, subscriptionDetail);
+//   } else {
+//     subscriptionDetail = ActiveSubscriptionDetail(
+//         myProductList[1].storeProduct.description.toString());
+//     box.put(activeSubscription, subscriptionDetail);
+//   }
+//   notifyListeners();
+// }
 }

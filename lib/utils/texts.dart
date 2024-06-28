@@ -97,6 +97,7 @@ class Strings {
   static const show_all = "Show All";
   static const personal_info = "Personal info";
   static const change_password = "Change Password";
+  static const delete_account = "Delete Account";
   static const log_out = "Log Out";
 
   ///---------------------------------------- PersonalInfo ----------------------------------------///
@@ -152,8 +153,10 @@ class Strings {
   static const by_click = "By click the sign up button, you’re agree to ";
   static const parken = "Parken’s Terms and Service ";
   static const acknlowledge = "and acknlowledge the ";
-  static const Privacy = "Privacy and   Policy";
+  static const Privacy = "Privacy and Policy";
+  static const contactUs = "Contact Us";
   static const name = "Name";
+  static const userName = "Username";
   static const date_of_birth = "Date of Birth";
   static const password = "Password";
   static const conform_passwod = "Confirm Password";
@@ -174,12 +177,13 @@ class Strings {
 
   ///---------------------------------------- Personal Data ----------------------------------------///
 
-  static const enter_name = "Enter name";
+  static const enter_name = "Enter Username";
   static const dats = "DD/MM/YYYY";
   static const Location = "Location";
   static const ELocation = "Enter location";
   static const job = "Job";
-  static const enter_job = "Enter job";
+  static const occupation = "Occupation";
+  static const enter_job = "Enter Occupation";
   static const enter_company = "Enter company";
   static const college = "College";
   static const company = "Company";

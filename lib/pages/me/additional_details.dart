@@ -32,17 +32,29 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   int di = -1;
   late String question;
   late List<String> array;
-  String selectedSunSign = '';
-  String selectedCuisine = '';
-  String selectedPastime = '';
-  String selectedReligion = '';
-  String selectedSmokingStatus = '';
-  String selectedDrinkingStatus = '';
-  String selectedFirstDate = '';
-  String selectedPersonality = '';
+  // String selectedSunSign = '';
+  // String selectedCuisine = '';
+  // String selectedPastime = '';
+  // String selectedReligion = '';
+  // String selectedSmokingStatus = '';
+  // String selectedDrinkingStatus = '';
+  // String selectedFirstDate = '';
+  // String selectedPersonality = '';
+  // String selectedLookingFor = '';
+  // String selectedPoliticalViews = '';
+  // String selectedItem = '';
+
+
+  String selectedGender = '';
   String selectedLookingFor = '';
-  String selectedPoliticalViews = '';
-  String selectedItem = '';
+  String selectedHobbies = '';
+  String selectedPreferredRelationship = '';
+  String selectedThatDefineYou1 = '';
+  String selectedThatDefineYou2 = '';
+  String selectedIdealDate = '';
+  String selectedPersonality = '';
+
+
 
   // AdditinalDetail additinalDetail = AdditinalDetail();
   String userId = PrefService.getString(PrefKeys.userId);
@@ -74,7 +86,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  "question ${widget.pageNo} of 10",
+                  "question ${widget.pageNo} of 8",
                   style: mulish14400.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
@@ -95,7 +107,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                     style: mulishbold.copyWith(
                       fontSize: 15,
                       color: ColorRes.darkGrey,
-                    )),
+                    ),textAlign: TextAlign.center,),
                 const SizedBox(height: 10),
                 Expanded(
                   child: ListView.builder(
@@ -107,26 +119,43 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               di = index;
                               print(array[index]);
                               if (widget.pageNo == 1) {
-                                selectedSunSign = array[index];
-                              } else if (widget.pageNo == 2) {
-                                selectedCuisine = array[index];
-                              } else if (widget.pageNo == 3) {
-                                selectedPastime = array[index];
-                              } else if (widget.pageNo == 4) {
-                                selectedReligion = array[index];
-                              } else if (widget.pageNo == 5) {
-                                selectedSmokingStatus = array[index];
-                              } else if (widget.pageNo == 6) {
-                                selectedDrinkingStatus = array[index];
-                              } else if (widget.pageNo == 7) {
-                                selectedFirstDate = array[index];
-                              } else if (widget.pageNo == 8) {
-                                selectedPersonality = array[index];
-                              } else if (widget.pageNo == 9) {
+                                selectedGender = array[index];
+                              }else if (widget.pageNo == 2) {
                                 selectedLookingFor = array[index];
-                              } else if (widget.pageNo == 10) {
-                                selectedPoliticalViews = array[index];
+                              }else if (widget.pageNo == 3){
+                                selectedHobbies = array[index];
+                              }else if (widget.pageNo == 4){
+                                selectedPreferredRelationship = array[index];
+                              }else if (widget.pageNo == 5){
+                                selectedThatDefineYou1 = array[index];
+                              }else if (widget.pageNo == 6){
+                                selectedThatDefineYou2 = array[index];
+                              }else if (widget.pageNo == 7){
+                                selectedIdealDate = array[index];
+                              }else if (widget.pageNo == 8){
+                                selectedPersonality = array[index];
                               }
+                              // if (widget.pageNo == 1) {
+                              //   selectedSunSign = array[index];
+                              // } else if (widget.pageNo == 2) {
+                              //   selectedCuisine = array[index];
+                              // } else if (widget.pageNo == 3) {
+                              //   selectedPastime = array[index];
+                              // } else if (widget.pageNo == 4) {
+                              //   selectedReligion = array[index];
+                              // } else if (widget.pageNo == 5) {
+                              //   selectedSmokingStatus = array[index];
+                              // } else if (widget.pageNo == 6) {
+                              //   selectedDrinkingStatus = array[index];
+                              // } else if (widget.pageNo == 7) {
+                              //   selectedFirstDate = array[index];
+                              // } else if (widget.pageNo == 8) {
+                              //   selectedPersonality = array[index];
+                              // } else if (widget.pageNo == 9) {
+                              //   selectedLookingFor = array[index];
+                              // } else if (widget.pageNo == 10) {
+                              //   selectedPoliticalViews = array[index];
+                              // }
                             });
                           },
                           child: Padding(
@@ -269,7 +298,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
 
                           onTap: () async{
                             if (di != -1) {
-                              if (widget.pageNo == 10) {
+                              if (widget.pageNo == 8) {
                                 callApi();
                                 setState(() {});
                                 Navigator.push(
@@ -341,91 +370,122 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
 
   void getVars() {
     if (widget.pageNo == 1) {
-      question = "What is your sun sign?";
-      array = Utils.sunSign;
+      question = "What is your Gender?";
+      array = Utils.genderAnswer;
     } else if (widget.pageNo == 2) {
-      question = "What is your favourite cuisine?";
-      array = Utils.cusine;
-    } else if (widget.pageNo == 3) {
-      question = "What is your favourite pastime?";
-      array = Utils.favPastime;
-    } else if (widget.pageNo == 4) {
-      question = "What religion do you follow?";
-      array = Utils.religion;
-    } else if (widget.pageNo == 5) {
-      question = "Do you smoke?";
-      array = Utils.smoke;
-    } else if (widget.pageNo == 6) {
-      question = "Do you drink?";
-      array = Utils.drink;
-    } else if (widget.pageNo == 7) {
-      question = "What would be your ideal first date?";
-      array = Utils.firstDate;
-    } else if (widget.pageNo == 8) {
-      question = "What kind of personality do you have?";
-      array = Utils.personality;
-    } else if (widget.pageNo == 9) {
       question = "What are you Looking For?";
-      array = Utils.lookingFor;
-    } else if (widget.pageNo == 10) {
-      question = "What are your Political Views?";
-      array = Utils.political;
+      array = Utils.lookingForAnswer;
+    } else if (widget.pageNo == 3) {
+      question = "What is your Hobbies?";
+      array = Utils.hobbiesAnswer;
+    } else if (widget.pageNo == 4) {
+      question = "Do you prefer Long or Short Distance Relationships?";
+      array = Utils.preferredRelationShipAnswer;
+    } else if (widget.pageNo == 5) {
+      question = "Select one that defines you?";
+      array = Utils.definesYouAnswer1;
+    }else if (widget.pageNo==6) {
+      question = "Select one that defines you?";
+      array = Utils.definesYouAnswer2;
+    }else if (widget.pageNo==7) {
+      question = "What would be your ideal first date?";
+      array = Utils.idealDateAnswer;
+    }else if (widget.pageNo==8) {
+      question = "What kind of personality do you have?";
+      array = Utils.personalityAnswer;
     }
+
+    // if (widget.pageNo == 1) {
+    //   question = "What is your sun sign?";
+    //   array = Utils.sunSign;
+    // } else if (widget.pageNo == 2) {
+    //   question = "What is your favourite cuisine?";
+    //   array = Utils.cusine;
+    // } else if (widget.pageNo == 3) {
+    //   question = "What is your favourite pastime?";
+    //   array = Utils.favPastime;
+    // } else if (widget.pageNo == 4) {
+    //   question = "What religion do you follow?";
+    //   array = Utils.religion;
+    // } else if (widget.pageNo == 5) {
+    //   question = "Do you smoke?";
+    //   array = Utils.smoke;
+    // } else if (widget.pageNo == 6) {
+    //   question = "Do you drink?";
+    //   array = Utils.drink;
+    // } else if (widget.pageNo == 7) {
+    //   question = "What would be your ideal first date?";
+    //   array = Utils.firstDate;
+    // } else if (widget.pageNo == 8) {
+    //   question = "What kind of personality do you have?";
+    //   array = Utils.personality;
+    // } else if (widget.pageNo == 9) {
+    //   question = "What are you Looking For?";
+    //   array = Utils.lookingFor;
+    // } else if (widget.pageNo == 10) {
+    //   question = "What are your Political Views?";
+    //   array = Utils.political;
+    // }
   }
 
   Future<void> callApi() async {
     if (widget.pageNo == 1) {
-      Map<String, dynamic> body = {'_id': userId, 'sun_sign': selectedSunSign};
+      Map<String, dynamic> body = {'_id': userId, 'gender': selectedGender};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 2) {
-      Map<String, dynamic> body = {'_id': userId, 'cuisine': selectedCuisine};
+    }else if(widget.pageNo == 2) {
+      Map<String, dynamic> body = {'_id': userId, 'looking_for': selectedLookingFor};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 3) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'fav_pastime': selectedPastime
-      };
+    }else if(widget.pageNo==3) {
+      Map<String, dynamic> body = {'_id': userId, 'hobbie': selectedHobbies};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 4) {
-      Map<String, dynamic> body = {'_id': userId, 'religion': selectedReligion};
+    }else if(widget.pageNo==4){
+      Map<String, dynamic> body = {'_id': userId, 'relationship_distance_preference': selectedPreferredRelationship};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 5) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'smoke': selectedSmokingStatus
-      };
+    }else if(widget.pageNo==5){
+      Map<String, dynamic> body = {'_id': userId, 'smoking_preference': selectedThatDefineYou1};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 6) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'drink': selectedDrinkingStatus
-      };
+    }else if(widget.pageNo==6){
+      Map<String, dynamic> body = {'_id': userId, 'drinking_preference': selectedThatDefineYou2};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 7) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'first_date': selectedFirstDate
-      };
+    }else if(widget.pageNo==7){
+      Map<String, dynamic> body = {'_id': userId, 'ideal_first_date': selectedIdealDate};
       await detailApiCalling(body, false);
-    } else if (widget.pageNo == 8) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'personality': selectedPersonality
-      };
-      await detailApiCalling(body, false);
-    } else if (widget.pageNo == 9) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'looking_for': selectedLookingFor
-      };
-      await detailApiCalling(body, false);
-    } else if (widget.pageNo == 10) {
-      Map<String, dynamic> body = {
-        '_id': userId,
-        'political_views': selectedPoliticalViews
-      };
+    } else if(widget.pageNo==8){
+      Map<String, dynamic> body = {'_id': userId, 'personality': selectedPersonality};
       await detailApiCalling(body, true);
     }
+
+    // if (widget.pageNo == 1) {
+    //   Map<String, dynamic> body = {'_id': userId, 'gender': selectedGender};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 2) {
+    //   Map<String, dynamic> body = {'_id': userId, 'cuisine': selectedCuisine};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 3) {
+    //   Map<String, dynamic> body = {'_id': userId, 'fav_pastime': selectedPastime};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 4) {
+    //   Map<String, dynamic> body = {'_id': userId, 'religion': selectedReligion};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 5) {
+    //   Map<String, dynamic> body = {'_id': userId, 'smoke': selectedSmokingStatus};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 6) {
+    //   Map<String, dynamic> body = {'_id': userId, 'drink': selectedDrinkingStatus};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 7) {
+    //   Map<String, dynamic> body = {'_id': userId, 'first_date': selectedFirstDate};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 8) {
+    //   Map<String, dynamic> body = {'_id': userId, 'personality': selectedPersonality};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 9) {
+    //   Map<String, dynamic> body = {'_id': userId, 'looking_for': selectedLookingFor};
+    //   await detailApiCalling(body, false);
+    // } else if (widget.pageNo == 10) {
+    //   Map<String, dynamic> body = {'_id': userId, 'political_views': selectedPoliticalViews};
+    //   await detailApiCalling(body, true);
+    // }
   }
 
   Future<void> detailApiCalling(Map<String, dynamic> body, bool isLastQ) async {

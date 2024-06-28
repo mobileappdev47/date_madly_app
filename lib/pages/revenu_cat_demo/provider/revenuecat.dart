@@ -10,6 +10,11 @@ class RevenueCatProvider extends ChangeNotifier{
 Entitlement _entitlement = Entitlement.free;
   Entitlement get entitlement=>_entitlement;
 
+  set entitlement(Entitlement value) {
+    _entitlement = value;
+  }
+
+
 
   Future init()async{
     Purchases.addCustomerInfoUpdateListener((customerInfo) async{

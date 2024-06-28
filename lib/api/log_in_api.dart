@@ -7,6 +7,13 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:purchases_flutter/models/purchases_configuration.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
+import '../purchase_setup/purchase_api.dart';
+import '../purchase_setup/singletons_data.dart';
+import '../purchase_setup/store_config.dart';
+import '../purchase_setup/subscritpion_provider.dart';
 import '../utils/endpoint.dart';
 
 class LoginApi {

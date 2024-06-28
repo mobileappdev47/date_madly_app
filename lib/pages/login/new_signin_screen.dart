@@ -9,12 +9,16 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 import '../../utils/texts.dart';
+import '../me/widgets/having_trouble_sign_screen.dart';
+import '../me/widgets/privacy_policy_screen.dart';
+import '../me/widgets/terms_screen.dart';
 
 class NewSignInScreen extends StatefulWidget {
   const NewSignInScreen({super.key});
@@ -291,14 +295,53 @@ setState(() {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 35.0),
-                    child: Text(
-                      Strings.byCLick,
+                    child: RichText(
                       textAlign: TextAlign.center,
-                      style: poppins.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.2,
-                        fontFamily: Fonts.poppins,
+                      text: TextSpan(
+                        style: poppins.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.2,
+                          fontFamily: Fonts.poppins,
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'By clicking on Create Account or sign in, you agree to our ',
+                          ),
+                          TextSpan(
+                              text: 'Terms & Conditions',
+                              style: poppins.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.2,
+                                  fontFamily: Fonts.poppins,decoration: TextDecoration.underline
+                              ),
+                              recognizer:TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => TermsScreen(),));
+                                }
+                          ),
+                          TextSpan(
+                            text: '. Understand how we process your data in our ',
+                          ),
+                          TextSpan(
+                              text: 'Privacy Policy',
+                              style: poppins.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 12.2,
+                                  fontFamily: Fonts.poppins,
+                                  decoration: TextDecoration.underline
+                              ),
+                              recognizer:TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PolicyScreen(),));
+                                }
+                          ),
+                          TextSpan(
+                            text: ' and Cookies Policy.',
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -407,13 +450,34 @@ setState(() {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        Strings.haveing,
-                        style: poppins.copyWith(
-                            fontSize: 14.5,
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          style: poppins.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
-                            fontFamily: Fonts.poppins),
+                            fontSize: 14,
+                            fontFamily: Fonts.poppins,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: 'Having trouble signing in? ',
+                            ),
+                            TextSpan(
+                                text: 'Contact Us',
+                                style: poppins.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    fontFamily: Fonts.poppins,decoration: TextDecoration.underline
+                                ),
+                                recognizer:TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => HavingTroubleSignScreen(),));
+                                  }
+                            ),
+                          ],
+                        ),
                       ),
                       /*GestureDetector(
                         onTap: () {
