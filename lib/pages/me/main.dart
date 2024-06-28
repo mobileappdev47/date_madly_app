@@ -694,7 +694,7 @@ class _ProfilesState extends State<Profiles> {
                                                         const SizedBox(
                                                             height: 25.0),
                                                         const Text(
-                                                          'Purchase premium to Access Blind Data Feature',
+                                                          'Purchase premium to Access Blind Date Feature',
                                                           style: TextStyle(
                                                               fontWeight:
                                                                   FontWeight.w500,
@@ -1048,6 +1048,7 @@ class _ProfilesState extends State<Profiles> {
                           GestureDetector(
                             onTap: () {
                               PrefService.clear();
+                              entitlementID.value = "";
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
