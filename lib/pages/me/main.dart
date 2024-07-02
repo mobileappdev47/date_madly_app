@@ -891,7 +891,7 @@ class _ProfilesState extends State<Profiles> {
                                                     width: 30,
                                                     alignment: Alignment.center,
                                                     child: settingData[index] ==
-                                                            "Blind Date"
+                                                            "Blind Date Service"
                                                         ? Padding(
                                                           padding: const EdgeInsets.only(right: 20),
                                                           child: IconButton(
@@ -1097,7 +1097,7 @@ List settingData = [
   'Notifications',
   'Privacy Policy',
   'Terms And Conditions',
-  'Blind Date'
+  'Blind Date Service'
 ];
 
 List profilePic = [

@@ -26,7 +26,7 @@ class BlindDateScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: ColorRes.white,
         title: Text(
-          'Blind Date',
+          'Blind Date Service',
           style: mulishbold.copyWith(
             fontSize: 18.75,
             color: ColorRes.appColor,

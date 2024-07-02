@@ -1,5 +1,6 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_uikit/agora_uikit.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/pages/chat/chat_message.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
@@ -23,6 +24,8 @@ class PickUpScreen extends StatefulWidget {
 class _PickUpScreenState extends State<PickUpScreen> {
   late RtcEngine agoraCallEngine;
   bool muted = false;
+  final player = AudioPlayer();
+  final ringtoneAudioPath = "audio/ringtone.mp3";
 
   bool speaker = false;
   bool isCamera = true;
@@ -113,6 +116,15 @@ class _PickUpScreenState extends State<PickUpScreen> {
     else {
       setupVoiceSDKEngine(chatProvider);
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      try {
+
+        await player.setSource(AssetSource(ringtoneAudioPath));
+        await player.resume();
+      }  catch (e) {
+        // TODO
+      }
+    });
   }
 
   @override
@@ -121,6 +133,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
     agoraCallEngine.release();
     client.engine.leaveChannel();
     client.engine.release();
+    player.stop();
     super.dispose();
   }
 
@@ -477,7 +490,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                         children: [
                           GestureDetector(
                             onTap: () async{
-
+                              await player.stop();
                                 await join();
 
                             },
@@ -496,6 +509,7 @@ class _PickUpScreenState extends State<PickUpScreen> {
                           SizedBox(width: 20,),
                           GestureDetector(
                             onTap: () async{
+                              await player.stop();
                               await leave(context);
                             },
                             child: Container(
