@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:date_madly_app/pages/calling/video_call.dart';
 
@@ -280,9 +281,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void printFCMToken() async {
     String? token = await NotificationService.getToken();
+    await PrefService.setValue(PrefKeys.deviceToken, token);
     print("FCM Token: ===================================>$token");
 
-    await PrefService.setValue(PrefKeys.deviceToken, token);
+
+    // final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+    // await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
+
   }
   void printAPNSToken() async {
     String? token = await NotificationService.getAPNSToken().then((value) {

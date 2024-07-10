@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 
 // import 'package:timeago/timeago.dart' as timeago;
 import '../../common/text_style.dart';
+// import '../../service/chat_and_call_notification.dart';
+// import '../../service/notification_service.dart';
 import '../../utils/colors.dart';
 import '../../utils/texts.dart';
 import '../calling/call.dart';
@@ -99,6 +101,13 @@ class _ChatScreenState extends State<ChatScreen> {
     ));
 
   }
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   payLoadFromChat.clear();
+  // }
 
 
   // @override
@@ -837,6 +846,8 @@ class _ChatScreenState extends State<ChatScreen> {
                                   suffixIcon: GestureDetector(
                                     onTap: () {
                                       value.pickImage(context, value.roomId);
+
+                                      // value.pickImage(context, value.roomId,otherUserId:widget.otherUid??"",name:widget.name??"",currentUID: widget.userEmail??"" ,otherUserProfileImage: widget.image??"",otherUID: widget.otherUid??"");
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(right: 13.0),
@@ -856,7 +867,8 @@ class _ChatScreenState extends State<ChatScreen> {
                           ),
                           SizedBox(width: 10,),
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
+
                               if (value.msController.text.isNotEmpty) {
                                 value.sendMessage(
                                   widget.roomId.toString(),
@@ -890,6 +902,68 @@ class _ChatScreenState extends State<ChatScreen> {
                                 });
                               }
                               setState(() {});
+
+
+                              // final FirebaseFirestore fireStore =
+                              //     FirebaseFirestore.instance;
+                              // print("widget.imagewidget.image ${widget.image}");
+                              // print("widget.imagewidget.image ${widget.userEmail}");
+                              // print("widget.imagewidget.image ${widget.name}");
+                              // print("widget.imagewidget.image ${widget.email}");
+                              // print("widget.imagewidget.image ${widget.otherUid}");
+                              // if (value.msController.text.isNotEmpty) {
+                              //   // var fcmToken = value.data()?['fcmToken'];
+                              //   var fcmToken2 ;
+                              //   String text= value.msController.text;
+                              //   await fireStore.collection("Auth").doc(widget.otherUid).get().then((value) async {
+                              //     if (value.exists) {
+                              //       fcmToken2 = value.data()?['fcmToken'];
+                              //       print('fcmToken: ${fcmToken2}');
+                              //     } else {
+                              //       print('Document for $widget.otherUid does not exist');
+                              //     }
+                              //   });
+                              //
+                              //
+                              //   await value.sendMessage(
+                              //     widget.roomId.toString(),
+                              //     widget.otherUid,
+                              //   );
+                              //
+                              //   FocusScope.of(context).unfocus();
+                              //
+                              //
+                              //     await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
+                              //
+                              //
+                              //   if(fcmToken2!=null && fcmToken2!=""){
+                              //     // second user token = fcmToken2
+                              //     ChatAndCallNotificationServices().sendNotification(currentUID: widget.userEmail ,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),otherUID: widget.otherUid,recipientToken:fcmToken2,title: PrefService.getString(PrefKeys.userName),message: text,roomId: widget.roomId, );
+                              //   }
+                              //
+                              //   fireStore.collection("Auth").get().then((value) async {
+                              //     var list = (value.docs);
+                              //     bool already = false;
+                              //
+                              //     for (int i = 0; i < list.length; i++) {
+                              //       if (list[i].id == widget.otherUid) {
+                              //         print('collection already exist');
+                              //         already = true;
+                              //         break;
+                              //       } else {}
+                              //     }
+                              //
+                              //     if (already == false) {
+                              //       await fireStore
+                              //           .collection("Auth")
+                              //           .doc(widget.otherUid)
+                              //           .update({'ChatUserList': []});
+                              //     } else {
+                              //       print('done');
+                              //     }
+                              //   });
+                              // }
+                              // setState(() {});
                             },
                             child: Container(
                               height: 50,

@@ -41,6 +41,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:date_madly_app/pages/me/main.dart';
+// import 'package:date_madly_app/service/notification_service.dart';
 
 
 class Home extends StatefulWidget {
@@ -182,7 +183,7 @@ remainingUsers.clear();
       setState(() {});
     } catch (e) {
       loder = false;
-      setState(() {});
+       setState(() {});
       print('===>${e.toString()}');
     }
   }

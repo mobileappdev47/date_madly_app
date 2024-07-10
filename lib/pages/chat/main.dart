@@ -8,6 +8,7 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_all_chat_model.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/my_matches.dart';
+// import 'package:date_madly_app/service/chat_and_call_notification.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
@@ -38,6 +39,7 @@ import '../../purchase_setup/purchase_api.dart';
 import '../../purchase_setup/singletons_data.dart';
 import '../../purchase_setup/store_config.dart';
 import '../../purchase_setup/subscritpion_provider.dart';
+import '../../service/notification_service.dart';
 import '../../utils/colors.dart';
 import '../../utils/endpoint.dart';
 import '../../utils/text_style.dart';
@@ -136,6 +138,24 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
+//     if(payLoadFromChat.containsKey("fromChat")){
+//       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+//         await Future.delayed(Duration(seconds: 1)).then((value) {
+//           Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                   builder: (context) => ChatScreen(
+//                     roomId: payLoadFromChat["roomId"],
+//                     name: payLoadFromChat["title"],
+//                     image: payLoadFromChat["receiverImage"],
+//                     email: payLoadFromChat["senderID"],
+//                     otherUid: payLoadFromChat["senderID"],
+//                     userEmail:  payLoadFromChat["receiverId"],
+//                   )));
+//         },)
+// ;      });
+//
+//     }
     getAllChatApi();
     getCollectionLength();
     initPlatformState();
@@ -1238,6 +1258,273 @@ class _ChatState extends State<Chat> {
                  )
                      : Container();
                },)
+
+
+                // ValueListenableBuilder(
+                //   valueListenable: entitlementID,
+                //   builder: (context, entitlementIDValue, child) {
+                //     return entitlementIDValue == "" ||
+                //         entitlementIDValue.isEmpty
+                //         ? Container(
+                //       height: MediaQuery.of(context).size.height,
+                //       width: MediaQuery.of(context).size.width,
+                //       color: Colors.black.withOpacity(0.5),
+                //       alignment: Alignment.bottomCenter,
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //           color: Colors.white,
+                //           borderRadius: BorderRadius.only(
+                //             topLeft: Radius.circular(40),
+                //             topRight: Radius.circular(40),
+                //           ),
+                //         ),
+                //         height: MediaQuery.of(context).size.height / 2,
+                //         width: MediaQuery.of(context).size.width,
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: 20.0),
+                //           child: Column(
+                //             children: [
+                //               SizedBox(
+                //                 height: 20,
+                //               ),
+                //               Text(
+                //                 'Confirm your Subscription',
+                //                 style: popinsbold().copyWith(
+                //                     color: ColorRes.color5E5E5E,
+                //                     fontSize: 18),
+                //               ),
+                //               SizedBox(
+                //                 height: 20,
+                //               ),
+                //               Expanded(
+                //                 child: ListView.separated(
+                //                   separatorBuilder: (context, index) =>
+                //                       SizedBox(
+                //                         height: 3,
+                //                       ),
+                //                   itemCount: value.myProductList.length,
+                //                   itemBuilder: (context, index) {
+                //                     return GestureDetector(
+                //                       onTap: () {
+                //                         selectedIndex = index;
+                //                         setState(() {});
+                //                       },
+                //                       child: Container(
+                //                         margin: EdgeInsets.all(7),
+                //                         padding: EdgeInsets.symmetric(
+                //                             vertical: 16, horizontal: 20),
+                //                         decoration: BoxDecoration(
+                //                           border: Border.all(
+                //                               color: selectedIndex ==
+                //                                   index
+                //                                   ? ColorRes.appColor
+                //                                   : Colors.transparent),
+                //                           boxShadow:
+                //                           selectedIndex == index
+                //                               ? []
+                //                               : [
+                //                             BoxShadow(
+                //                               color: CupertinoColors
+                //                                   .systemGrey2
+                //                                   .withOpacity(
+                //                                 0.5,
+                //                               ),
+                //                               blurRadius: 10,
+                //                               spreadRadius: -5,
+                //                             ),
+                //                           ],
+                //                           color: Colors.white,
+                //                           borderRadius:
+                //                           BorderRadius.circular(
+                //                             20,
+                //                           ),
+                //                         ),
+                //                         child: Row(
+                //                           children: [
+                //                             Column(
+                //                               crossAxisAlignment:
+                //                               CrossAxisAlignment
+                //                                   .start,
+                //                               children: [
+                //                                 Text(
+                //                                   value
+                //                                       .myProductList[
+                //                                   index]
+                //                                       .storeProduct
+                //                                       .title
+                //                                       .toString()
+                //                                       .split('(')
+                //                                       .first,
+                //                                   style: poppins.copyWith(
+                //                                       fontSize: 14),
+                //                                 ),
+                //                                 Text(
+                //                                   value
+                //                                       .myProductList[
+                //                                   index]
+                //                                       .storeProduct
+                //                                       .priceString
+                //                                       .toString(),
+                //                                   style: TextStyle(
+                //                                       fontSize: 12,
+                //                                       fontWeight:
+                //                                       FontWeight
+                //                                           .w600),
+                //                                 ),
+                //                               ],
+                //                             ),
+                //                             Spacer(),
+                //                             selectedIndex == index
+                //                                 ? Icon(
+                //                               Icons.check_circle,
+                //                               color:
+                //                               ColorRes.appColor,
+                //                             )
+                //                                 : Container(
+                //                               height: 22,
+                //                               width: 22,
+                //                               decoration: BoxDecoration(
+                //                                   color: ColorRes
+                //                                       .colorE5E5E5,
+                //                                   shape: BoxShape
+                //                                       .circle),
+                //                             )
+                //                           ],
+                //                         ),
+                //                       ),
+                //                     );
+                //                   },
+                //                 ),
+                //               ),
+                //               SizedBox(
+                //                 height: 10,
+                //               ),
+                //               CommonGradientButton(
+                //                 ontap: () async {
+                //                   print(
+                //                       "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.introductoryPrice?.price}");
+                //                   print(
+                //                       "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.identifier}");
+                //                   print(
+                //                       "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.price}");
+                //                   print(
+                //                       "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.title}");
+                //                   print(
+                //                       "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.subscriptionPeriod}");
+                //                   int days = convertSubscriptionToDays(
+                //                       value
+                //                           .myProductList[
+                //                       selectedIndex]
+                //                           .storeProduct
+                //                           .subscriptionPeriod ??
+                //                           "0");
+                //
+                //                   print(
+                //                       "packages[selectedIndex] ${days}");
+                //                   showDialog(
+                //                     context: context,
+                //                     builder: (context) {
+                //                       return AlertDialog(
+                //                         backgroundColor:
+                //                         Colors.transparent,
+                //                         elevation: 0,
+                //                         content: Center(
+                //                             child:
+                //                             CircularProgressIndicator()),
+                //                       );
+                //                     },
+                //                   );
+                //
+                //                   try {
+                //                     CustomerInfo customerInfo =
+                //                     await Purchases.purchasePackage(
+                //                         value.myProductList[
+                //                         selectedIndex]);
+                //
+                //                     NewChatProvider newChatProvider =
+                //                     Provider.of<NewChatProvider>(
+                //                         context,
+                //                         listen: false);
+                //                     await newChatProvider
+                //                         .membershipSubscribeApi({
+                //                       "planName": value
+                //                           .myProductList[selectedIndex]
+                //                           .storeProduct
+                //                           .identifier,
+                //                       "planPrice": value
+                //                           .myProductList[selectedIndex]
+                //                           .storeProduct
+                //                           .price,
+                //                       "planDuration": days,
+                //                       "blindDate": value
+                //                           .myProductList[
+                //                       selectedIndex]
+                //                           .storeProduct
+                //                           .identifier ==
+                //                           "lovecirco_premium_v2:lovecirco-premium-v1"
+                //                           ? true
+                //                           : false,
+                //                       "userId": PrefService.getString(
+                //                           PrefKeys.userId)
+                //                     }, context);
+                //
+                //                     entitlementID.value = value
+                //                         .myProductList[selectedIndex]
+                //                         .storeProduct
+                //                         .identifier;
+                //                     print(
+                //                         "entitlementID ${entitlementID.value}");
+                //                     ScaffoldMessenger.of(context)
+                //                         .showSnackBar(SnackBar(
+                //                         content: Text(
+                //                             'Purchase successful')));
+                //                     setState(() {});
+                //                   } catch (e) {
+                //                     ScaffoldMessenger.of(context)
+                //                         .showSnackBar(SnackBar(
+                //                         content:
+                //                         Text('Purchase failed')));
+                //                   } finally {
+                //                     Navigator.pop(context);
+                //                   }
+                //
+                //                   // await PurchaseApis.purchasePackage(value.myProductList[selectedIndex]).then((value) async {
+                //                   //   if(value){
+                //                   //     NewChatProvider newChatProvider =
+                //                   //     Provider.of<NewChatProvider>(context, listen: false);
+                //                   //     await newChatProvider.membershipSubscribeApi(
+                //                   //         {
+                //                   //           "planName": value.myProductList[selectedIndex].storeProduct.title,
+                //                   //           "planPrice": value.myProductList[selectedIndex].storeProduct.price,
+                //                   //           "planDuration": days,
+                //                   //           "blindDate": value.myProductList[selectedIndex].storeProduct.identifier=="lovecirco_premium_v2:lovecirco-premium-v1"?true:false,
+                //                   //           "userId": PrefService.getString(PrefKeys.userId)
+                //                   //         }, context);
+                //                   //
+                //                   //     Provider.of<RevenueCatProvider>(context,listen: false).entitlement = Entitlement.allCourses;
+                //                   //     setState(() {
+                //                   //
+                //                   //     });
+                //                   //   }else{
+                //                   //     ScaffoldMessenger.of(context)
+                //                   //         .showSnackBar(SnackBar(content: Text('Something went wrong')));
+                //                   //   }
+                //                   // },);
+                //                 },
+                //               ),
+                //               SizedBox(
+                //                 height: 10,
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     )
+                //         : Container();
+                //   },
+                // )
+
               ],
             ),
             loader == true

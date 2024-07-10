@@ -158,6 +158,11 @@ class NewChatProvider extends ChangeNotifier {
     //             email: email,
     //             otherEmail: otherUid,
     //             userEmail: userEmail)));
+    print("userEmailuserEmail ${userEmail}");
+    print("otherUidotherUid ${otherUid}");
+    print("roomIdroomId ${roomId}");
+    print("emailemail ${email}");
+    print("userImageuserImage ${userImage}");
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -171,6 +176,7 @@ class NewChatProvider extends ChangeNotifier {
             )));
   }
 
+  // Future<void> sendMessage(String roomId, otherUid) async {
   void sendMessage(String roomId, otherUid) async {
     String msg = msController.text;
 
@@ -275,6 +281,8 @@ class NewChatProvider extends ChangeNotifier {
 
   var imageChat;
   bool loader = false;
+  // pickImage(context, roomId, {required String otherUserId, required String name, required String currentUID, required String otherUserProfileImage, required String otherUID}) async {
+
   pickImage(context, roomId) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -349,6 +357,30 @@ class NewChatProvider extends ChangeNotifier {
                         s.call(() {});
 
                         await uploadImage(roomId);
+                        //
+                        // final FirebaseFirestore fireStore =
+                        //     FirebaseFirestore.instance;
+                        // var fcmToken2 ;
+                        //
+                        // await fireStore.collection("Auth").doc(otherUserId).get().then((value) async {
+                        //   if (value.exists) {
+                        //     fcmToken2 = value.data()?['fcmToken'];
+                        //     print('fcmToken: ${fcmToken2}');
+                        //   } else {
+                        //     print('Document for does not exist');
+                        //   }
+                        // });
+                        //
+                        //   await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
+                        //
+                        // if(fcmToken2!=null && fcmToken2!=""){
+                        //   // second user token = fcmToken2
+                        //   ChatAndCallNotificationServices().sendNotification(currentUID: currentUID,otherUID: otherUID,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),recipientToken: fcmToken2,title:  PrefService.getString(PrefKeys.userName),imageUrl: downloadUrl,roomId: roomId
+                        //
+                        //   );
+                        // }
+                        //
+
                         Navigator.pop(context);
 
                         loader = false;
@@ -387,6 +419,7 @@ class NewChatProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  // String downloadUrl="";
 
   Future<void> uploadImage(String roomId) async {
     if (imageChat == null) return;
@@ -398,6 +431,7 @@ class NewChatProvider extends ChangeNotifier {
     try {
       TaskSnapshot snapshot = await storageRef.putFile(imageChat!);
 
+      // downloadUrl = await snapshot.ref.getDownloadURL();
       String downloadUrl = await snapshot.ref.getDownloadURL();
 
       await sendImageMessage(roomId, userEmail, downloadUrl);

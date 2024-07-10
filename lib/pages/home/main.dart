@@ -7,6 +7,7 @@ import 'package:date_madly_app/pages/calling/pick_up_screen.dart';
 import 'package:date_madly_app/pages/calling/video_call.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/me/widgets/ChangePassword/change_password.dart';
+import 'package:date_madly_app/service/chat_and_call_notification.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -19,12 +20,15 @@ import '../../purchase_setup/purchase_api.dart';
 import '../../purchase_setup/singletons_data.dart';
 import '../../purchase_setup/store_config.dart';
 import '../../purchase_setup/subscritpion_provider.dart';
+import '../../service/notification_service.dart';
 import '../../utils/colors.dart';
 import '../../utils/dialogs.dart';
 import '../chat/main.dart';
 import '../likes/main.dart';
 import '../me/main.dart';
 import 'home.dart';
+
+// ValueNotifier<int> currentIndex = ValueNotifier(0);
 
 class HomeMain extends StatefulWidget {
   const HomeMain({Key? key}) : super(key: key);
@@ -39,6 +43,7 @@ class _HomeMainState extends State<HomeMain> {
 
   void nextPage(index) {
     setState(() {
+      // currentIndex.value = index;
       currentIndex = index;
     });
   }
@@ -104,13 +109,13 @@ class _HomeMainState extends State<HomeMain> {
               getSingleProfileModel.profile?[0].subscriptionDetails?.name ==
                   "lovecirco_3month_v1:lovecirco-3month-v2" ||
               getSingleProfileModel.profile?[0].subscriptionDetails?.name ==
-                  "lovecirco_premium_v2:lovecirco-premium-v1"
-          )) {
+                  "lovecirco_premium_v2:lovecirco-premium-v1")) {
         print("entitlementIDentitlementID ${entitlementID}");
-        print("entitlementIDentitlementID ${getSingleProfileModel.profile?[0].subscriptionDetails?.name}");
-        entitlementID.value = getSingleProfileModel.profile?[0].subscriptionDetails?.name??"";
+        print(
+            "entitlementIDentitlementID ${getSingleProfileModel.profile?[0].subscriptionDetails?.name}");
+        entitlementID.value =
+            getSingleProfileModel.profile?[0].subscriptionDetails?.name ?? "";
         print("entitlementIDentitlementID ${entitlementID}");
-
       }
 
       (customerInfo.entitlements.all[entitlementID.value] != null &&
@@ -129,6 +134,7 @@ class _HomeMainState extends State<HomeMain> {
           await GetSingleProfileApi.getCurrentProfileApi(
               context, PrefService.getString(PrefKeys.email));
       initPlatformState(getSingleProfileModel);
+      // NotificationService().init();
     });
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       print(
@@ -166,6 +172,128 @@ class _HomeMainState extends State<HomeMain> {
 
   @override
   Widget build(BuildContext context) {
+    // return WillPopScope(
+    //     onWillPop: () => Dialogs().showExitDialog(context),
+    //     child: ValueListenableBuilder(
+    //         valueListenable: currentIndex,
+    //         builder: (context, currentIndexValue, child) {
+    //           return Scaffold(
+    //             backgroundColor: Theme.of(context).colorScheme.surface,
+    //             body: _widgetOptions.elementAt(currentIndexValue),
+    //             bottomNavigationBar: Container(
+    //               height: 60,
+    //               decoration: BoxDecoration(
+    //                   color: Colors.white,
+    //                   boxShadow: [
+    //                     BoxShadow(
+    //                         color: ColorRes.color939393.withOpacity(0.25),
+    //                         blurRadius: 3,
+    //                         spreadRadius: 0),
+    //                   ],
+    //                   borderRadius: BorderRadius.only(
+    //                       topLeft: Radius.circular(20),
+    //                       topRight: Radius.circular(20))),
+    //               alignment: Alignment.center,
+    //               child: Row(
+    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //                 children: [
+    //                   GestureDetector(
+    //                     onTap: () {
+    //                       nextPage(0);
+    //                     },
+    //                     child: Container(
+    //                         height: 50,
+    //                         width: 50,
+    //                         decoration: BoxDecoration(
+    //                             color: currentIndexValue == 0
+    //                                 ? ColorRes.appColor.withOpacity(0.2)
+    //                                 : Colors.transparent,
+    //                             shape: BoxShape.circle),
+    //                         child:
+    //                         // Image.asset(
+    //                         //   'assets/icons/Home.png',
+    //                         //   color: currentIndexValue == 0 ? ColorRes.appColor : null,
+    //                         //   scale: 4,
+    //                         // ),
+    //                         Icon(
+    //                           Icons.location_pin,
+    //                           size: 25,
+    //                           color: currentIndexValue == 0
+    //                               ? ColorRes.appColor
+    //                               : ColorRes.grey,
+    //                         )),
+    //                   ),
+    //                   GestureDetector(
+    //                     onTap: () {
+    //                       nextPage(1);
+    //                     },
+    //                     child: Container(
+    //                       height: 50,
+    //                       width: 50,
+    //                       decoration: BoxDecoration(
+    //                           color: currentIndexValue == 1
+    //                               ? ColorRes.appColor.withOpacity(0.2)
+    //                               : Colors.transparent,
+    //                           shape: BoxShape.circle),
+    //                       child: currentIndexValue == 1
+    //                           ? Image.asset(
+    //                         'assets/icons/active_chat.png',
+    //                         scale: 4,
+    //                       )
+    //                           : Image.asset(
+    //                         'assets/icons/Chat.png',
+    //                         scale: 4,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   GestureDetector(
+    //                     onTap: () {
+    //                       nextPage(2);
+    //                     },
+    //                     child: Container(
+    //                       height: 50,
+    //                       width: 50,
+    //                       decoration: BoxDecoration(
+    //                           color: currentIndexValue == 2
+    //                               ? ColorRes.appColor.withOpacity(0.2)
+    //                               : Colors.transparent,
+    //                           shape: BoxShape.circle),
+    //                       child: currentIndexValue == 2
+    //                           ? Image.asset(
+    //                         'assets/icons/Love Icon (2).png',
+    //                         scale: 4,
+    //                       )
+    //                           : Image.asset(
+    //                         'assets/icons/Love.png',
+    //                         scale: 4,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                   GestureDetector(
+    //                     onTap: () {
+    //                       nextPage(3);
+    //                     },
+    //                     child: Container(
+    //                       height: 50,
+    //                       width: 50,
+    //                       decoration: BoxDecoration(
+    //                           color: currentIndexValue == 3
+    //                               ? ColorRes.appColor.withOpacity(0.2)
+    //                               : Colors.transparent,
+    //                           shape: BoxShape.circle),
+    //                       child: Image.asset(
+    //                         'assets/icons/Profile.png',
+    //                         color: currentIndexValue == 3 ? ColorRes.appColor : null,
+    //                         scale: 4,
+    //                       ),
+    //                     ),
+    //                   ),
+    //                 ],
+    //               ),
+    //             ),
+    //           );
+    //         }));
+
     return WillPopScope(
       onWillPop: () => Dialogs().showExitDialog(context),
       child: Scaffold(
