@@ -2,11 +2,8 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../common/text_feild_common.dart';
-import '../../providers/chat_provider.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
 
 class LikeMatches extends StatelessWidget {

@@ -1,11 +1,8 @@
 import 'dart:convert';
 
 import 'package:date_madly_app/models/add_like_dislike_model.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../service/http_services.dart';
 import '../service/pref_service.dart';
 import '../utils/endpoint.dart';
 import '../utils/pref_key.dart';

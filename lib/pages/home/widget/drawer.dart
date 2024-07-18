@@ -2,7 +2,6 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../utils/assert_re.dart';

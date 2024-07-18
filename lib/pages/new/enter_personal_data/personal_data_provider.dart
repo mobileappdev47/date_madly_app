@@ -1,7 +1,5 @@
 import 'package:date_madly_app/api/get_single_profile_api.dart';
-import 'package:date_madly_app/api/updateuserfeilds_api.dart';
 import 'package:date_madly_app/models/get_single_profile_model.dart';
-import 'package:date_madly_app/models/update_user.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';

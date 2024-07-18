@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/notification_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_notification_model.dart';
-import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';

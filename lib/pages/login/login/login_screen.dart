@@ -1,29 +1,20 @@
 
 import 'package:date_madly_app/api/log_in_api.dart';
-import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/common/common_field.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
 import 'package:date_madly_app/service/notification_service.dart';
-import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
-import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/text_feild_common.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/font_family.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
-import '../../new/enter_personal_data/enter_personal_data_screen.dart';
-import '../Login_with_phone.dart';
-import '../profile_photo/profile_photo_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

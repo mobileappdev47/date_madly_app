@@ -1,15 +1,10 @@
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/api/image_delete_api.dart';
-import 'package:date_madly_app/api/sign_up_api.dart';
 import 'package:date_madly_app/api/upload_image_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/models/upload_image_model.dart';
-import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
-import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

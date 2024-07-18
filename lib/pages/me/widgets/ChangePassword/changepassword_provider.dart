@@ -2,7 +2,6 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class ChangePasswordProvider extends ChangeNotifier {
   TextEditingController currentController = TextEditingController();

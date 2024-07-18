@@ -7,7 +7,6 @@ import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:flutter/material.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class PickUpScreen extends StatefulWidget {
@@ -118,7 +117,6 @@ class _PickUpScreenState extends State<PickUpScreen> {
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
-
         await player.setSource(AssetSource(ringtoneAudioPath));
         await player.resume();
       }  catch (e) {

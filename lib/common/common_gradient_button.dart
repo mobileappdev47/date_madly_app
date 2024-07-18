@@ -2,7 +2,6 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/colors.dart';
 
 class CommonGradientButton extends StatefulWidget {
   final double? height;

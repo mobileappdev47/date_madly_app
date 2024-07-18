@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:date_madly_app/models/login_model.dart';
-import 'package:date_madly_app/models/phone_login_model.dart';
 import 'package:date_madly_app/models/social_login_api.dart';
 import 'package:date_madly_app/pages/home/main.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
-import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';

@@ -1,15 +1,11 @@
-import 'dart:developer';
 import 'dart:math';
 import 'package:confetti/confetti.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
-import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
-import 'package:date_madly_app/pages/login/phone_auth/phone_auth_screen.dart';
 import 'package:date_madly_app/pages/login/signup/mobile_number_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
-import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/text_style.dart';
@@ -18,20 +14,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../models/user_model.dart';
 import '../../network/api.dart';
-import '../../providers/auth_provider.dart';
-import '../../utils/constants.dart';
-import '../../utils/signinButton/button_list.dart';
-import '../../utils/signinButton/button_view.dart';
 import '../../utils/texts.dart';
-import '../../utils/user_text_field.dart';
 import '../home/main.dart';
-import 'gender.dart';
-import 'verify_otp.dart';
 
 class PhoneOTP extends StatefulWidget {
   const PhoneOTP({super.key});

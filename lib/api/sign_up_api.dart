@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/me/additional_details.dart';
-import 'package:date_madly_app/service/http_services.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/endpoint.dart';
 import 'package:date_madly_app/utils/pref_key.dart';

@@ -1,33 +1,23 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_codes/country_codes.dart';
-import 'package:date_madly_app/pages/calling/video_call.dart';
 
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 
 import 'package:date_madly_app/pages/home/main.dart';
 
-import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/login/login_provider.dart';
-import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/new_signin_screen.dart';
-import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/phone_auth_provider.dart';
-import 'package:date_madly_app/pages/login/signup/mobile_number_screen.dart';
 
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
-import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
-import 'package:date_madly_app/pages/login/verify_otp.dart';
 
 import 'package:date_madly_app/pages/me/additional_details.dart';
 
 import 'package:date_madly_app/pages/me/widgets/ChangePassword/changepassword_provider.dart';
 import 'package:date_madly_app/pages/new/enter_personal_data/personal_data_provider.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/apis/fetch_offers_api.dart';
 import 'package:date_madly_app/pages/revenu_cat_demo/provider/revenuecat.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/revenue_cat_home_screen.dart';
 import 'package:date_madly_app/providers/auth_provider.dart';
 import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/providers/city_provider.dart';
@@ -39,11 +29,9 @@ import 'package:date_madly_app/providers/upload_image_provider.dart';
 import 'package:date_madly_app/purchase_setup/store_config.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
-import 'package:date_madly_app/theme/theme_config.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/custom_colors.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
-import 'package:date_madly_app/utils/texts.dart';
 
 // import 'package:date_madly_app/utils/mqtt_client.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -53,15 +41,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'common/text_style.dart';
 import 'providers/app_provider.dart';
 import 'purchase_setup/purchase_api.dart';
 import 'purchase_setup/store_config.dart' as config;
 import 'purchase_setup/subscritpion_provider.dart';
-import 'utils/firebase_options.dart';
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -229,6 +216,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // PrefService.setValue(PrefKeys.lat, '21.2371913');
     // PrefService.setValue(PrefKeys.long,'72.885641');
     // PrefService.setValue(PrefKeys.email, '66472c50e8b32c7aea389d1e');
+    requestPermissions();
     Future.delayed(
       Duration(seconds: 3),
           () {
@@ -247,6 +235,27 @@ class _SplashScreenState extends State<SplashScreen> {
       },
     );
 
+  }
+
+  Future<void> requestPermissions() async {
+    final _firebaseMessaging = FirebaseMessaging.instance;
+      await _firebaseMessaging.requestPermission(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    PermissionStatus status = await Permission.notification.request();
+
+    if (status.isGranted) {
+      print('--------------------------------------------------------------Notification permission granted.');
+    } else if (status.isDenied) {
+      print('Notification permission denied.');
+      status = await Permission.notification.request();
+      requestPermissions();
+    } else if (status.isPermanentlyDenied) {
+      print('Notification permission permanently denied. Go to settings to enable it.');
+      // await openAppSettings();
+    }
   }
 
   initSharedPreference() async {

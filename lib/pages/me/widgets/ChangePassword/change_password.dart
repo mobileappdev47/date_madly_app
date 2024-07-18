@@ -5,9 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../api/log_in_api.dart';
 import '../../../../common/text_feild_common.dart';
-import '../../../../models/changePassword_model.dart';
 import '../../../../service/pref_service.dart';
 import '../../../../utils/colors.dart';
 import '../../../../utils/pref_key.dart';

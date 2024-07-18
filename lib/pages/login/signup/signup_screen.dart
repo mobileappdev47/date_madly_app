@@ -5,23 +5,17 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/signup/signup_provider.dart';
-import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/text_feild_common.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/font_family.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
-import '../../new/enter_personal_data/enter_personal_data_screen.dart';
-import '../Login_with_phone.dart';
-import '../profile_photo/profile_photo_screen.dart';
 import 'package:geolocator/geolocator.dart';
 
 class SignUpScreen extends StatefulWidget {

@@ -1,6 +1,4 @@
-import 'package:date_madly_app/common/text_feild_common.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/me/my_gallery.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:flutter/material.dart';

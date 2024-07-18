@@ -8,9 +8,7 @@ import 'package:provider/provider.dart';
 import '../../common/text_feild_common.dart';
 import '../../common/text_style.dart';
 import '../../providers/chat_provider.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import 'chat_message.dart';
 
 class MyMatches extends StatefulWidget {
   MyMatches({super.key, required this.chatUsers});

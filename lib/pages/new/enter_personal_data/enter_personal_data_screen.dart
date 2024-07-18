@@ -24,7 +24,6 @@ import '../../../utils/assert_re.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/text_style.dart';
 import '../../../utils/texts.dart';
-import '../../home/main.dart';
 
 class EnterPersonalDataScreen extends StatefulWidget {
   const EnterPersonalDataScreen({Key? key}) : super(key: key);

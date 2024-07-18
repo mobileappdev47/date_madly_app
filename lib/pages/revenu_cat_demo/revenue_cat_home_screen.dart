@@ -1,11 +1,7 @@
-import 'package:date_madly_app/pages/revenu_cat_demo/apis/fetch_offers_api.dart';
 import 'package:date_madly_app/pages/revenu_cat_demo/entitlement/entitlement.dart';
 import 'package:date_madly_app/pages/revenu_cat_demo/provider/revenuecat.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/widgets/paymentwalletwidgets.dart';
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:provider/provider.dart';
-import 'package:purchases_flutter/models/package_wrapper.dart';
 
 class RevenueCatScreen extends StatefulWidget {
   const RevenueCatScreen({super.key});

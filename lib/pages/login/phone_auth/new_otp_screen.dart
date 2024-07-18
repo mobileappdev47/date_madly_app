@@ -1,19 +1,12 @@
 
 
-import 'dart:io';
 
-import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/api/phone_otp_api.dart';
 import 'package:date_madly_app/api/verify_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/home/main.dart';
-import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/service/notification_service.dart';
-import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/colors.dart';
-import 'package:date_madly_app/utils/pref_key.dart';
-import 'package:date_madly_app/utils/texts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

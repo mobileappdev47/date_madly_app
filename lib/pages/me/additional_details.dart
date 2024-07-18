@@ -1,9 +1,7 @@
 import 'package:date_madly_app/api/additinal_details_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/login/Login_with_phone.dart';
 import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
-import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';

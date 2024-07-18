@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:date_madly_app/pages/login/new_signin_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
-import 'package:date_madly_app/utils/asset.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/constants.dart';
 import 'package:flutter/material.dart';

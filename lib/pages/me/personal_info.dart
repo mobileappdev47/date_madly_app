@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../common/text_feild_common.dart';
 import '../../utils/colors.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
 
 class PersonalInfo extends StatefulWidget {

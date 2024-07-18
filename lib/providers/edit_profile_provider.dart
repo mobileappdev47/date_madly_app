@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile_model.dart';
-import '../models/user_model.dart';
 import '../network/api.dart';
 import '../utils/enum/api_request_status.dart';
 import '../utils/functions.dart';

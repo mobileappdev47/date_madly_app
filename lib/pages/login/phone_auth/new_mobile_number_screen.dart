@@ -2,8 +2,6 @@ import 'package:country_picker/country_picker.dart';
 import 'package:date_madly_app/api/send_otp_api.dart';
 import 'package:date_madly_app/common/common_gradient_button.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
-import 'package:date_madly_app/pages/login/phone_auth/new_otp_screen.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/texts.dart';
 import 'package:firebase_auth/firebase_auth.dart';

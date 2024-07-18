@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,45 +7,28 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_all_chat_model.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
 import 'package:date_madly_app/pages/chat/my_matches.dart';
+
 // import 'package:date_madly_app/service/chat_and_call_notification.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:date_madly_app/pages/login/profile_photo/profile_photo_screen.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/apis/fetch_offers_api.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/entitlement/entitlement.dart';
 import 'package:date_madly_app/pages/revenu_cat_demo/provider/revenuecat.dart';
-import 'package:date_madly_app/pages/revenu_cat_demo/widgets/paymentwalletwidgets.dart';
-import 'package:date_madly_app/providers/chat_provider.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
-import 'package:date_madly_app/utils/body_builder.dart';
 import 'package:date_madly_app/utils/dialogs.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
-import 'package:date_madly_app/utils/stripe_process.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:intl/intl.dart';
-import 'package:isar/isar.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 // import 'package:timeago/timeago.dart' as timeago;
 import '../../common/text_feild_common.dart';
-import '../../network/api.dart';
 import '../../purchase_setup/purchase_api.dart';
 import '../../purchase_setup/singletons_data.dart';
 import '../../purchase_setup/store_config.dart';
-import '../../purchase_setup/subscritpion_provider.dart';
 import '../../service/notification_service.dart';
 import '../../utils/colors.dart';
-import '../../utils/endpoint.dart';
 import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import '../map/map_page_1.dart';
-import '../me/personal_info.dart';
-import '../new/enter_personal_data/enter_personal_data_screen.dart';
 import 'chat_message.dart';
 
 class Chat extends StatefulWidget {
@@ -62,7 +44,6 @@ class _ChatState extends State<Chat> {
 
   // List<Package> packages = [];
   int selectedIndex = 0;
-
 
   Future<void> initPlatformState() async {
     // final userModel = Provider.of<UserModel>(context, listen: false);
@@ -138,24 +119,25 @@ class _ChatState extends State<Chat> {
 
   @override
   void initState() {
-//     if(payLoadFromChat.containsKey("fromChat")){
-//       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-//         await Future.delayed(Duration(seconds: 1)).then((value) {
-//           Navigator.push(
-//               context,
-//               MaterialPageRoute(
-//                   builder: (context) => ChatScreen(
-//                     roomId: payLoadFromChat["roomId"],
-//                     name: payLoadFromChat["title"],
-//                     image: payLoadFromChat["receiverImage"],
-//                     email: payLoadFromChat["senderID"],
-//                     otherUid: payLoadFromChat["senderID"],
-//                     userEmail:  payLoadFromChat["receiverId"],
-//                   )));
-//         },)
-// ;      });
-//
-//     }
+    if (payLoadFromChat.containsKey("fromChat")) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        await Future.delayed(Duration(seconds: 1)).then(
+          (value) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ChatScreen(
+                          roomId: payLoadFromChat["roomId"],
+                          name: payLoadFromChat["title"],
+                          image: payLoadFromChat["receiverImage"],
+                          email: payLoadFromChat["senderID"],
+                          otherUid: payLoadFromChat["senderID"],
+                          userEmail: payLoadFromChat["receiverId"],
+                        )));
+          },
+        );
+      });
+    }
     getAllChatApi();
     getCollectionLength();
     initPlatformState();
@@ -1018,247 +1000,270 @@ class _ChatState extends State<Chat> {
                     ],
                   ),
                 ),
-               ValueListenableBuilder(valueListenable: entitlementID, builder: (context, entitlementIDValue, child) {
-                 return  entitlementIDValue
-                     == "" || entitlementIDValue.isEmpty
-                     ? Container(
-                   height: MediaQuery.of(context).size.height,
-                   width: MediaQuery.of(context).size.width,
-                   color: Colors.black.withOpacity(0.5),
-                   alignment: Alignment.bottomCenter,
-                   child: Container(
-                     decoration: BoxDecoration(
-                       color: Colors.white,
-                       borderRadius: BorderRadius.only(
-                         topLeft: Radius.circular(40),
-                         topRight: Radius.circular(40),
-                       ),
-                     ),
-                     height: MediaQuery.of(context).size.height / 2,
-                     width: MediaQuery.of(context).size.width,
-                     child: Padding(
-                       padding:
-                       const EdgeInsets.symmetric(horizontal: 20.0),
-                       child: Column(
-                         children: [
-                           SizedBox(
-                             height: 20,
-                           ),
-                           Text(
-                             'Confirm your Subscription',
-                             style: popinsbold().copyWith(
-                                 color: ColorRes.color5E5E5E,
-                                 fontSize: 18),
-                           ),
-                           SizedBox(
-                             height: 20,
-                           ),
-                           Expanded(
-                             child: ListView.separated(
-                               separatorBuilder: (context, index) =>
-                                   SizedBox(
-                                     height: 3,
-                                   ),
-                               itemCount: value.myProductList.length,
-                               itemBuilder: (context, index) {
-                                 return GestureDetector(
-                                   onTap: () {
-                                     selectedIndex = index;
-                                     setState(() {});
-                                   },
-                                   child: Container(
-                                     margin: EdgeInsets.all(7),
-                                     padding: EdgeInsets.symmetric(
-                                         vertical: 16, horizontal: 20),
-                                     decoration: BoxDecoration(
-                                       border: Border.all(
-                                           color: selectedIndex == index
-                                               ? ColorRes.appColor
-                                               : Colors.transparent),
-                                       boxShadow: selectedIndex == index
-                                           ? []
-                                           : [
-                                         BoxShadow(
-                                           color: CupertinoColors
-                                               .systemGrey2
-                                               .withOpacity(
-                                             0.5,
-                                           ),
-                                           blurRadius: 10,
-                                           spreadRadius: -5,
-                                         ),
-                                       ],
-                                       color: Colors.white,
-                                       borderRadius: BorderRadius.circular(
-                                         20,
-                                       ),
-                                     ),
-                                     child: Row(
-                                       children: [
-                                         Column(
-                                           crossAxisAlignment:
-                                           CrossAxisAlignment.start,
-                                           children: [
-                                             Text(
-                                               value.myProductList[index]
-                                                   .storeProduct.title
-                                                   .toString()
-                                                   .split('(')
-                                                   .first,
-                                               style: poppins.copyWith(
-                                                   fontSize: 14),
-                                             ),
-                                             Text(
-                                               value
-                                                   .myProductList[index]
-                                                   .storeProduct
-                                                   .priceString
-                                                   .toString(),
-                                               style: TextStyle(
-                                                   fontSize: 12,
-                                                   fontWeight:
-                                                   FontWeight.w600),
-                                             ),
-                                           ],
-                                         ),
-                                         Spacer(),
-                                         selectedIndex == index
-                                             ? Icon(
-                                           Icons.check_circle,
-                                           color: ColorRes.appColor,
-                                         )
-                                             : Container(
-                                           height: 22,
-                                           width: 22,
-                                           decoration: BoxDecoration(
-                                               color: ColorRes
-                                                   .colorE5E5E5,
-                                               shape:
-                                               BoxShape.circle),
-                                         )
-                                       ],
-                                     ),
-                                   ),
-                                 );
-                               },
-                             ),
-                           ),
-                           SizedBox(
-                             height: 10,
-                           ),
-                           CommonGradientButton(
-                             ontap: () async {
-                               print(
-                                   "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.introductoryPrice?.price}");
-                               print(
-                                   "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.identifier}");
-                               print(
-                                   "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.price}");
-                               print(
-                                   "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.title}");
-                               print(
-                                   "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.subscriptionPeriod}");
-                               int days = convertSubscriptionToDays(value
-                                   .myProductList[selectedIndex]
-                                   .storeProduct
-                                   .subscriptionPeriod ??
-                                   "0");
+                ValueListenableBuilder(
+                  valueListenable: entitlementID,
+                  builder: (context, entitlementIDValue, child) {
+                    return entitlementIDValue == "" ||
+                            entitlementIDValue.isEmpty
+                        ? Container(
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            color: Colors.black.withOpacity(0.5),
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(40),
+                                  topRight: Radius.circular(40),
+                                ),
+                              ),
+                              height: MediaQuery.of(context).size.height / 2,
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text(
+                                      'Confirm your Subscription',
+                                      style: popinsbold().copyWith(
+                                          color: ColorRes.color5E5E5E,
+                                          fontSize: 18),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Expanded(
+                                      child: ListView.separated(
+                                        separatorBuilder: (context, index) =>
+                                            SizedBox(
+                                          height: 3,
+                                        ),
+                                        itemCount: value.myProductList.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () {
+                                              selectedIndex = index;
+                                              setState(() {});
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.all(7),
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 16, horizontal: 20),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    color: selectedIndex ==
+                                                            index
+                                                        ? ColorRes.appColor
+                                                        : Colors.transparent),
+                                                boxShadow:
+                                                    selectedIndex == index
+                                                        ? []
+                                                        : [
+                                                            BoxShadow(
+                                                              color: CupertinoColors
+                                                                  .systemGrey2
+                                                                  .withOpacity(
+                                                                0.5,
+                                                              ),
+                                                              blurRadius: 10,
+                                                              spreadRadius: -5,
+                                                            ),
+                                                          ],
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  20,
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        value
+                                                            .myProductList[
+                                                                index]
+                                                            .storeProduct
+                                                            .title
+                                                            .toString()
+                                                            .split('(')
+                                                            .first,
+                                                        style: poppins.copyWith(
+                                                            fontSize: 14),
+                                                      ),
+                                                      Text(
+                                                        value
+                                                            .myProductList[
+                                                                index]
+                                                            .storeProduct
+                                                            .priceString
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                            fontSize: 12,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Spacer(),
+                                                  selectedIndex == index
+                                                      ? Icon(
+                                                          Icons.check_circle,
+                                                          color:
+                                                              ColorRes.appColor,
+                                                        )
+                                                      : Container(
+                                                          height: 22,
+                                                          width: 22,
+                                                          decoration: BoxDecoration(
+                                                              color: ColorRes
+                                                                  .colorE5E5E5,
+                                                              shape: BoxShape
+                                                                  .circle),
+                                                        )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    CommonGradientButton(
+                                      ontap: () async {
+                                        print(
+                                            "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.introductoryPrice?.price}");
+                                        print(
+                                            "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.identifier}");
+                                        print(
+                                            "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.price}");
+                                        print(
+                                            "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.title}");
+                                        print(
+                                            "packages[selectedIndex] ${value.myProductList[selectedIndex].storeProduct.subscriptionPeriod}");
+                                        int days = convertSubscriptionToDays(
+                                            value
+                                                    .myProductList[
+                                                        selectedIndex]
+                                                    .storeProduct
+                                                    .subscriptionPeriod ??
+                                                "0");
 
-                               print("packages[selectedIndex] ${days}");
-                               showDialog(context: context, builder: (context) {
-                                 return AlertDialog(
-                                   backgroundColor: Colors.transparent,
-                                   elevation: 0,
-                                   content: Center(child: CircularProgressIndicator()),
-                                 );
-                               },);
+                                        print(
+                                            "packages[selectedIndex] ${days}");
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              elevation: 0,
+                                              content: Center(
+                                                  child:
+                                                      CircularProgressIndicator()),
+                                            );
+                                          },
+                                        );
 
-                               try {
-                                 CustomerInfo customerInfo =
-                                     await Purchases.purchasePackage(value
-                                         .myProductList[selectedIndex]);
+                                        try {
+                                          CustomerInfo customerInfo =
+                                              await Purchases.purchasePackage(
+                                                  value.myProductList[
+                                                      selectedIndex]);
 
-                                 NewChatProvider newChatProvider =
-                                 Provider.of<NewChatProvider>(context,
-                                     listen: false);
-                                 await newChatProvider
-                                     .membershipSubscribeApi({
-                                   "planName": value
-                                       .myProductList[selectedIndex]
-                                       .storeProduct
-                                       .identifier,
-                                   "planPrice": value
-                                       .myProductList[selectedIndex]
-                                       .storeProduct
-                                       .price,
-                                   "planDuration": days,
-                                   "blindDate": value
-                                       .myProductList[
-                                   selectedIndex]
-                                       .storeProduct
-                                       .identifier ==
-                                       "lovecirco_premium_v2:lovecirco-premium-v1"
-                                       ? true
-                                       : false,
-                                   "userId": PrefService.getString(
-                                       PrefKeys.userId)
-                                 }, context);
+                                          NewChatProvider newChatProvider =
+                                              Provider.of<NewChatProvider>(
+                                                  context,
+                                                  listen: false);
+                                          await newChatProvider
+                                              .membershipSubscribeApi({
+                                            "planName": value
+                                                .myProductList[selectedIndex]
+                                                .storeProduct
+                                                .identifier,
+                                            "planPrice": value
+                                                .myProductList[selectedIndex]
+                                                .storeProduct
+                                                .price,
+                                            "planDuration": days,
+                                            "blindDate": value
+                                                        .myProductList[
+                                                            selectedIndex]
+                                                        .storeProduct
+                                                        .identifier ==
+                                                    "lovecirco_premium_v2:lovecirco-premium-v1"
+                                                ? true
+                                                : false,
+                                            "userId": PrefService.getString(
+                                                PrefKeys.userId)
+                                          }, context);
 
-                                 entitlementID.value=value
-                                     .myProductList[
-                                 selectedIndex]
-                                     .storeProduct
-                                     .identifier;
-                                 print("entitlementID ${entitlementID.value}");
-                                 ScaffoldMessenger.of(context)
-                                     .showSnackBar(SnackBar(
-                                     content:
-                                     Text('Purchase successful')));
-                                 setState(() {});
-                               } catch (e) {
-                                 ScaffoldMessenger.of(context)
-                                     .showSnackBar(SnackBar(
-                                     content:
-                                     Text('Purchase failed')));
-                               }finally{
-                                 Navigator.pop(context);
-                               }
+                                          entitlementID.value = value
+                                              .myProductList[selectedIndex]
+                                              .storeProduct
+                                              .identifier;
+                                          print(
+                                              "entitlementID ${entitlementID.value}");
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Purchase successful')));
+                                          setState(() {});
+                                        } catch (e) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content:
+                                                      Text('Purchase failed')));
+                                        } finally {
+                                          Navigator.pop(context);
+                                        }
 
-                               // await PurchaseApis.purchasePackage(value.myProductList[selectedIndex]).then((value) async {
-                               //   if(value){
-                               //     NewChatProvider newChatProvider =
-                               //     Provider.of<NewChatProvider>(context, listen: false);
-                               //     await newChatProvider.membershipSubscribeApi(
-                               //         {
-                               //           "planName": value.myProductList[selectedIndex].storeProduct.title,
-                               //           "planPrice": value.myProductList[selectedIndex].storeProduct.price,
-                               //           "planDuration": days,
-                               //           "blindDate": value.myProductList[selectedIndex].storeProduct.identifier=="lovecirco_premium_v2:lovecirco-premium-v1"?true:false,
-                               //           "userId": PrefService.getString(PrefKeys.userId)
-                               //         }, context);
-                               //
-                               //     Provider.of<RevenueCatProvider>(context,listen: false).entitlement = Entitlement.allCourses;
-                               //     setState(() {
-                               //
-                               //     });
-                               //   }else{
-                               //     ScaffoldMessenger.of(context)
-                               //         .showSnackBar(SnackBar(content: Text('Something went wrong')));
-                               //   }
-                               // },);
-                             },
-                           ),
-                           SizedBox(
-                             height: 10,
-                           ),
-                         ],
-                       ),
-                     ),
-                   ),
-                 )
-                     : Container();
-               },)
-
+                                        // await PurchaseApis.purchasePackage(value.myProductList[selectedIndex]).then((value) async {
+                                        //   if(value){
+                                        //     NewChatProvider newChatProvider =
+                                        //     Provider.of<NewChatProvider>(context, listen: false);
+                                        //     await newChatProvider.membershipSubscribeApi(
+                                        //         {
+                                        //           "planName": value.myProductList[selectedIndex].storeProduct.title,
+                                        //           "planPrice": value.myProductList[selectedIndex].storeProduct.price,
+                                        //           "planDuration": days,
+                                        //           "blindDate": value.myProductList[selectedIndex].storeProduct.identifier=="lovecirco_premium_v2:lovecirco-premium-v1"?true:false,
+                                        //           "userId": PrefService.getString(PrefKeys.userId)
+                                        //         }, context);
+                                        //
+                                        //     Provider.of<RevenueCatProvider>(context,listen: false).entitlement = Entitlement.allCourses;
+                                        //     setState(() {
+                                        //
+                                        //     });
+                                        //   }else{
+                                        //     ScaffoldMessenger.of(context)
+                                        //         .showSnackBar(SnackBar(content: Text('Something went wrong')));
+                                        //   }
+                                        // },);
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
+                        : Container();
+                  },
+                )
 
                 // ValueListenableBuilder(
                 //   valueListenable: entitlementID,
@@ -1524,7 +1529,6 @@ class _ChatState extends State<Chat> {
                 //         : Container();
                 //   },
                 // )
-
               ],
             ),
             loader == true

@@ -1,12 +1,8 @@
-import 'dart:convert';
 
 import 'package:date_madly_app/models/comment_model_new.dart';
-import 'package:date_madly_app/models/sign_up_model.dart';
 import 'package:date_madly_app/service/http_services.dart';
-import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/endpoint.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class CommentApi {

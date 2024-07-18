@@ -1,11 +1,7 @@
 import 'package:country_picker/country_picker.dart';
-import 'package:date_madly_app/pages/home/main.dart';
-import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/utils/colors.dart';
-import 'package:date_madly_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 
-import '../../../utils/user_text_field.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({Key? key}) : super(key: key);

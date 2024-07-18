@@ -8,13 +8,10 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/user_model.dart';
 import '../../network/api.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/constants.dart';
 import '../../utils/user_text_field.dart';
-import '../home/main.dart';
-import 'gender.dart';
 
 class VerifyOTP extends StatefulWidget {
   final String phone;

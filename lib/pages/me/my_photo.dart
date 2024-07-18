@@ -1,12 +1,9 @@
-import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/material.dart';
 
 import '../../common/text_style.dart';
 import '../../utils/colors.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import '../calling/call.dart';
 import 'edit_profile.dart';
 import 'main.dart';
 

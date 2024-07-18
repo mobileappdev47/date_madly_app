@@ -1,6 +1,3 @@
-import 'package:date_madly_app/models/profile_model.dart';
-import 'package:date_madly_app/models/user_model.dart';
-import 'package:date_madly_app/pages/login/upload_image.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

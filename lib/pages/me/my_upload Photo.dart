@@ -6,7 +6,6 @@ import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
-import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/font_family.dart';

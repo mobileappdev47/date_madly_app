@@ -1,11 +1,8 @@
-import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/api.dart';
-import '../service/pref_service.dart';
 import '../utils/enum/api_request_status.dart';
 import '../utils/functions.dart';
 

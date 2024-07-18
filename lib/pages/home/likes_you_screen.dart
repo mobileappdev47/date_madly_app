@@ -2,7 +2,6 @@ import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/providers/home_main_provider.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/colors.dart';
-import 'package:date_madly_app/utils/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

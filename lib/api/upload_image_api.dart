@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:date_madly_app/models/upload_image_model.dart';
-import 'package:date_madly_app/pages/new/enter_personal_data/enter_personal_data_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/endpoint.dart';
 import 'package:date_madly_app/utils/pref_key.dart';

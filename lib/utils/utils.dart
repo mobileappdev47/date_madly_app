@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 
-import '../api/additinal_details_api.dart';
 
 class Utils {
   static var gender = [

@@ -94,6 +94,9 @@ dependencies:
 
 
 
+  flutter_background_service_android: any
+  path: any
+  http_parser: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../../service/notification_service.dart';
 import '../../utils/endpoint.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,9 +24,7 @@ class NewChatProvider extends ChangeNotifier {
   Timer? timer;
   int _counter = 0;
 
-
   int get counter => _counter;
-
 
   void startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -41,6 +39,7 @@ class NewChatProvider extends ChangeNotifier {
     _counter = 0;
     notifyListeners();
   }
+
   String get formattedTime {
     final minutes = (_counter ~/ 60).toString().padLeft(2, '0');
     final seconds = (_counter % 60).toString().padLeft(2, '0');
@@ -113,6 +112,7 @@ class NewChatProvider extends ChangeNotifier {
 
   TextEditingController searchController = TextEditingController();
   List filterList = [];
+
   void searching(value, chatUsersList) {
     filterList = (chatUsersList.where((element) {
       return element['name']
@@ -146,9 +146,10 @@ class NewChatProvider extends ChangeNotifier {
 
   int deleteIndex = 0;
 
-  bool isEnterChatScreen = false ;
-  void gotoChatScreen(
-      BuildContext context, String otherUid, email, userImage,otherUsername) async {
+  bool isEnterChatScreen = false;
+
+  void gotoChatScreen(BuildContext context, String otherUid, email, userImage,
+      otherUsername) async {
     await getRoomId(otherUid);
     // Navigator.push(
     //     context,
@@ -167,17 +168,17 @@ class NewChatProvider extends ChangeNotifier {
         context,
         MaterialPageRoute(
             builder: (context) => ChatScreen(
-                image: userImage,
-                roomId: roomId,
-                email: email,
-                otherUid: otherUid,
-                userEmail: userEmail,
-            name: otherUsername,
-            )));
+                  image: userImage,
+                  roomId: roomId,
+                  email: email,
+                  otherUid: otherUid,
+                  userEmail: userEmail,
+                  name: otherUsername,
+                )));
   }
 
-  // Future<void> sendMessage(String roomId, otherUid) async {
-  void sendMessage(String roomId, otherUid) async {
+  Future<void> sendMessage(String roomId, otherUid) async {
+    // void sendMessage(String roomId, otherUid) async {
     String msg = msController.text;
 
     if (isToday(lastMsg) == false) {
@@ -281,9 +282,14 @@ class NewChatProvider extends ChangeNotifier {
 
   var imageChat;
   bool loader = false;
-  // pickImage(context, roomId, {required String otherUserId, required String name, required String currentUID, required String otherUserProfileImage, required String otherUID}) async {
 
-  pickImage(context, roomId) async {
+  pickImage(context, roomId,
+      {required String otherUserId,
+      required String name,
+      required String currentUID,
+      required String otherUserProfileImage,
+      required String otherUID}) async {
+    // pickImage(context, roomId) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -329,8 +335,6 @@ class NewChatProvider extends ChangeNotifier {
                         width: 90,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-
-
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -357,29 +361,44 @@ class NewChatProvider extends ChangeNotifier {
                         s.call(() {});
 
                         await uploadImage(roomId);
-                        //
-                        // final FirebaseFirestore fireStore =
-                        //     FirebaseFirestore.instance;
-                        // var fcmToken2 ;
-                        //
-                        // await fireStore.collection("Auth").doc(otherUserId).get().then((value) async {
-                        //   if (value.exists) {
-                        //     fcmToken2 = value.data()?['fcmToken'];
-                        //     print('fcmToken: ${fcmToken2}');
-                        //   } else {
-                        //     print('Document for does not exist');
-                        //   }
-                        // });
-                        //
-                        //   await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
-                        //
-                        // if(fcmToken2!=null && fcmToken2!=""){
-                        //   // second user token = fcmToken2
-                        //   ChatAndCallNotificationServices().sendNotification(currentUID: currentUID,otherUID: otherUID,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),recipientToken: fcmToken2,title:  PrefService.getString(PrefKeys.userName),imageUrl: downloadUrl,roomId: roomId
-                        //
-                        //   );
-                        // }
-                        //
+
+                        final FirebaseFirestore fireStore =
+                            FirebaseFirestore.instance;
+                        var fcmToken2;
+
+                        await fireStore
+                            .collection("Auth")
+                            .doc(otherUserId)
+                            .get()
+                            .then((value) async {
+                          if (value.exists) {
+                            fcmToken2 = value.data()?['fcmToken'];
+                            print('fcmToken: ${fcmToken2}');
+                          } else {
+                            print('Document for does not exist');
+                          }
+                        });
+
+                        await fireStore
+                            .collection("Auth")
+                            .doc(PrefService.getString(PrefKeys.email))
+                            .update({
+                          'fcmToken':
+                              PrefService.getString(PrefKeys.deviceToken)
+                        });
+
+                        if (fcmToken2 != null && fcmToken2 != "") {
+                          // second user token = fcmToken2
+                          NotificationService().sendNotification(
+                              currentUID: currentUID,
+                              otherUID: otherUID,
+                              currentUserProfileImage: PrefService.getString(
+                                  PrefKeys.currentUserImage),
+                              recipientToken: fcmToken2,
+                              title: PrefService.getString(PrefKeys.userName),
+                              imageUrl: downloadUrl,
+                              roomId: roomId,);
+                        }
 
                         Navigator.pop(context);
 
@@ -391,7 +410,6 @@ class NewChatProvider extends ChangeNotifier {
                         width: 90,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -419,7 +437,8 @@ class NewChatProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  // String downloadUrl="";
+
+  String downloadUrl="";
 
   Future<void> uploadImage(String roomId) async {
     if (imageChat == null) return;
@@ -431,8 +450,8 @@ class NewChatProvider extends ChangeNotifier {
     try {
       TaskSnapshot snapshot = await storageRef.putFile(imageChat!);
 
-      // downloadUrl = await snapshot.ref.getDownloadURL();
-      String downloadUrl = await snapshot.ref.getDownloadURL();
+      downloadUrl = await snapshot.ref.getDownloadURL();
+      // String downloadUrl = await snapshot.ref.getDownloadURL();
 
       await sendImageMessage(roomId, userEmail, downloadUrl);
 
@@ -464,11 +483,9 @@ class NewChatProvider extends ChangeNotifier {
 
   Future membershipSubscribeApi(Map<String, dynamic> body, context) async {
     try {
-
-      var headers = {
-        'Content-Type': 'application/json'
-      };
-      var request = http.Request('POST', Uri.parse(EndPoints.membershipSubscribe));
+      var headers = {'Content-Type': 'application/json'};
+      var request =
+          http.Request('POST', Uri.parse(EndPoints.membershipSubscribe));
       request.body = json.encode(body);
       request.headers.addAll(headers);
 
@@ -477,16 +494,13 @@ class NewChatProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         var data = await response.stream.bytesToString();
         print("datadatadata ${data}");
-      }
-      else {
+      } else {
         print(response.reasonPhrase);
       }
-
     } catch (e) {
       print(e.toString());
     }
   }
-
 
   List<bool> selectedBoolValue = [];
   List<Package> myProductList = [];

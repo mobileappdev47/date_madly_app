@@ -3,7 +3,6 @@ import 'package:date_madly_app/pages/login/otp_verification_screen.dart';
 import 'package:date_madly_app/utils/colors.dart';
 import 'package:date_madly_app/utils/font_family.dart';
 import 'package:date_madly_app/utils/text_style.dart';
-import 'package:date_madly_app/utils/texts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

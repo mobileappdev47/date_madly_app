@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../service/http_services.dart';
 import '../utils/endpoint.dart';
 
 class ChangePasswordApi {

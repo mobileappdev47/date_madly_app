@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:date_madly_app/service/http_services.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/endpoint.dart';
 import 'package:date_madly_app/utils/pref_key.dart';

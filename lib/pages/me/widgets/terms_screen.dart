@@ -1,6 +1,5 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/utils/colors.dart';
-import 'package:date_madly_app/utils/texts.dart';
 import 'package:flutter/material.dart';
 
 class TermsScreen extends StatefulWidget {

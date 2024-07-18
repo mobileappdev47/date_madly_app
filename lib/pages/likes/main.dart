@@ -3,24 +3,15 @@ import 'package:date_madly_app/api/update_request_status.dart';
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/models/get_like_dislike_model.dart';
 import 'package:date_madly_app/models/update_request_status.dart';
-import 'package:date_madly_app/pages/likes/like_profile.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
-import 'package:date_madly_app/utils/dialogs.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 import '../../api/get_like_dislike_api.dart';
 import '../../common/text_feild_common.dart';
-import '../../network/api.dart';
 import '../../providers/likes_provider.dart';
-import '../../utils/body_builder.dart';
 import '../../utils/colors.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
-import '../me/main.dart';
-import '../new_match/new_match_screen.dart';
 
 class Likes extends StatefulWidget {
   const Likes({Key? key}) : super(key: key);

@@ -1,9 +1,6 @@
 import 'package:date_madly_app/api/social_login_api.dart';
 import 'package:date_madly_app/common/text_style.dart';
-import 'package:date_madly_app/pages/login/login/login_screen.dart';
 import 'package:date_madly_app/pages/login/phone_auth/new_mobile_number_screen.dart';
-import 'package:date_madly_app/pages/login/signup/signup_screen.dart';
-import 'package:date_madly_app/pages/me/additional_details.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/font_family.dart';

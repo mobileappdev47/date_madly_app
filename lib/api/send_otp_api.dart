@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:date_madly_app/pages/login/phone_auth/new_otp_screen.dart';
-import 'package:date_madly_app/service/http_services.dart';
 import 'package:date_madly_app/service/notification_service.dart';
 
 import 'package:date_madly_app/utils/endpoint.dart';

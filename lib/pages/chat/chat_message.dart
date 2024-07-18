@@ -1,20 +1,15 @@
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_madly_app/pages/chat/new_provider.dart';
-import 'package:date_madly_app/pages/chat/video_call_screen.dart';
 import 'package:date_madly_app/service/pref_service.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
-// import 'package:timeago/timeago.dart' as timeago;
 import '../../common/text_style.dart';
-// import '../../service/chat_and_call_notification.dart';
-// import '../../service/notification_service.dart';
+import '../../service/notification_service.dart';
 import '../../utils/colors.dart';
 import '../../utils/texts.dart';
 import '../calling/call.dart';
@@ -102,12 +97,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   payLoadFromChat.clear();
-  // }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    payLoadFromChat.clear();
+  }
 
 
   // @override
@@ -185,10 +180,7 @@ class _ChatScreenState extends State<ChatScreen> {
       builder: (context, value, child) {
         return WillPopScope(
           onWillPop: ()async  {
-
             value.isEnterChatScreen = false;
-
-
              return true;
           },
           child: Scaffold(
@@ -845,9 +837,9 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ),
                                   suffixIcon: GestureDetector(
                                     onTap: () {
-                                      value.pickImage(context, value.roomId);
+                                      // value.pickImage(context, value.roomId);
 
-                                      // value.pickImage(context, value.roomId,otherUserId:widget.otherUid??"",name:widget.name??"",currentUID: widget.userEmail??"" ,otherUserProfileImage: widget.image??"",otherUID: widget.otherUid??"");
+                                      value.pickImage(context, value.roomId,otherUserId:widget.otherUid??"",name:widget.name??"",currentUID: widget.userEmail??"" ,otherUserProfileImage: widget.image??"",otherUID: widget.otherUid??"");
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.only(right: 13.0),
@@ -869,78 +861,16 @@ class _ChatScreenState extends State<ChatScreen> {
                           GestureDetector(
                             onTap: () async {
 
-                              if (value.msController.text.isNotEmpty) {
-                                value.sendMessage(
-                                  widget.roomId.toString(),
-                                  widget.otherUid,
-                                );
-
-                                FocusScope.of(context).unfocus();
-
-                                final FirebaseFirestore fireStore =
-                                    FirebaseFirestore.instance;
-                                fireStore.collection("Auth").get().then((value) async {
-                                  var list = (value.docs);
-                                  bool already = false;
-
-                                  for (int i = 0; i < list.length; i++) {
-                                    if (list[i].id == widget.otherUid) {
-                                      print('collection already exist');
-                                      already = true;
-                                      break;
-                                    } else {}
-                                  }
-
-                                  if (already == false) {
-                                    await fireStore
-                                        .collection("Auth")
-                                        .doc(widget.otherUid)
-                                        .set({'ChatUserList': []});
-                                  } else {
-                                    print('done');
-                                  }
-                                });
-                              }
-                              setState(() {});
-
-
-                              // final FirebaseFirestore fireStore =
-                              //     FirebaseFirestore.instance;
-                              // print("widget.imagewidget.image ${widget.image}");
-                              // print("widget.imagewidget.image ${widget.userEmail}");
-                              // print("widget.imagewidget.image ${widget.name}");
-                              // print("widget.imagewidget.image ${widget.email}");
-                              // print("widget.imagewidget.image ${widget.otherUid}");
                               // if (value.msController.text.isNotEmpty) {
-                              //   // var fcmToken = value.data()?['fcmToken'];
-                              //   var fcmToken2 ;
-                              //   String text= value.msController.text;
-                              //   await fireStore.collection("Auth").doc(widget.otherUid).get().then((value) async {
-                              //     if (value.exists) {
-                              //       fcmToken2 = value.data()?['fcmToken'];
-                              //       print('fcmToken: ${fcmToken2}');
-                              //     } else {
-                              //       print('Document for $widget.otherUid does not exist');
-                              //     }
-                              //   });
-                              //
-                              //
-                              //   await value.sendMessage(
+                              //   value.sendMessage(
                               //     widget.roomId.toString(),
                               //     widget.otherUid,
                               //   );
                               //
                               //   FocusScope.of(context).unfocus();
                               //
-                              //
-                              //     await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
-                              //
-                              //
-                              //   if(fcmToken2!=null && fcmToken2!=""){
-                              //     // second user token = fcmToken2
-                              //     ChatAndCallNotificationServices().sendNotification(currentUID: widget.userEmail ,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),otherUID: widget.otherUid,recipientToken:fcmToken2,title: PrefService.getString(PrefKeys.userName),message: text,roomId: widget.roomId, );
-                              //   }
-                              //
+                              //   final FirebaseFirestore fireStore =
+                              //       FirebaseFirestore.instance;
                               //   fireStore.collection("Auth").get().then((value) async {
                               //     var list = (value.docs);
                               //     bool already = false;
@@ -957,13 +887,75 @@ class _ChatScreenState extends State<ChatScreen> {
                               //       await fireStore
                               //           .collection("Auth")
                               //           .doc(widget.otherUid)
-                              //           .update({'ChatUserList': []});
+                              //           .set({'ChatUserList': []});
                               //     } else {
                               //       print('done');
                               //     }
                               //   });
                               // }
                               // setState(() {});
+
+
+                              final FirebaseFirestore fireStore =
+                                  FirebaseFirestore.instance;
+                              print("widget.imagewidget.image ${widget.image}");
+                              print("widget.imagewidget.image ${widget.userEmail}");
+                              print("widget.imagewidget.image ${widget.name}");
+                              print("widget.imagewidget.image ${widget.email}");
+                              print("widget.imagewidget.image ${widget.otherUid}");
+                              if (value.msController.text.isNotEmpty) {
+                                // var fcmToken = value.data()?['fcmToken'];
+                                var fcmToken2 ;
+                                String text= value.msController.text;
+                                await fireStore.collection("Auth").doc(widget.otherUid).get().then((value) async {
+                                  if (value.exists) {
+                                    fcmToken2 = value.data()?['fcmToken'];
+                                    print('fcmToken: ${fcmToken2}');
+                                  } else {
+                                    print('Document for $widget.otherUid does not exist');
+                                  }
+                                });
+
+
+                                await value.sendMessage(
+                                  widget.roomId.toString(),
+                                  widget.otherUid,
+                                );
+
+                                FocusScope.of(context).unfocus();
+
+
+                                  await fireStore.collection("Auth").doc(PrefService.getString(PrefKeys.email)).update({'fcmToken': PrefService.getString(PrefKeys.deviceToken)});
+
+
+                                if(fcmToken2!=null && fcmToken2!=""){
+                                  // second user token = fcmToken2
+                                  NotificationService().sendNotification(currentUID: widget.userEmail ,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),otherUID: widget.otherUid,recipientToken:fcmToken2,title: PrefService.getString(PrefKeys.userName),message: text,roomId: widget.roomId, );
+                                }
+
+                                fireStore.collection("Auth").get().then((value) async {
+                                  var list = (value.docs);
+                                  bool already = false;
+
+                                  for (int i = 0; i < list.length; i++) {
+                                    if (list[i].id == widget.otherUid) {
+                                      print('collection already exist');
+                                      already = true;
+                                      break;
+                                    } else {}
+                                  }
+
+                                  if (already == false) {
+                                    await fireStore
+                                        .collection("Auth")
+                                        .doc(widget.otherUid)
+                                        .update({'ChatUserList': []});
+                                  } else {
+                                    print('done');
+                                  }
+                                });
+                              }
+                              setState(() {});
                             },
                             child: Container(
                               height: 50,

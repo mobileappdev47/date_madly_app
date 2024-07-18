@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/user_model.dart';
 import '../../network/api.dart';
 import '../../utils/constants.dart';
 import '../../utils/utils.dart';

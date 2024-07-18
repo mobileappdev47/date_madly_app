@@ -3,15 +3,11 @@ import 'dart:io';
 
 import 'package:date_madly_app/models/update_user.dart';
 import 'package:date_madly_app/pages/home/main.dart';
-import 'package:date_madly_app/service/http_services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:path/path.dart' as path;
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
-import '../utils/endpoint.dart';
 
 class UpdateUserApi {
   static updateUsers(

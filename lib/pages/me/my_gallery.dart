@@ -1,13 +1,11 @@
 import 'package:date_madly_app/common/text_style.dart';
 import 'package:date_madly_app/pages/me/my_photo.dart';
-import 'package:date_madly_app/pages/me/my_upload%20Photo.dart';
 import 'package:date_madly_app/pages/me/widgets/profile_view_bottomsheet.dart';
 import 'package:date_madly_app/utils/assert_re.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../utils/colors.dart';
-import '../../utils/text_style.dart';
 import '../../utils/texts.dart';
 import 'main.dart';
 

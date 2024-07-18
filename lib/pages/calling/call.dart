@@ -10,7 +10,6 @@ import 'package:date_madly_app/utils/font_family.dart';
 import 'package:date_madly_app/utils/pref_key.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../utils/colors.dart';
 
 class Call extends StatefulWidget {
@@ -50,6 +49,7 @@ class _CallState extends State<Call> {
       initAgora();
     } else {
       setupVoiceSDKEngine(chatProvider);
+      // ChatAndCallNotificationServices().sendNotification(currentUID: PrefService.getString(PrefKeys.email) ,currentUserProfileImage: PrefService.getString(PrefKeys.currentUserImage),otherUID: widget.otherUid,recipientToken:fcmToken2,title: PrefService.getString(PrefKeys.userName),message: text,roomId: widget.roomId, );
     }
     super.initState();
   }
